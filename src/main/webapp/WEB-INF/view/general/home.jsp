@@ -23,7 +23,7 @@
 	color: #fff;
     background-color: #1c84c6;
     }
-    .tab-pane{height: 300px;}
+    .tab-pane{height: 500px;}
     .panel-body{height:100%;overflow: auto}
     .feed-element{padding: 5px}
 #leftmodel {
@@ -33,7 +33,7 @@
 }
 
 #rightmodel {
-	height:558px;
+	height:740px;
 	width: 70% !important;
 	padding: 0 !important;
 	overflow: auto;
@@ -104,7 +104,7 @@
 					</div>
 					<div class="col-sm-6" id="rightmodel">
 						<div class="feed-activity-list" id="allmap"
-							style="text-align: center; height: 550px; width: 100%; float: left"></div>
+							style="text-align: center; height: 738px; width: 100%; float: left"></div>
 					</div>
 				</div>
 			</div>
