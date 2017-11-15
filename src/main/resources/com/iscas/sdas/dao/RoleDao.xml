@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iscas.sdas.dao.sys.RoleDao">
+	<resultMap id="BaseResultMap" type="com.iscas.sdas.dto.sys.RoleDto">
+		<id column="roleid" jdbcType="INTEGER" property="roleid" />
+		<result column="rolename" jdbcType="VARCHAR" property="rolename" />
+		<result column="userid" jdbcType="VARCHAR" property="userid" />
+		<result column="addtime" jdbcType="TIMESTAMP" property="addtime" />
+		<result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		roleid, rolename, userid, addtime, updatetime
+	</sql>
+	<select id="getPageList" parameterType="com.iscas.sdas.dto.sys.RoleDto"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_role
+		<where>
+			<if test="roleid != null">
+				roleid = #{roleid,jdbcType=INTEGER},
+			</if>
+			<if test="rolename != null">
+				rolename = #{rolename,jdbcType=VARCHAR},
+			</if>
+			<if test="userid != null">
+				userid = #{userid,jdbcType=VARCHAR},
+			</if>
+			<if test="addtime != null">
+				addtime = #{addtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatetime != null">
+				updatetime = #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+		</where>
+		where roleid = #{roleid,jdbcType=INTEGER}
+	</select>
+	<delete id="delete" parameterType="com.iscas.sdas.dto.sys.RoleDto">
+		delete from sys_role where userid = #{userid,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.iscas.sdas.dto.sys.RoleDto">
+		insert into sys_role (rolename, userid,
+		addtime, updatetime)
+		values (#{rolename,jdbcType=VARCHAR},
+		#{userid,jdbcType=VARCHAR},
+		#{addtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.iscas.sdas.dto.sys.RoleDto">
+		insert into sys_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="roleid != null">
+				roleid,
+			</if>
+			<if test="rolename != null">
+				rolename,
+			</if>
+			<if test="userid != null">
+				userid,
+			</if>
+			<if test="addtime != null">
+				addtime,
+			</if>
+			<if test="updatetime != null">
+				updatetime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="roleid != null">
+				#{roleid,jdbcType=INTEGER},
+			</if>
+			<if test="rolename != null">
+				#{rolename,jdbcType=VARCHAR},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=VARCHAR},
+			</if>
+			<if test="addtime != null">
+				#{addtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatetime != null">
+				#{updatetime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.iscas.sdas.dto.sys.RoleDto">
+		update sys_role
+		<set>
+			<if test="rolename != null">
+				rolename = #{rolename,jdbcType=VARCHAR},
+			</if>
+			<if test="userid != null">
+				userid = #{userid,jdbcType=VARCHAR},
+			</if>
+			<if test="addtime != null">
+				addtime = #{addtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatetime != null">
+				updatetime = #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where roleid = #{roleid,jdbcType=INTEGER}
+	</update>
+</mapper>
