@@ -9,4 +9,9 @@ public interface AlarmDao {
 	List<AlarmDto> currentDayAlarm();
 	
 	List<AlarmDto> allDayAlarm(AlarmDto alarmDto);
+	
+	List<AlarmDto> alarmLastHour(AlarmDto alarmDto);
+	
+	String getLastDay();
+	String getLastHour();
 }
