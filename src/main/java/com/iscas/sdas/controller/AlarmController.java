@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.iscas.sdas.common.PageDto;
@@ -84,5 +85,40 @@ public class AlarmController {
 	@RequestMapping("/")
 	public ModelAndView page(){
 		return new ModelAndView("alarm/alarm");
+	}
+	
+	@RequestMapping("/updatetime")
+	@ResponseBody
+	public String update(){
+		return alarmService.getUpdateTime();
+	}
+	/**
+	 * 最新一小时预警
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/lastHourAlarm")
+	@ResponseBody
+	public ModelMap lastHourAlarm(HttpServletRequest request){
+		int app_result = Integer.valueOf(request.getParameter("type"));
+		ModelMap map = new ModelMap();
+		AlarmDto dto = new AlarmDto();
+		dto.setApp_result(app_result);
+		List<AlarmDto> dtos = alarmService.lastHourAlarm(dto);
+		map.addAttribute(Constraints.RESULT_ROW, dtos);
+		return map;
+	}
+	/**
+	 * 最近一小时预警的数量及分类数
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/lastHourClassCount")
+	@ResponseBody
+	public ModelMap lastHourClassCount(HttpServletRequest request){
+		ModelMap map = new ModelMap();
+		JSONObject object = alarmService.lastHourClassCount();
+		map.addAttribute(Constraints.RESULT_ROW, object);
+		return map;
 	}
 }
