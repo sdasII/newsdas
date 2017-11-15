@@ -125,6 +125,7 @@
 		</div>
 	</div>
 	<script type="text/javascript">
+		var ctx=ctx;
 		// 百度地图API功能
 		var map = new BMap.Map("allmap"); // 创建Map实例
 		map.centerAndZoom(new BMap.Point(113.304979, 23.186708), 12); // 初始化地图,设置中心点坐标和地图级别
