@@ -117,16 +117,6 @@
 		map.centerAndZoom(new BMap.Point(113.304979, 23.186708), 12); // 初始化地图,设置中心点坐标和地图级别
 		map.addControl(new BMap.MapTypeControl()); //添加地图类型控件
 		map.setCurrentCity("广州"); // 设置地图显示的城市 此项是必须设置的
-		var group = [];
-		for (var i = 0; i < 10; i++) {
-			var temp = {};
-			temp.lng = 113.27 + Math.random() * 0.1;
-			temp.lat = 23.14 + Math.random() * 0.1;
-			//temp.count = list[i].ratio;
-			group.push(temp);
-			var marker = new BMap.Marker(new BMap.Point(temp.lng, temp.lat));
-			map.addOverlay(marker);
-		}
 		map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
 	</script>
 	<script type="text/javascript" src="${context}/js/general/heatMap.js"></script>

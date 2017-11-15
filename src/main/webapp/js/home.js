@@ -21,6 +21,15 @@ $(function(){
 			$("#event").html(data.rows.event);
 			$("#critical").html(data.rows.critical);
 			$("#health").html(data.rows.health);
+			if(data.rows.all>0){
+				for (var i = 0; i < data.rows.all; i++) {
+					var temp = {};
+					temp.lng = 113.27 + Math.random() * 0.1;
+					temp.lat = 23.14 + Math.random() * 0.1;
+					var marker = new BMap.Marker(new BMap.Point(temp.lng, temp.lat));
+					map.addOverlay(marker);
+				}
+			}
 		}
 	});
 	switchTab(1);
@@ -47,8 +56,8 @@ function switchTab(type){
 					$(id).append(html);
 				});
 			}else{
-				$(id).append("<li><a onclick='toDetail()'>暂无数据记录</a></li>");
-				//$(id).append("&nbsp;&nbsp;&nbsp;暂无数据记录");
+				//$(id).append("<li><a onclick='toDetail()'>暂无数据记录</a></li>");
+				$(id).append("&nbsp;&nbsp;&nbsp;暂无数据记录");
 			}
 		}
 			
