@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>首页</title>
 <%@ include file="/include/common.jsp"%>
 <link href="${context}/style/loader.css" rel="stylesheet"
 	type="text/css">
@@ -29,14 +29,15 @@
 #leftmodel {
 	width: 320px !important;
 	padding: 0 !important;
-	border-right: 1px solid #ccc;
+	border: 2px solid #ccc;
 }
 
 #rightmodel {
-	height:550px;
+	height:558px;
 	width: 70% !important;
 	padding: 0 !important;
-	overflow: auto
+	overflow: auto;
+	border: 2px solid #ccc;
 }
 </style>
 </head>
