@@ -47,8 +47,8 @@ function switchTab(type){
 					$(id).append(html);
 				});
 			}else{
-				//$(id).append("<li><a onclick='toDetail()'>暂无数据记录</a></li>");
-				$(id).append("&nbsp;&nbsp;&nbsp;暂无数据记录");
+				$(id).append("<li><a onclick='toDetail()'>暂无数据记录</a></li>");
+				//$(id).append("&nbsp;&nbsp;&nbsp;暂无数据记录");
 			}
 		}
 			
