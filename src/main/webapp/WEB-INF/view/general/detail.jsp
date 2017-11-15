@@ -92,7 +92,8 @@ input {
 	</script>
 	<div class="wrapper wrapper-content animated fadeInRight">
 		<div class="row" style="text-align: center;">
-			<h1 style="margin: 0 auto;">
+			<button class="btn btn-info search" type="button" onclick="back()" style="float: left;margin-left: 20px;">返回</button>
+			<h1 style="margin: 0 auto;margin-bottom: 10px">
 				<b>${cellname}</b>小区健康详情查看
 			</h1>
 		</div>
@@ -101,13 +102,18 @@ input {
 				<div class="ibox float-e-margins">
 					<div class="ibox-title">
 						<h5>详细信息</h5>
-						<div class="ibox-tools">
+						
+					</div>
+					<div class="ibox-content">
+					<div class="ibox-tools">
 							<div class="btn-group">
-								<button class="btn btn-info" id="workinweek" type="button"
-									onclick="javascript:workoneweek()">一周</button>
+							<button class="btn btn-info" id="workday" type="button"
+									onclick="javascript:workday()">日</button>
+								<button class="btn btn-white" id="workinweek" type="button"
+									onclick="javascript:workoneweek()">周</button>
 								<button class="btn btn-white" id="workinmonth" type="button"
-									onclick="javascript:workonemonth()">一月</button>
-								<button class="btn btn-white" id="workinselect" type="button"
+									onclick="javascript:workonemonth()">月</button>
+								<!-- <button class="btn btn-white" id="workinselect" type="button"
 									onclick="javascript:worktimeselect()">按时间选择</button>
 								<div id="worktimeselect" style="display: none;">
 									<input id="start"
@@ -122,11 +128,9 @@ input {
 										onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
 									<button class="btn btn-info" type="button"
 										onclick="javascript:query2()">确定</button>
-								</div>
+								</div> -->
 							</div>
 						</div>
-					</div>
-					<div class="ibox-content">
 						<!-- loading -->
 						<div class="loading_bk" id="ratiotrend_loadbk"></div>
 						<div class="loading" id="ratiotrend_load">
@@ -135,22 +139,22 @@ input {
 						</div>
 						<!-- loading -->
 						<div class="tabs-container">
-						<ul class="nav nav-tabs">
-							<li onclick="switch()" class="active"><a data-toggle="tab"
+						<ul class="nav nav-tabs" id="topTabs">
+							<li onclick="switchTab('#rtratio','健康指标集','#4cb117',0)" class="active"><a data-toggle="tab"
 								href="#tab-1" aria-expanded="true">健康指标集</a></li>
-							<li onclick="switch()" class=""><a data-toggle="tab"
+							<li onclick="switchTab('#ratiotrend','专家指标集','#1c84c6',0)" class=""><a data-toggle="tab"
 								href="#tab-2" aria-expanded="false">专家指标集</a></li>
 						</ul>
 					</div>
 					<div class="tab-content">
 						<div id="tab-1" class="tab-pane active">
 							<div class="panel-body">
-								<div id="rtratio" style="height: 300px;"></div>
+								<div id="rtratio" style="width:675px;height: 350px;"></div>
 							</div>
 						</div>
 						<div id="tab-2" class="tab-pane">
 							<div class="panel-body">
-								<div id="ratiotrend" style="height: 300px;"></div>
+								<div id="ratiotrend" style="width:675px;height: 350px;"></div>
 							</div>
 						</div>
 					</div>
@@ -166,21 +170,6 @@ input {
 						<div style="height: 350px;">
 							<div id="allmap"
 								style="text-align: center; height: 85%; width: 100%"></div>
-							<table style="text-align: center; margin: 0 auto;">
-								<tr>
-									<td><span style="text-align: center;"><h4>小区名称：</h4></span></td>
-									<td><span style="text-align: center;"><h5>${cellname}</h5></span></td>
-									<td><span style="text-align: center;"><h4>&nbsp;&nbsp;覆盖场景：</h4></span></td>
-									<td><span style="text-align: center;"><h5>${coverscene}</h5></span></td>
-								</tr>
-								<tr>
-									<td><span style="text-align: center;"><h4>基站名称：</h4></span></td>
-									<td><span style="text-align: center;"><h5>${stationname}</h5></span></td>
-									<td><span style="text-align: center;"><h4>&nbsp;&nbsp;用户频段：</h4></span></td>
-									<td><span style="text-align: center;"><h5>${usedband}</h5></span></td>
-
-								</tr>
-							</table>
 						</div>
 					</div>
 				</div>
@@ -209,7 +198,8 @@ input {
 		</div>
 	</div>
 	<script type="text/javascript">
-		var indexurl = ctx;
+		var ctx = ctx;
+		var cell_code="${cellname}";
 		// 百度地图API功能
 		var map = new BMap.Map("allmap"); // 创建Map实例
 		map.centerAndZoom(new BMap.Point(113.270856, 23.137463), 15); // 初始化地图,设置中心点坐标和地图级别

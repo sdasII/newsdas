@@ -121,4 +121,13 @@ public class AlarmController {
 		map.addAttribute(Constraints.RESULT_ROW, object);
 		return map;
 	}
+	/**
+	 * 详细信息页面跳转
+	 * @return
+	 */
+	@RequestMapping("/todetail")
+	public ModelAndView detail(){
+		ModelAndView modelAndView = new ModelAndView("/general/detail");
+		return modelAndView;
+	}
 }

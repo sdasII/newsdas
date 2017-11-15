@@ -46,7 +46,7 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="title">
-					<h5>最新发布更新时间：</h5>
+					<h5 class="updatetime">最新发布更新时间：</h5>
 				</div>
 				<div class="">
 
@@ -55,57 +55,43 @@
 							<div class="feed-activity-list"
 								style="height: 100%; width: 300px; float: left">
 								<div class="feed-element">
-									<h5>最新发布更新时间：</h5>
+									<h5 class="updatetime">最新发布更新时间：</h5>
 								</div>
 								<div class="feed-element">
-									<h5>共有n个小区被监控：</h5>
+									<h5 id="all">共有n个小区被监控：</h5>
 									<div class="media-body ">
-										<small>其中处于事件状态n个</small><br> <small>其中处于事件状态n个</small><br>
-										<small>其中处于事件状态n个</small><br> <small>其中处于事件状态n个</small><br>
+										<small>其中处于事件状态<small id="event"></small>个</small><br>
+										 <small>其中处于临界状态<small id="critical"></small>个</small><br>
+										<small>其中处于健康状态<small id="health"></small>个</small><br>
 									</div>
 								</div>
 								<div class="feed-element" style="border-bottom: 0px">
 									<div class="media-body ">
 										<div class="tabs-container">
 											<ul class="nav nav-tabs">
-												<li class=""><a data-toggle="tab" href="#tab-1"
+												<li class="" onclick="switchTab(0)"><a data-toggle="tab" href="#tab-1"
 													aria-expanded="false">事件</a></li>
-												<li class="active"><a data-toggle="tab" href="#tab-2"
+												<li class="active" onclick="switchTab(1)"><a data-toggle="tab" href="#tab-2"
 													aria-expanded="true">临界</a></li>
-													<li class=""><a data-toggle="tab" href="#tab-3"
+													<li class="" onclick="switchTab(2)"><a data-toggle="tab" href="#tab-3"
 													aria-expanded="false">健康</a></li>
 											</ul>
 											<div class="tab-content">
 												<div id="tab-1" class="tab-pane">
 													<div class="panel-body">
-														<ol>
-															<li><a>东风小区</a></li>
-															<li><a>东风小区</a></li>
-															<li><a>东风小区</a></li>
-															<li><a>东风小区</a></li>
-															<li>……</li>
+														<ol id="event_content">
 														</ol>
 													</div>
 												</div>
 												<div id="tab-2" class="tab-pane active">
 													<div class="panel-body">
-														<ol>
-															<li><a>解放小区</a></li>
-															<li><a>解放小区</a></li>
-															<li><a>解放小区</a></li>
-															<li><a>解放小区</a></li>
-															<li>……</li>
+														<ol id="critical_content">
 														</ol>
 													</div>
 												</div>
 												<div id="tab-3" class="tab-pane">
 													<div class="panel-body">
-														<ol>
-															<li><a>中山小区</a></li>
-															<li><a>中山小区</a></li>
-															<li><a>中山小区</a></li>
-															<li><a>中山小区</a></li>
-															<li>……</li>
+														<ol id="health_content">
 														</ol>
 													</div>
 												</div>

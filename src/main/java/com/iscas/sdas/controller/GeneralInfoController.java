@@ -40,15 +40,7 @@ public class GeneralInfoController {
 		ModelAndView modelAndView = new ModelAndView("/general/home");
 		return modelAndView;
 	}
-	/**
-	 * 详细信息页面跳转
-	 * @return
-	 */
-	@RequestMapping("/detail")
-	public ModelAndView detail(){
-		ModelAndView modelAndView = new ModelAndView("/general/detail");
-		return modelAndView;
-	}
+	
 	/**
 	 * 小区首页
 	 * @param request
