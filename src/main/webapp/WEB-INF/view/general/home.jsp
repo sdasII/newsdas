@@ -23,11 +23,13 @@
 	color: #fff;
     background-color: #1c84c6;
     }
-    .tab-pane{height: 300px;}
+    .tab-pane{height: 500px;}
     .panel-body{height:100%;overflow: auto}
     .feed-element{padding: 5px}
 #leftmodel {
 	height:800px;
+	padding:0px;
+    margin:0px;
 	border: 1px solid #ccc;
 }
 
@@ -36,6 +38,7 @@
     padding:0px;
     margin:0px;
 	border: 1px solid #ccc;
+
 }
 </style>
 </head>
@@ -50,8 +53,8 @@
 				<div class="col-sm-12">
 					<div id="leftmodel" class="col-sm-3">
 						<div class="ibox-content">
-							<div class="feed-activity-list"
-								style="height: 100%;  float: left">
+							<div class="feed-activity-list" 
+								style="width:100%; height: 100%;  float: left;margin: 0px;">
 								<div class="feed-element">
 									<h5 class="updatetime">最新发布更新时间：</h5>
 								</div>
@@ -103,6 +106,7 @@
 					<div id="rightmodel" class="col-sm-9">
 						<div class="feed-activity-list" id="allmap"
 							style="text-align: center; width:100%; height: 100%;float: left"></div>
+
 					</div>
 				</div>
 			
