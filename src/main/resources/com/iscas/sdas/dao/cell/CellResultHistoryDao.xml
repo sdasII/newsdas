@@ -69,7 +69,7 @@
 		t_cell_result_history WHERE cell_code = #{cellname} ORDER BY yyyyMMdd
 		DESC LIMIT 1),INTERVAL 30 DAY) AND cell_code=#{cellname} ORDER BY yyyyMMdd
 	</select>
-	<select id="historyWithinSelect" resultType="BaseResultMap">
+	<select id="historyWithinSelect" resultMap="BaseResultMap">
 		SELECT 
 		<include refid="Base_Column_List" />
 		FROM t_cell_result_history WHERE cell_code=#{cellname} 
