@@ -281,4 +281,17 @@ public class CellController {
 		map.addAttribute(Constraints.RESULT_ROW, list);
 		return map;
 	}
+	
+	 /* 分组首页
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("/toTableData")
+	public ModelAndView toTableData(HttpServletRequest request,HttpServletResponse response){
+		String cellname=request.getParameter("cell_code");
+		ModelAndView view = new ModelAndView("general/tabledatas");
+		view.addObject("cellname", cellname);
+		return view;
+	 }
 }

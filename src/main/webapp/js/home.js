@@ -32,7 +32,9 @@ $(function(){
 			}
 		}
 	});
+
 	switchTab(0);
+
 });
 function switchTab(type){
 	$.ajax({
