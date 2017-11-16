@@ -55,5 +55,5 @@ function refresh_healthtable(list) {
 	$("#healthtable_load").hide();
 }
 function backDetail(code){
-	top.$("#iframe_home").attr('src',ctx +"/alarm/todetail?cell_code="+code);
+	top.$("#iframe_detail").attr('src',ctx +"/alarm/todetail?cell_code="+code);
 }

@@ -35,11 +35,16 @@ function iframeconvert(url,iframe,params) {
 			}
 		}
 	}
-    
+    var iframeId="";
+    if(url.indexOf("home")>-1){
+    	iframeId="iframe_home";
+    }else if(url.indexOf("todetail")>-1){
+    	iframeId="iframe_detail";
+    }
     var item = $('<a href="#" class="active J_menuTab" data-id="'
             + url + '">'+iframe+' <i class="fa fa-times-circle"></i></a>');
     var content = $('<iframe class="J_iframe" name="iframe10" width="100%" height="100%" src="'
-            + target_url + '" frameborder="0" data-id="' + url + '" seamless></iframe>');
+            + target_url + '" id="'+iframeId+'" frameborder="0" data-id="' + url + '" seamless></iframe>');
 
     a_parent.children("a").removeClass("active");
     if(target_url.indexOf("alarm/todetail")>-1&&a_parent.find("a").length>1){
