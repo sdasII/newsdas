@@ -27,33 +27,34 @@
     .panel-body{height:100%;overflow: auto}
     .feed-element{padding: 5px}
 #leftmodel {
-	width: 320px !important;
-	padding: 0 !important;
-	border: 2px solid #ccc;
+	height:800px;
+	padding:0px;
+    margin:0px;
+	border: 1px solid #ccc;
 }
 
 #rightmodel {
-	height:740px;
-	width: 70% !important;
-	padding: 0 !important;
-	overflow: auto;
-	border: 2px solid #ccc;
+    height:800px;
+    padding:0px;
+    margin:0px;
+	border: 1px solid #ccc;
+
 }
 </style>
 </head>
 <body>
 	<div class="wrapper wrapper-content animated fadeInRight">
-		<div class="row">
+		<div class="row" style="margin: 0px;padding: 0px;">
 			<div class="col-sm-12">
 				<div class="title">
 					<h5 class="updatetime">最新发布更新时间：</h5>
 				</div>
-				<div class="">
-
-					<div class="col-sm-6" id="leftmodel">
+			</div>
+				<div class="col-sm-12">
+					<div id="leftmodel" class="col-sm-3">
 						<div class="ibox-content">
-							<div class="feed-activity-list"
-								style="height: 100%; width: 300px; float: left">
+							<div class="feed-activity-list" 
+								style="width:100%; height: 100%;  float: left;margin: 0px;">
 								<div class="feed-element">
 									<h5 class="updatetime">最新发布更新时间：</h5>
 								</div>
@@ -69,21 +70,21 @@
 									<div class="media-body ">
 										<div class="tabs-container">
 											<ul class="nav nav-tabs">
-												<li class="" onclick="switchTab(0)"><a data-toggle="tab" href="#tab-1"
-													aria-expanded="false">事件</a></li>
-												<li class="active" onclick="switchTab(1)"><a data-toggle="tab" href="#tab-2"
-													aria-expanded="true">临界</a></li>
-													<li class="" onclick="switchTab(2)"><a data-toggle="tab" href="#tab-3"
+												<li class="active" onclick="switchTab(0)"><a data-toggle="tab" href="#tab-1"
+													aria-expanded="true">事件</a></li>
+												<li class="" onclick="switchTab(1)"><a data-toggle="tab" href="#tab-2"
+													aria-expanded="false">临界</a></li>
+												<li class="" onclick="switchTab(2)"><a data-toggle="tab" href="#tab-3"
 													aria-expanded="false">健康</a></li>
 											</ul>
 											<div class="tab-content">
-												<div id="tab-1" class="tab-pane">
+												<div id="tab-1" class="tab-pane active">
 													<div class="panel-body">
 														<ol id="event_content">
 														</ol>
 													</div>
 												</div>
-												<div id="tab-2" class="tab-pane active">
+												<div id="tab-2" class="tab-pane">
 													<div class="panel-body">
 														<ol id="critical_content">
 														</ol>
@@ -102,12 +103,13 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-sm-6" id="rightmodel">
+					<div id="rightmodel" class="col-sm-9">
 						<div class="feed-activity-list" id="allmap"
-							style="text-align: center; height: 738px; width: 100%; float: left"></div>
+							style="text-align: center; width:100%; height: 100%;float: left"></div>
+
 					</div>
 				</div>
-			</div>
+			
 		</div>
 	</div>
 	<script type="text/javascript">

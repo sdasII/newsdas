@@ -19,7 +19,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         //获取Session  
         HttpSession session = request.getSession();  
         //除登录页和load=true，其它的URL都进行拦截控制  
-        System.out.println(request.getContextPath());
+        //System.out.println(request.getContextPath());
         if(url.equals(request.getContextPath()+"/")){  
             return true;  
         } else if (url.equals(request.getContextPath()+"/main")) {
