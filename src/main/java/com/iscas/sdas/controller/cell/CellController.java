@@ -28,6 +28,7 @@ import com.iscas.sdas.dto.TotalHealthInfoDto;
 import com.iscas.sdas.dto.cell.BaseCellHealth;
 import com.iscas.sdas.dto.cell.CellDto;
 import com.iscas.sdas.dto.cell.CellHealthTableDto;
+import com.iscas.sdas.dto.cell.CellResultHistoryDto;
 import com.iscas.sdas.service.cell.CellService;
 import com.iscas.sdas.util.CommonUntils;
 import com.iscas.sdas.util.Constraints;
@@ -207,31 +208,7 @@ public class CellController {
 			String cellname = request.getParameter("cellname");
 			String count = request.getParameter("count");
 			BaseCellHealth baseCellHealth = cellService.newestHealth(cellname);
-			if (baseCellHealth!=null) {
-				/*String str_hour;
-				int hour;
-				if (CommonUntils.isempty(count)) {
-					hour = Calendar.HOUR_OF_DAY;
-					str_hour = hour>=10?hour+"":"0"+hour;
-				}else {
-					hour = Integer.parseInt(count);
-					str_hour = hour>=10?hour+"":"0"+hour;
-				}				
-				String range  = (String)baseCellHealth.getClass().getMethod("getRange_"+str_hour, null).invoke(baseCellHealth, null);
-				if (range!=null) {
-					JSONArray array = JSON.parseArray(range);
-					if (array!=null) {
-						for (int i = 0; i < array.size(); i++) {
-								JSONObject obj = array.getJSONObject(i);
-								if ("Ratio".equals(obj.getString("Key"))) {
-								    double ratio = Double.parseDouble(obj.get("Value").toString())*100;
-								    map.addAttribute("ratio", ratio);
-								    break;
-								}
-						}
-					}
-				}*/
-				/////////////
+			if (baseCellHealth!=null) {				
 				Method[] methods = baseCellHealth.getClass().getMethods();
 				for (int i=0;i<methods.length;i++) {
 					if (methods[i].getName().startsWith("getRange")) {
@@ -281,6 +258,27 @@ public class CellController {
 		} catch (Exception e) {	
 			e.printStackTrace();
 		}		
+		return map;
+	}
+	/**
+	 * 小区健康度判别结果
+	 * @param request
+	 * @param cellname
+	 * @param type
+	 * @return
+	 */
+	@RequestMapping("/cellResultHistroy")
+	@ResponseBody
+	public ModelMap cellResultHistroy(HttpServletRequest request,
+			@RequestParam(value="cellname",required=true)String cellname,
+			@RequestParam(value="type",defaultValue="day",required=true)String type){
+
+		String start = request.getParameter("start");
+		String end = request.getParameter("end");
+		
+		ModelMap map = new ModelMap();
+		List<CellResultHistoryDto> list = cellService.cellResultHistroy(cellname, type, start, end);
+		map.addAttribute(Constraints.RESULT_ROW, list);
 		return map;
 	}
 }

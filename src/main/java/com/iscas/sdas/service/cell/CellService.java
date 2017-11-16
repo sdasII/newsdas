@@ -16,6 +16,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.iscas.sdas.dao.ComplainDao;
 import com.iscas.sdas.dao.StationInfoDtoMapper;
 import com.iscas.sdas.dao.cell.CellDao;
+import com.iscas.sdas.dao.cell.CellResultHistoryDao;
 import com.iscas.sdas.dto.BaseStationHealthRatio;
 import com.iscas.sdas.dto.CellComplainDto;
 import com.iscas.sdas.dto.GroupIndexMeatdata;
@@ -24,6 +25,7 @@ import com.iscas.sdas.dto.TotalHealthInfoDto;
 import com.iscas.sdas.dto.cell.BaseCellHealth;
 import com.iscas.sdas.dto.cell.CellDto;
 import com.iscas.sdas.dto.cell.CellHealthTableDto;
+import com.iscas.sdas.dto.cell.CellResultHistoryDto;
 import com.iscas.sdas.dto.cell.MomentDto;
 import com.iscas.sdas.util.CommonUntils;
 
@@ -37,6 +39,8 @@ public class CellService{
 	StationInfoDtoMapper stationDto;
 	@Autowired
 	ComplainDao complainDao;
+	@Autowired
+	CellResultHistoryDao cellResultHistoryDao;
 	
 	public List<CellDto> getCellList(CellDto cellDto){
 		return cellDao.getcells(cellDto);
@@ -165,6 +169,8 @@ public class CellService{
 		}
 		return null;
 	}
+	
+	
 	private double praseMoment(int i,BaseCellHealth baseCellHealth){
 		switch (i) {
 		case 0:
@@ -587,5 +593,25 @@ public class CellService{
 			}
 		}
 		return keyArr;
+	}
+	
+	/**
+	 * 小区健康度判别结果
+	 * @param cellname
+	 * @param type
+	 * @return
+	 */
+	public List<CellResultHistoryDto> cellResultHistroy(String cellname,String type,String start,String end){
+		if ("day".equals(type)) {
+			return cellResultHistoryDao.historyWithinLastDay(cellname);
+		}else if ("month".equals(type)) {
+			return cellResultHistoryDao.historyWithinLastMonth(cellname);
+		}else if ("week".equals(type)) {
+			return cellResultHistoryDao.historyWithinLastWeek(cellname);
+		}else if ("select".equals(type)) {
+			return cellResultHistoryDao.historyWithinSelect(cellname, start, end);
+		}else {
+			return null;
+		}
 	}
 }
