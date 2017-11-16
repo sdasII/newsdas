@@ -162,10 +162,13 @@ input {
 				</div>
 			</div>
 			<div class="col-sm-6">
+				
 				<div class="ibox float-e-margins">
 					<div class="ibox-title">
 						<h5>小区基本情况</h5>
+						
 					</div>
+					
 					<div class="ibox-content">
 						<div style="height: 350px;">
 							<div id="allmap"
@@ -179,6 +182,7 @@ input {
 			<div class="col-sm-12">
 				<div class="ibox-title">
 					<h5>当前时段风险预警</h5>
+					<a href="javascript:;" onclick="toTableData('${cellname}')" style="float: right;margin-right: 20px"><h5>查看详情</h5></a>
 				</div>
 				<div class="ibox-content">
 					<!-- loading -->

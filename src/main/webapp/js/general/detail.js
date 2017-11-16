@@ -191,3 +191,6 @@ function drawEcharts(id, title, times, data,color,date_value) {
 function back(){
 	top.$("#iframe_home").attr('src',ctx +"/general/home");
 }
+function toTableData(code){
+	top.$("#iframe_home").attr('src',ctx +"/cell/toTableData?cell_code="+code);
+}
