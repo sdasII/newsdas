@@ -92,7 +92,7 @@ input {
 	</script>
 	<div class="wrapper wrapper-content animated fadeInRight">
 		<div class="row" style="text-align: center;">
-			<button class="btn btn-info search" type="button" onclick="back()" style="float: left;margin-left: 20px;">返回</button>
+			<!-- <button class="btn btn-info search" type="button" onclick="back()" style="float: left;margin-left: 20px;">返回</button> -->
 			<h1 style="margin: 0 auto;margin-bottom: 10px">
 				<b>${cellname}</b>小区健康详情查看
 			</h1>

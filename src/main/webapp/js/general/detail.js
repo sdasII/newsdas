@@ -176,8 +176,15 @@ function drawEcharts(id, title, times, data,color) {
 			trigger : 'axis', // 触发类型：坐标轴触发
 			position: ['50%', '50%'],
 			formatter : function(params) {
-				
-					var res = "时间： "+params[0].name+'<br/>'+params[0].seriesName + ': ' + (params[0].value)
+				var status="";
+				if(params[0].value==0.5){
+					status="危险";
+				}else if(params[0].value==1.5){
+					status="警告";
+				}else{
+					status="正常";
+				}
+					var res = "时间： "+params[0].name+'<br/>'+params[0].seriesName + ': ' + status
 							+ '<br/>';
 					return res;
 				

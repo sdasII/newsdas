@@ -32,7 +32,7 @@ $(function(){
 			}
 		}
 	});
-	switchTab(0);
+	switchTab(1);
 });
 function switchTab(type){
 	$.ajax({
@@ -52,7 +52,8 @@ function switchTab(type){
 			if(data.rows.length>0){
 				//var id="";
 				$.each(data.rows,function(i,e){
-					var html='<li><a onclick="toDetail('+"'"+e.cell_code+"'"+')">'+e.cell_code+'</a></li>';
+					var obj={"cell_code":e.cell_code};
+					var html='<li><a href="javascript:iframeconvert('+"'"+ctx+'/alarm/todetail?cell_code='+e.cell_code+"','小区信息',"+"{'cell_code':'"+e.cell_code+"'}"+')">'+e.cell_code+'</a></li>';
 					$(id).append(html);
 				});
 			}else{
@@ -63,6 +64,6 @@ function switchTab(type){
 			
 	});
 }
-function toDetail(code){
+/*function toDetail(code){
 	top.$("#iframe_home").attr('src',ctx +"/alarm/todetail?cell_code="+code);
-}
+}*/

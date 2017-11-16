@@ -42,18 +42,25 @@ function iframeconvert(url,iframe,params) {
             + target_url + '" frameborder="0" data-id="' + url + '" seamless></iframe>');
 
     a_parent.children("a").removeClass("active");
-
-    if (a_parent.has('a[data-id="' + url + '"]').length > 0) {
-        a_parent.children('a[data-id="' + url + '"]').addClass("active");
+    if(target_url.indexOf("alarm/todetail")>-1&&a_parent.find("a").length>1){
+    	a_parent.find("a:last").addClass("active");
         iframe_parent.children("iframe").css("display", "none");
         iframe_parent.children().remove('iframe[data-id="' + url + '"]');
         content.css("display", "inline");
         iframe_parent.prepend(content);
-    } else {
-        content.css("display", "inline");
-        a_parent.append(item);
-        iframe_parent.children("iframe").css("display", "none");
-        iframe_parent.prepend(content);
+    }else{
+    	if (a_parent.has('a[data-id="' + url + '"]').length > 0) {
+            a_parent.children('a[data-id="' + url + '"]').addClass("active");
+            iframe_parent.children("iframe").css("display", "none");
+            iframe_parent.children().remove('iframe[data-id="' + url + '"]');
+            content.css("display", "inline");
+            iframe_parent.prepend(content);
+        } else {
+            content.css("display", "inline");
+            a_parent.append(item);
+            iframe_parent.children("iframe").css("display", "none");
+            iframe_parent.prepend(content);
+        }
     }
 }
 
