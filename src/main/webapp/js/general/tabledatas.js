@@ -1,4 +1,4 @@
-var healthTableUrl = ctx + "/cell/healthtabl";
+var healthTableUrl = ctx + "/cell/healthtable";
 $(function() {
 	// loading初始化显示
 	$(".loading_bk").show();
@@ -55,5 +55,5 @@ function refresh_healthtable(list) {
 	$("#healthtable_load").hide();
 }
 function backDetail(code){
-	top.$("#iframe_home").attr('src',ctx +"/general/todetail?cell_code="+code);
+	top.$("#iframe_home").attr('src',ctx +"/alarm/todetail?cell_code="+code);
 }

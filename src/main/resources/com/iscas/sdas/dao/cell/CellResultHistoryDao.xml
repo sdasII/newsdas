@@ -1,41 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.iscas.sdas.dao.cell.CellResultHistoryDao">
-	<resultMap id="BaseResultMap" type="com.iscas.sdas.dto.cell.CellResultHistoryDto">
-		<id column="app_code" jdbcType="VARCHAR" property="appCode" />
-		<id column="cell_code" jdbcType="VARCHAR" property="cellCode" />
-		<id column="yyyyMM" jdbcType="VARCHAR" property="yyyymm" />
-		<id column="yyyyMMdd" jdbcType="VARCHAR" property="yyyymmdd" />
-		<id column="used_type" jdbcType="INTEGER" property="usedType" />
-		<result column="range_00" jdbcType="INTEGER" property="range00" />
-		<result column="range_01" jdbcType="INTEGER" property="range01" />
-		<result column="range_02" jdbcType="INTEGER" property="range02" />
-		<result column="range_03" jdbcType="INTEGER" property="range03" />
-		<result column="range_04" jdbcType="INTEGER" property="range04" />
-		<result column="range_05" jdbcType="INTEGER" property="range05" />
-		<result column="range_06" jdbcType="INTEGER" property="range06" />
-		<result column="range_07" jdbcType="INTEGER" property="range07" />
-		<result column="range_08" jdbcType="INTEGER" property="range08" />
-		<result column="range_09" jdbcType="INTEGER" property="range09" />
-		<result column="range_10" jdbcType="INTEGER" property="range10" />
-		<result column="range_11" jdbcType="INTEGER" property="range11" />
-		<result column="range_12" jdbcType="INTEGER" property="range12" />
-		<result column="range_13" jdbcType="INTEGER" property="range13" />
-		<result column="range_14" jdbcType="INTEGER" property="range14" />
-		<result column="range_15" jdbcType="INTEGER" property="range15" />
-		<result column="range_16" jdbcType="INTEGER" property="range16" />
-		<result column="range_17" jdbcType="INTEGER" property="range17" />
-		<result column="range_18" jdbcType="INTEGER" property="range18" />
-		<result column="range_19" jdbcType="INTEGER" property="range19" />
-		<result column="range_20" jdbcType="INTEGER" property="range20" />
-		<result column="range_21" jdbcType="INTEGER" property="range21" />
-		<result column="range_22" jdbcType="INTEGER" property="range22" />
-		<result column="range_23" jdbcType="INTEGER" property="range23" />
-		<result column="state_model" jdbcType="INTEGER" property="stateModel" />
-		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-	</resultMap>
 	<sql id="Base_Column_List">
-		app_code, cell_code, yyyyMM, yyyyMMdd, used_type, range_00, range_01, range_02,
+		yyyyMMdd,range_00, range_01, range_02,
 		range_03,
 		range_04, range_05, range_06, range_07, range_08, range_09, range_10, range_11,
 		range_12,
@@ -44,7 +11,7 @@
 		range_22, range_23, state_model, create_time
 	</sql>	
 	<select id="historyWithinLastDay" parameterType="java.lang.String"
-		resultMap="BaseResultMap">
+		resultType="com.iscas.sdas.dto.cell.CellResultHistoryDto">
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM t_cell_result_history WHERE yyyyMMdd =(SELECT yyyyMMdd FROM
@@ -52,7 +19,7 @@
 		DESC LIMIT 1) AND cell_code=#{cellname} limit 1
 	</select>	
 	<select id="historyWithinLastWeek" parameterType="java.lang.String"
-		resultMap="BaseResultMap">
+		resultType="com.iscas.sdas.dto.cell.CellResultHistoryDto">
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM t_cell_result_history WHERE
@@ -61,7 +28,7 @@
 		DESC LIMIT 1),INTERVAL 7 DAY) AND cell_code=#{cellname} ORDER BY yyyyMMdd
 	</select>
 	<select id="historyWithinLastMonth" parameterType="java.lang.String"
-		resultMap="BaseResultMap">
+		resultType="com.iscas.sdas.dto.cell.CellResultHistoryDto">
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM t_cell_result_history WHERE
@@ -69,7 +36,7 @@
 		t_cell_result_history WHERE cell_code = #{cellname} ORDER BY yyyyMMdd
 		DESC LIMIT 1),INTERVAL 30 DAY) AND cell_code=#{cellname} ORDER BY yyyyMMdd
 	</select>
-	<select id="historyWithinSelect" resultType="BaseResultMap">
+	<select id="historyWithinSelect" resultType="com.iscas.sdas.dto.cell.CellResultHistoryDto">
 		SELECT 
 		<include refid="Base_Column_List" />
 		FROM t_cell_result_history WHERE cell_code=#{cellname} 

@@ -107,12 +107,9 @@ input {
 					<div class="ibox-content">
 					<div class="ibox-tools">
 							<div class="btn-group">
-							<button class="btn btn-info" id="workday" type="button"
-									onclick="javascript:workday()">日</button>
-								<button class="btn btn-white" id="workinweek" type="button"
-									onclick="javascript:workoneweek()">周</button>
-								<button class="btn btn-white" id="workinmonth" type="button"
-									onclick="javascript:workonemonth()">月</button>
+							<button class="btn btn-info datePicker" id="workday" type="button" >日</button>
+								<button class="btn btn-white datePicker" id="workinweek" type="button" >周</button>
+								<button class="btn btn-white datePicker" id="workinmonth" type="button" >月</button>
 								<!-- <button class="btn btn-white" id="workinselect" type="button"
 									onclick="javascript:worktimeselect()">按时间选择</button>
 								<div id="worktimeselect" style="display: none;">
@@ -140,9 +137,9 @@ input {
 						<!-- loading -->
 						<div class="tabs-container">
 						<ul class="nav nav-tabs" id="topTabs">
-							<li onclick="switchTab('#rtratio','健康指标集','#4cb117',0)" class="active"><a data-toggle="tab"
+							<li onclick="switchTab('#rtratio','健康指标集','#4cb117')" class="active"><a data-toggle="tab"
 								href="#tab-1" aria-expanded="true">健康指标集</a></li>
-							<li onclick="switchTab('#ratiotrend','专家指标集','#1c84c6',0)" class=""><a data-toggle="tab"
+							<li onclick="switchTab('#ratiotrend','专家指标集','#1c84c6')" class=""><a data-toggle="tab"
 								href="#tab-2" aria-expanded="false">专家指标集</a></li>
 						</ul>
 					</div>

@@ -3,251 +3,282 @@ package com.iscas.sdas.dto.cell;
 import java.util.Date;
 
 public class CellResultHistoryDto extends CellResultHistoryDtoKey {
-    private Integer range00;
-
-    private Integer range01;
-
-    private Integer range02;
-
-    private Integer range03;
-
-    private Integer range04;
-
-    private Integer range05;
-
-    private Integer range06;
-
-    private Integer range07;
-
-    private Integer range08;
-
-    private Integer range09;
-
-    private Integer range10;
-
-    private Integer range11;
-
-    private Integer range12;
-
-    private Integer range13;
-
-    private Integer range14;
-
-    private Integer range15;
-
-    private Integer range16;
-
-    private Integer range17;
-
-    private Integer range18;
-
-    private Integer range19;
-
-    private Integer range20;
-
-    private Integer range21;
-
-    private Integer range22;
-
-    private Integer range23;
+    private Integer range_00;
+                         
+    private Integer range_01;
+                         
+    private Integer range_02;
+                         
+    private Integer range_03;
+                         
+    private Integer range_04;
+                         
+    private Integer range_05;
+                         
+    private Integer range_06;
+                         
+    private Integer range_07;
+                         
+    private Integer range_08;
+                         
+    private Integer range_09;
+                         
+    private Integer range_10;
+                         
+    private Integer range_11;
+                         
+    private Integer range_12;
+                         
+    private Integer range_13;
+                         
+    private Integer range_14;
+                         
+    private Integer range_15;
+                         
+    private Integer range_16;
+                         
+    private Integer range_17;
+                         
+    private Integer range_18;
+                         
+    private Integer range_19;
+                         
+    private Integer range_20;
+                         
+    private Integer range_21;
+                         
+    private Integer range_22;
+                         
+    private Integer range_23;
 
     private Integer stateModel;
 
     private Date createTime;
+    
+    private String cell_code;
+    
+    private int used_type;
+    
+    private String yyyyMMdd;
 
-    public Integer getRange00() {
-        return range00;
-    }
+    
+    public Integer getRange_00() {
+		return range_00;
+	}
 
-    public void setRange00(Integer range00) {
-        this.range00 = range00;
-    }
+	public void setRange_00(Integer range_00) {
+		this.range_00 = range_00;
+	}
 
-    public Integer getRange01() {
-        return range01;
-    }
+	public Integer getRange_01() {
+		return range_01;
+	}
 
-    public void setRange01(Integer range01) {
-        this.range01 = range01;
-    }
+	public void setRange_01(Integer range_01) {
+		this.range_01 = range_01;
+	}
 
-    public Integer getRange02() {
-        return range02;
-    }
+	public Integer getRange_02() {
+		return range_02;
+	}
 
-    public void setRange02(Integer range02) {
-        this.range02 = range02;
-    }
+	public void setRange_02(Integer range_02) {
+		this.range_02 = range_02;
+	}
 
-    public Integer getRange03() {
-        return range03;
-    }
+	public Integer getRange_03() {
+		return range_03;
+	}
 
-    public void setRange03(Integer range03) {
-        this.range03 = range03;
-    }
+	public void setRange_03(Integer range_03) {
+		this.range_03 = range_03;
+	}
 
-    public Integer getRange04() {
-        return range04;
-    }
+	public Integer getRange_04() {
+		return range_04;
+	}
 
-    public void setRange04(Integer range04) {
-        this.range04 = range04;
-    }
+	public void setRange_04(Integer range_04) {
+		this.range_04 = range_04;
+	}
 
-    public Integer getRange05() {
-        return range05;
-    }
+	public Integer getRange_05() {
+		return range_05;
+	}
 
-    public void setRange05(Integer range05) {
-        this.range05 = range05;
-    }
+	public void setRange_05(Integer range_05) {
+		this.range_05 = range_05;
+	}
 
-    public Integer getRange06() {
-        return range06;
-    }
+	public Integer getRange_06() {
+		return range_06;
+	}
 
-    public void setRange06(Integer range06) {
-        this.range06 = range06;
-    }
+	public void setRange_06(Integer range_06) {
+		this.range_06 = range_06;
+	}
 
-    public Integer getRange07() {
-        return range07;
-    }
+	public Integer getRange_07() {
+		return range_07;
+	}
 
-    public void setRange07(Integer range07) {
-        this.range07 = range07;
-    }
+	public void setRange_07(Integer range_07) {
+		this.range_07 = range_07;
+	}
 
-    public Integer getRange08() {
-        return range08;
-    }
+	public Integer getRange_08() {
+		return range_08;
+	}
 
-    public void setRange08(Integer range08) {
-        this.range08 = range08;
-    }
+	public void setRange_08(Integer range_08) {
+		this.range_08 = range_08;
+	}
 
-    public Integer getRange09() {
-        return range09;
-    }
+	public Integer getRange_09() {
+		return range_09;
+	}
 
-    public void setRange09(Integer range09) {
-        this.range09 = range09;
-    }
+	public void setRange_09(Integer range_09) {
+		this.range_09 = range_09;
+	}
 
-    public Integer getRange10() {
-        return range10;
-    }
+	public Integer getRange_10() {
+		return range_10;
+	}
 
-    public void setRange10(Integer range10) {
-        this.range10 = range10;
-    }
+	public void setRange_10(Integer range_10) {
+		this.range_10 = range_10;
+	}
 
-    public Integer getRange11() {
-        return range11;
-    }
+	public Integer getRange_11() {
+		return range_11;
+	}
 
-    public void setRange11(Integer range11) {
-        this.range11 = range11;
-    }
+	public void setRange_11(Integer range_11) {
+		this.range_11 = range_11;
+	}
 
-    public Integer getRange12() {
-        return range12;
-    }
+	public Integer getRange_12() {
+		return range_12;
+	}
 
-    public void setRange12(Integer range12) {
-        this.range12 = range12;
-    }
+	public void setRange_12(Integer range_12) {
+		this.range_12 = range_12;
+	}
 
-    public Integer getRange13() {
-        return range13;
-    }
+	public Integer getRange_13() {
+		return range_13;
+	}
 
-    public void setRange13(Integer range13) {
-        this.range13 = range13;
-    }
+	public void setRange_13(Integer range_13) {
+		this.range_13 = range_13;
+	}
 
-    public Integer getRange14() {
-        return range14;
-    }
+	public Integer getRange_14() {
+		return range_14;
+	}
 
-    public void setRange14(Integer range14) {
-        this.range14 = range14;
-    }
+	public void setRange_14(Integer range_14) {
+		this.range_14 = range_14;
+	}
 
-    public Integer getRange15() {
-        return range15;
-    }
+	public Integer getRange_15() {
+		return range_15;
+	}
 
-    public void setRange15(Integer range15) {
-        this.range15 = range15;
-    }
+	public void setRange_15(Integer range_15) {
+		this.range_15 = range_15;
+	}
 
-    public Integer getRange16() {
-        return range16;
-    }
+	public Integer getRange_16() {
+		return range_16;
+	}
 
-    public void setRange16(Integer range16) {
-        this.range16 = range16;
-    }
+	public void setRange_16(Integer range_16) {
+		this.range_16 = range_16;
+	}
 
-    public Integer getRange17() {
-        return range17;
-    }
+	public Integer getRange_17() {
+		return range_17;
+	}
 
-    public void setRange17(Integer range17) {
-        this.range17 = range17;
-    }
+	public void setRange_17(Integer range_17) {
+		this.range_17 = range_17;
+	}
 
-    public Integer getRange18() {
-        return range18;
-    }
+	public Integer getRange_18() {
+		return range_18;
+	}
 
-    public void setRange18(Integer range18) {
-        this.range18 = range18;
-    }
+	public void setRange_18(Integer range_18) {
+		this.range_18 = range_18;
+	}
 
-    public Integer getRange19() {
-        return range19;
-    }
+	public Integer getRange_19() {
+		return range_19;
+	}
 
-    public void setRange19(Integer range19) {
-        this.range19 = range19;
-    }
+	public void setRange_19(Integer range_19) {
+		this.range_19 = range_19;
+	}
 
-    public Integer getRange20() {
-        return range20;
-    }
+	public Integer getRange_20() {
+		return range_20;
+	}
 
-    public void setRange20(Integer range20) {
-        this.range20 = range20;
-    }
+	public void setRange_20(Integer range_20) {
+		this.range_20 = range_20;
+	}
 
-    public Integer getRange21() {
-        return range21;
-    }
+	public Integer getRange_21() {
+		return range_21;
+	}
 
-    public void setRange21(Integer range21) {
-        this.range21 = range21;
-    }
+	public void setRange_21(Integer range_21) {
+		this.range_21 = range_21;
+	}
 
-    public Integer getRange22() {
-        return range22;
-    }
+	public Integer getRange_22() {
+		return range_22;
+	}
 
-    public void setRange22(Integer range22) {
-        this.range22 = range22;
-    }
+	public void setRange_22(Integer range_22) {
+		this.range_22 = range_22;
+	}
 
-    public Integer getRange23() {
-        return range23;
-    }
+	public Integer getRange_23() {
+		return range_23;
+	}
 
-    public void setRange23(Integer range23) {
-        this.range23 = range23;
-    }
+	public void setRange_23(Integer range_23) {
+		this.range_23 = range_23;
+	}
 
-    public Integer getStateModel() {
+	public String getCell_code() {
+		return cell_code;
+	}
+
+	public void setCell_code(String cell_code) {
+		this.cell_code = cell_code;
+	}
+
+	public int getUsed_type() {
+		return used_type;
+	}
+
+	public void setUsed_type(int used_type) {
+		this.used_type = used_type;
+	}
+
+	public String getYyyyMMdd() {
+		return yyyyMMdd;
+	}
+
+	public void setYyyyMMdd(String yyyyMMdd) {
+		this.yyyyMMdd = yyyyMMdd;
+	}
+
+	public Integer getStateModel() {
         return stateModel;
     }
 

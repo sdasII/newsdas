@@ -2,8 +2,10 @@ var top_split = [];
 var bottom_spli = [];
 var middle_split = [];
 var times=[];
-var date_value = 0;// 曲线时间范围
+var date_value = "day";// 曲线时间范围
 var data=[];//testData
+var dataUrl=ctx+"/cell/cellResultHistroy";
+var tableUrl=ctx+"/work/allrtworks";
 $(function(){
 	//曲线时间选择
 	$(".datePicker").click(function() {
@@ -11,71 +13,157 @@ $(function(){
 					$(this).parent().find(".btn-white").removeClass("btn-white");
 					$(this).parent().find("button").addClass("btn-white");
 						if ($(this).html() == "日") {
-							date_value = 0;
+							date_value = "day";
 							$(this).removeClass("btn-white");
 							$(this).addClass("btn-info");
 						} else if ($(this).html() == "周") {
-							date_value = 7;
+							date_value = "week";
 							$(this).removeClass("btn-white");
 							$(this).addClass("btn-info");
 						} else if ($(this).html() == "月") {
-							date_value = 30;
+							date_value = "month";
 							$(this).removeClass("btn-white");
 							$(this).addClass("btn-info");
 						}
 						var title=$("#topTabs").find(".active").find("a").html()
 								if (title == "健康指标集") {
-									drawEcharts("#rtratio", "健康指标集",times, data,"#4cb117",date_value);
+									getcharts("#rtratio", "健康指标集","#4cb117",date_value);
 								} else {
-									switchTab('#ratiotrend','专家指标集',times, data,'#1c84c6',date_value);
+									getcharts("#ratiotrend", "专家指标集","#1c84c6",date_value);
 								}
 							
 					});
 	
-	for (var i = 0; i < 20; i++) {
-		var arr = [];
-		arr.push(i);
-		arr.push(1);
-		bottom_spli.push(arr);
-		middle_split.push(arr);
-		top_split.push(arr);
-		//testData
-		times.push(i);
-		data.push(i%2);
-	}
-	drawEcharts("#rtratio", "健康指标集", times, data,"#4cb117",0);
-	//
-	$('#alarm_table').bootstrapTable({
-        cache : false,
-        striped : true,
-        pagination : true,
-        toolbar : '#pager_alarm_table',
-        pageSize : 10,
-        pageNumber : 1,
-        pageList : [ 5, 10, 20 ],
-        clickToSelect : true,
-        sidePagination : 'server',// 设置为服务器端分页
-        columns : [
-            { field : "id", title : "序号", align : "center", valign : "middle"},
-            { field : "yyyyMMdd", title : "发生时间", align : "center", valign : "middle"},
-            { field : 'message', title : '风险提示', align : 'center', valign : 'middle' }
-        ],
-        onPageChange : function(size, number) {
-        	 	var data = {};
-        	    data.cell_code = cell_code;
-        	    commonRowDatas("alarm_table", data, alarmurl, "commonCallback", true);
-        },
-        formatNoMatches : function() {
-            return "没有数据内容";
-        }
-    });
+	$.ajax({
+		url:tableUrl,
+		type:"post",
+		data:{"cellname":cellname,"type":date_value},
+		success:function(data){
+			data=eval('(' + data + ')');
+			$('#alarm_table').bootstrapTable({
+		        cache : false,
+		        striped : true,
+		        pagination : true,
+		        data:data.rows,
+		        toolbar : '#pager_alarm_table',
+		        pageSize : 10,
+		        pageNumber : 1,
+		        pageList : [ 5, 10, 20 ],
+		        clickToSelect : true,
+		        //sidePagination : 'server',// 设置为服务器端分页
+		        columns : [
+		            { field : "alarm_id", title : "序号", align : "center", valign : "middle"},
+		            { field : "occurrence_time", title : "发生时间", align : "center", valign : "middle",
+		            	formatter:function(value,row,index){
+			                  var jsDate = new Date(value);
+			                  var UnixTimeToDate = jsDate.getFullYear() + '/' + (jsDate.getMonth() + 1) + '/'+jsDate.getDate()+ ' ' + jsDate.getHours() + ':' + jsDate.getMinutes() + ':' + jsDate.getSeconds();
+			                   return UnixTimeToDate;
+			                 }
+		            },
+		            { field : 'reasons', title : '风险提示', align : 'center', valign : 'middle' }
+		        ],
+		       /* onPageChange : function(size, number) {
+		        	 	var data = {};
+		        	    data.cell_code = cell_code;
+		        	    commonRowDatas("alarm_table", data, tableUrl, "commonCallback", true);
+		        },*/
+		        formatNoMatches : function() {
+		            return "没有数据内容";
+		        }
+		    });
+		}
+	});
+	getcharts("#rtratio", "健康指标集","#4cb117",date_value);
 });
-function switchTab(id,title,color,date_value){
-	drawEcharts(id, title, times, data,color,date_value);
+function switchTab(id, title,color){
+	$(".datePicker").parent().find(".btn-info").removeClass("btn-info");
+	$(".datePicker").parent().find(".btn-white").removeClass("btn-white");
+	$(".datePicker").parent().find("button").addClass("btn-white");
+	$(".datePicker").parent().find("button:first").removeClass("btn-white");
+	$(".datePicker").parent().find("button:first").addClass("btn-info");
+	getcharts(id, title,color,"day");
 }
-function drawEcharts(id, title, times, data,color,date_value) {
+function getcharts(id, title,color,date_value){
+	$.ajax({
+		url:dataUrl,
+		type:"post",
+		data:{"cellname":cellname,"type":date_value},
+		success:function(data){
+			data=eval('(' + data + ')');
+			
+			times=[];
+			bottom_spli=[];
+			middle_split=[];
+			top_split=[];
+			dataArr=[];
+			if(data.rows.length>1){
+				$.each(data.rows,function(i,e){
+					var lasttime=e.yyyymmdd;
+					for (var j = 0; j < 24; j++) {
+						var arr = [];
+						arr.push(lasttime+" "+j+":00");
+						arr.push(1);
+						bottom_spli.push(arr);
+						middle_split.push(arr);
+						top_split.push(arr);
+						times.push(lasttime+" "+j+":00");
+						if(j<10){
+							if(e["range_0"+j]==0){
+								dataArr.push(0.5);
+							}else if(e["range_0"+j]==1){
+								dataArr.push(1.5);
+							}else if(e["range_0"+j]==2){
+								dataArr.push(2.5);
+							}
+						}else{
+							if(e["range_"+j]==0){
+								dataArr.push(0.5);
+							}else if(e["range_"+j]==1){
+								dataArr.push(1.5);
+							}else if(e["range_"+j]==2){
+								dataArr.push(2.5);
+							}
+						}
+						
+					}
+				});
+			}else{
+				var lasttime=data.rows[0].yyyymmdd;
+				for (var i = 0; i < 24; i++) {
+					var arr = [];
+					arr.push(lasttime+" "+i+":00");
+					arr.push(1);
+					bottom_spli.push(arr);
+					middle_split.push(arr);
+					top_split.push(arr);
+					times.push(lasttime+" "+i+":00");
+					if(i<10){
+						if(data.rows[0]["range_0"+i]==0){
+							dataArr.push(0.5);
+						}else if(data.rows[0]["range_0"+i]==1){
+							dataArr.push(1.5);
+						}else if(data.rows[0]["range_0"+i]==2){
+							dataArr.push(2.5);
+						}
+					}else{
+						if(data.rows[0]["range_"+i]==0){
+							dataArr.push(0.5);
+						}else if(data.rows[0]["range_"+i]==1){
+							dataArr.push(1.5);
+						}else if(data.rows[0]["range_"+i]==2){
+							dataArr.push(2.5);
+						}
+					}
+					
+				}
+			}
+			drawEcharts(id, title, times, dataArr,color);
+		}
+	});
+}
+function drawEcharts(id, title, times, data,color) {
 	var dataZoom=100;
-	if(data.length>200){
+	if(data.length>100){
 		dataZoom=30;
 	}
 	var mycharts = echarts.init($(id).get(0));
@@ -89,7 +177,7 @@ function drawEcharts(id, title, times, data,color,date_value) {
 			position: ['50%', '50%'],
 			formatter : function(params) {
 				
-					var res = params[0].seriesName + ': ' + (params[0].value)
+					var res = "时间： "+params[0].name+'<br/>'+params[0].seriesName + ': ' + (params[0].value)
 							+ '<br/>';
 					return res;
 				

@@ -126,8 +126,10 @@ public class AlarmController {
 	 * @return
 	 */
 	@RequestMapping("/todetail")
-	public ModelAndView detail(){
+	public ModelAndView detail(HttpServletRequest request){
+		String cellname=request.getParameter("cell_code");
 		ModelAndView modelAndView = new ModelAndView("/general/detail");
+		modelAndView.addObject("cellname", cellname);
 		return modelAndView;
 	}
 }

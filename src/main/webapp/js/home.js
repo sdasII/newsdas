@@ -32,9 +32,7 @@ $(function(){
 			}
 		}
 	});
-
 	switchTab(0);
-
 });
 function switchTab(type){
 	$.ajax({
@@ -54,7 +52,7 @@ function switchTab(type){
 			if(data.rows.length>0){
 				//var id="";
 				$.each(data.rows,function(i,e){
-					var html="<li><a onclick='toDetail('"+e.cell_code+"')'>"+e.cell_code+"</a></li>";
+					var html='<li><a onclick="toDetail('+"'"+e.cell_code+"'"+')">'+e.cell_code+'</a></li>';
 					$(id).append(html);
 				});
 			}else{
