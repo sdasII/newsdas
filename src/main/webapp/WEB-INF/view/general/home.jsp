@@ -70,21 +70,21 @@
 									<div class="media-body ">
 										<div class="tabs-container">
 											<ul class="nav nav-tabs">
-												<li class="active" onclick="switchTab(0)"><a data-toggle="tab" href="#tab-1"
+												<li class="" onclick="switchTab(0)"><a data-toggle="tab" href="#tab-1"
 													aria-expanded="true">事件</a></li>
-												<li class="" onclick="switchTab(1)"><a data-toggle="tab" href="#tab-2"
+												<li class="active" onclick="switchTab(1)"><a data-toggle="tab" href="#tab-2"
 													aria-expanded="false">临界</a></li>
 												<li class="" onclick="switchTab(2)"><a data-toggle="tab" href="#tab-3"
 													aria-expanded="false">健康</a></li>
 											</ul>
 											<div class="tab-content">
-												<div id="tab-1" class="tab-pane active">
+												<div id="tab-1" class="tab-pane">
 													<div class="panel-body">
 														<ol id="event_content">
 														</ol>
 													</div>
 												</div>
-												<div id="tab-2" class="tab-pane">
+												<div id="tab-2" class="tab-pane active">
 													<div class="panel-body">
 														<ol id="critical_content">
 														</ol>

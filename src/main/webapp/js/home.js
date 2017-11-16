@@ -32,7 +32,7 @@ $(function(){
 			}
 		}
 	});
-	//switchTab(1);
+	switchTab(1);
 });
 function switchTab(type){
 	$.ajax({
