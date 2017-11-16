@@ -32,7 +32,7 @@ $(function(){
 			}
 		}
 	});
-	switchTab(1);
+	//switchTab(1);
 });
 function switchTab(type){
 	$.ajax({
@@ -50,7 +50,7 @@ function switchTab(type){
 			}
 			$(id).html("");
 			if(data.rows.length>0){
-				var id="";
+				//var id="";
 				$.each(data.rows,function(i,e){
 					var html="<li><a onclick='toDetail('"+e.cell_code+"')'>"+e.cell_code+"</a></li>";
 					$(id).append(html);

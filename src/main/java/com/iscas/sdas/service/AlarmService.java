@@ -76,7 +76,7 @@ public class AlarmService {
 		if (!CommonUntils.isempty(yyyyMMdd) && !CommonUntils.isempty(hour)) {
 			return yyyyMMdd.substring(0,4)+"-"+yyyyMMdd.substring(4, 6)+"-"+yyyyMMdd.substring(6)+","+hour+":00";
 		}else {
-			return "---- -- --,--:--";
+			return null;
 		}
 	}
 }
