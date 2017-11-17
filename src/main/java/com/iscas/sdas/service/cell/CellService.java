@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -90,7 +91,7 @@ public class CellService{
 				}else if ("month".equals(type)) {
 					result = originData(30, begintime);
 				}else {
-					
+					result = originDataSelect(start, end);
 				}
 				if (result!=null) {
 					for (int i = 0; i < result.size(); i++) {
@@ -289,7 +290,38 @@ public class CellService{
 		}
 		return list;
 	}
-	
+	private List<TotalHealthInfoDto> originDataSelect(String starttime,String endtime){
+		List<TotalHealthInfoDto> list = new ArrayList<>();
+		Date start = new Date(Integer.parseInt(starttime.substring(0, 4)), Integer.parseInt(starttime.substring(4, 6)), Integer.parseInt(starttime.substring(6)));
+		Date end = new Date(Integer.parseInt(endtime.substring(0, 4)), Integer.parseInt(endtime.substring(4, 6)), Integer.parseInt(endtime.substring(6)));
+		int day = CommonUntils.differentDaysByMillisecond(start, end);
+		for (int i = 0; i < day; i++) {
+			int tempyear  = Integer.parseInt(starttime.substring(0, 4));
+			int tempmonth  = Integer.parseInt(starttime.substring(4, 6));
+			int tempday;
+			int days = CommonUntils.daysInMonth(tempyear, tempmonth);//一月多少天
+			tempday  =  Integer.parseInt(starttime.substring(6))+i<=days?Integer.parseInt(starttime.substring(6))+i:Integer.parseInt(starttime.substring(6))+i-days;
+
+			if (Integer.parseInt(starttime.substring(6))+i>30) {
+				if (tempmonth<12) {
+					tempmonth = tempmonth + 1;
+				}else {
+					tempmonth = 1;
+					tempyear += 1;
+				}
+				
+			}
+			for (int j = 0; j < 24; j++) {
+				TotalHealthInfoDto infoDto  = new TotalHealthInfoDto();
+				String str_tempmonth  = tempmonth >=10?tempmonth+"":"0"+tempmonth;
+				String str_tempday = tempday >=10?tempday+"":"0"+tempday;
+				String time = tempyear+"-"+str_tempmonth+"-"+str_tempday+" "+j+"时";
+				infoDto.setTime(time);
+				list.add(infoDto);
+			}
+		}
+		return list;
+	}
 	
 	
 	/**
