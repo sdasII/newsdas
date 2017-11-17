@@ -30,7 +30,10 @@ var histroy_trend = {
 		toolbox: {
 	        show : true,
 	        feature : {
-	            saveAsImage : {show: true}
+	            saveAsImage : {
+	            	show: true,
+	            	name:cellname+"-历史健康度"
+	            	}
 	        }
 	    },
 		xAxis : {
@@ -403,8 +406,8 @@ function historyTrendQuery(type,starttime,endtime) {
 					historyCharts.setOption(histroy_trend);
                     historyCharts.resize();
 					//loading隐藏
-                	/*$("#ratiotrend_loadbk").hide();
-                	$("#ratiotrend_load").hide();*/
+                	$("#ratiotrend_loadbk").hide();
+                	$("#ratiotrend_load").hide();
 				}
 			});
 }
@@ -417,12 +420,10 @@ function switchTab(id, title,color){
 	getcharts(id, title,color,"day","","");
 }
 function getcharts(id, title,color,date_value,starttime,endtime){
-	//loading显示
-	/*$("#ratiotrend_loadbk").show();
-	$("#ratiotrend_load").show();*/
 	$.ajax({
 		url:dataUrl,
 		type:"post",
+		async:false,
 		data:{
 			"cellname":cellname,
 			"type":date_value,
@@ -430,6 +431,10 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 			"endtime":endtime,
 		},
 		success:function(data){
+			//loading显示
+			$("#ratiotrend_loadbk").show();
+			$("#ratiotrend_load").show();
+			
 			data=eval('(' + data + ')');
 			
 			times=[];
@@ -551,7 +556,10 @@ function drawEcharts(id, title, times, data,color) {
 		toolbox: {
 	        show : true,
 	        feature : {
-	            saveAsImage : {show: true}
+	        	saveAsImage : {
+	            	show: true,
+	            	name:cellname+"-健康诊断结果"
+	            	}
 	        }
 	    },
 		dataZoom : {

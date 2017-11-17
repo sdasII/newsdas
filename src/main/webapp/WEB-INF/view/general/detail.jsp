@@ -35,7 +35,7 @@ input {
 }
 
 .loading_bk {
-	display: none;
+	/* display: none; */
 	height: 80%;
 	width: 95%;
 	min-height: 310px;
@@ -48,7 +48,7 @@ input {
 }
 
 .loading {
-	display: none;
+	/* display: none; */
 	color: #fff;
 	margin-left: 40%;
 	margin-top: 10%;
@@ -107,11 +107,11 @@ input {
 				</div>
 				<div class="ibox-content">
 					<!-- loading -->
-					<div class="loading_bk" id="alarm_loadbk"></div>
+					<%-- <div class="loading_bk" id="alarm_loadbk"></div>
 					<div class="loading" style="margin-top: 20%" id="alarm_load">
 						<img
 							src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>内容加载中...</span>
-					</div>
+					</div> --%>
 					<!-- loading -->
 					<div class="jqGrid_wrapper"
 						style="margin: 0; padding: 0; width: 100%; overflow: auto;">
@@ -155,7 +155,7 @@ input {
 														style="margin-left: 5px; margin-top: -7px !important;"
 														id="starttime" class="layer-date starttime"
 														placeholder="请输入开始时间"
-														onclick="laydate({false: true, format: 'YYYYMMDD'})">
+														onclick="laydate({istime: true, format: 'YYYYMMDD'})">
 
 													<span id="span"
 														style="margin-top: -10px; display: inline !important;"
