@@ -45,7 +45,7 @@ public interface CellDao {
 	 * @param endtime
 	 * @return
 	 */
-	List<BaseCellHealth> cellhealthtrendWithinSelect(@Param("cellname")String cellname,@Param("start")String starttime,@Param("end")String endtime);
+	List<BaseCellHealth> cellhealthtrendWithinSelect(@Param("cellname")String cellname,@Param("starttime")String starttime,@Param("endtime")String endtime);
 	/**
 	 * 该小区最近健康度
 	 * @param cellname

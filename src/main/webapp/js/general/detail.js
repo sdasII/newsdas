@@ -3,6 +3,8 @@ var bottom_spli = [];
 var middle_split = [];
 var times=[];
 var date_value = "day";// 曲线时间范围
+var starttime;
+var endtime;
 var data=[];//testData
 var dataUrl=ctx+"/cell/cellResultHistroy";
 var tableUrl=ctx+"/work/allrtworks";
@@ -18,13 +20,19 @@ var histroy_trend = {
 				if (params.length > 3) {
 					var res = params[0].seriesName + ': ' + (params[0].value[1])
 							+ '<br/>';
-					res += params[1].seriesName + '数量 : ' + (params[1].value[2])
-							+ '<br/>';
+					/*res += params[1].seriesName + '数量 : ' + (params[1].value[2])
+							+ '<br/>';*/
 					return res;
 				}
 
 			}
 		},
+		toolbox: {
+	        show : true,
+	        feature : {
+	            saveAsImage : {show: true}
+	        }
+	    },
 		xAxis : {
 			type : 'category',
 			scale : true,
@@ -40,11 +48,11 @@ var histroy_trend = {
 		legend : {
 			data : [{
 						'name' : "历史健康度"
-					}, {
+					}/*, {
 						'name' : "投诉"
 					},{
 	                    'name' : "警戒区"
-	                }]
+	                }*/]
 		},
 		dataZoom : [{
 					type : 'slider',
@@ -72,7 +80,7 @@ var histroy_trend = {
 							}
 						}
 					}
-				}, {
+				}, /*{
 					name : '投诉',
 					data : [],
 					type : 'scatter',
@@ -134,7 +142,7 @@ var histroy_trend = {
 	                                        }])
 	                    }
 	                }
-	            },{
+	            },*/{
 
 					name : '',
 					type : 'line',
@@ -201,9 +209,14 @@ $(function(){
 	historyCharts = echarts.init($("#historyCharts").get(0));
 	//曲线时间选择
 	$(".datePicker").click(function() {
+				starttime="";
+				endtime="";
 					$(this).parent().find(".btn-info").removeClass("btn-info");
 					$(this).parent().find(".btn-white").removeClass("btn-white");
 					$(this).parent().find("button").addClass("btn-white");
+					$(".search").removeClass("btn-white");
+					$(".search").addClass("btn-info");
+					$(this).parent().children(":last").css("display", "none");
 						if ($(this).html() == "日") {
 							date_value = "day";
 							$(this).removeClass("btn-white");
@@ -216,15 +229,22 @@ $(function(){
 							date_value = "month";
 							$(this).removeClass("btn-white");
 							$(this).addClass("btn-info");
+						}else if ($(this).html() == "按时间选择") {
+							date_value==null;
+							$(this).removeClass("btn-white");
+							$(this).addClass("btn-info");
+							$(this).parent().children(":last").css("display", "block");
+							date_value = "";
 						}
-						var title=$("#topTabs").find(".active").find("a").html()
-								if (title == "健康指标集") {
-									getcharts("#rtratio", "健康指标集","#4cb117",date_value);
-									historyTrendQuery(date_value);
-								} else {
-									getcharts("#ratiotrend", "专家指标集","#1c84c6",date_value);
-								}
-							
+						if(date_value != ""){
+							var title=$("#topTabs").find(".active").find("a").html()
+							if (title == "健康诊断结果") {
+								getcharts("#rtratio", "健康诊断结果","rgb(46,199,201)",date_value,"","");
+								historyTrendQuery(date_value,"","");
+							} else {
+								getcharts("#ratiotrend", "专家指标集","#1c84c6",date_value,"","");
+							}
+						}
 					});
 	
 	$.ajax({
@@ -245,7 +265,12 @@ $(function(){
 		        clickToSelect : true,
 		        //sidePagination : 'server',// 设置为服务器端分页
 		        columns : [
-		            { field : "alarm_id", title : "序号", align : "center", valign : "middle"},
+		            {  
+                        title: '序号',align : "center", valign : "middle",
+                        formatter: function (value, row, index) {  
+                            return index+1;  
+                        }  
+                    },
 		            { field : "occurrence_time", title : "发生时间", align : "center", valign : "middle",
 		            	formatter:function(value,row,index){
 			                  var jsDate = new Date(value);
@@ -253,7 +278,8 @@ $(function(){
 			                   return UnixTimeToDate;
 			                 }
 		            },
-		            { field : 'reasons', title : '风险提示', align : 'center', valign : 'middle' }
+		            { field : 'reasons', title : '工单原因', align : 'center', valign : 'middle' },
+		            { field : 'monitor_content', title : '监控内容', align : 'center', valign : 'middle' }
 		        ],
 		       /* onPageChange : function(size, number) {
 		        	 	var data = {};
@@ -266,19 +292,34 @@ $(function(){
 		    });
 		}
 	});
-	getcharts("#rtratio", "健康指标集","#4cb117",date_value);
+	getcharts("#rtratio", "健康诊断结果","rgb(46,199,201)",date_value);
 	///
-	historyTrendQuery(date_value);
+	historyTrendQuery(date_value,"","");
 });
+//按日期查询按钮
+function query(){
+	starttime=$("#starttime").val();
+	endtime=$("#endtime").val();
+	date_value="";
+	var title=$("#topTabs").find(".active").find("a").html()
+	if (title == "健康诊断结果") {
+		getcharts("#rtratio", "健康诊断结果","rgb(46,199,201)","select",starttime,endtime);
+		historyTrendQuery("select",starttime,endtime);
+	} else {
+		getcharts("#ratiotrend", "专家指标集","#1c84c6","select",starttime,endtime);
+	}
+}
 /*
  * 历史曲线
  */
-function historyTrendQuery(type) {
+function historyTrendQuery(type,starttime,endtime) {
 	$.ajax({
 				url : historyurl,
 				data : {
 					'cellname' : cellname,
-					'type' : type
+					'type' : type,
+					"starttime":starttime,
+					"endtime":endtime
 				},
 				type : "POST",
 				async:false,
@@ -322,14 +363,45 @@ function historyTrendQuery(type) {
 						}
 						histroy_trend.xAxis.data = axis;
 						histroy_trend.series[0].data = data2;
-						histroy_trend.series[1].data = data2;
+						//
+						 histroy_trend.series[1].data = bottom_spli;
+		                 histroy_trend.series[2].data = middle_split;
+		                 histroy_trend.series[3].data = top_split;
+						//
+						/*histroy_trend.series[1].data = data2;
 	                    histroy_trend.series[2].data = data2;
 	                    histroy_trend.series[3].data = bottom_spli;
 	                    histroy_trend.series[4].data = middle_split;
-	                    histroy_trend.series[5].data = top_split;
-	                    historyCharts.setOption(histroy_trend);
-	                    historyCharts.resize();
+	                    histroy_trend.series[5].data = top_split;*/
+					}else{
+						var lasttime=starttime;
+						for (var i = 0; i < 24; i++) {
+							axis.push(lasttime+" "+i+":00");
+							
+							var b_arr = [];
+							b_arr.push(lasttime);
+							b_arr.push(25);
+							bottom_spli.push(b_arr);
+							var s_arr = [];
+							s_arr.push(lasttime);
+							s_arr.push(55);
+							middle_split.push(s_arr);
+							var t_arr = [];
+							t_arr.push(lasttime);
+							t_arr.push(20);
+							top_split.push(t_arr);
+							
+							data2.push("");
+						}
+						histroy_trend.xAxis.data = axis;
+						histroy_trend.series[0].data = data2;
+						//
+						 histroy_trend.series[1].data = bottom_spli;
+		                 histroy_trend.series[2].data = middle_split;
+		                 histroy_trend.series[3].data = top_split;
 					}
+					historyCharts.setOption(histroy_trend);
+                    historyCharts.resize();
 					//loading隐藏
                 	/*$("#ratiotrend_loadbk").hide();
                 	$("#ratiotrend_load").hide();*/
@@ -342,16 +414,21 @@ function switchTab(id, title,color){
 	$(".datePicker").parent().find("button").addClass("btn-white");
 	$(".datePicker").parent().find("button:first").removeClass("btn-white");
 	$(".datePicker").parent().find("button:first").addClass("btn-info");
-	getcharts(id, title,color,"day");
+	getcharts(id, title,color,"day","","");
 }
-function getcharts(id, title,color,date_value){
+function getcharts(id, title,color,date_value,starttime,endtime){
 	//loading显示
 	/*$("#ratiotrend_loadbk").show();
 	$("#ratiotrend_load").show();*/
 	$.ajax({
 		url:dataUrl,
 		type:"post",
-		data:{"cellname":cellname,"type":date_value},
+		data:{
+			"cellname":cellname,
+			"type":date_value,
+			"starttime":starttime,
+			"endtime":endtime,
+		},
 		success:function(data){
 			data=eval('(' + data + ')');
 			
@@ -360,39 +437,70 @@ function getcharts(id, title,color,date_value){
 			middle_split=[];
 			top_split=[];
 			dataArr=[];
-			if(data.rows.length>1){
-				$.each(data.rows,function(i,e){
-					var lasttime=e.yyyymmdd;
-					for (var j = 0; j < 24; j++) {
+			if(data.rows.length>0){
+				if(data.rows.length>1){
+					$.each(data.rows,function(i,e){
+						var lasttime=e.yyyymmdd;
+						for (var j = 0; j < 24; j++) {
+							var arr = [];
+							arr.push(lasttime+" "+j+":00");
+							arr.push(1);
+							bottom_spli.push(arr);
+							middle_split.push(arr);
+							top_split.push(arr);
+							times.push(lasttime+" "+j+":00");
+							if(j<10){
+								if(e["range_0"+j]==0){
+									dataArr.push(0.5);
+								}else if(e["range_0"+j]==1){
+									dataArr.push(1.5);
+								}else if(e["range_0"+j]==2){
+									dataArr.push(2.5);
+								}
+							}else{
+								if(e["range_"+j]==0){
+									dataArr.push(0.5);
+								}else if(e["range_"+j]==1){
+									dataArr.push(1.5);
+								}else if(e["range_"+j]==2){
+									dataArr.push(2.5);
+								}
+							}
+							
+						}
+					});
+				}else{
+					var lasttime=data.rows[0].yyyymmdd;
+					for (var i = 0; i < 24; i++) {
 						var arr = [];
-						arr.push(lasttime+" "+j+":00");
+						arr.push(lasttime+" "+i+":00");
 						arr.push(1);
 						bottom_spli.push(arr);
 						middle_split.push(arr);
 						top_split.push(arr);
-						times.push(lasttime+" "+j+":00");
-						if(j<10){
-							if(e["range_0"+j]==0){
+						times.push(lasttime+" "+i+":00");
+						if(i<10){
+							if(data.rows[0]["range_0"+i]==0){
 								dataArr.push(0.5);
-							}else if(e["range_0"+j]==1){
+							}else if(data.rows[0]["range_0"+i]==1){
 								dataArr.push(1.5);
-							}else if(e["range_0"+j]==2){
+							}else if(data.rows[0]["range_0"+i]==2){
 								dataArr.push(2.5);
 							}
 						}else{
-							if(e["range_"+j]==0){
+							if(data.rows[0]["range_"+i]==0){
 								dataArr.push(0.5);
-							}else if(e["range_"+j]==1){
+							}else if(data.rows[0]["range_"+i]==1){
 								dataArr.push(1.5);
-							}else if(e["range_"+j]==2){
+							}else if(data.rows[0]["range_"+i]==2){
 								dataArr.push(2.5);
 							}
 						}
 						
 					}
-				});
+				}
 			}else{
-				var lasttime=data.rows[0].yyyymmdd;
+				var lasttime=starttime;
 				for (var i = 0; i < 24; i++) {
 					var arr = [];
 					arr.push(lasttime+" "+i+":00");
@@ -401,26 +509,10 @@ function getcharts(id, title,color,date_value){
 					middle_split.push(arr);
 					top_split.push(arr);
 					times.push(lasttime+" "+i+":00");
-					if(i<10){
-						if(data.rows[0]["range_0"+i]==0){
-							dataArr.push(0.5);
-						}else if(data.rows[0]["range_0"+i]==1){
-							dataArr.push(1.5);
-						}else if(data.rows[0]["range_0"+i]==2){
-							dataArr.push(2.5);
-						}
-					}else{
-						if(data.rows[0]["range_"+i]==0){
-							dataArr.push(0.5);
-						}else if(data.rows[0]["range_"+i]==1){
-							dataArr.push(1.5);
-						}else if(data.rows[0]["range_"+i]==2){
-							dataArr.push(2.5);
-						}
-					}
-					
+					dataArr.push("");
 				}
 			}
+			
 			drawEcharts(id, title, times, dataArr,color);
 		}
 	});
@@ -433,7 +525,6 @@ function drawEcharts(id, title, times, data,color) {
 	var mycharts = echarts.init($(id).get(0));
 	var option = {
 		legend : {
-			left : 'top',
 			data : [title]
 		},
 		tooltip : {
@@ -445,8 +536,10 @@ function drawEcharts(id, title, times, data,color) {
 					status="危险";
 				}else if(params[0].value==1.5){
 					status="警告";
-				}else{
+				}else if(params[0].value==2.5){
 					status="正常";
+				}else{
+					status="无";
 				}
 					var res = "时间： "+params[0].name+'<br/>'+params[0].seriesName + ': ' + status
 							+ '<br/>';
@@ -455,6 +548,12 @@ function drawEcharts(id, title, times, data,color) {
 
 			}
 		},
+		toolbox: {
+	        show : true,
+	        feature : {
+	            saveAsImage : {show: true}
+	        }
+	    },
 		dataZoom : {
 			start : 0,
 			end : dataZoom

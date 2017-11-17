@@ -91,7 +91,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<select id="cellhealthtrendWithinSelect" resultType="com.iscas.sdas.dto.cell.BaseCellHealth">
 		SELECT * FROM t_cell_health_info WHERE cell_code=#{cellname} and health_flag = 0
-		and STR_TO_DATE(yyyyMMdd,'%Y%m%d') BETWEEN #{start} AND #{end} ORDER BY
+		and STR_TO_DATE(yyyyMMdd,'%Y%m%d') BETWEEN #{starttime} AND #{endtime} ORDER BY
 		yyyyMMdd
 	</select>
 	<select id="allcells" resultType="java.lang.String">

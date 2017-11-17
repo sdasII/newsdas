@@ -15,6 +15,7 @@
 	src="http://api.map.baidu.com/api?v=2.0&ak=EmXf0NLcNCvBO5hdDliGtvC9D5v6GA5K"></script>
 <script type="text/javascript"
 	src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+	<script src="${context}/lib/hplus/js/plugins/layer/laydate/laydate.js"></script>
 <link href="${context}/style/loader.css" rel="stylesheet"
 	type="text/css">
 <link
@@ -101,8 +102,8 @@ input {
 			<div class="col-sm-6">
 				<div class="ibox-title">
 					<h5>当前时段风险预警</h5>
-					<a href="javascript:;" onclick="toTableData('${cellname}')"
-						style="float: right; margin-right: 20px"><h5>查看详情</h5></a>
+					<%-- <a href="javascript:;" onclick="toTableData('${cellname}')"
+						style="float: right; margin-right: 20px"><h5>查看详情</h5></a> --%>
 				</div>
 				<div class="ibox-content">
 					<!-- loading -->
@@ -148,6 +149,23 @@ input {
 									type="button">周</button>
 								<button class="btn btn-white datePicker" id="workinmonth"
 									type="button">月</button>
+									<button class="btn btn-white datePicker" type="button">按时间选择</button>
+												<div id="timeselect" style="display: none; float: left;">
+													<input
+														style="margin-left: 5px; margin-top: -7px !important;"
+														id="starttime" class="layer-date starttime"
+														placeholder="请输入开始时间"
+														onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+													<span id="span"
+														style="margin-top: -10px; display: inline !important;"
+														class="input-group-addon">到</span> <input
+														style="margin-top: -7px !important;"
+														class="layer-date endtime" id="endtime"
+														placeholder="请输入结束时间"
+														onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+													<button class="btn btn-info search" type="button"
+														onclick="query()">确定</button>
+												</div>
 							</div>
 						</div>
 						<!-- loading -->
@@ -159,11 +177,11 @@ input {
 						<!-- loading -->
 						<div class="tabs-container">
 							<ul class="nav nav-tabs" id="topTabs">
-								<li onclick="switchTab('#rtratio','健康指标集','#4cb117')"
+								<li onclick="switchTab('#rtratio','健康诊断结果','rgb(46,199,201)')"
 									class="active"><a data-toggle="tab" href="#tab-1"
-									aria-expanded="true">健康指标集</a></li>
-								<li onclick="switchTab('#ratiotrend','专家指标集','#1c84c6')"
-									class=""><a data-toggle="tab" aria-expanded="false">专家指标集</a><!--  href="#tab-2" --></li>
+									aria-expanded="true">健康诊断结果</a></li>
+								<!-- <li onclick="switchTab('#ratiotrend','专家指标集','#1c84c6')"
+									class=""><a data-toggle="tab" aria-expanded="false">专家指标集</a> href="#tab-2"</li> -->
 							</ul>
 						</div>
 						<div class="tab-content">

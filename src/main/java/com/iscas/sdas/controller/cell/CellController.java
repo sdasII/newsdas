@@ -123,8 +123,8 @@ public class CellController {
 		String cellname = request.getParameter("cellname");
 		String starttime = null,endtime = null;
 		if ("select".equals(type)) {
-			starttime = request.getParameter("start");
-			endtime = request.getParameter("end");
+			starttime = request.getParameter("starttime");
+			endtime = request.getParameter("endtime");
 		}
 		List<TotalHealthInfoDto> list = cellService.generateCellHealthTrend(cellname,type,starttime,endtime);
 		map.addAttribute(Constraints.RESULT_ROW, list);
@@ -265,8 +265,8 @@ public class CellController {
 			@RequestParam(value="cellname",required=true)String cellname,
 			@RequestParam(value="type",defaultValue="day",required=true)String type){
 
-		String start = request.getParameter("start");
-		String end = request.getParameter("end");
+		String start = request.getParameter("starttime");
+		String end = request.getParameter("endtime");
 		
 		ModelMap map = new ModelMap();
 		List<CellResultHistoryDto> list = cellService.cellResultHistroy(cellname, type, start, end);
