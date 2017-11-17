@@ -36,7 +36,7 @@ input {
 
 .loading_bk {
 	/* display: none; */
-	height: 80%;
+	height: 85%;
 	width: 95%;
 	min-height: 310px;
 	background-color: #777;

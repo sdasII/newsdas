@@ -325,7 +325,6 @@ function historyTrendQuery(type,starttime,endtime) {
 					"endtime":endtime
 				},
 				type : "POST",
-				async:false,
 				success : function(data, status) {
                     var data = eval('(' + data + ')');
 					var list = data.rows;
@@ -405,8 +404,7 @@ function historyTrendQuery(type,starttime,endtime) {
 					}
 					historyCharts.setOption(histroy_trend);
                     historyCharts.resize();
-					//loading隐藏
-                	$("#ratiotrend_loadbk").hide();
+                    $("#ratiotrend_loadbk").hide();
                 	$("#ratiotrend_load").hide();
 				}
 			});
@@ -420,10 +418,18 @@ function switchTab(id, title,color){
 	getcharts(id, title,color,"day","","");
 }
 function getcharts(id, title,color,date_value,starttime,endtime){
+	//loading显示
+	$("#ratiotrend_loadbk").show();
+	$("#ratiotrend_load").show();
+	//loading隐藏
+	/*setTimeout(function(){
+		$("#ratiotrend_loadbk").hide();
+    	$("#ratiotrend_load").hide();
+	},2000);*/
+	
 	$.ajax({
 		url:dataUrl,
 		type:"post",
-		async:false,
 		data:{
 			"cellname":cellname,
 			"type":date_value,
@@ -431,12 +437,7 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 			"endtime":endtime,
 		},
 		success:function(data){
-			//loading显示
-			$("#ratiotrend_loadbk").show();
-			$("#ratiotrend_load").show();
-			
 			data=eval('(' + data + ')');
-			
 			times=[];
 			bottom_spli=[];
 			middle_split=[];
