@@ -57,6 +57,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		DESC LIMIT 1) AND cell_code= #{cellname} and health_flag = 0 ORDER BY
 		yyyyMMdd LIMIT 1
 	</select>
+	<select id="cellhealthtrendDay" parameterType="java.lang.String"
+		resultType="com.iscas.sdas.dto.cell.BaseCellHealth">
+		SELECT * FROM t_cell_health_info WHERE
+		STR_TO_DATE(yyyyMMdd,'%Y%m%d') > DATE_SUB((SELECT yyyyMMdd FROM
+		t_cell_health_info WHERE cell_code = #{cellname} ORDER BY yyyyMMdd
+		DESC LIMIT 1),INTERVAL 1 DAY) AND cell_code=#{cellname} and
+		health_flag = 0 ORDER BY yyyyMMdd
+	</select>
 	<select id="cellhealthtrend" parameterType="java.lang.String"
 		resultType="com.iscas.sdas.dto.cell.BaseCellHealth">
 		SELECT * FROM t_cell_health_info WHERE

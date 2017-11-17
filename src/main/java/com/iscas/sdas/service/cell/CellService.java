@@ -65,8 +65,10 @@ public class CellService{
 	public List<TotalHealthInfoDto> generateCellHealthTrend(String cellname,String type,String start,String end){
 		List<TotalHealthInfoDto> result = null;
 		try {
-			List<BaseCellHealth> cellHealths;		
-			if ("week".equals(type)) {
+			List<BaseCellHealth> cellHealths;
+			if ("day".equals(type)) {
+				cellHealths = cellDao.cellhealthtrendDay(cellname);
+			}else if ("week".equals(type)) {
 				cellHealths = cellDao.cellhealthtrend(cellname);
 			}else if ("month".equals(type)) {
 				cellHealths = cellDao.cellhealthtrendWithinOneMonth(cellname);
@@ -76,7 +78,9 @@ public class CellService{
 			if (cellHealths!=null && cellHealths.size()>0) {
 				List<String> complaints = complaintsWithinCurrenttime(cellname,type,start,end);//投诉工单
 				String begintime = cellHealths.get(0).getYyyyMMdd();
-				if ("week".equals(type)) {
+				if ("day".equals(type)) {
+					result = originData(1, begintime);
+				}else if ("week".equals(type)) {
 					result = originData(7, begintime);
 				}else if ("month".equals(type)) {
 					result = originData(30, begintime);

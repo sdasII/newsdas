@@ -18,6 +18,12 @@ public interface CellDao {
 	
 	String getgroup(String cellname);
 	/**
+	 * 最新一天的健康度
+	 * @param cellname
+	 * @return
+	 */
+	List<BaseCellHealth> cellhealthtrendDay(String cellname);
+	/**
 	 * 一个周的健康度
 	 * @param cellname
 	 * @return
