@@ -270,7 +270,7 @@ public class CellService{
 			int days = CommonUntils.daysInMonth(tempyear, tempmonth);//一月多少天
 			tempday  =  Integer.parseInt(begintime.substring(6))+i<=days?Integer.parseInt(begintime.substring(6))+i:Integer.parseInt(begintime.substring(6))+i-days;
 
-			if (Integer.parseInt(begintime.substring(6))+i>30) {
+			if (Integer.parseInt(begintime.substring(6))+i>days) {
 				if (tempmonth<12) {
 					tempmonth = tempmonth + 1;
 				}else {
@@ -292,17 +292,19 @@ public class CellService{
 	}
 	private List<TotalHealthInfoDto> originDataSelect(String starttime,String endtime){
 		List<TotalHealthInfoDto> list = new ArrayList<>();
-		Date start = new Date(Integer.parseInt(starttime.substring(0, 4)), Integer.parseInt(starttime.substring(4, 6)), Integer.parseInt(starttime.substring(6)));
-		Date end = new Date(Integer.parseInt(endtime.substring(0, 4)), Integer.parseInt(endtime.substring(4, 6)), Integer.parseInt(endtime.substring(6)));
+		int startmonth = Integer.parseInt(starttime.substring(4, 6))-1;
+		int endmonth = Integer.parseInt(endtime.substring(4, 6))-1;
+		Date start = new Date(Integer.parseInt(starttime.substring(0, 4)), startmonth, Integer.parseInt(starttime.substring(6)));
+		Date end = new Date(Integer.parseInt(endtime.substring(0, 4)), endmonth, Integer.parseInt(endtime.substring(6)));
 		int day = CommonUntils.differentDaysByMillisecond(start, end);
-		for (int i = 0; i < day; i++) {
+		for (int i = 0; i < day+1; i++) {
 			int tempyear  = Integer.parseInt(starttime.substring(0, 4));
 			int tempmonth  = Integer.parseInt(starttime.substring(4, 6));
 			int tempday;
 			int days = CommonUntils.daysInMonth(tempyear, tempmonth);//一月多少天
 			tempday  =  Integer.parseInt(starttime.substring(6))+i<=days?Integer.parseInt(starttime.substring(6))+i:Integer.parseInt(starttime.substring(6))+i-days;
 
-			if (Integer.parseInt(starttime.substring(6))+i>30) {
+			if (Integer.parseInt(starttime.substring(6))+i>days) {
 				if (tempmonth<12) {
 					tempmonth = tempmonth + 1;
 				}else {

@@ -155,7 +155,7 @@ input {
 														style="margin-left: 5px; margin-top: -7px !important;"
 														id="starttime" class="layer-date starttime"
 														placeholder="请输入开始时间"
-														onclick="laydate({istime: true, format: 'YYYYMMDD'})">
+														onclick="laydate({istime: false, format: 'YYYYMMDD'})">
 
 													<span id="span"
 														style="margin-top: -10px; display: inline !important;"
