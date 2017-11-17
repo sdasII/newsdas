@@ -118,7 +118,7 @@ public class CellController {
 	@RequestMapping("/healthtrend")
 	@ResponseBody
 	public ModelMap healthtrend(HttpServletRequest request,
-			@RequestParam(required=true,defaultValue="week",value="type")String type){
+			@RequestParam(required=true,defaultValue="day",value="type")String type){
 		ModelMap map = new ModelMap();
 		String cellname = request.getParameter("cellname");
 		String starttime = null,endtime = null;
