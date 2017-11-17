@@ -156,6 +156,7 @@ input {
 														id="starttime" class="layer-date starttime"
 														placeholder="请输入开始时间"
 														onclick="laydate({false: true, format: 'YYYYMMDD'})">
+
 													<span id="span"
 														style="margin-top: -10px; display: inline !important;"
 														class="input-group-addon">到</span> <input
@@ -163,6 +164,7 @@ input {
 														class="layer-date endtime" id="endtime"
 														placeholder="请输入结束时间"
 														onclick="laydate({istime: false, format: 'YYYYMMDD'})">
+
 													<button class="btn btn-info search" type="button"
 														onclick="query()">确定</button>
 												</div>
