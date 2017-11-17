@@ -33,7 +33,13 @@
 				<c:forEach items="${firstMenu}" var="menu">
 					<!-- 只有一级菜单的情况 -->
 					<c:if test="${fun:length(menu.menus) == 0}">
-						<li><c:if test="${menu.MENU_NAME=='首页'}">
+						<li>
+							<a class="J_menuItem" href="${context}${menu.MENU_URL}">
+								<i class="fa fa-columns"></i><span class="nav-label">${menu.MENU_NAME}</span>
+							</a>
+						</li>
+						
+						<%-- <li><c:if test="${menu.MENU_NAME=='首页'}">
 								<a class="J_menuItem" href="${context}${menu.MENU_URL}"> <i
 									class="fa fa-home"></i> <span class="nav-label">${menu.MENU_NAME}</span>
 									<span class="fa arrow"></span>
@@ -61,13 +67,17 @@
 									class="fa arrow"></span>
 								</a>
 							</c:if> 
-						</li>
+						</li> --%>
 					</c:if>
 					<!-- 一级菜单下有二级菜单 -->
 					<c:if test="${fun:length(menu.menus) > 0}">
 						<li>
+							
 							<!-- 显示一级菜单 --> 
-							<c:if test="${menu.MENU_NAME=='工单信息'}">
+							<a href="#"> <i class="fa fa-list"></i>
+								<span class="nav-label">${menu.MENU_NAME}</span> <span class="fa arrow"></span>
+							</a> 
+							<%-- <c:if test="${menu.MENU_NAME=='工单信息'}">
 								<a href="#"> <i class="fa fa fa-bar-chart-o"></i> <span
 									class="nav-label">${menu.MENU_NAME}</span> <span
 									class="fa arrow"></span>
@@ -78,7 +88,7 @@
 									class="nav-label">${menu.MENU_NAME}</span> <span
 									class="fa arrow"></span>
 								</a>
-							</c:if> 
+							</c:if>  --%>
 							<!-- 循环显示二级菜单 -->
 							<ul class="nav nav-second-level">
 								<!-- 二级菜单下无三级菜单 -->

@@ -36,20 +36,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<select id="alarmLastHour" resultType="com.iscas.sdas.dto.AlarmDto"
 		parameterType="com.iscas.sdas.dto.AlarmDto">
-		SELECT * FROM t_cell_result_index_info WHERE app_hour= (SELECT
-		app_hour FROM t_cell_result_index_info WHERE yyyyMMdd = (SELECT yyyyMMdd
-		FROM t_cell_result_index_info ORDER BY yyyyMMdd DESC LIMIT 1) ORDER BY
+		SELECT * FROM t_cell_result_info WHERE app_hour= (SELECT
+		app_hour FROM t_cell_result_info WHERE yyyyMMdd = (SELECT yyyyMMdd
+		FROM t_cell_result_info ORDER BY yyyyMMdd DESC LIMIT 1) ORDER BY
 		app_hour DESC LIMIT 1) AND yyyyMMdd = (SELECT yyyyMMdd FROM
-		t_cell_result_index_info ORDER BY yyyyMMdd DESC LIMIT 1)
+		t_cell_result_info ORDER BY yyyyMMdd DESC LIMIT 1)
 		<if test="app_result != null">
 			and app_result = #{app_result}
 		</if>
 	</select>
 	<select id="getLastDay" resultType="java.lang.String">
-		SELECT yyyyMMdd FROM t_cell_result_index_info ORDER BY yyyyMMdd DESC LIMIT 1
+		SELECT yyyyMMdd FROM t_cell_result_info ORDER BY yyyyMMdd DESC LIMIT 1
 	</select>
 	<select id="getLastHour" resultType="java.lang.String">
-		SELECT app_hour FROM t_cell_result_index_info WHERE yyyyMMdd = (SELECT yyyyMMdd
+		SELECT app_hour FROM t_cell_result_info WHERE yyyyMMdd = (SELECT yyyyMMdd
 		FROM t_cell_result_info ORDER BY yyyyMMdd DESC LIMIT 1) ORDER BY app_hour DESC LIMIT 1
 	</select>
 </mapper>

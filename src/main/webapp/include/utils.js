@@ -27,48 +27,35 @@ function iframeconvert(url,iframe,params) {
 
     var target_url = url;
     if (params != undefined) {
-		for (var i = 0; i < params.length; i++) {
-			if (i == 0) {
-				target_url += "?" + params[i].key + "=" + params[i].value;
-			} else {
-				target_url += "&" + params[i].key + "=" + params[i].value;
-			}
-		}
-	}
-    var iframeId="";
-    if(url.indexOf("home")>-1){
-    	iframeId="iframe_home";
-    }else if(url.indexOf("todetail")>-1){
-    	iframeId="iframe_detail";
+        for (var i = 0; i < params.length; i++) {
+            if (i == 0) {
+                target_url += "?" + params[i].key + "=" + params[i].value;
+            } else {
+                target_url += "&" + params[i].key + "=" + params[i].value;
+            }
+        }
     }
+    
     var item = $('<a href="#" class="active J_menuTab" data-id="'
             + url + '">'+iframe+' <i class="fa fa-times-circle"></i></a>');
     var content = $('<iframe class="J_iframe" name="iframe10" width="100%" height="100%" src="'
-            + target_url + '" id="'+iframeId+'" frameborder="0" data-id="' + url + '" seamless></iframe>');
+            + target_url + '" frameborder="0" data-id="' + url + '" seamless></iframe>');
 
     a_parent.children("a").removeClass("active");
-    if(target_url.indexOf("alarm/todetail")>-1&&a_parent.find("a").length>1){
-    	a_parent.find("a:last").addClass("active");
+
+    if (a_parent.has('a[data-id="' + url + '"]').length > 0) {
+        a_parent.children('a[data-id="' + url + '"]').addClass("active");
         iframe_parent.children("iframe").css("display", "none");
         iframe_parent.children().remove('iframe[data-id="' + url + '"]');
         content.css("display", "inline");
         iframe_parent.prepend(content);
-    }else{
-    	if (a_parent.has('a[data-id="' + url + '"]').length > 0) {
-            a_parent.children('a[data-id="' + url + '"]').addClass("active");
-            iframe_parent.children("iframe").css("display", "none");
-            iframe_parent.children().remove('iframe[data-id="' + url + '"]');
-            content.css("display", "inline");
-            iframe_parent.prepend(content);
-        } else {
-            content.css("display", "inline");
-            a_parent.append(item);
-            iframe_parent.children("iframe").css("display", "none");
-            iframe_parent.prepend(content);
-        }
+    } else {
+        content.css("display", "inline");
+        a_parent.append(item);
+        iframe_parent.children("iframe").css("display", "none");
+        iframe_parent.prepend(content);
     }
 }
-
 
 /**
  * 非表格数据用ajax请求
