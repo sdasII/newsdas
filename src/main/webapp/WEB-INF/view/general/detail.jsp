@@ -139,7 +139,7 @@ input {
 					<div class="ibox-title">
 						<h5>详细信息</h5>
 					</div>
-					<div class="ibox-content">
+					<div class="ibox-content" style="overflow: auto">
 						<div class="ibox-tools">
 							<div class="btn-group">
 								<button class="btn btn-info datePicker" id="workday"
@@ -169,13 +169,13 @@ input {
 						<div class="tab-content">
 							<div id="tab-1" class="tab-pane active">
 								<div class="panel-body">
-									<div id="rtratio" style="width: 950px; height: 350px;margin-bottom: 30px"></div>
-									<div id="historyCharts" style="width: 850px;height: 300px;"></div>
+									<div id="rtratio" style="width: 1250px; height: 350px;margin-bottom: 30px"></div>
+									<div id="historyCharts" style="width: 1250px;height: 300px;"></div>
 								</div>
 							</div>
 							<div id="tab-2" class="tab-pane">
 								<div class="panel-body">
-									<div id="ratiotrend" style="width: 950px; height: 350px;"></div>
+									<div id="ratiotrend" style="width: 1250px; height: 350px;"></div>
 								</div>
 							</div>
 						</div>

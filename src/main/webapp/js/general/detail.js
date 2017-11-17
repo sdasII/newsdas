@@ -28,6 +28,7 @@ var histroy_trend = {
 		xAxis : {
 			type : 'category',
 			scale : true,
+			boundaryGap: false,
 			data : []
 		},
 		yAxis : {
@@ -286,6 +287,9 @@ function historyTrendQuery(type) {
 					var list = data.rows;
 					var axis = [];
 					var data2 = [];
+					bottom_spli=[];
+					middle_split=[];
+					top_split=[];
 					if(list!=null){
 						for (var z = 0; z < list.length; z++) {
 							var timer = list[z].time;
@@ -324,10 +328,11 @@ function historyTrendQuery(type) {
 	                    histroy_trend.series[4].data = middle_split;
 	                    histroy_trend.series[5].data = top_split;
 	                    historyCharts.setOption(histroy_trend);
+	                    historyCharts.resize();
 					}
 					//loading隐藏
-                	$("#ratiotrend_loadbk").hide();
-                	$("#ratiotrend_load").hide();
+                	/*$("#ratiotrend_loadbk").hide();
+                	$("#ratiotrend_load").hide();*/
 				}
 			});
 }
@@ -341,8 +346,8 @@ function switchTab(id, title,color){
 }
 function getcharts(id, title,color,date_value){
 	//loading显示
-	$("#ratiotrend_loadbk").show();
-	$("#ratiotrend_load").show();
+	/*$("#ratiotrend_loadbk").show();
+	$("#ratiotrend_load").show();*/
 	$.ajax({
 		url:dataUrl,
 		type:"post",

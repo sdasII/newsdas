@@ -725,8 +725,8 @@ function commonAjax(url, data, type,gridid) {
 }
 $(function() {
 	// loading初始化显示
-	$(".loading_bk").show();
-	$(".loading").show();
+	/*$(".loading_bk").show();
+	$(".loading").show();*/
 	/*
 	 * 投诉工单
 	 */
@@ -885,8 +885,8 @@ $(function() {
                     //histroy_trend.series[3].data = data2;
 					ratiotrend.setOption(histroy_trend);
 					//loading隐藏
-                	$("#ratiotrend_loadbk").hide();
-                	$("#ratiotrend_load").hide();
+                	/*$("#ratiotrend_loadbk").hide();
+                	$("#ratiotrend_load").hide();*/
 				}
 			});
 	/**
