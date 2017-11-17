@@ -7,8 +7,11 @@ import org.apache.ibatis.annotations.Param;
 import com.iscas.sdas.dto.GroupIndexMeatdata;
 import com.iscas.sdas.dto.cell.BaseCellHealth;
 import com.iscas.sdas.dto.cell.CellDto;
+import com.iscas.sdas.dto.cell.CellInfoDto;
 
 public interface CellDao {
+	
+	List<CellInfoDto> select(CellInfoDto dto);
 	
 	List<CellDto> getcells(CellDto cell);
 

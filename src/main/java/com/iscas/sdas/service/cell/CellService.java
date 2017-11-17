@@ -25,6 +25,7 @@ import com.iscas.sdas.dto.TotalHealthInfoDto;
 import com.iscas.sdas.dto.cell.BaseCellHealth;
 import com.iscas.sdas.dto.cell.CellDto;
 import com.iscas.sdas.dto.cell.CellHealthTableDto;
+import com.iscas.sdas.dto.cell.CellInfoDto;
 import com.iscas.sdas.dto.cell.CellResultHistoryDto;
 import com.iscas.sdas.dto.cell.MomentDto;
 import com.iscas.sdas.util.CommonUntils;
@@ -41,6 +42,10 @@ public class CellService{
 	ComplainDao complainDao;
 	@Autowired
 	CellResultHistoryDao cellResultHistoryDao;
+	
+	public List<CellInfoDto> getCellInfoList(CellInfoDto dto){
+		return cellDao.select(dto);
+	}
 	
 	public List<CellDto> getCellList(CellDto cellDto){
 		return cellDao.getcells(cellDto);

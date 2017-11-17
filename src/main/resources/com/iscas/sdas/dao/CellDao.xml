@@ -3,6 +3,13 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.iscas.sdas.dao.cell.CellDao">
+	<select id="select" parameterType="com.iscas.sdas.dto.cell.CellInfoDto" resultType="com.iscas.sdas.dto.cell.CellInfoDto">
+		SELECT cell_code FROM t_cell_info WHERE in_used=1
+		<if test="cell_code !=null">
+			<bind name="cell_code" value="'%'+ _parameter.getCell_code() +'%'" />
+			and cell_code like #{cell_code}
+		</if>
+	</select>
 	<select id="getcells" resultType="com.iscas.sdas.dto.cell.CellDto">
 		select
 		e_utrancell,network_name,used_band,cover_scene,station_name,group_type

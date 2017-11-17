@@ -26,8 +26,8 @@ import com.iscas.sdas.common.PageDto;
 import com.iscas.sdas.dto.GroupIndexMeatdata;
 import com.iscas.sdas.dto.TotalHealthInfoDto;
 import com.iscas.sdas.dto.cell.BaseCellHealth;
-import com.iscas.sdas.dto.cell.CellDto;
 import com.iscas.sdas.dto.cell.CellHealthTableDto;
+import com.iscas.sdas.dto.cell.CellInfoDto;
 import com.iscas.sdas.dto.cell.CellResultHistoryDto;
 import com.iscas.sdas.service.cell.CellService;
 import com.iscas.sdas.util.CommonUntils;
@@ -66,30 +66,22 @@ public class CellController {
 	public ModelMap getlist(@RequestParam(value = "currpage", required = true, defaultValue = "1") String num,
 			@RequestParam(value = "pageSize", required = true, defaultValue = "10") String size,HttpServletRequest request){
 		ModelMap map = new ModelMap();
-		CellDto cellDto = new CellDto();
+		CellInfoDto cellDto = new CellInfoDto();
 		String name = request.getParameter("name");
-		String scene = request.getParameter("scene");
-		String type = request.getParameter("type");
 		if (!CommonUntils.isempty(name)) {
-			cellDto.setNetwork_name(name);
-		}
-		if (!CommonUntils.isempty(type)&&!"全部".equals(type)) {
-			cellDto.setGroup_type(type);
-		}
-		if (!CommonUntils.isempty(scene)&&!"全部".equals(scene)) {
-			cellDto.setCover_scene(scene);
+			cellDto.setCell_code(name);
 		}
 		int pageNum = Integer.parseInt(num);
 		int pageSize = Integer.parseInt(size);
 		PageHelper.startPage(pageNum, pageSize);
-		List<CellDto> cellDtos = cellService.getCellList(cellDto);
-		PageInfo<CellDto> pageInfo = new PageInfo<>(cellDtos);
-		List<CellDto> rows = new ArrayList<>();
+		List<CellInfoDto> cellDtos = cellService.getCellInfoList(cellDto);
+		PageInfo<CellInfoDto> pageInfo = new PageInfo<>(cellDtos);
+		List<CellInfoDto> rows = new ArrayList<>();
 		for (int i = 0; i < cellDtos.size(); i++) {
-			CellDto dto = cellDtos.get(i);
+			CellInfoDto dto = cellDtos.get(i);
 			rows.add(dto);
 		}
-		PageDto<CellDto> pageDto = new PageDto<>();
+		PageDto<CellInfoDto> pageDto = new PageDto<>();
 		pageDto.setTotal(pageInfo.getTotal());
 		pageDto.setRows(rows);
 		map.addAttribute(Constraints.RESULT_ROW, pageDto);

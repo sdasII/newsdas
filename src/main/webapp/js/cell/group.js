@@ -1,9 +1,7 @@
 /**
- * 小组
+ * 小区列表
  */
 var cellListUrl = ctx + '/cell/getcelllist';
-var groupUrl = ctx + "/cell/group" 
-var groupIndexContentUrl = ctx + "/cell/groupindexcontent";
 
 $(function(){
     $('#table_list_1').bootstrapTable({
@@ -17,10 +15,11 @@ $(function(){
         clickToSelect : true,
         sidePagination : 'server',// 设置为服务器端分页
         columns : [
-            { field : "network_name", title : "小区名称", align : "center", valign : "middle",formatter:function(value,row,index){
+            { field : "cell_code", title : "小区名称", align : "center", valign : "middle"},
+            { field : "", title : "健康监控", align : "center", valign : "middle",formatter:function(value,row,index){
                     var url = ctx + "/alarm/todetail";
-                    var params = "[{\"key\":\"cell_code\",\"value\":\""+row.e_utrancell+"\"}]";
-                    var url = '<a href=javascript:iframeconvert("' + url + '","小区日常监控",' + params + ')>'+value+'</a>';
+                    var params = "[{\"key\":\"cell_code\",\"value\":\""+row.cell_code+"\"}]";
+                    var url = '<a href=javascript:iframeconvert("' + url + '","小区日常监控",' + params + ')>健康监控</a>';
                     return url;
               }
             }            
