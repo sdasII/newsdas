@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iscas.sdas.dao.cell.CellInfoDao">
+	<select id="getPageList" parameterType="java.lang.String"
+		resultType="com.iscas.sdas.dto.cell.CellInfoDto">
+		SELECT * FROM t_cell_info 
+	</select>
+	<select id="getCellinfo" parameterType="com.iscas.sdas.dto.cell.CellInfoDto" resultType="com.iscas.sdas.dto.cell.CellInfoDto">
+		SELECT * FROM t_cell_info  where 1=1
+		<if test="cell_code !=null">
+			 and cell_code=#{cell_code}
+		</if>
+	</select>
+	<select id="update" parameterType="com.iscas.sdas.dto.cell.CellInfoDto" resultType="Integer">
+		UPDATE t_cell_info SET in_used=#{in_used} where cell_code=#{cell_code}; 
+	</select>	
+</mapper>

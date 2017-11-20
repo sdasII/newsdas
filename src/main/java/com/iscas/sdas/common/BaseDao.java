@@ -18,7 +18,7 @@ public interface BaseDao<T> {
 	 * @param t
 	 * @return
 	 */
-	public abstract int update(T t);
+	public abstract Integer update(T t);
 	/**
 	 * 删除
 	 * @param t

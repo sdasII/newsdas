@@ -33,12 +33,28 @@
 				<c:forEach items="${firstMenu}" var="menu">
 					<!-- 只有一级菜单的情况 -->
 					<c:if test="${fun:length(menu.menus) == 0}">
+					<c:if test="${menu.MENU_NAME=='首页'}">
+						<li>
+							<a class="J_menuItem" href="${context}${menu.MENU_URL}">
+								<i class="fa fa-home"></i><span class="nav-label">${menu.MENU_NAME}</span>
+							</a>
+						</li>
+					</c:if>
+					<c:if test="${menu.MENU_NAME=='小区列表'}">
 						<li>
 							<a class="J_menuItem" href="${context}${menu.MENU_URL}">
 								<i class="fa fa-columns"></i><span class="nav-label">${menu.MENU_NAME}</span>
 							</a>
 						</li>
-						
+					</c:if>
+					<c:if test="${menu.MENU_NAME=='小区配置'}">
+						<li>
+							<a class="J_menuItem" href="${context}${menu.MENU_URL}">
+								<i class="fa fa-cog"></i><span class="nav-label">${menu.MENU_NAME}</span>
+							</a>
+						</li>
+					</c:if>
+					
 						<%-- <li><c:if test="${menu.MENU_NAME=='首页'}">
 								<a class="J_menuItem" href="${context}${menu.MENU_URL}"> <i
 									class="fa fa-home"></i> <span class="nav-label">${menu.MENU_NAME}</span>
