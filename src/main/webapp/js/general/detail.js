@@ -253,7 +253,7 @@ $(function(){
 	$.ajax({
 		url:tableUrl,
 		type:"post",
-		data:{"cellname":cellname,"type":date_value},
+		data:{"cellid":cellname,"type":date_value},
 		success:function(data){
 			data=eval('(' + data + ')');
 			$('#alarm_table').bootstrapTable({
