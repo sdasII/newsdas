@@ -22,10 +22,10 @@ $(function(){
                     return index+1;  
                 }
             },
-            { field : "cell_code", title : "小区ID", align : "center", valign : "middle",width:350},
-            { field : "cell_name", title : "小区名称", align : "center", valign : "middle",width:350},
-            { field : "station_code", title : "所属基站", align : "center", valign : "middle",width:250},
-            { field : "in_used", title : "是否在用", align : "center", valign : "middle",
+            { field : "cell_code", title : "小区ID", align : "center", valign : "middle",width:'35%'},
+            { field : "cell_name", title : "小区名称", align : "center", valign : "middle",width:'35%'},
+            { field : "station_code", title : "所属基站", align : "center", valign : "middle",width:'15%'},
+            { field : "in_used", title : "是否在用", align : "center", valign : "middle",width:'5%',
             	formatter:function(value,row,index){
                     if(value=="0"){
                     	return "否";
