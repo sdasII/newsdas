@@ -18,6 +18,7 @@ $("#file3").change(function(e){
 function openIframe(type){
 	top.$("#offline").attr('src',"/newsdas/log/file/page?type="+type);
 }
+var upload_url = ctx + "/data/upload";
 function file_upload(file){
 	var ifupload=true;
 	if(file.length>3){
@@ -84,33 +85,57 @@ function deleteFile(obj){
 	var num=$(obj).attr("id").split("_")[1];
 	initFiles.splice(num,1); 
 }
-function uploadFile(obj){
-	var num=$(obj).attr("id").split("_")[1];
-	var file=initFiles[num];
-	if($(obj).find("i").attr("class").indexOf("upload")>-1){
-		$(obj).find("i").attr("class","fa fa-pause");
-		//上传
+function uploadFile(obj) {
+	var num = $(obj).attr("id").split("_")[1];
+	var file = initFiles[num];
+	if ($(obj).find("i").attr("class").indexOf("upload") > -1) {
+		$(obj).find("i").attr("class", "fa fa-pause");
+		var data = {};
+		data.file = file;
+		data.type = "file";
+		// 上传
 		/*$.ajax({
-		url : "",
-		data:{"file",file}
-		type : 'post',
-		success : function(data) {
-		}
-	});*/
-	}else if($(obj).find("i").attr("class").indexOf("pause")>-1){
-		$(obj).find("i").attr("class","fa fa-play");
-		//暂停
+					url : upload_url,
+					data : data,
+					type : 'post',
+					success : function(data) {
+					}
+				});*/
+        upload(file);
+	} else if ($(obj).find("i").attr("class").indexOf("pause") > -1) {
+		$(obj).find("i").attr("class", "fa fa-play");
+		// 暂停
+		var data = {};
+		data.file = file;
+		data.type = "file";
 		/*$.ajax({
-		url : "",
-		data:{"file",file}
-		type : 'post',
-		success : function(data) {
-		}
-	});*/
+					url : upload_url,
+					data : data,
+					type : 'post',
+					success : function(data) {
+					}
+				});*/
+        upload(file);
 	}
-	
-	
 }
+
+function upload(f){
+    data = {};
+    data.file = f;
+    data.type = "file";
+    $.ajax({
+        url : upload_url,
+        data : data,
+        type : 'post',
+        success : function(data) {
+            alert(data);
+        },
+        error : function(status){
+            alert(status)
+        }
+    });
+}
+
 function submit_upload(id,formid){
     var value = $(id).val();
 	if($(id).val()==""){
