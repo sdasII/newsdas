@@ -1,5 +1,5 @@
 # sdas
-<b>the station of data staistic system to guangzhou mobile</b><br>
+the station of data staistic system to guangzhou mobile<br>
 <small>基于r语言和大数据等技术实现对移动工单的验证，通过海量数据的分析显示对未来时刻的预警</small><br>
 <small>本系统作为上述算法验证的演示系统</small><br>
 <h1>introduce</h1>

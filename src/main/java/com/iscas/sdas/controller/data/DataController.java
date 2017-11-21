@@ -1,5 +1,6 @@
 package com.iscas.sdas.controller.data;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.iscas.sdas.dto.FileLogDto;
@@ -21,6 +24,8 @@ import com.iscas.sdas.service.log.FileLogService;
 import com.iscas.sdas.service.work.OutServerService;
 import com.iscas.sdas.util.CommonUntils;
 import com.iscas.sdas.util.Constraints;
+import com.iscas.sdas.util.ContinueFTP;
+import com.iscas.sdas.util.FTPStatus;
 import com.iscas.sdas.util.FileImport;
 
 import tasks.realtime.CellUploadFileOfExpertTask;
@@ -186,18 +191,34 @@ public class DataController{
 				}
 			}
 		}else if ("file".equals(type)) {
-			try {	
-				//String filepath = "E:/";
-				String filepath = "/home/hadoop/systempdata/";
-				CommonUntils.MultipleFileImport(fileLogService,request, filepath,"中兴网管指标原始数据");
+			/*try {	
+				CommonUntils.MultipleFileImport(fileLogService,request,"中兴网管指标原始数据");
 				modelAndView.addObject("success", Constraints.RESULT_SUCCESS);														
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 				modelAndView.addObject("success", Constraints.RESULT_FAIL+ ":上传失败！");
-			}
+			}*/
+			FTPStatus status = originDateUpload(request);
+			modelAndView.addObject("success", status);
 		}
 		return modelAndView;
+	}
+	
+	private FTPStatus originDateUpload(HttpServletRequest request) {
+		MultipartHttpServletRequest mutiRequest = (MultipartHttpServletRequest) request;
+		MultipartFile sourceFile = mutiRequest.getFiles("file").get(0);
+		String filename = sourceFile.getOriginalFilename();
+		ContinueFTP myFtp = new ContinueFTP();
+		try {
+			myFtp.connect("49.4.6.47", 21, "ftpadmin", "ftp_qd123");
+			FTPStatus status = myFtp.upload(sourceFile, "/home/hadoop/systempdata/" + filename);
+			myFtp.disconnect();
+			return status;
+		} catch (IOException e) {
+			return FTPStatus.CONNECT_FAIL;
+		}
+
 	}
 
 }

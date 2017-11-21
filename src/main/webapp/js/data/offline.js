@@ -55,6 +55,7 @@ function file_upload(file){
 	}
 }
 function submit_upload(id,formid){
+    var value = $(id).val();
 	if($(id).val()==""){
 		 alert("请选择文件进行上传");
 	}else{

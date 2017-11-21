@@ -214,7 +214,7 @@ public class CommonUntils {
 					int index = file.getOriginalFilename().lastIndexOf(".");
 					if (index>0) {
 						String filename = file.getOriginalFilename().substring(0, index) +"-"+ System.currentTimeMillis()+file.getOriginalFilename().substring(index);
-						String filepath = request.getServletContext().getRealPath("/WEB-INF/order/") + filename;
+						String filepath = "/home/hadoop/systempdata/" + filename;
 						logger.error(filename);
 						logger.error(file.getOriginalFilename());
 						File targetfile = new File(filepath);
@@ -255,7 +255,7 @@ public class CommonUntils {
 					int index = file.getOriginalFilename().lastIndexOf(".");
 					if (index>0) {
 						String filename = file.getOriginalFilename().substring(0, index) +"-"+ System.currentTimeMillis()+file.getOriginalFilename().substring(index);
-						String filepath = request.getServletContext().getRealPath("/WEB-INF/order/") + filename;
+						String filepath = "/home/hadoop/systempdata/" + filename;
 						fileLogDto.setFilename(file.getOriginalFilename());						
 						File targetfile = new File(filepath);
 						if (targetfile.exists()) {
@@ -270,7 +270,7 @@ public class CommonUntils {
 		return null;
 	}
 	/**
-	 * 将多文件上传到指定目录(数据导入专用)
+	 * 将多文件上传到/home/hadoop/systempdata/目录(数据导入专用)
 	 * @param request
 	 * @param filepath
 	 * @param filename
@@ -279,19 +279,17 @@ public class CommonUntils {
 	 * @throws IOException 
 	 * @throws IllegalStateException 
 	 */
-	public static void MultipleFileImport(FileLogService service,HttpServletRequest request,String filepath,String type) throws Exception {
+	public static void MultipleFileImport(FileLogService service,HttpServletRequest request,String type) throws Exception {
 		// 将当前上下文初始化给 CommonsMutipartResolver （多部分解析器）
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
 				request.getSession().getServletContext());
-		List<FileLogDto> fileLogDtos = new ArrayList<>();
 		if (multipartResolver.isMultipart(request)) {
 			MultipartHttpServletRequest mutiRequest = (MultipartHttpServletRequest) request;
 			List<MultipartFile> files = mutiRequest.getFiles("file");
 			for (MultipartFile file : files) {			
 				if (file != null) {					
 					FileLogDto fileLogDto = new FileLogDto();
-					String str_filename = filepath;
-					str_filename = filepath + file.getOriginalFilename();	
+					String str_filename = "/home/hadoop/systempdata/" + file.getOriginalFilename();	
 					fileLogDto.setFilename(file.getOriginalFilename());
 					fileLogDto.setType(type);
 					fileLogDto.setStarttime(new Date());
@@ -315,10 +313,9 @@ public class CommonUntils {
 						fileLogDto.setAlltime(alltime);	
 						throw e;
 					}	
-					fileLogDtos.add(fileLogDto);
+					service.insertOne(fileLogDto);				
 				}			
 			}
-			service.insert(fileLogDtos);
 		}
 
 	}

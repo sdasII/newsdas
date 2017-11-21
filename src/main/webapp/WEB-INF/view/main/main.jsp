@@ -156,12 +156,12 @@
 
 			</div>
 			<div class="row J_mainContent" id="content-main">
-				<%-- <iframe class="J_iframe" name="iframe0" id="iframe_home" width="100%" height="100%"
+				<iframe class="J_iframe" name="iframe0" id="iframe_home" width="100%" height="100%"
 					src="${context}/general/home" frameborder="0"
-					data-id="${context}/general/home" seamless></iframe> --%>
-				<iframe class="J_iframe" name="iframe0" width="100%" height="100%"
+					data-id="${context}/general/home" seamless></iframe>
+				<!-- <iframe class="J_iframe" name="iframe0" width="100%" height="100%"
 					src="" frameborder="0"s
-					data-id="" seamless></iframe>
+					data-id="" seamless></iframe> -->
 			</div>
 		</div>
 		<!--右侧部分结束-->
