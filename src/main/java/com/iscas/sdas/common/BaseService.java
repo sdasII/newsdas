@@ -64,6 +64,20 @@ public abstract class BaseService<Dao extends BaseDao<Dto>,Dto extends BaseDto> 
 		return true;
 	}
 	/**
+	 * 插入一条数据
+	 * @param dto
+	 * @return
+	 */
+	public boolean insertOne(Dto dto){
+		try {
+			dao.insert(dto);
+		} catch (Exception e) {		
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	/**
 	 * 更新数据
 	 * @param dto
 	 * @return
