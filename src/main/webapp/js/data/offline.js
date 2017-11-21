@@ -111,10 +111,10 @@ function uploadFile(obj){
 	
 	
 }
-function submit_upload(id,formid){
+/*function submit_upload(id,formid){
 	if($(id).val()==""){
 		 alert("请选择文件进行上传");
 	}else{
 		$(formid).submit();
 	}
-}
+}*/
