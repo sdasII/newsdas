@@ -59,6 +59,13 @@
 <script type="text/javascript" src="${context}/include/check.js"></script>
 <script type="text/javascript" src="${context}/include/utils.js"></script>
 <script type="text/javascript" src="${context}/include/time.js"></script>
+
+<!--[if lt IE 9]>
+      <script type="text/javascript" src="${context}/js/common/html5shiv.min.js"></script>
+      <script type="text/javascript" src="${context}/js/common/respond.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="${context}/include/ie-css3.htc"/>
+<![endif]-->
+
 <script>
   var ctx = "${context}";
 </script>
