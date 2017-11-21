@@ -7,7 +7,7 @@ var POST = "POST";
 var GET = "GET";
 var ERROR = "error";
 var INFO = "info";
-var JSON = "json";
+//var JSON = "json";
 var LABELS = ['default','success','primary','info','warning','danger'];
 var SP = "&nbsp;&nbsp;";
 /** 提示_无符合条件的记录 */
