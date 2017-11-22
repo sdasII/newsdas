@@ -57,8 +57,8 @@ function file_upload(file){
 					+'<button class="btn btn-success btn-circle" type="submit" id="file_'+i+'"><i class="fa fa-upload"></i></button>'
 					+"<button class='btn btn-danger btn-circle' type='button' id='del_"+i+"' onclick='deleteFile(this)'><i class='fa fa-times'></i></button>"
 					+"<input  type='file' id='file_"+i+"' name='file' value='' style='display:none'>"
-					+"</form></li><li><span>上传进度：</span><progress  max='200' >正在上传...</progress></li>";
-	    			$("#file_"+i).val(e);
+					+"</form></li>";//<li><span>上传进度：</span><progress  max='200' >正在上传...</progress></li>
+	    			//$("#file_"+i).val(e);
 	    		});
 	    		$("#fileList").append(html);
 	    	}else{
@@ -71,7 +71,7 @@ function file_upload(file){
 	    		
 	    		fileSize = file[0].size; 
 	    		$("#fileList").append(html);
-	    		$("#file_0").val(file[0]);
+	    		//$("#file_0").val(file[0]);
 	    	}
 	     }   
 	     var size = fileSize/(1024*1024*1024);    
