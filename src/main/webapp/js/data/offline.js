@@ -19,6 +19,7 @@ function openIframe(type){
 	top.$("#offline").attr('src',"/newsdas/log/file/page?type="+type);
 }
 var upload_url = ctx + "/data/upload";
+
 function file_upload(file){
 	var ifupload=true;
 	if(file.length>3){
@@ -79,12 +80,14 @@ function file_upload(file){
 	     }
 	}
 }
+
 function deleteFile(obj){
 	$(obj).parent().next().remove();
 	$(obj).parent().remove();
 	var num=$(obj).attr("id").split("_")[1];
 	initFiles.splice(num,1); 
 }
+
 function uploadFile(obj) {
 	var num = $(obj).attr("id").split("_")[1];
 	var file = initFiles[num];
@@ -123,10 +126,12 @@ function upload(f){
     data = {};
     data.file = f;
     data.type = "file";
+    //docommonAjax(POST, upload_url, data, success);
     $.ajax({
         url : upload_url,
         data : data,
         type : 'post',
+        processData:false,
         success : function(data) {
             alert(data);
         },
@@ -135,7 +140,9 @@ function upload(f){
         }
     });
 }
-
+function success(){
+    alert("success");
+}
 function submit_upload(id,formid){
     var value = $(id).val();
 	if($(id).val()==""){
