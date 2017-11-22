@@ -60,6 +60,8 @@
 <script type="text/javascript" src="${context}/include/utils.js"></script>
 <script type="text/javascript" src="${context}/include/time.js"></script>
 
+
+<script type="text/javascript" src="${context}/lib/jquery-form.js"></script>
 <!--[if lt IE 9]>
       <script type="text/javascript" src="${context}/js/common/html5shiv.min.js"></script>
       <script type="text/javascript" src="${context}/js/common/respond.min.js"></script>

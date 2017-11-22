@@ -158,16 +158,8 @@ public class ContinueFTP {
         FTPStatus result;   
         //对远程目录的处理   
         String remoteFileName = remote;   
-        /*if(remote.contains("/")){   
-            remoteFileName = remote.substring(remote.lastIndexOf("/")+1);   
-            //创建服务器远程目录结构，创建失败直接返回   
-            if(CreateDirecroty(remote, ftpClient)==FTPStatus.Create_Directory_Fail){   
-                return FTPStatus.Create_Directory_Fail;   
-            }   
-        }*/   
-        
         //检查远程是否存在文件   
-        FTPFile[] files = ftpClient.listFiles(new String(remoteFileName.getBytes("GBK"),"UTF-8"));   
+        FTPFile[] files = ftpClient.listFiles(remoteFileName);   
         if(files.length == 1){   
             long remoteSize = files[0].getSize();   
             if(remoteSize==multlocal.getSize()){   
@@ -176,8 +168,7 @@ public class ContinueFTP {
                 return FTPStatus.Remote_Bigger_Local;   
             }                  
             //尝试移动文件内读取指针,实现断点续传   
-            result = uploadFile(remoteFileName, multlocal, ftpClient,remoteSize);
-        
+            result = uploadFile(remoteFileName, multlocal, ftpClient,remoteSize);            
             //如果断点续传没有成功，则删除服务器上文件，重新上传   
             if(result == FTPStatus.Upload_From_Break_Failed){   
                 if(!ftpClient.deleteFile(remoteFileName)){   
@@ -254,21 +245,21 @@ public class ContinueFTP {
     public FTPStatus uploadFile(String remoteFile,MultipartFile multipartFile,FTPClient ftpClient,long remoteSize) throws IOException{   
     	FTPStatus status=null;   
         //显示进度的上传   
-        long step = multipartFile.getSize() / 100;   
-        long process = 0;   
-        long localreadbytes = 0L;   
+        //long step = multipartFile.getSize() / 100;   
+        //long process = 0;   
+        //long localreadbytes = 0L;   
         //RandomAccessFile raf = new RandomAccessFile(localFile,"r");   
         InputStream in = multipartFile.getInputStream(); 
-        OutputStream out = ftpClient.appendFileStream(new String(remoteFile.getBytes("GBK"),"UTF-8"));   
+        //OutputStream out = ftpClient.appendFileStream(new String(remoteFile.getBytes("GBK"),"UTF-8"));   
         //断点续传   
         if(remoteSize>0){   
             ftpClient.setRestartOffset(remoteSize);   
-            process = remoteSize /step;  
+            //process = remoteSize /step;  
             in.skip(remoteSize);
             //raf.seek(remoteSize);   
-            localreadbytes = remoteSize;   
+            //localreadbytes = remoteSize;   
         }   
-        byte[] bytes = new byte[1024];   
+        /*byte[] bytes = new byte[1024];   
         int c;  
         while((c = in.read(bytes))!= -1){   
             out.write(bytes,0,c);   
@@ -281,8 +272,10 @@ public class ContinueFTP {
         }   
         out.flush();   
         in.close();   
-        out.close();   
-        boolean result =ftpClient.completePendingCommand();   
+        out.close();*/  
+        //System.out.println("存储文件名："+new String(remoteFile.getBytes("UTF-8"),"UTF-8"));
+        boolean result = ftpClient.storeFile(remoteFile, in);
+        //boolean result =ftpClient.completePendingCommand();   
         if(remoteSize > 0){   
             status = result?FTPStatus.Upload_From_Break_Success:FTPStatus.Upload_From_Break_Failed;   
         }else {   

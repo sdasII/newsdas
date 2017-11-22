@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -209,12 +210,13 @@ public class DataController{
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("uploadfile")
+	@RequestMapping("/uploadfile")
+	@ResponseBody
 	public ModelMap uploadFile(HttpServletRequest request) {
-		ModelMap map = new ModelMap();
+		ModelMap model = new ModelMap();
 		FTPStatus status = originDateUpload(request);
-		map.addAttribute(Constraints.RESULT_SUCCESS, status.toString());
-		return map;
+		model.addAttribute("status",status.toString());
+		return model;
 	}
 	
 	

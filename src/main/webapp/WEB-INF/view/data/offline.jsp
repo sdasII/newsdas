@@ -42,11 +42,39 @@
 </head>
 <body>
 	<script type="text/javascript">
-		var status = '${success}';
+		var status = 'unkown';
 		if (status == 'success') {
 			showOnlyMessage(INFO, "导入数据成功！");
 		} else if (status.indexOf("fail") >= 0) {
 			showOnlyMessage(ERROR, status);
+		}		
+	</script>
+	<script type="text/javascript">
+		function mySubmit(element){
+			
+			var select = $("#originfile").val();
+			if(select!=""){
+				$(element).ajaxSubmit(function(message){
+					var msg = eval("("+message+")");
+					var fileStatus = msg.status;
+				    if(fileStatus.indexOf("失败")>=0){
+						showOnlyMessage(ERROR, fileStatus);
+						$("#originsubmit").val("续传");
+					}else if(fileStatus.indexOf("成功")>=0){
+						showOnlyMessage(INFO, fileStatus);
+						$("#originfile").val("");
+						$("#originsubmit").val("上传");
+					}else{
+						showOnlyMessage("warning", fileStatus);
+					}
+		        });
+			}else{
+				showOnlyMessage(ERROR, "请选择文件！");
+			}
+			
+			
+			//$("#myform").myform();
+			return false;
 		}
 	</script>
 	<div class="ibox-content" id="offline">
@@ -72,83 +100,65 @@
 				<div class="panel panel-success">
 					<div class="panel-heading">中兴网管指标数据</div>
 					<div class="panel-body">
-						<div>
-							<span><i>备注：</i> </span> <span>请选择小区一天的网管数据</span>
-						</div>
-						<form id="form1" action="${context}/data/upload?type=network"
-							method="post" enctype="multipart/form-data">
-							<input id="time" name="time"
-								style="display: inline; padding: -10px; margin: -10px; height: 39px; margin-right: 10px;"
-								class="btn btn-white layer-date starttime"
-								placeholder="请选择计算模式年月"
-								onclick="laydate({istime: true, format: 'YYYYMM'})"> <input
-								class="btn btn-white" type="file" name="file" id="file1"
-								style="display: inline;" accept=".csv"> <br> <br>
-							<input class="btn btn-white" type="reset" value="重选"> <input
-								class="btn btn-white" type="button" value="上传"
-								onclick="submit_upload('#file1','#form1')"> <input
-								class="btn btn-white" type="button" value="查看上传记录"
-								onclick="openIframe('中兴网管指标数据')">
-							<progress id="progress" style="display: none">正在上传...</progress>
+					<div>
+								<span><i>备注：</i> </span> <span>请选择小区一天的网管数据</span>
+							</div>
+						<form id="form1" action="/newsdas/data/upload?type=network" method="post"
+							enctype="multipart/form-data">
+							<input id="time" name="time" style="display: inline;padding: -10px;margin: -10px;height: 39px;margin-right: 10px;"
+										class="btn btn-white layer-date starttime" placeholder="请选择计算模式年月"
+										onclick="laydate({istime: true, format: 'YYYYMM'})">
+							<input class="btn btn-white" type="file" name="file" id="file1" style="display: inline;"  accept=".csv"> <br> <br><input
+								class="btn btn-white" type="reset" value="重选"> <input 
+								class="btn btn-white" type="button" value="上传" onclick="submit_upload('#file1','#form1')">
+								<input class="btn btn-white" type="button" value="查看上传记录" onclick="openIframe('中兴网管指标数据')"> 
+								<progress id="progress" style="display: none">正在上传...</progress>
 						</form>
 					</div>
 				</div>
-			</div>
-			
+			</div>		
 			<div class="col-sm-6">
 				<div class="panel panel-success">
 					<div class="panel-heading">性能工单</div>
 					<div class="panel-body">
 						<div>
-							<span><i>备注：</i> </span> <span>请选择单个性能工单表格文件</span>
+								<span><i>备注：</i> </span> <span>请选择单个性能工单表格文件</span>
 						</div>
-						<form id="form2" action="${context}/data/upload?type=capacity"
+						<form id="form2" action="/newsdas/data/upload?type=capacity"
 							method="post" enctype="multipart/form-data">
-							<input class="btn btn-white" type="file" name="file" id="file2"
-								accept=".xls"> <br> <input class="btn btn-white"
-								type="reset" value="重选"> <input id="submit1"
-								class="btn btn-white" type="button" value="上传"
-								onclick="submit_upload('#file2','#form2')"> <input
-								class="btn btn-white" type="button" value="查看上传记录"
-								onclick="openIframe('性能工单数据')">
+							<input class="btn btn-white" type="file" name="file" id="file2" accept=".xls"> 
+								<br>
+								<input class="btn btn-white" type="reset" value="重选"> <input id="submit1"
+								class="btn btn-white" type="button" value="上传"  onclick="submit_upload('#file2','#form2')">
+								<input class="btn btn-white" type="button" value="查看上传记录" onclick="openIframe('性能工单数据')"> 
 							<progress id="progress1" max="200" style="display: none">正在上传...</progress>
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
-
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="panel panel-success">
 					<div class="panel-heading">中兴网管指标原始数据</div>
 					<div class="panel-body" style="height: 230px">
-							<div class="col-sm-6" style="height: 125px;width: 100%">
+							<div>
+								<span><i>备注：</i> </span> <span>每次请选择一个文件！</span>
+							</div>
+							<div class="col-sm-6" style="height: 125px;width: 100%;margin-top: 5px;">
 								<!-- <label>已选文件：</label> -->
 								<div
 									style="width: 100%; height: 95%; margin-top: -5px; border: 1px solid #ccc;">
 									<ul id="fileList">
 										<li>
-										<form action='${context}/data/uploadfile?type=file' method='post'enctype='multipart/form-data' id="file1_up">
-											<input type="file" name="file" />
+										<form action='/newsdas/data/uploadfile' method='post'enctype='multipart/form-data' 
+											onsubmit="return mySubmit(this);">
+											<input type="file" name="file" id="originfile"/>
 											<button class="btn btn-white" type="reset">清空</button>
-											<button class="btn btn-success" type="submit">上传</button>
+											<button id="originsubmit" class="btn btn-success" type="submit">上传</button>
 										</form>
 										</li>
-										<li>
-										<form action='${context}/data/uploadfile?type=file' method='post'enctype='multipart/form-data'>
-											<input type="file" name="file" />
-											<button class="btn btn-white" type="reset">清空</button>
-											<button class="btn btn-success" type="submit">上传</button>
-										</form>
-										</li>
-										<li>
-										<form action='${context}/data/uploadfile?type=file' method='post'enctype='multipart/form-data'>
-											<input type="file" name="file" />
-											<button class="btn btn-white" type="reset">清空</button>
-											<button class="btn btn-success" type="submit">上传</button>
-										</form>
-										</li>
+										
 									</ul>
 									<input class="btn btn-white" type="button" value="查看上传记录" onclick="openIframe('中兴网管指标原始数据')">
 								</div>
@@ -160,95 +170,18 @@
 			</div>
 
 		</div>
-		<div class="row" style="display: none !important;">
-			<div class="col-sm-6">
-				<div class="panel panel-success">
-					<div class="panel-heading">故障工单</div>
-					<div class="panel-body">
-						<!-- <p>容量：2.4T</p>
-						<p>采样频率：15min</p>
-						<p>最后采样时间：2017-08-01</p> -->
-						<form id="form4" action="${context}/data/upload?type=fault"
-							method="post" enctype="multipart/form-data">
-
-							<input class="btn btn-white" type="file" name="file" id="file4"
-								multiple="multiple" accept="text/*"> <br> <input
-								class="btn btn-white" type="reset" value="重选"> <input
-								class="btn btn-white" type="button" value="上传"
-								onclick="submit_upload('#file4','#form4')">
-
-						</form>
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-6">
-				<div class="panel panel-success">
-					<div class="panel-heading">投诉数据</div>
-					<div class="panel-body">
-						<!-- <p>容量：2.4T</p>
-						<p>采样频率：1天</p>
-						<p>最后采样时间：2017-08-01</p> -->
-						<form id="form5" action="${context}/data/upload?type=complaint"
-							method="post" enctype="multipart/form-data">
-
-							<input class="btn btn-white" type="file" name="file" id="file5"
-								multiple="multiple" accept="text/*"> <br> <input
-								class="btn btn-white" type="reset" value="重选"> <input
-								class="btn btn-white" type="button" value="上传"
-								onclick="submit_upload('#file5','#form5')">
-
-						</form>
-
-					</div>
-
-				</div>
-			</div>
-		</div>
-		<div class="row" style="display: none !important;">
-			<div class="col-sm-6">
-				<div class="panel panel-success">
-					<div class="panel-heading">可视化小区退服</div>
-					<div class="panel-body">
-						<!-- <p>容量：2.4T</p>
-						<p>采样频率：实时数据</p>
-						<p>最后采样时间：2017-08-01</p> -->
-						<form id="form6" action="${context}/data/upload?type=outservice"
-							method="post" enctype="multipart/form-data">
-
-							<input class="btn btn-white" type="file" name="file" id="file6"
-								multiple="multiple" accept="text/*"> <br> <input
-								class="btn btn-white" type="reset" value="重选"> <input
-								class="btn btn-white" type="button" value="上传"
-								onclick="submit_upload('#file6','#form6')">
-
-						</form>
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-6">
-				<div class="panel panel-success">
-					<div class="panel-heading">投诉详情数据</div>
-					<div class="panel-body">
-						<form id="form7" action="" method="post"
-							enctype="multipart/form-data">
-							<input class="btn btn-white" type="file" name="file" id="file7"
-								multiple="multiple" accept="text/*"> <br> <input
-								class="btn btn-white" type="reset" value="重选"> <input
-								class="btn btn-white" type="button" value="上传"
-								onclick="submit_upload('#file7','#form7')">
-
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
+			
 	</div>
-	<script type="text/javascript">
-/* 	 var uploader = WebUploader.create({
+
+	
+
+	<!-- <script type="text/javascript">
+	var uploader = WebUploader.create({
+
 	    // swf文件路径
-	    swf: '${context}' + '/lib/hplus/js/plugins/webuploader/Uploader.swf',
+	    swf: '/newsdas' + '/lib/hplus/js/plugins/webuploader/Uploader.swf',
 	    // 文件接收服务端。
-	    server:  '${ctx}' + "/data/uploadfile",
+	    server: '',
 	    // 选择文件的按钮。可选。
 	    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
 	    pick: '#picker',
@@ -257,7 +190,7 @@
 	});
 	// 当有文件被添加进队列的时候
 	uploader.on( 'fileQueued', function( file ) {
-	    $("#thelist").append( '<div id="' + file.id + '" class="item">' +
+	    $list.append( '<div id="' + file.id + '" class="item">' +
 	        '<h4 class="info">' + file.name + '</h4>' +
 	        '<p class="state">等待上传...</p>' +
 	    '</div>' );
@@ -288,7 +221,8 @@
 
 	uploader.on( 'uploadComplete', function( file ) {
 	    $( '#'+file.id ).find('.progress').fadeOut();
-	}); */
-	</script>
+	});
+	</script> -->
+
 </body>
 </html>
