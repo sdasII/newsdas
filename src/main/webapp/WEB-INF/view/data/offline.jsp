@@ -8,8 +8,7 @@
 <%@ include file="/include/common.jsp"%>
 <script src="${context}/lib/hplus/js/plugins/layer/laydate/laydate.js"></script>
 <script type="text/javascript" src="${context}/js/data/offline.js"></script>
-<style type="text/css"
-	src="${context}/lib/hplus/css/plugins/webuploader/webuploader.css"></style>
+	<link href="${context}/lib/hplus/css/plugins/webuploader/webuploader.css" rel="stylesheet">
 <script
 	src="${context}/lib/hplus/js/plugins/webuploader/webuploader.min.js"></script>
 <style type="text/css">
@@ -130,21 +129,21 @@
 									style="width: 100%; height: 95%; margin-top: -5px; border: 1px solid #ccc;">
 									<ul id="fileList">
 										<li>
-										<form action='${context}/data/upload?type=file' method='post'enctype='multipart/form-data'>
+										<form action='${context}/data/uploadfile?type=file' method='post'enctype='multipart/form-data' id="file1_up">
 											<input type="file" name="file" />
 											<button class="btn btn-white" type="reset">清空</button>
 											<button class="btn btn-success" type="submit">上传</button>
 										</form>
 										</li>
 										<li>
-										<form action='${context}/data/upload?type=file' method='post'enctype='multipart/form-data'>
+										<form action='${context}/data/uploadfile?type=file' method='post'enctype='multipart/form-data'>
 											<input type="file" name="file" />
 											<button class="btn btn-white" type="reset">清空</button>
 											<button class="btn btn-success" type="submit">上传</button>
 										</form>
 										</li>
 										<li>
-										<form action='${context}/data/upload?type=file' method='post'enctype='multipart/form-data'>
+										<form action='${context}/data/uploadfile?type=file' method='post'enctype='multipart/form-data'>
 											<input type="file" name="file" />
 											<button class="btn btn-white" type="reset">清空</button>
 											<button class="btn btn-success" type="submit">上传</button>
@@ -244,13 +243,12 @@
 			</div>
 		</div>
 	</div>
-	<!-- <script type="text/javascript">
-	var uploader = WebUploader.create({
-
+	<script type="text/javascript">
+/* 	 var uploader = WebUploader.create({
 	    // swf文件路径
 	    swf: '${context}' + '/lib/hplus/js/plugins/webuploader/Uploader.swf',
 	    // 文件接收服务端。
-	    server: '',
+	    server:  '${ctx}' + "/data/uploadfile",
 	    // 选择文件的按钮。可选。
 	    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
 	    pick: '#picker',
@@ -259,7 +257,7 @@
 	});
 	// 当有文件被添加进队列的时候
 	uploader.on( 'fileQueued', function( file ) {
-	    $list.append( '<div id="' + file.id + '" class="item">' +
+	    $("#thelist").append( '<div id="' + file.id + '" class="item">' +
 	        '<h4 class="info">' + file.name + '</h4>' +
 	        '<p class="state">等待上传...</p>' +
 	    '</div>' );
@@ -290,7 +288,7 @@
 
 	uploader.on( 'uploadComplete', function( file ) {
 	    $( '#'+file.id ).find('.progress').fadeOut();
-	});
-	</script> -->
+	}); */
+	</script>
 </body>
 </html>

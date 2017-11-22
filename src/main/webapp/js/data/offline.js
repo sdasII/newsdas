@@ -14,12 +14,32 @@ $("#form2").submit(function() {
 $("#file3").change(function(e){
 	file_upload(e.target.files);
 });
+
+///
+/*$('#file1_up').submit(function(){
+    $.ajax({
+        url:upload_url,
+        data:$('#file1_up').serialize(),
+        type:"post",
+        error:function(data){
+            alert(data);
+        },
+        success:function(data){
+            alert(data);
+        }
+    });
+});*/    
+
+
+
 });
 function openIframe(type){
 	top.$("#offline").attr('src',"/newsdas/log/file/page?type="+type);
 }
 
-var upload_url = ctx + "/data/upload?type=file";
+var upload_url = ctx + "/data/uploadfile?type=file";
+
+
 
 function file_upload(file){
 	var ifupload=true;
@@ -146,4 +166,10 @@ function upload(f){
         }
     });
 }
-
+function submit_upload(id,formid){
+	if($(id).val()==""){
+		 alert("请选择文件进行上传");
+	}else{
+		$(formid).submit();
+	}
+}
