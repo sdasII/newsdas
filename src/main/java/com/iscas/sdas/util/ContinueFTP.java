@@ -42,7 +42,7 @@ public class ContinueFTP {
      */  
     public boolean connect(String hostname,int port,String username,String password) throws IOException{   
         ftpClient.connect(hostname, port);   
-        ftpClient.setControlEncoding("GBK");   
+        ftpClient.setControlEncoding("UTF-8");   
         if(FTPReply.isPositiveCompletion(ftpClient.getReplyCode())){   
             if(ftpClient.login(username, password)){   
                 return true;   
@@ -67,7 +67,7 @@ public class ContinueFTP {
         FTPStatus result;   
            
         //检查远程文件是否存在   
-        FTPFile[] files = ftpClient.listFiles(new String(remote.getBytes("GBK"),"utf-8"));   
+        FTPFile[] files = ftpClient.listFiles(new String(remote.getBytes("GBK"),"UTF-8"));   
         if(files.length != 1){   
             System.out.println("远程文件不存在");   
             return FTPStatus.Remote_File_Noexist;   
@@ -87,7 +87,7 @@ public class ContinueFTP {
             //进行断点续传，并记录状态   
             FileOutputStream out = new FileOutputStream(f,true);   
             ftpClient.setRestartOffset(localSize);   
-            InputStream in = ftpClient.retrieveFileStream(new String(remote.getBytes("GBK"),"iso-8859-1"));   
+            InputStream in = ftpClient.retrieveFileStream(new String(remote.getBytes("GBK"),"UTF-8"));   
             byte[] bytes = new byte[1024];   
             long step = lRemoteSize /100;   
             long process=localSize /step;   
@@ -113,7 +113,7 @@ public class ContinueFTP {
             }   
         }else {   
             OutputStream out = new FileOutputStream(f);   
-            InputStream in= ftpClient.retrieveFileStream(new String(remote.getBytes("GBK"),"iso-8859-1"));   
+            InputStream in= ftpClient.retrieveFileStream(new String(remote.getBytes("GBK"),"UTF-8"));   
             byte[] bytes = new byte[1024];   
             long step = lRemoteSize /100;   
             long process=0;   
@@ -154,7 +154,7 @@ public class ContinueFTP {
         ftpClient.enterLocalPassiveMode();   
         //设置以二进制流的方式传输   
         ftpClient.setFileType(FTP.BINARY_FILE_TYPE);   
-        ftpClient.setControlEncoding("utf-8");   
+        ftpClient.setControlEncoding("UTF-8");   
         FTPStatus result;   
         //对远程目录的处理   
         String remoteFileName = remote;   
@@ -167,7 +167,7 @@ public class ContinueFTP {
         }*/   
         
         //检查远程是否存在文件   
-        FTPFile[] files = ftpClient.listFiles(new String(remoteFileName.getBytes("GBK"),"utf-8"));   
+        FTPFile[] files = ftpClient.listFiles(new String(remoteFileName.getBytes("GBK"),"UTF-8"));   
         if(files.length == 1){   
             long remoteSize = files[0].getSize();   
             if(remoteSize==multlocal.getSize()){   
@@ -259,7 +259,7 @@ public class ContinueFTP {
         long localreadbytes = 0L;   
         //RandomAccessFile raf = new RandomAccessFile(localFile,"r");   
         InputStream in = multipartFile.getInputStream(); 
-        OutputStream out = ftpClient.appendFileStream(new String(remoteFile.getBytes("GBK"),"utf-8"));   
+        OutputStream out = ftpClient.appendFileStream(new String(remoteFile.getBytes("GBK"),"UTF-8"));   
         //断点续传   
         if(remoteSize>0){   
             ftpClient.setRestartOffset(remoteSize);   

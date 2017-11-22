@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -199,11 +200,24 @@ public class DataController{
 				e1.printStackTrace();
 				modelAndView.addObject("success", Constraints.RESULT_FAIL+ ":上传失败！");
 			}*/
-			FTPStatus status = originDateUpload(request);
-			modelAndView.addObject("success", status);
+			
 		}
 		return modelAndView;
 	}
+	/**
+	 * 上传原始文件--采用ftp协议，支持断点续传
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("uploadfile")
+	public ModelMap uploadFile(HttpServletRequest request) {
+		ModelMap map = new ModelMap();
+		FTPStatus status = originDateUpload(request);
+		map.addAttribute(Constraints.RESULT_SUCCESS, status.toString());
+		return map;
+	}
+	
+	
 	
 	private FTPStatus originDateUpload(HttpServletRequest request) {
 		MultipartHttpServletRequest mutiRequest = (MultipartHttpServletRequest) request;
