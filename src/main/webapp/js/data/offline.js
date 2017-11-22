@@ -18,7 +18,8 @@ $("#file3").change(function(e){
 function openIframe(type){
 	top.$("#offline").attr('src',"/newsdas/log/file/page?type="+type);
 }
-var upload_url = ctx + "/data/upload";
+
+var upload_url = ctx + "/data/upload?type=file";
 
 function file_upload(file){
 	var ifupload=true;
@@ -51,24 +52,28 @@ function file_upload(file){
 	    	initFiles=[];
 	    	if(file.length>1){
 	    		var html="";
-	    		
 	    		$.each(file,function(i,e){
 	    			fileSize += e.size;
 	    			initFiles.push(e);
-	    			html+="<li><span>"+ e.name+"</span>"
-					+'<button class="btn btn-success btn-circle" type="button" id="file_'+i+'" onclick="uploadFile(this)"><i class="fa fa-upload"></i></button>'
+	    			html+="<li><form action='"+upload_url+"' method='post'enctype='multipart/form-data'><span>"+ e.name+"</span>"
+					+'<button class="btn btn-success btn-circle" type="submit" id="file_'+i+'"><i class="fa fa-upload"></i></button>'
 					+"<button class='btn btn-danger btn-circle' type='button' id='del_"+i+"' onclick='deleteFile(this)'><i class='fa fa-times'></i></button>"
-					+"</li><li><span>上传进度：</span><progress  max='200' >正在上传...</progress></li>";
+					+"<input  type='file' id='file_"+i+"' name='file' value='' style='display:none'>"
+					+"</form></li><li><span>上传进度：</span><progress  max='200' >正在上传...</progress></li>";
+	    			$("#file_"+i).val(e);
 	    		});
 	    		$("#fileList").append(html);
 	    	}else{
 	    		initFiles.push(file[0]);
-	    		var html="<li><span>"+ file[0].name+"</span>"
-					+"<button class='btn btn-success btn-circle' type='button' id='file_0' onclick='uploadFile(this)'><i class='fa fa-upload'></i></button>"
+	    		var html="<li><form action='"+upload_url+"' method='post'enctype='multipart/form-data'><span>"+file[0].name+"</span>"
+					+"<button class='btn btn-success btn-circle' type='submit' id='file_0'><i class='fa fa-upload'></i></button>"
 					+"<button class='btn btn-danger btn-circle' type='button' id='del_0' onclick='deleteFile(this)'><i class='fa fa-times'></i></button>"
+					+"<input  type='file' id='file_0' name='file' value='' style='display:none'>"
 					+"</li><li><span>上传进度：</span><progress  max='200' >正在上传...</progress></li>";
+	    		
 	    		fileSize = file[0].size; 
 	    		$("#fileList").append(html);
+	    		$("#file_0").val(file[0]);
 	    	}
 	     }   
 	     var size = fileSize/(1024*1024*1024);    
@@ -126,12 +131,13 @@ function upload(f){
     data = {};
     data.file = f;
     data.type = "file";
-    //docommonAjax(POST, upload_url, data, success);
     $.ajax({
         url : upload_url,
         data : data,
         type : 'post',
         processData:false,
+        mimeType:"multipart/form-data",
+        contentType:false,
         success : function(data) {
             alert(data);
         },
@@ -140,14 +146,4 @@ function upload(f){
         }
     });
 }
-function success(){
-    alert("success");
-}
-function submit_upload(id,formid){
-    var value = $(id).val();
-	if($(id).val()==""){
-		 alert("请选择文件进行上传");
-	}else{
-		$(formid).submit();
-	}
-}
+
