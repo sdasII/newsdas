@@ -35,6 +35,7 @@ $(function(){
 	switchTab(1);
 });
 function switchTab(type){
+	map.clearOverlays();
 	$.ajax({
 		url:currAlarm,
 		data:{"type":type},
@@ -55,6 +56,12 @@ function switchTab(type){
 					var obj={"cell_code":e.cell_code};
 					var html='<li><a href="javascript:iframeconvert("'+ctx+'/alarm/todetail","小区信息",'+"{'cell_code':'"+e.cell_code+"'}"+')">'+e.cell_code+'</a></li>';
 					$(id).append(html);
+					//
+					var temp = {};
+					temp.lng = 113.27 + Math.random() * 0.1;
+					temp.lat = 23.14 + Math.random() * 0.1;
+					var marker = new BMap.Marker(new BMap.Point(temp.lng, temp.lat));
+					map.addOverlay(marker);
 				});
 			}else{
 				//$(id).append("<li><a onclick='toDetail()'>暂无数据记录</a></li>");
