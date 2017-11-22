@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -209,11 +211,12 @@ public class DataController{
 	 * @return
 	 */
 	@RequestMapping("/uploadfile")
-	public ModelAndView uploadFile(HttpServletRequest request) {
-		ModelAndView modelAndView = new ModelAndView("data/offline");
+	@ResponseBody
+	public ModelMap uploadFile(HttpServletRequest request) {
+		ModelMap model = new ModelMap();
 		FTPStatus status = originDateUpload(request);
-		modelAndView.addObject("status",status.toString());
-		return modelAndView;
+		model.addAttribute("status",status.toString());
+		return model;
 	}
 	
 	

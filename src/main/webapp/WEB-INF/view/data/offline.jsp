@@ -7,8 +7,7 @@
 <title>Insert title here</title>
 <%@ include file="/include/common.jsp"%>
 <script src="${context}/lib/hplus/js/plugins/layer/laydate/laydate.js"></script>
-
-<%-- <script type="text/javascript" src="${context}/js/plugin/jQuery.sdas.core.js"></script> --%>
+<script type="text/javascript" src="${context}/js/plugin/jQuery.sdas.core.js"></script>
 <script type="text/javascript" src="${context}/js/data/offline.js"></script>
 <link href="${context}/lib/hplus/css/plugins/webuploader/webuploader.css" rel="stylesheet">
 <script src="${context}/lib/hplus/js/plugins/webuploader/webuploader.min.js"></script>
@@ -48,10 +47,34 @@
 			showOnlyMessage(INFO, "导入数据成功！");
 		} else if (status.indexOf("fail") >= 0) {
 			showOnlyMessage(ERROR, status);
-		}
-		var fileStatus = "${status}";
-	    if(fileStatus!=null){
-			showOnlyMessage(INFO, fileStatus);
+		}		
+	</script>
+	<script type="text/javascript">
+		function mySubmit(element){
+			
+			var select = $("#originfile").val();
+			if(select!=""){
+				$(element).ajaxSubmit(function(message){
+					var msg = eval("("+message+")");
+					var fileStatus = msg.status;
+				    if(fileStatus.indexOf("失败")>=0){
+						showOnlyMessage(ERROR, fileStatus);
+						$("#originsubmit").val("续传");
+					}else if(fileStatus.indexOf("成功")>=0){
+						showOnlyMessage(INFO, fileStatus);
+						$("#originfile").val("");
+						$("#originsubmit").val("上传");
+					}else{
+						showOnlyMessage("warning", fileStatus);
+					}
+		        });
+			}else{
+				showOnlyMessage(ERROR, "请选择文件！");
+			}
+			
+			
+			//$("#myform").myform();
+			return false;
 		}
 	</script>
 	<div class="ibox-content" id="offline">
@@ -93,8 +116,7 @@
 						</form>
 					</div>
 				</div>
-			</div>
-			
+			</div>		
 			<div class="col-sm-6">
 				<div class="panel panel-success">
 					<div class="panel-heading">性能工单</div>
@@ -120,32 +142,37 @@
 				<div class="panel panel-success">
 					<div class="panel-heading">中兴网管指标原始数据</div>
 					<div class="panel-body" style="height: 230px">
-							<div class="col-sm-6" style="height: 125px;width: 100%">
+							<div>
+								<span><i>备注：</i> </span> <span>最多选择三个文件，每次选择一个文件！</span>
+							</div>
+							<div class="col-sm-6" style="height: 125px;width: 100%;margin-top: 5px;">
 								<!-- <label>已选文件：</label> -->
 								<div
 									style="width: 100%; height: 95%; margin-top: -5px; border: 1px solid #ccc;">
 									<ul id="fileList">
 										<li>
-										<form action='${context}/data/uploadfile' method='post'enctype='multipart/form-data'>
+										<form action='${context}/data/uploadfile' method='post'enctype='multipart/form-data' 
+											onsubmit="return mySubmit(this);">
+											<input type="file" name="file" id="originfile"/>
+											<button class="btn btn-white" type="reset">清空</button>
+											<button id="originsubmit" class="btn btn-success" type="submit">上传</button>
+										</form>
+										</li>
+										<%-- <li>
+										<form action='${context}/data/uploadfile' method='post'enctype='multipart/form-data'
+											onsubmit="return mySubmit(this);">
 											<input type="file" name="file" />
 											<button class="btn btn-white" type="reset">清空</button>
 											<button class="btn btn-success" type="submit">上传</button>
 										</form>
 										</li>
 										<li>
-										<form action='${context}/data/uploadfile' method='post'enctype='multipart/form-data'>
+										<form action='${context}/data/uploadfile' method='post'enctype='multipart/form-data' onsubmit="return mySubmit(this);">
 											<input type="file" name="file" />
 											<button class="btn btn-white" type="reset">清空</button>
 											<button class="btn btn-success" type="submit">上传</button>
 										</form>
-										</li>
-										<li>
-										<form action='${context}/data/uploadfile' method='post'enctype='multipart/form-data'>
-											<input type="file" name="file" />
-											<button class="btn btn-white" type="reset">清空</button>
-											<button class="btn btn-success" type="submit">上传</button>
-										</form>
-										</li>
+										</li> --%>
 									</ul>
 									<input class="btn btn-white" type="button" value="查看上传记录" onclick="openIframe('中兴网管指标原始数据')">
 								</div>
@@ -160,12 +187,7 @@
 			
 	</div>
 
-	<!-- <script type="text/javascript">
-		function mySubmit(){
-			$("#myform").myform();
-			return false;
-		}
-	</script> -->
+	
 
 	<!-- <script type="text/javascript">
 	var uploader = WebUploader.create({

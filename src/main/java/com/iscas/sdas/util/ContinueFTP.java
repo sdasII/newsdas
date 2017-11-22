@@ -245,19 +245,19 @@ public class ContinueFTP {
     public FTPStatus uploadFile(String remoteFile,MultipartFile multipartFile,FTPClient ftpClient,long remoteSize) throws IOException{   
     	FTPStatus status=null;   
         //显示进度的上传   
-        long step = multipartFile.getSize() / 100;   
-        long process = 0;   
-        long localreadbytes = 0L;   
+        //long step = multipartFile.getSize() / 100;   
+        //long process = 0;   
+        //long localreadbytes = 0L;   
         //RandomAccessFile raf = new RandomAccessFile(localFile,"r");   
         InputStream in = multipartFile.getInputStream(); 
         //OutputStream out = ftpClient.appendFileStream(new String(remoteFile.getBytes("GBK"),"UTF-8"));   
         //断点续传   
         if(remoteSize>0){   
             ftpClient.setRestartOffset(remoteSize);   
-            process = remoteSize /step;  
+            //process = remoteSize /step;  
             in.skip(remoteSize);
             //raf.seek(remoteSize);   
-            localreadbytes = remoteSize;   
+            //localreadbytes = remoteSize;   
         }   
         /*byte[] bytes = new byte[1024];   
         int c;  
