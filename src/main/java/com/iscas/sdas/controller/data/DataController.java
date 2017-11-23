@@ -240,7 +240,7 @@ public class DataController{
 			long endtime = System.currentTimeMillis();
 			long alltime = endtime - starttime;
 			fileLogDto.setAlltime(alltime);
-			if (status.toString().equals(FTPStatus.Upload_From_Break_Success)||status.toString().equals(FTPStatus.Upload_New_File_Success.toString())) {
+			if (status.toString().equals(FTPStatus.Upload_From_Break_Success.toString())||status.toString().equals(FTPStatus.Upload_New_File_Success.toString())) {
 				fileLogDto.setResult(1);
 			}else {
 				fileLogDto.setResult(0);
