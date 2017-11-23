@@ -193,15 +193,14 @@ public class DataController{
 				}
 			}
 		}else if ("file".equals(type)) {
-			/*try {	
+			try {	
 				CommonUntils.MultipleFileImport(fileLogService,request,"中兴网管指标原始数据");
 				modelAndView.addObject("success", Constraints.RESULT_SUCCESS);														
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 				modelAndView.addObject("success", Constraints.RESULT_FAIL+ ":上传失败！");
-			}*/
-			
+			}			
 		}
 		return modelAndView;
 	}
@@ -214,27 +213,67 @@ public class DataController{
 	@ResponseBody
 	public ModelMap uploadFile(HttpServletRequest request) {
 		ModelMap model = new ModelMap();
-		FTPStatus status = originDateUpload(request);
+		String time = request.getParameter("time");				
+		FTPStatus status = originDateUpload(request,time);
 		model.addAttribute("status",status.toString());
 		return model;
 	}
 	
 	
 	
-	private FTPStatus originDateUpload(HttpServletRequest request) {
+	private FTPStatus originDateUpload(HttpServletRequest request, String yyyyMMdd) {
+		
 		MultipartHttpServletRequest mutiRequest = (MultipartHttpServletRequest) request;
 		MultipartFile sourceFile = mutiRequest.getFiles("file").get(0);
 		String filename = sourceFile.getOriginalFilename();
 		ContinueFTP myFtp = new ContinueFTP();
 		try {
 			myFtp.connect("49.4.6.47", 21, "ftpadmin", "ftp_qd123");
-			FTPStatus status = myFtp.upload(sourceFile, "/home/hadoop/systempdata/" + filename);
-			myFtp.disconnect();
+			request.getSession().setAttribute(Constraints.SESSION_FTP_STATUS, myFtp);
+			FileLogDto fileLogDto = new FileLogDto();
+			fileLogDto.setStarttime(new Date());
+			fileLogDto.setType("中兴网管指标原始数据");
+			fileLogDto.setFilename(filename);
+			long starttime = System.currentTimeMillis();
+			FTPStatus status = myFtp.upload(sourceFile, filename,yyyyMMdd);
+			fileLogDto.setEndtime(new Date());
+			long endtime = System.currentTimeMillis();
+			long alltime = endtime - starttime;
+			fileLogDto.setAlltime(alltime);
+			if (status.toString().equals(FTPStatus.Upload_From_Break_Success)||status.toString().equals(FTPStatus.Upload_New_File_Success.toString())) {
+				fileLogDto.setResult(1);
+			}else {
+				fileLogDto.setResult(0);
+			}
+			fileLogService.insertOne(fileLogDto);
+			myFtp.disconnect();			
 			return status;
 		} catch (IOException e) {
+			request.getSession().setAttribute(Constraints.SESSION_FTP_STATUS, null);
 			return FTPStatus.CONNECT_FAIL;
 		}
 
+	}
+	/**
+	 * 获取上传进度（务必在调用/uploadfile后使用）
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/uploadstatus")
+	@ResponseBody
+	public ModelMap getUploadStatus(HttpServletRequest request){
+		ModelMap map = new ModelMap();
+		ContinueFTP ftp = (ContinueFTP)request.getSession().getAttribute(Constraints.SESSION_FTP_STATUS);
+		if (ftp!=null) {
+			map.addAttribute("progress", ftp.getProgress());
+			if (ftp.getProgress()==100) {
+				request.getSession().setAttribute(Constraints.SESSION_FTP_STATUS, null);
+			}
+			map.addAttribute(Constraints.RESULT_SUCCESS, true);
+		}else {
+			map.addAttribute(Constraints.RESULT_SUCCESS, false);
+		}
+		return map;
 	}
 
 }
