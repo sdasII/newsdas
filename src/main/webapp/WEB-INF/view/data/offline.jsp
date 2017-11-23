@@ -10,11 +10,6 @@
 <script type="text/javascript"
 	src="${context}/js/plugin/jQuery.sdas.core.js"></script>
 <script type="text/javascript" src="${context}/js/data/offline.js"></script>
-<link
-	href="${context}/lib/hplus/css/plugins/webuploader/webuploader.css"
-	rel="stylesheet">
-<script
-	src="${context}/lib/hplus/js/plugins/webuploader/webuploader.min.js"></script>
 <style type="text/css">
 .btn-circle {
 	width: 25px;
@@ -54,7 +49,7 @@
 </head>
 <body>
 	<script type="text/javascript">
-		var status = '${success}';
+		var status = 'unkown';
 		if (status == 'success') {
 			showOnlyMessage(INFO, "导入数据成功！");
 		} else if (status.indexOf("fail") >= 0) {
@@ -118,6 +113,7 @@
 								class="btn btn-white" type="button" value="查看上传记录"
 								onclick="openIframe('中兴网管指标数据')">
 							<progress id="progress1" style="display: none">正在上传...</progress>
+
 						</form>
 					</div>
 				</div>
@@ -129,7 +125,7 @@
 						<div>
 							<span><i>备注：</i> </span> <span>请选择单个性能工单表格文件</span>
 						</div>
-						<form id="form2" action="${context}/data/upload?type=capacity"
+						<form id="form2" action="/newsdas/data/upload?type=capacity"
 							method="post" enctype="multipart/form-data">
 							<input class="btn btn-white" type="file" name="file" id="file2"
 								accept=".xls"> <br> <input class="btn btn-white"
@@ -164,8 +160,7 @@
 							<input class="btn btn-white" type="button" value="查看上传记录"
 							onclick="openIframe('中兴网管指标原始数据')">
 							<progress id="progress2" max="100" value="0"></progress><em>上传进度：</em><span id="progressvalue2">0%</span>
-						</form>
-						
+						</form>						
 					</div>
 				</div>
 			</div>
@@ -176,7 +171,7 @@
 	var uploader = WebUploader.create({
 
 	    // swf文件路径
-	    swf: '${context}' + '/lib/hplus/js/plugins/webuploader/Uploader.swf',
+	    swf: '/newsdas' + '/lib/hplus/js/plugins/webuploader/Uploader.swf',
 	    // 文件接收服务端。
 	    server: '',
 	    // 选择文件的按钮。可选。
