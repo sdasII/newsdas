@@ -166,6 +166,46 @@ function upload(f){
         }
     });
 }
+
+var upload_progress_url = ctx + "/data/uploadstatus";
+var polingCount=0;
+function longPoling(){
+    $.ajax({
+        url:upload_progress_url,
+        type:'get',
+        timeout: 5000,
+        success:function(data,status){
+            var progress = eval("("+data+")");
+            if(progress.success){
+                progress = progress.progress;
+                $("#progress2").attr("value",progress);
+                var value = progress+"%";
+                $("#progressvalue2").text(value);
+                if(progress!=100){
+                    longPoling();
+                }
+            }else{
+                longPoling();
+            }
+        },
+        error:function(xhr,status,exception){
+            polingCount++;
+            if(status=="timeout"){//请求超时
+                if(polingCount<10){//失败十次请求结束
+                    longPoling();
+                }
+                
+            }else{// 其他错误，如网络错误等
+                if(polingCount<10){
+                    longPoling();
+                }
+                
+            }
+        }
+    });
+}
+
+
 function submit_upload(id,formid){
 	if($(id).val()==""){
 		 alert("请选择文件进行上传");
@@ -173,3 +213,4 @@ function submit_upload(id,formid){
 		$(formid).submit();
 	}
 }
+
