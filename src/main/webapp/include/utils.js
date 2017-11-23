@@ -17,7 +17,7 @@ var IF_DELETE_INFO = "是否要删除选中的行?";
 /**
  * iframe间跳转
  * @param {} url 目标iframe地址
- * @param {} params 参数对象
+ * @param {} params 参数对象,标准格式：[{key:"",value:""}]
  * @param {} iframe iframe名称
  */
 function iframeconvert(url,iframe,params) {
