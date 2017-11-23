@@ -54,7 +54,7 @@ function switchTab(type){
 				//var id="";
 				$.each(data.rows,function(i,e){
 					var obj={"cell_code":e.cell_code};
-					var html='<li><a href="javascript:iframeconvert('+"'"+ctx+"/alarm/todetail"+"','小区信息',"+"{'cell_code':'"+e.cell_code+"'}"+')">'+e.cell_code+'</a></li>';
+					var html='<li><a href="javascript:iframeconvert('+"'"+ctx+"/alarm/todetail"+"','小区信息',"+"[{'key':'cell_code','value':'"+e.cell_code+"'}]"+')">'+e.cell_code+'</a></li>';
 					$(id).append(html);
 					//
 					var temp = {};
