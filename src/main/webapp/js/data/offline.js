@@ -166,7 +166,7 @@ function upload(f){
         }
     });
 }
-<<<<<<< HEAD
+
 var upload_progress_url = ctx + "/data/uploadstatus";
 var polingCount=0;
 function longPoling(){
@@ -205,7 +205,7 @@ function longPoling(){
     });
 }
 
-=======
+
 function submit_upload(id,formid){
 	if($(id).val()==""){
 		 alert("请选择文件进行上传");
@@ -213,4 +213,4 @@ function submit_upload(id,formid){
 		$(formid).submit();
 	}
 }
->>>>>>> 8f639bccfce3ae2d95b699bff9a9e8d6ef5f626d
+
