@@ -21,7 +21,7 @@ $(function(){
 			$("#event").html(data.rows.event);
 			$("#critical").html(data.rows.critical);
 			$("#health").html(data.rows.health);
-			if(data.rows.all>0){
+			/*if(data.rows.all>0){
 				for (var i = 0; i < data.rows.all; i++) {
 					var temp = {};
 					temp.lng = 113.27 + Math.random() * 0.1;
@@ -29,7 +29,7 @@ $(function(){
 					var marker = new BMap.Marker(new BMap.Point(temp.lng, temp.lat));
 					map.addOverlay(marker);
 				}
-			}
+			}*/
 		}
 	});
 	switchTab(1);
