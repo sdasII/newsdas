@@ -133,12 +133,12 @@
 		<!--左侧导航结束-->
 		<!--右侧部分开始-->
 		<div id="page-wrapper" class="gray-bg dashbard-1">
-			<div class="row border-bottom" style="display: none;">
+			<div class="row border-bottom">
 				<nav class="navbar navbar-static-top" role="navigation"
 					style="margin-bottom: 0">
 				<div class="navbar-header">
-					<a class="navbar-minimalize minimalize-styl-2 btn btn-primary "
-						href="#"><i class="fa fa-bars"></i> </a>
+					<a class="navbar-minimalize minimalize-styl-2 btn btn-primary "style="height:30px;" id="shrink_btn"
+						href="#"><i class="fa fa-chevron-left" style="margin-top: 2px;"></i></a><!-- <i class="fa fa-chevron-right"></i> -->
 				</div>
 				</nav>
 			</div>
@@ -182,5 +182,15 @@
 		</div>
 		<!--右侧部分结束-->
 	</div>
+	<script type="text/javascript">
+		$("#shrink_btn").click(function(){
+			console.info();
+			if($(this)[0].firstChild.className.indexOf("left")>-1){
+				$(this)[0].firstChild.className="fa fa-chevron-right";
+			}else{
+				$(this)[0].firstChild.className="fa fa-chevron-left";
+			}
+		});
+	</script>
 </body>
 </html>
