@@ -44,7 +44,7 @@
 	<script type="text/javascript">
 		var status = 'unkown';
 		if (status == 'success') {
-			showOnlyMessage(INFO, "导入数据成功！");
+			showOnlyMessage(INFO, "å¯¼å¥æ°æ®æåï¼");
 		} else if (status.indexOf("fail") >= 0) {
 			showOnlyMessage(ERROR, status);
 		}		
@@ -57,19 +57,19 @@
 				$(element).ajaxSubmit(function(message){
 					var msg = eval("("+message+")");
 					var fileStatus = msg.status;
-				    if(fileStatus.indexOf("失败")>=0){
+				    if(fileStatus.indexOf("å¤±è´¥")>=0){
 						showOnlyMessage(ERROR, fileStatus);
-						$("#originsubmit").val("续传");
-					}else if(fileStatus.indexOf("成功")>=0){
+						$("#originsubmit").val("ç»­ä¼ ");
+					}else if(fileStatus.indexOf("æå")>=0){
 						showOnlyMessage(INFO, fileStatus);
 						$("#originfile").val("");
-						$("#originsubmit").val("上传");
+						$("#originsubmit").val("ä¸ä¼ ");
 					}else{
 						showOnlyMessage("warning", fileStatus);
 					}
 		        });
 			}else{
-				showOnlyMessage(ERROR, "请选择文件！");
+				showOnlyMessage(ERROR, "è¯·éæ©æä»¶ï¼");
 			}
 			
 			
@@ -81,15 +81,15 @@
 		<div class="row">
 			<!-- <div class="col-sm-6">
 				<div class="panel panel-success">
-					<div class="panel-heading">数据</div>
+					<div class="panel-heading">æ°æ®</div>
 					<div class="panel-body">
 						
 						<div id="uploader" class="wu-example">
-							用来存放文件信息
+							ç¨æ¥å­æ¾æä»¶ä¿¡æ¯
 							<div id="thelist" class="uploader-list"></div>
 							<div class="btns">
-								<div id="picker">选择文件</div>
-								<button id="ctlBtn" class="btn btn-default">开始上传</button>
+								<div id="picker">éæ©æä»¶</div>
+								<button id="ctlBtn" class="btn btn-default">å¼å§ä¸ä¼ </button>
 							</div>
 						</div>
 						
@@ -98,40 +98,40 @@
 			</div> -->
 			<div class="col-sm-6">
 				<div class="panel panel-success">
-					<div class="panel-heading">中兴网管指标数据</div>
+					<div class="panel-heading">ä¸­å´ç½ç®¡ææ æ°æ®</div>
 					<div class="panel-body">
 					<div>
-								<span><i>备注：</i> </span> <span>请选择小区一天的网管数据</span>
+								<span><i>å¤æ³¨ï¼</i> </span> <span>è¯·éæ©å°åºä¸å¤©çç½ç®¡æ°æ®</span>
 							</div>
 						<form id="form1" action="/newsdas/data/upload?type=network" method="post"
 							enctype="multipart/form-data">
 							<input id="time" name="time" style="display: inline;padding: -10px;margin: -10px;height: 39px;margin-right: 10px;"
-										class="btn btn-white layer-date starttime" placeholder="请选择计算模式年月"
+										class="btn btn-white layer-date starttime" placeholder="è¯·éæ©è®¡ç®æ¨¡å¼å¹´æ"
 										onclick="laydate({istime: true, format: 'YYYYMM'})">
 							<input class="btn btn-white" type="file" name="file" id="file1" style="display: inline;"  accept=".csv"> <br> <br><input
-								class="btn btn-white" type="reset" value="重选"> <input 
-								class="btn btn-white" type="button" value="上传" onclick="submit_upload('#file1','#form1')">
-								<input class="btn btn-white" type="button" value="查看上传记录" onclick="openIframe('中兴网管指标数据')"> 
-								<progress id="progress" style="display: none">正在上传...</progress>
+								class="btn btn-white" type="reset" value="éé"> <input 
+								class="btn btn-white" type="button" value="ä¸ä¼ " onclick="submit_upload('#file1','#form1')">
+								<input class="btn btn-white" type="button" value="æ¥çä¸ä¼ è®°å½" onclick="openIframe('ä¸­å´ç½ç®¡ææ æ°æ®')"> 
+								<progress id="progress" style="display: none">æ­£å¨ä¸ä¼ ...</progress>
 						</form>
 					</div>
 				</div>
 			</div>		
 			<div class="col-sm-6">
 				<div class="panel panel-success">
-					<div class="panel-heading">性能工单</div>
+					<div class="panel-heading">æ§è½å·¥å</div>
 					<div class="panel-body">
 						<div>
-								<span><i>备注：</i> </span> <span>请选择单个性能工单表格文件</span>
+								<span><i>å¤æ³¨ï¼</i> </span> <span>è¯·éæ©åä¸ªæ§è½å·¥åè¡¨æ ¼æä»¶</span>
 						</div>
 						<form id="form2" action="/newsdas/data/upload?type=capacity"
 							method="post" enctype="multipart/form-data">
 							<input class="btn btn-white" type="file" name="file" id="file2" accept=".xls"> 
 								<br>
-								<input class="btn btn-white" type="reset" value="重选"> <input id="submit1"
-								class="btn btn-white" type="button" value="上传"  onclick="submit_upload('#file2','#form2')">
-								<input class="btn btn-white" type="button" value="查看上传记录" onclick="openIframe('性能工单数据')"> 
-							<progress id="progress1" max="200" style="display: none">正在上传...</progress>
+								<input class="btn btn-white" type="reset" value="éé"> <input id="submit1"
+								class="btn btn-white" type="button" value="ä¸ä¼ "  onclick="submit_upload('#file2','#form2')">
+								<input class="btn btn-white" type="button" value="æ¥çä¸ä¼ è®°å½" onclick="openIframe('æ§è½å·¥åæ°æ®')"> 
+							<progress id="progress1" max="200" style="display: none">æ­£å¨ä¸ä¼ ...</progress>
 						</form>
 					</div>
 				</div>
@@ -140,13 +140,13 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="panel panel-success">
-					<div class="panel-heading">中兴网管指标原始数据</div>
+					<div class="panel-heading">ä¸­å´ç½ç®¡ææ åå§æ°æ®</div>
 					<div class="panel-body" style="height: 230px">
 							<div>
-								<span><i>备注：</i> </span> <span>每次请选择一个文件！</span>
+								<span><i>å¤æ³¨ï¼</i> </span> <span>æ¯æ¬¡è¯·éæ©ä¸ä¸ªæä»¶ï¼</span>
 							</div>
 							<div class="col-sm-6" style="height: 125px;width: 100%;margin-top: 5px;">
-								<!-- <label>已选文件：</label> -->
+								<!-- <label>å·²éæä»¶ï¼</label> -->
 								<div
 									style="width: 100%; height: 95%; margin-top: -5px; border: 1px solid #ccc;">
 									<ul id="fileList">
@@ -154,13 +154,13 @@
 										<form action='/newsdas/data/uploadfile' method='post'enctype='multipart/form-data' 
 											onsubmit="return mySubmit(this);">
 											<input type="file" name="file" id="originfile"/>
-											<button class="btn btn-white" type="reset">清空</button>
-											<button id="originsubmit" class="btn btn-success" type="submit">上传</button>
+											<button class="btn btn-white" type="reset">æ¸ç©º</button>
+											<button id="originsubmit" class="btn btn-success" type="submit">ä¸ä¼ </button>
 										</form>
 										</li>
 										
 									</ul>
-									<input class="btn btn-white" type="button" value="查看上传记录" onclick="openIframe('中兴网管指标原始数据')">
+									<input class="btn btn-white" type="button" value="æ¥çä¸ä¼ è®°å½" onclick="openIframe('ä¸­å´ç½ç®¡ææ åå§æ°æ®')">
 								</div>
 							</div>
 
@@ -178,28 +178,28 @@
 	<!-- <script type="text/javascript">
 	var uploader = WebUploader.create({
 
-	    // swf文件路径
+	    // swfæä»¶è·¯å¾
 	    swf: '/newsdas' + '/lib/hplus/js/plugins/webuploader/Uploader.swf',
-	    // 文件接收服务端。
+	    // æä»¶æ¥æ¶æå¡ç«¯ã
 	    server: '',
-	    // 选择文件的按钮。可选。
-	    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+	    // éæ©æä»¶çæé®ãå¯éã
+	    // åé¨æ ¹æ®å½åè¿è¡æ¯åå»ºï¼å¯è½æ¯inputåç´ ï¼ä¹å¯è½æ¯flash.
 	    pick: '#picker',
-	    // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+	    // ä¸åç¼©image, é»è®¤å¦ææ¯jpegï¼æä»¶ä¸ä¼ åä¼åç¼©ä¸æåä¸ä¼ ï¼
 	    resize: false
 	});
-	// 当有文件被添加进队列的时候
+	// å½ææä»¶è¢«æ·»å è¿éåçæ¶å
 	uploader.on( 'fileQueued', function( file ) {
 	    $list.append( '<div id="' + file.id + '" class="item">' +
 	        '<h4 class="info">' + file.name + '</h4>' +
-	        '<p class="state">等待上传...</p>' +
+	        '<p class="state">ç­å¾ä¸ä¼ ...</p>' +
 	    '</div>' );
 	});
-	// 文件上传过程中创建进度条实时显示。
+	// æä»¶ä¸ä¼ è¿ç¨ä¸­åå»ºè¿åº¦æ¡å®æ¶æ¾ç¤ºã
 	uploader.on( 'uploadProgress', function( file, percentage ) {
 	    var $li = $( '#'+file.id ),
 	        $percent = $li.find('.progress .progress-bar');
-	    // 避免重复创建
+	    // é¿åéå¤åå»º
 	    if ( !$percent.length ) {
 	        $percent = $('<div class="progress progress-striped active">' +
 	          '<div class="progress-bar" role="progressbar" style="width: 0%">' +
@@ -207,16 +207,16 @@
 	        '</div>').appendTo( $li ).find('.progress-bar');
 	    }
 
-	    $li.find('p.state').text('上传中');
+	    $li.find('p.state').text('ä¸ä¼ ä¸­');
 	    $percent.css( 'width', percentage * 100 + '%' );
 	});
-	// 文件上传成功/失败显示。
+	// æä»¶ä¸ä¼ æå/å¤±è´¥æ¾ç¤ºã
 	uploader.on( 'uploadSuccess', function( file ) {
-	    $( '#'+file.id ).find('p.state').text('已上传');
+	    $( '#'+file.id ).find('p.state').text('å·²ä¸ä¼ ');
 	});
 
 	uploader.on( 'uploadError', function( file ) {
-	    $( '#'+file.id ).find('p.state').text('上传出错');
+	    $( '#'+file.id ).find('p.state').text('ä¸ä¼ åºé');
 	});
 
 	uploader.on( 'uploadComplete', function( file ) {
