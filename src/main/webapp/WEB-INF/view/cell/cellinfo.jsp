@@ -24,6 +24,15 @@
 					</div>
 					<div class="ibox-content">
 						<div class="form-group">
+							<label for="type">状态筛选(是否在用)：
+							<select name="type" id="type" class="form-control">
+                                    <option value="">全部</option>
+                                    <option value="1">是</option>
+                                    <option value="0">否</option>
+                             </select>
+							</label>	
+							<button style="margin-left: 5px;" class="btn btn-success"
+								onclick="searchInfo();">查询</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<button id="setUsed"  class="btn btn-success" onclick="setUsed()">设为使用状态</button>
 							<button id="clear" style="margin-left: 5px;" class="btn btn-white" onclick="clearUsed()">取消使用</button>
 						</div>
