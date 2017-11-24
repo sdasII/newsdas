@@ -47,16 +47,9 @@ $(function(){
 //全局查询参数
 var bsdata = {};
 // 查询表格信息
-function searchInfo() { 
+function searchInfo() {
+	bsdata.type=$("#type").val();
     commonRowDatas("table_list", bsdata, cellListUrl, "commonCallback", true);
-}
-function select(){
-	var name = $("#name").val();
-	var scene = $("#scene").val();
-    bsdata.name = name;
-    bsdata.scene = scene;             
-    commonRowDatas("table_list", bsdata, cellListUrl, "commonCallback", true);
-   
 }
 function setUsed(){
 	var selected= $("#table_list").bootstrapTable('getSelections');

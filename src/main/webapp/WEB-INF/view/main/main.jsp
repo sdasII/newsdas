@@ -11,7 +11,7 @@
 <%@ include file="/include/common.jsp"%>
 <script type="text/javascript" src="${context}/js/login/main.js"></script>
 </head>
-<body class="fixed-sidebar full-height-layout gray-bg"
+<body class="fixed-sidebar full-height-layout gray-bg mini-navbar"
 	style="overflow: hidden">
 	<div id="wrapper">
 		<!--左侧导航开始-->
@@ -138,7 +138,7 @@
 					style="margin-bottom: 0">
 				<div class="navbar-header">
 					<a class="navbar-minimalize minimalize-styl-2 btn btn-primary "style="height:30px;" id="shrink_btn"
-						href="#"><i class="fa fa-chevron-left" style="margin-top: 2px;"></i></a><!-- <i class="fa fa-chevron-right"></i> -->
+						href="#"><i class="fa fa-chevron-right" style="margin-top: 2px;"></i></a><!-- <i class="fa fa-chevron-left"></i> -->
 				</div>
 				</nav>
 			</div>
