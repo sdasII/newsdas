@@ -69,14 +69,21 @@ public class ContinueFTP {
 	 */
 	public boolean connect(String hostname, int port, String username, String password) throws IOException {
 		ftpClient.connect(hostname, port);
+		System.out.println("2.1...连接ftp！");
 		//ftpClient.setControlEncoding("UTF-8");
 		if (FTPReply.isPositiveCompletion(ftpClient.getReplyCode())) {
 			if (ftpClient.login(username, password)) {
+				System.out.println("2.2...登录到ftp！");
 				if (FTPReply.isPositiveCompletion(ftpClient.sendCommand(
 						"OPTS UTF8", "ON"))) {// 开启服务器对UTF-8的支持，如果服务器支持就用UTF-8编码，否则就使用本地编码（GBK）.
 						LOCAL_CHARSET = "UTF-8";
+						System.out.println("2.3...设置编码！");
 				}
-				ftpClient.setControlEncoding(LOCAL_CHARSET);
+				ftpClient.setControlEncoding(LOCAL_CHARSET);			
+				// 设置被动模式
+				ftpClient.enterLocalPassiveMode();
+				// 设置以二进制方式传输
+				ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
 				return true;
 			}
 		}
@@ -96,10 +103,6 @@ public class ContinueFTP {
 	 * @throws IOException
 	 */
 	public FTPStatus download(String remote, String local) throws IOException {
-		// 设置被动模式
-		ftpClient.enterLocalPassiveMode();
-		// 设置以二进制方式传输
-		ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
 		FTPStatus result;
 
 		// 检查远程文件是否存在
@@ -188,16 +191,14 @@ public class ContinueFTP {
 	 * @throws IOException
 	 */
 	public FTPStatus upload(MultipartFile multlocal, String remote, String time) throws IOException {
-		// 设置PassiveMode传输
-		ftpClient.enterLocalPassiveMode();
-		// 设置以二进制流的方式传输
-		ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-		//ftpClient.setControlEncoding("UTF-8");
+
 		FTPStatus result;
 		// 远程文件名
 		String remoteFileName = remote;
 		// 递归生成远程目录
+		System.out.println("4.....创建指定目录！前");
 		String remotePath = CreateDirecroty(ftpClient, time);
+		System.out.println("4.....创建指定目录！后");
 		if (!FTPStatus.Create_Directory_Fail.toString().equals(remotePath)) {
 			// 检查远程是否存在文件  new String(fileName.getBytes(LOCAL_CHARSET),SERVER_CHARSET)
 			FTPFile[] files = ftpClient.listFiles(new String(remoteFileName.getBytes(LOCAL_CHARSET),SERVER_CHARSET));
@@ -209,6 +210,7 @@ public class ContinueFTP {
 					return FTPStatus.Remote_Bigger_Local;
 				}
 				// 尝试移动文件内读取指针,实现断点续传
+				System.out.println("5.....开始上传！");
 				result = uploadFile(remoteFileName, multlocal, ftpClient, remoteSize);
 				// 如果断点续传没有成功，则删除服务器上文件，重新上传
 				if (result == FTPStatus.Upload_From_Break_Failed) {
@@ -313,6 +315,7 @@ public class ContinueFTP {
 		double localreadbytes = 0L;
 		InputStream in = multipartFile.getInputStream();
 		OutputStream out = ftpClient.appendFileStream(new String(remoteFile.getBytes(LOCAL_CHARSET),SERVER_CHARSET));
+		System.out.println("6.....进入上传函数！");
 		// 断点续传
 		if (remoteSize > 0) {
 			ftpClient.setRestartOffset(remoteSize);
@@ -322,8 +325,7 @@ public class ContinueFTP {
 		}
 		byte[] bytes = new byte[1024 * 1024];
 		int c;
-		long start = System.currentTimeMillis();
-		System.out.println("########################***************☆开始上传☆***********####################");
+		System.out.println("7.....开始写数据！");
 		while ((c = in.read(bytes)) != -1) {
 			out.write(bytes, 0, c);
 			localreadbytes += c;
@@ -339,12 +341,10 @@ public class ContinueFTP {
 		out.flush();
 		in.close();
 		out.close();
+		System.out.println("8.....写完数据！");
 		// boolean result = ftpClient.storeFile(remoteFile, in);
 		boolean result = ftpClient.completePendingCommand();
-		long end = System.currentTimeMillis();
-		long time = end - start;
-		System.out.println(
-				"########################***************☆上传结束:消耗时间：" + time + "毫秒☆***********####################");
+		System.out.println("9.....上传结束！");
 		if (remoteSize > 0) {
 			status = result ? FTPStatus.Upload_From_Break_Success : FTPStatus.Upload_From_Break_Failed;
 		} else {

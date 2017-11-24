@@ -1,6 +1,5 @@
 package com.iscas.sdas.controller.data;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.iscas.sdas.dto.FileLogDto;
 import com.iscas.sdas.dto.TableInfoDto;
 import com.iscas.sdas.dto.work.AllCapacityWorkDto;
-import com.iscas.sdas.dto.work.AllOutServerDto;
 import com.iscas.sdas.service.CommonService;
 import com.iscas.sdas.service.WorkService;
 import com.iscas.sdas.service.log.FileLogService;
@@ -49,9 +47,9 @@ public class DataController{
 		return new ModelAndView("/data/online");
 	}
 	@RequestMapping("/offline")
-	public ModelAndView offline(){
+	public ModelAndView offline(HttpServletRequest request){
 		ModelAndView modelAndView  = new ModelAndView("/data/offline");
-		modelAndView.addObject("success", Constraints.RESULT_UNKNOWN);
+		modelAndView.addObject("success", Constraints.RESULT_UNKNOWN);		
 		return modelAndView;
 	}
 	
@@ -164,43 +162,6 @@ public class DataController{
 			List<FileLogDto> fileLogDtos = new ArrayList<>();
 			fileLogDtos.add(fileLogDto);
 			fileLogService.insert(fileLogDtos);
-		} else if ("fault".equals(type)) {
-
-		} else if ("complaint".equals(type)) {
-
-		} else if ("outservice".equals(type)) {
-			String tablename = "t_wireless_retirement";
-			List<TableInfoDto> tableInfoDtos = commonService.tableindex(tablename);
-			List<AllOutServerDto> osWorkDtos = new ArrayList<>();
-			List<String> paths = CommonUntils.MultipleFilesUpload(request);
-			if (paths != null && paths.size() > 0) {
-				if (tableInfoDtos != null && tableInfoDtos.size() > 0) {
-					int rows = FileImport.tablerows(paths.get(0));
-					for (int i = 0; i < rows; i++) {
-						AllOutServerDto workDto = new AllOutServerDto();
-						osWorkDtos.add(workDto);
-					}
-					try {
-						FileImport.importwork(paths.get(0), osWorkDtos, tableInfoDtos);// 将excel映射为对象
-						outServerService.clearOSWork(); // 清空表
-						outServerService.insertOSWork(osWorkDtos);
-						modelAndView.addObject("success", Constraints.RESULT_SUCCESS);
-					} catch (Exception e) {
-						e.printStackTrace();
-						modelAndView.addObject("success", Constraints.RESULT_FAIL);
-					}
-
-				}
-			}
-		}else if ("file".equals(type)) {
-			try {	
-				CommonUntils.MultipleFileImport(fileLogService,request,"中兴网管指标原始数据");
-				modelAndView.addObject("success", Constraints.RESULT_SUCCESS);														
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-				modelAndView.addObject("success", Constraints.RESULT_FAIL+ ":上传失败！");
-			}			
 		}
 		return modelAndView;
 	}
@@ -212,6 +173,7 @@ public class DataController{
 	@RequestMapping("/uploadfile")
 	@ResponseBody
 	public ModelMap uploadFile(HttpServletRequest request) {
+		System.out.println("1...controller 获取请求！");
 		ModelMap model = new ModelMap();
 		String time = request.getParameter("time");				
 		FTPStatus status = originDateUpload(request,time);
@@ -226,15 +188,17 @@ public class DataController{
 		MultipartHttpServletRequest mutiRequest = (MultipartHttpServletRequest) request;
 		MultipartFile sourceFile = mutiRequest.getFiles("file").get(0);
 		String filename = sourceFile.getOriginalFilename();
+		System.out.println("2...获取到文件！");
+		FileLogDto fileLogDto = new FileLogDto();
+		fileLogDto.setStarttime(new Date());
+		fileLogDto.setType("中兴网管指标原始数据");
+		fileLogDto.setFilename(filename);
 		ContinueFTP myFtp = new ContinueFTP();
 		try {
-			myFtp.connect("49.4.6.47", 21, "ftpadmin", "ftp_qd123");
-			//myFtp.connect("192.168.0.199", 21, "ftpadmin", "ftp_qd123");
-			request.getSession().setAttribute(Constraints.SESSION_FTP_STATUS, myFtp);
-			FileLogDto fileLogDto = new FileLogDto();
-			fileLogDto.setStarttime(new Date());
-			fileLogDto.setType("中兴网管指标原始数据");
-			fileLogDto.setFilename(filename);
+			//myFtp.connect("49.4.6.47", 21, "ftpadmin", "ftp_qd123");
+			System.out.println("3...连接到ftp");
+			myFtp.connect("192.168.0.199", 21, "ftpadmin", "ftp_qd123");
+			request.getSession().setAttribute(Constraints.SESSION_FTP_STATUS, myFtp);						
 			long starttime = System.currentTimeMillis();
 			FTPStatus status = myFtp.upload(sourceFile, filename,yyyyMMdd);
 			fileLogDto.setEndtime(new Date());
@@ -249,8 +213,8 @@ public class DataController{
 			fileLogService.insertOne(fileLogDto);
 			myFtp.disconnect();			
 			return status;
-		} catch (IOException e) {
-			request.getSession().setAttribute(Constraints.SESSION_FTP_STATUS, null);
+		} catch (Exception e) {
+			request.getSession().setAttribute(Constraints.SESSION_FTP_STATUS, myFtp);
 			return FTPStatus.CONNECT_FAIL;
 		}
 
@@ -267,9 +231,6 @@ public class DataController{
 		ContinueFTP ftp = (ContinueFTP)request.getSession().getAttribute(Constraints.SESSION_FTP_STATUS);
 		if (ftp!=null) {
 			map.addAttribute("progress", ftp.getProgress());
-			if (ftp.getProgress()==100) {
-				request.getSession().setAttribute(Constraints.SESSION_FTP_STATUS, null);
-			}
 			map.addAttribute(Constraints.RESULT_SUCCESS, true);
 		}else {
 			map.addAttribute(Constraints.RESULT_SUCCESS, false);

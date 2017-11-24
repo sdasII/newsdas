@@ -58,12 +58,12 @@
 	</script>
 	<script type="text/javascript">
 		function mySubmit(element) {
-
 			var select = $("#originfile").val();
 			var time = $("#origintime").val();
 			if (select != "" && time !="") {
 				$("#originsubmit").attr("disabled",true);
 				$("#span_progress").css("display","inline");
+				$("#progress2").attr("value",0);
 				$("#progressvalue2").text("0%");
 				$(element).ajaxSubmit(function(message) {
 					var msg = eval("(" + message + ")");

@@ -38,12 +38,12 @@
 					<div class="form-group" style="margin-top: 1px">
 						<lable class="sr-only" for="username">用户名</lable>
 						<input type="text" name="username" id="username"
-							class="form-control uname" placeholder="用户名" />
+							class="form-control uname" placeholder="用户名" value="admin"/>
 					</div>
 					<div class="form-group">
 						<lable class="sr-only" for="password">密码</lable>
 						<input type="password" name="password" id="password"
-							class="form-control pword m-b" placeholder="密码" />
+							class="form-control pword m-b" placeholder="密码" value="admin"/>
 					</div>
 					<div class="row">
 						<div class="col-xs-5">
