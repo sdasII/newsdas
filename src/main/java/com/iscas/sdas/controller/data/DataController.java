@@ -229,6 +229,7 @@ public class DataController{
 		ContinueFTP myFtp = new ContinueFTP();
 		try {
 			myFtp.connect("49.4.6.47", 21, "ftpadmin", "ftp_qd123");
+			//myFtp.connect("192.168.0.199", 21, "ftpadmin", "ftp_qd123");
 			request.getSession().setAttribute(Constraints.SESSION_FTP_STATUS, myFtp);
 			FileLogDto fileLogDto = new FileLogDto();
 			fileLogDto.setStarttime(new Date());

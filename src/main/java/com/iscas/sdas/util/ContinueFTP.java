@@ -284,6 +284,8 @@ public class ContinueFTP {
         }
         byte[] bytes = new byte[1024*1024];   
         int c;  
+        long start = System.currentTimeMillis();
+        System.out.println("########################***************☆开始上传☆***********####################"); 
         while((c = in.read(bytes))!= -1){   
             out.write(bytes,0,c);   
             localreadbytes+=c;   
@@ -292,7 +294,7 @@ public class ContinueFTP {
                 process = (localreadbytes / allbytes)*100;
                 
                 //TODO 汇报上传状态   
-                System.out.println("上传进度:" + process);  
+                 
                 setProgress(process);
             }   
         }   
@@ -301,6 +303,9 @@ public class ContinueFTP {
         out.close();  
         //boolean result = ftpClient.storeFile(remoteFile, in);
         boolean result =ftpClient.completePendingCommand();   
+        long end = System.currentTimeMillis();
+        long time = end-start;
+        System.out.println("########################***************☆上传结束:消耗时间："+time+"毫秒☆***********####################"); 
         if(remoteSize > 0){   
             status = result?FTPStatus.Upload_From_Break_Success:FTPStatus.Upload_From_Break_Failed;   
         }else {   

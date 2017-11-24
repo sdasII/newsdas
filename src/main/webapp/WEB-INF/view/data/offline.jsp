@@ -51,7 +51,7 @@
 	<script type="text/javascript">
 		var status = 'unkown';
 		if (status == 'success') {
-			showOnlyMessage(INFO, "å¯¼å¥æ°æ®æåï¼");
+			showOnlyMessage(INFO, "上传成功");
 		} else if (status.indexOf("fail") >= 0) {
 			showOnlyMessage(ERROR, status);
 		}
@@ -61,24 +61,28 @@
 
 			var select = $("#originfile").val();
 			var time = $("#origintime").val();
-			if (select != "" && time !="") {				
+			if (select != "" && time !="") {
+				$("#originsubmit").attr("disabled",true);
+				$("#span_progress").css("display","inline");
+				$("#progressvalue2").text("0%");
 				$(element).ajaxSubmit(function(message) {
 					var msg = eval("(" + message + ")");
 					var fileStatus = msg.status;
+					$("#originsubmit").attr("disabled",false);
 					if (fileStatus.indexOf("失败") >= 0) {
 						showOnlyMessage(ERROR, fileStatus);
 						$("#originsubmit").val("续传");
 					} else if (fileStatus.indexOf("成功") >= 0) {
 						showOnlyMessage(INFO, fileStatus);
-						$("#originfile").val("");
+						//$("#originfile").val("");
 						$("#originsubmit").val("上传");
 					} else {
 						showOnlyMessage("warning", fileStatus);
 					}
 				});
-				setTimeout(() => {
+				setTimeout(function() {
 					longPoling();
-				}, 6000);			
+				}, 100);			
 			}else if(select == ""){
 				showOnlyMessage(ERROR, "请选择文件！");
 			}else if (time == "") {
@@ -108,7 +112,8 @@
 								onclick="laydate({istime: true, format: 'YYYYMM'})"> <input
 								class="btn btn-white" type="file" name="file" id="file1"
 								style="display: inline;" accept=".csv"> <br> <br>
-							<input class="btn btn-white" type="reset" value="重选"> <input
+							<input class="btn btn-white" type="reset" value="重选"> 
+							<input
 								class="btn btn-white" type="button" value="上传"
 								onclick="submit_upload('#file1','#form1')"> <input
 								class="btn btn-white" type="button" value="查看上传记录"
@@ -159,7 +164,7 @@
 							<button id="originsubmit" class="btn btn-success" type="submit">上传</button>
 							<input class="btn btn-white" type="button" value="查看上传记录"
 							onclick="openIframe('中兴网管指标原始数据')">
-							<progress id="progress2" max="100" value="0"></progress><em>上传进度：</em><span id="progressvalue2">0%</span>
+							<span id="span_progress" style="display: none;"><progress id="progress2" max="100" value="0"></progress><em>上传进度：</em><span id="progressvalue2">0%</span></span>
 						</form>						
 					</div>
 				</div>
