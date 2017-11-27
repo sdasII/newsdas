@@ -30,8 +30,8 @@ import com.iscas.sdas.util.ContinueFTP;
 import com.iscas.sdas.util.FTPStatus;
 import com.iscas.sdas.util.FileImport;
 
-import tasks.realtime.CellUploadFileOfExpertTask;
-import tasks.realtime.CellUploadFileTask;
+import tasks.cell.netupload.CellUploadFileOfExpertTask;
+import tasks.cell.netupload.CellUploadFileTask;
 
 @Controller
 @RequestMapping("/data")
@@ -54,16 +54,7 @@ public class DataController{
 		modelAndView.addObject("success", Constraints.RESULT_UNKNOWN);
 		return modelAndView;
 	}
-	
-	@RequestMapping("/test")
-	public ModelAndView test(HttpServletRequest request) {
-		ModelAndView modelAndView = new ModelAndView("data/offline");
-		String path = "/home/hadoop/systempdata/test_rtdata_net.csv";
-		System.err.println(path);
-		CellUploadFileTask.doUploadFileWork(path);
-		System.err.println("task over!");
-		return modelAndView;
-	}
+
 	/**
 	 * 文件上传
 	 * @param request
@@ -75,23 +66,25 @@ public class DataController{
 		String type = request.getParameter("type");
 		if ("network".equals(type)) {
 			String time = request.getParameter("time");
-			String path = null;
+			String cal_time=request.getParameter("cal_time");
+			String path = request.getParameter("path");
 			FileLogDto fileLogDto = new FileLogDto();
 			long starttime = System.currentTimeMillis();
 			fileLogDto.setStarttime(new Date());
 			fileLogDto.setType("中兴网管指标数据");
-			try {
+			/*try {
 				path = CommonUntils.FileImprot(request, fileLogDto);
 			} catch (Exception e1) {
 				e1.printStackTrace();
 				fileLogDto.setResult(0);
 				modelAndView.addObject("success", Constraints.RESULT_FAIL+ ":上传失败！");
-			}
+			}*/
 			if (path!=null) {
 				try {
-					String[] args = new String[2];
+					String[] args = new String[3];
 					args[0] = path;
-					args[1] = time;
+					args[1] = time;//XXX 
+					args[2]=cal_time;
 					fileLogDto.setMethodstart(new Date());
 					new CellUploadFileTask().runTask(args);
 					new CellUploadFileOfExpertTask().runTask(args);	

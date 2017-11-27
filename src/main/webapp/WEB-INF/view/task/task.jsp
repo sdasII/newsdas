@@ -40,6 +40,7 @@ input[type='textarea'] {
 .col-sm-4 {
 	margin-left: 60px
 }
+.error_msg{display: none; color:red}
 </style>
 <script type="text/javascript" src="${context}/lib/hplus/js/plugins/layer/laydate/laydate.js"></script>
 <script type="text/javascript" src="${context}/js/task.js"></script>
@@ -56,7 +57,7 @@ input[type='textarea'] {
 						<div class="panel panel-success">
 							<div class="panel-heading">切片</div>
 							<div class="panel-body">
-								<div class="form-group">
+							<!-- <div class="form-group">
 									<label class="col-sm-3 control-label">源目录：</label>
 									<div class="col-sm-8">
 										<input type="text" placeholder="Source" id="Source" class="form-control">
@@ -75,6 +76,31 @@ input[type='textarea'] {
 										<input type="radio" checked="" value="0" name="deleteOut"
 											style="margin-left: 20px"><span>否</span>
 
+									</div>
+									<div class="col-sm-4 col-sm-offset-3" style="margin-top: 10px">
+										<button class="btn btn-info search" type="button"
+											onclick="section()">确定</button>
+									</div>
+								</div> -->
+								<div class="form-group">
+									<label class="col-sm-3 control-label">源目录：</label>
+									<div class="col-sm-8">
+										<input type="text" placeholder="请输入源目录" id="Source" class="form-control">
+										<span class="help-block m-b-none">格式：<br>'hdfs://ip:port/data/NetManage/2017/11/'</span>
+										<span id="Source_error" class="error_msg">源目录不能为空！</span>
+									</div>
+									<label class="col-sm-3 control-label">匹配文件：</label>
+									<div class="col-sm-8">
+										<input type="text" placeholder="请输入匹配文件" id="files" class="form-control">
+										<span class="help-block m-b-none">格式：'*.csv'</span>
+										<span id="files_error" class="error_msg">匹配文件不能为空！</span>
+									</div>
+									<label class="col-sm-3 control-label">是否删除目录：</label>
+									<div class="col-sm-8" style="margin-top: 10px">
+										<input type="radio" checked="" value="1"
+											name="deleteOut" style="margin-left: 20px"><span>是</span>
+										<input type="radio" checked="checked" value="0" name="deleteOut"
+											style="margin-left: 20px"><span>否</span>
 									</div>
 									<div class="col-sm-4 col-sm-offset-3" style="margin-top: 10px">
 										<button class="btn btn-info search" type="button"
@@ -103,6 +129,7 @@ input[type='textarea'] {
 											<input id="model_time" class="layer-date"
 												placeholder="请输入计算时间"
 												onclick="laydate({istime: false, format: 'YYYYMM'})">
+												<span class="error_msg">时间不能为空！</span>
 											<button class="btn btn-info search" type="button"
 												onclick="calculate('#model_time','/newsdas/timer/OffLineNormalState')">确定</button>
 										</div>
@@ -124,6 +151,7 @@ input[type='textarea'] {
 									<div class="col-sm-8">
 											<input id="model_time_expert" class="layer-date"
 												placeholder="请输入计算时间" onclick="laydate({istime: false, format: 'YYYYMM'})">
+												<span class="error_msg">时间不能为空！</span>
 											<input class="btn btn-info search" type="button" name="OK" value="OK"
 												onclick="calculate('#model_time_expert','/newsdas/timer/OffLineNormalStateExpert')">
 										</div>
@@ -151,6 +179,7 @@ input[type='textarea'] {
 											<input id="Health_time" class="layer-date"
 												placeholder="请输入计算时间"
 												onclick="laydate({istime: false, format: 'YYYYMM'})">
+												<span class="error_msg">时间不能为空！</span>
 											<button class="btn btn-info search" type="button"
 												onclick="calculate('#Health_time','/newsdas/timer/HealthDegreeHistory')">确定</button>
 										</div>
@@ -181,6 +210,7 @@ input[type='textarea'] {
 											<input id="Percent_time" class="layer-date"
 												placeholder="请输入计算时间"
 												onclick="laydate({istime: false, format: 'YYYYMM'})">
+												<span class="error_msg">时间不能为空！</span>
 											<button class="btn btn-info search" type="button"
 												onclick="calculate('#Percent_time','/newsdas/timer/CellHealthPercent')">确定</button>
 										</div>
@@ -211,6 +241,7 @@ input[type='textarea'] {
 											<input id="alarm_time" class="layer-date"
 												placeholder="请输入计算时间"
 												onclick="laydate({istime: false, format: 'YYYYMM'})">
+												<span class="error_msg">时间不能为空！</span>
 											<button class="btn btn-info search" type="button"
 												onclick="calculate('#alarm_time','/newsdas/timer/IndexWarning')">确定</button>
 										</div>
