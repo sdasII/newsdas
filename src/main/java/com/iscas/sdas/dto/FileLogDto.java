@@ -20,6 +20,8 @@ public class FileLogDto extends BaseDto{
     private Date methodend;
 
     private Long alltime;
+    
+    private Long allmethodtime;
 
     private Integer result;// 1是成功；0是失败
 
@@ -78,8 +80,16 @@ public class FileLogDto extends BaseDto{
     public void setMethodend(Date methodend) {
         this.methodend = methodend;
     }
+       
+    public Long getAllmethodtime() {
+		return allmethodtime;
+	}
 
-    public Long getAlltime() {
+	public void setAllmethodtime(Long allmethodtime) {
+		this.allmethodtime = allmethodtime;
+	}
+
+	public Long getAlltime() {
         return alltime;
     }
 
