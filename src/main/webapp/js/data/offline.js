@@ -14,7 +14,11 @@ $("#form2").submit(function() {
 $("#file3").change(function(e){
 	file_upload(e.target.files);
 });
-
+$("#reset_btn").click(function(){
+	$("#nettime_error").hide();
+	$("#netcaltime_error").hide();
+	$("#netpath_error").hide();
+});
 ///
 /*$('#file1_up').submit(function(){
     $.ajax({
@@ -205,12 +209,28 @@ function longPoling(){
     });
 }
 
-
 function submit_upload(id,formid){
 	if($(id).val()==""){
 		 alert("请选择文件进行上传");
 	}else{
 		$(formid).submit();
+	}
+}
+function submit_cal(){
+	$("#nettime_error").hide();
+	$("#netcaltime_error").hide();
+	$("#netpath_error").hide();
+	if($("#net_time").val()==""){
+		$("#nettime_error").show();
+		return;
+	}else if($("#net_caltime").val()==""){
+		$("#netcaltime_error").show();
+		return;
+	}else if($("#net_path").val()==""){
+		$("#netpath_error").show();
+		return;
+	}else{
+		$("#form1").submit();
 	}
 }
 

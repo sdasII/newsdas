@@ -32,7 +32,7 @@ public class TimerController {
 	public ModelMap section(HttpServletRequest request){
 		ModelMap map = new ModelMap();
 		String  source=request.getParameter("source");
-		String  output=request.getParameter("output");
+		String  files=request.getParameter("files");
 		String  ifdel=request.getParameter("ifdel");
 		Boolean ifdeleteOut=false;
 		if(!CommonUntils.isempty(ifdel)){
@@ -42,9 +42,9 @@ public class TimerController {
 				ifdeleteOut=false;
 			}
 		}
-		if(!CommonUntils.isempty(source)&&!CommonUntils.isempty(output)&&!CommonUntils.isempty(ifdel)){
+		if(!CommonUntils.isempty(source)&&!CommonUntils.isempty(files)&&!CommonUntils.isempty(ifdel)){
 			FileSpliteTask fileSpliteTask=new FileSpliteTask();
-			String[] str=new String[]{source,output,ifdel};
+			String[] str=new String[]{source,files,ifdel};
 			fileSpliteTask.runTask(str);
 			map.addAttribute(Constraints.RESULT_SUCCESS, true);
 		}else{
@@ -115,8 +115,8 @@ public class TimerController {
 		ModelMap map = new ModelMap();
 		String  time=request.getParameter("time");
 		if(!CommonUntils.isempty(time)){
-			IndexWarningTask indexWarningTask=new IndexWarningTask();
-			indexWarningTask.runTask(new String[]{time});
+			BGTask task=new IndexWarningTask();
+			task.runTask(new String[]{time});
 			map.addAttribute(Constraints.RESULT_SUCCESS, true);
 		}else{
 			map.addAttribute(Constraints.RESULT_SUCCESS, false);
