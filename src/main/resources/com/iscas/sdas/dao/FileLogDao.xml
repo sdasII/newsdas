@@ -9,6 +9,7 @@
     <result column="endtime" jdbcType="TIMESTAMP" property="endtime" />
     <result column="methodstart" jdbcType="TIMESTAMP" property="methodstart" />
     <result column="methodend" jdbcType="TIMESTAMP" property="methodend" />
+    <result column="allmethodtime" jdbcType="BIGINT" property="allmethodtime" />
     <result column="alltime" jdbcType="BIGINT" property="alltime" />
     <result column="result" jdbcType="INTEGER" property="result" />
   </resultMap>
