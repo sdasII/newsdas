@@ -10,6 +10,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.iscas.datas.ratio.Degree;
 import com.iscas.datas.ratio.HealthDegree;
 import com.iscas.sdas.dao.WorkDao;
 import com.iscas.sdas.dao.work.AllCapacityWorkDao;
@@ -86,16 +87,16 @@ public class WorkService {
 					String yyyyMMdd = year+str_month+str_day;//"20170804";
 					cellcode = utils.CharUtils.cellCode(cellcode);
 					HealthDegree hd = new HealthDegree(cellcode, yyyyMM, yyyyMMdd);
-					Map<String, HealthDegree.Degree> map = hd.getDegrees();
+					Map<String, Degree> map = hd.getDegrees();
 					if (map!=null) {
 						Set<String> set =  map.keySet();
 				    	Iterator<String> iterator =  set.iterator();
 				    	int faults = 0,normals = 0;
 				    	while (iterator.hasNext()) {
 							String key = (String) iterator.next();
-							if (map.get(key).equals(HealthDegree.Degree.Fault)) {
+							if (map.get(key).equals(Degree.Fault)) {
 								faults++;
-							}else if (map.get(key).equals(HealthDegree.Degree.Normal)) {
+							}else if (map.get(key).equals(Degree.Normal)) {
 								normals++;
 							}
 						}

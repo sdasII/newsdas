@@ -6,17 +6,16 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import tasks.BGTask;
-import tasks.cell.OffLineNormalStateBDTask;
-import tasks.cell.OffLineNormalStateBDTask2;
-import tasks.cell.OffLineNormalStateOfExpertDBTask;
-import tasks.realtime.CellHealthPercentageWangGuanAllTask;
-import tasks.realtime.HealthDegreeHistoryTask;
-import tasks.sheet.IndexWarningTask;
-import tasks.split.FileSpliteTask;
-
 import com.iscas.sdas.util.CommonUntils;
 import com.iscas.sdas.util.Constraints;
+
+import tasks.BGTask;
+import tasks.cell.degree.HealthDegreeHistoryTask;
+import tasks.cell.model.OffLineHealthModelBDTask;
+import tasks.cell.model.OffLineHealthModelOfExpertDBTask;
+import tasks.cell.ratio.CellHealthRatioHistoryTask;
+import tasks.sheet.IndexWarningTask;
+import tasks.split.FileSpliteTask;
 
 @Controller
 @RequestMapping("/timer")
@@ -64,7 +63,7 @@ public class TimerController {
 		ModelMap map = new ModelMap();
 		String  time=request.getParameter("time");
 		if(!CommonUntils.isempty(time)){
-			BGTask task=new OffLineNormalStateOfExpertDBTask();//XXX 专家模式计算簇心
+			BGTask task=new OffLineHealthModelOfExpertDBTask();//XXX 专家模式计算簇心
 			task.runTask(new String[]{time});
 			map.addAttribute(Constraints.RESULT_SUCCESS, true);
 		}else{
@@ -77,8 +76,8 @@ public class TimerController {
 		ModelMap map = new ModelMap();
 		String  time=request.getParameter("time");
 		if(!CommonUntils.isempty(time)){
-			OffLineNormalStateBDTask2 offLineNormalStateBDTask=new OffLineNormalStateBDTask2();
-			offLineNormalStateBDTask.runTask(new String[]{time});
+			BGTask task=new OffLineHealthModelBDTask();
+			task.runTask(new String[]{time});
 			map.addAttribute(Constraints.RESULT_SUCCESS, true);
 		}else{
 			map.addAttribute(Constraints.RESULT_SUCCESS, false);
@@ -90,8 +89,8 @@ public class TimerController {
 		ModelMap map = new ModelMap();
 		String  time=request.getParameter("time");
 		if(!CommonUntils.isempty(time)){
-			HealthDegreeHistoryTask healthDegreeHistoryTask=new HealthDegreeHistoryTask();
-			healthDegreeHistoryTask.runTask(new String[]{time});
+			BGTask task=new HealthDegreeHistoryTask();
+			task.runTask(new String[]{time});
 			map.addAttribute(Constraints.RESULT_SUCCESS, true);
 		}else{
 			map.addAttribute(Constraints.RESULT_SUCCESS, false);
@@ -103,8 +102,8 @@ public class TimerController {
 		ModelMap map = new ModelMap();
 		String  time=request.getParameter("time");
 		if(!CommonUntils.isempty(time)){
-			CellHealthPercentageWangGuanAllTask cellHealthPercentageWangGuanAllTask=new CellHealthPercentageWangGuanAllTask();
-			cellHealthPercentageWangGuanAllTask.runTask(new String[]{time});
+			BGTask task=new CellHealthRatioHistoryTask();
+			task.runTask(new String[]{time});
 			map.addAttribute(Constraints.RESULT_SUCCESS, true);
 		}else{
 			map.addAttribute(Constraints.RESULT_SUCCESS, false);

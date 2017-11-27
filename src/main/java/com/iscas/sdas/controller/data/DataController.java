@@ -30,8 +30,8 @@ import com.iscas.sdas.util.ContinueFTP;
 import com.iscas.sdas.util.FTPStatus;
 import com.iscas.sdas.util.FileImport;
 
-import tasks.realtime.CellUploadFileOfExpertTask;
-import tasks.realtime.CellUploadFileTask;
+import tasks.cell.netupload.CellUploadFileOfExpertTask;
+import tasks.cell.netupload.CellUploadFileTask;
 
 @Controller
 @RequestMapping("/data")
@@ -54,16 +54,7 @@ public class DataController{
 		modelAndView.addObject("success", Constraints.RESULT_UNKNOWN);
 		return modelAndView;
 	}
-	
-	@RequestMapping("/test")
-	public ModelAndView test(HttpServletRequest request) {
-		ModelAndView modelAndView = new ModelAndView("data/offline");
-		String path = "/home/hadoop/systempdata/test_rtdata_net.csv";
-		System.err.println(path);
-		CellUploadFileTask.doUploadFileWork(path);
-		System.err.println("task over!");
-		return modelAndView;
-	}
+
 	/**
 	 * 文件上传
 	 * @param request
