@@ -45,6 +45,7 @@
 #fileList input {
 	margin-top: 5px;
 }
+.error_msg{display: none; color:red}
 </style>
 </head>
 <body>
@@ -141,7 +142,6 @@
 				<div class="panel panel-success">
 					<div class="panel-heading">中兴网管指标数据</div>
 					<div class="panel-body">
-
 						<div>
 							<span><i>备注：</i> </span> <span>请选择小区一天的网管数据</span>
 						</div>
@@ -162,6 +162,8 @@
 								onclick="openIframe('中兴网管指标数据')">
 							<progress id="progress1" style="display: none">正在上传...</progress>
 						</form>
+						<!-- <input class="btn btn-white" type="button" value="查看上传记录"
+								onclick="openIframe('中兴网管指标数据')"> -->
 					</div>
 				</div>
 			</div>
@@ -201,7 +203,8 @@
 								style="display: inline; padding: -10px; margin: -10px; height: 39px; margin-right: 10px;"
 								class="btn btn-white layer-date starttime" placeholder="请选择文件时间"
 								onclick="laydate({istime: false, format: 'YYYYMMDD'})">
-							<input class="btn btn-white" type="file" name="file" id="originfile" style="display: inline;"/><br><br>
+							<input class="btn btn-white" type="file" name="file"
+								id="originfile" style="display: inline;" /><br> <br>
 							<button class="btn btn-white" type="reset">清空</button>
 							<button id="originsubmit" class="btn btn-success" type="submit">上传</button>
 							<input class="btn btn-white" type="button" value="查看上传记录"
