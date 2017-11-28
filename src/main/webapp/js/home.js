@@ -16,7 +16,7 @@ $(function(){
 		url:counts,
 		type:"post",
 		success:function(data){
-			data=eval('(' + data + ')');
+			//data=eval('(' + data + ')');
 			$("#all").html("共有"+data.rows.all+"个小区被监控：");
 			$("#event").html(data.rows.event);
 			$("#critical").html(data.rows.critical);
@@ -41,7 +41,7 @@ function switchTab(type){
 		data:{"type":type},
 		type:"post",
 		success:function(data){
-			data=eval('(' + data + ')');
+			//data=eval('(' + data + ')');
 			if(type==0){
 				id="#event_content";
 			}else if(type==1){

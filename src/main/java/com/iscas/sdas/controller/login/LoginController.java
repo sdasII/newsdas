@@ -75,8 +75,7 @@ public class LoginController {
 		dto.setUserId(userId);
 		dto.setPassword(password);
 		UserDto user = UserService.getUser(dto);
-		if (kaptcha.equalsIgnoreCase(capText) || kaptcha.equals(capText)
-				|| kaptcha == capText) {
+		if (capText.equalsIgnoreCase(kaptcha) || capText.equals(kaptcha) || kaptcha == capText) {
 			if (user!=null) {
 				request.getSession().setAttribute("userInfo", user);
 				modelAndView = new ModelAndView("main/main");
@@ -156,5 +155,28 @@ public class LoginController {
 			out.close();
 		}
 		return null;
+	}
+	
+	/**
+	 * 登录后面直接输入url返回的页面
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/login/error")
+	public ModelAndView error(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ModelAndView result = null;
+		// 获取错误代码
+		String errorCode = request.getParameter("error");
+		if (errorCode.equals("401")) {
+			result = new ModelAndView("error/InvalidSessionError");
+		} else if(errorCode.equals("403")) {
+			result = new ModelAndView("error/403");
+		} else if (errorCode.endsWith("500")) {
+			result = new ModelAndView("error/500");
+		}
+		return result;
 	}
 }

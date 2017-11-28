@@ -57,6 +57,42 @@
 		}
 	</script>
 	<script type="text/javascript">
+		var ws;
+		if ('WebSocket' in window) {
+			ws = new WebSocket("ws://49.4.6.47:9999/newsdas/websocket");
+		} else {
+			alert("当前浏览器不支持WebSocket");
+		}
+		//连接发生错误的回调方法
+		ws.onerror = function() {
+			alert("WebSocket连接发生错误");
+		};
+
+		//连接成功建立的回调方法
+		ws.onopen = function() {
+			//alert("WebSocket连接成功");
+		}
+
+		//接收到消息的回调方法
+		ws.onmessage = function(event) {
+			var progress = event.data;
+			$("#progress2").attr("value",progress);
+            var value = progress+"%";
+            $("#progressvalue2").text(value);
+		}
+
+		//连接关闭的回调方法
+		ws.onclose = function() {
+			alert("WebSocket连接关闭");
+		}
+						
+		// 监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
+		ws.onbeforeunload = function(){
+			closews();
+		}
+	</script>
+	<script type="text/javascript">
+		
 		function mySubmit(element) {
 			var select = $("#originfile").val();
 			var time = $("#origintime").val();
@@ -65,6 +101,7 @@
 				$("#span_progress").css("display","inline");
 				$("#progress2").attr("value",0);
 				$("#progressvalue2").text("0%");
+				
 				$(element).ajaxSubmit(function(message) {
 					var msg = eval("(" + message + ")");
 					var fileStatus = msg.status;
@@ -80,9 +117,10 @@
 						showOnlyMessage("warning", fileStatus);
 					}
 				});
-				setTimeout(function() {
+				ws.send("start");
+				/* setTimeout(function() {
 					longPoling();
-				}, 100);			
+				}, 100); */			
 			}else if(select == ""){
 				showOnlyMessage(ERROR, "请选择文件！");
 			}else if (time == "") {
@@ -91,6 +129,10 @@
 
 			//$("#myform").myform();
 			return false;
+		}
+		
+		function closews() {
+			ws.close();
 		}
 	</script>
 	<div class="ibox-content" id="offline">

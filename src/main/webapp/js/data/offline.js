@@ -1,6 +1,7 @@
 /**
  * 离线数据导入的js
  */
+//websocket
 var initFiles=[];//原始数据文件数组
 $(function(){
 $("#form1").submit(function(e) {
@@ -213,4 +214,3 @@ function submit_upload(id,formid){
 		$(formid).submit();
 	}
 }
-

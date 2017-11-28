@@ -7,10 +7,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insert title here</title>
 <%@ include file="/include/common.jsp" %>
-<%-- <link href="${context}/lib/hplus/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-<link href="${context}/lib/hplus/css/font-awesome.css?v=4.4.0" rel="stylesheet">
-<link href="${context}/lib/hplus/css/animate.css" rel="stylesheet">
-<link href="${context}/lib/hplus/css/style.css?v=4.1.0" rel="stylesheet"> --%>
 </head>
 <body>
 
@@ -29,9 +25,6 @@
         </div>
     </div>
 
-    <!-- 全局js -->
-    <%-- <script src="${context}/lib/hplus/js/jquery.min.js?v=2.1.4"></script>
-    <script src="${context}/lib/hplus/js/bootstrap.min.js?v=3.3.6"></script> --%>
 
 </body>
 </html>

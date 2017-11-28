@@ -6,10 +6,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <%@ include file="/include/common.jsp" %>
-<%-- <link href="${context}/lib/hplus/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-<link href="${context}/lib/hplus/css/font-awesome.css?v=4.4.0" rel="stylesheet">
-<link href="${context}/lib/hplus/css/animate.css" rel="stylesheet">
-<link href="${context}/lib/hplus/css/style.css?v=4.1.0" rel="stylesheet"> --%>
 </head>
 <body>
 <div class="middle-box text-center animated fadeInDown">
@@ -22,9 +18,5 @@
             <br/><a href="index.html" class="btn btn-primary m-t">主页</a>
         </div>
     </div>
-    
-    <!-- 全局js -->
-    <%-- <script src="${context}/lib/hplus/js/jquery.min.js?v=2.1.4"></script>
-    <script src="${context}/lib/hplus/js/bootstrap.min.js?v=3.3.6"></script> --%>
 </body>
 </html>

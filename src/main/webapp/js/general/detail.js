@@ -255,7 +255,7 @@ $(function(){
 		type:"post",
 		data:{"cellid":cellname,"type":date_value},
 		success:function(data){
-			data=eval('(' + data + ')');
+			//data=eval('(' + data + ')');
 			$('#alarm_table').bootstrapTable({
 		        cache : false,
 		        striped : true,
@@ -326,7 +326,7 @@ function historyTrendQuery(type,starttime,endtime) {
 				},
 				type : "POST",
 				success : function(data, status) {
-                    var data = eval('(' + data + ')');
+                    //var data = eval('(' + data + ')');
 					var list = data.rows;
 					var axis = [];
 					var data2 = [];
@@ -437,7 +437,7 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 			"endtime":endtime,
 		},
 		success:function(data){
-			data=eval('(' + data + ')');
+			//data=eval('(' + data + ')');
 			times=[];
 			bottom_spli=[];
 			middle_split=[];
