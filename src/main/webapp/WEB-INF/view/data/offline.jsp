@@ -46,6 +46,7 @@
 	margin-top: 5px;
 }
 .error_msg{display: none; color:red}
+.loading img{height:20px;margin-right: 5px}
 </style>
 </head>
 <body>
@@ -184,6 +185,9 @@
 								class="btn btn-white" type="button" value="查看上传记录"
 								onclick="openIframe('性能工单数据')">
 							<progress id="progress1" max="200" style="display: none">正在上传...</progress>
+							<div class="btn loading" id="capacity_load">
+							<img src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在上传...</span>
+						</div>
 						</form>
 					</div>
 				</div>
