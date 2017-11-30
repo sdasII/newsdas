@@ -144,6 +144,7 @@
 			var length = $("#comlainfile").files
 			if (time!="" && select!="") {
 				$(element).ajaxSubmit(function(message){
+					$("#complaint_load").css("display","none");
 					var status = message.success;
 					if(status.indexOf("成功")>0){
 						showOnlyMessage(INFO, status);
@@ -152,11 +153,12 @@
 					}
 					
 				});
+				$("#complaint_load").css("display","inline");
 			}else if(select == ""){
 				showOnlyMessage(ERROR, "请选择文件！");
 			}else if (time == "") {
 				showOnlyMessage(ERROR, "请选择时间！");
-			}			
+			}	
 			return false;
 		}
 	</script>
@@ -180,14 +182,14 @@
 								style="display: inline;" accept=".csv"> <br> <br>
 							<input class="btn btn-white" type="reset" value="重选"> 
 							<input
-								class="btn btn-white" type="button" value="上传"
+								class="btn btn-success" type="button" value="上传"
 								onclick="submit_upload('#file1','#form1')"> <input
-								class="btn btn-white" type="button" value="查看上传记录"
+								class="btn btn-inverse" type="button" value="查看上传记录"
 								onclick="openIframe('中兴网管指标数据')">
-							<progress id="progress1" style="display: none">正在上传...</progress>
+							<div class="btn loading" id="network_load" style="display: none;">
+								<img src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在上传...</span>
+							</div>
 						</form>
-						<!-- <input class="btn btn-white" type="button" value="查看上传记录"
-								onclick="openIframe('中兴网管指标数据')"> -->
 					</div>
 				</div>
 			</div>
@@ -203,14 +205,13 @@
 							<input class="btn btn-white" type="file" name="file" id="file2"
 								accept=".xls"> <br> <input class="btn btn-white"
 								type="reset" value="重选"> <input id="submit1"
-								class="btn btn-white" type="button" value="上传"
+								class="btn btn-success" type="button" value="上传"
 								onclick="submit_upload('#file2','#form2')"> <input
-								class="btn btn-white" type="button" value="查看上传记录"
+								class="btn btn-inverse" type="button" value="查看上传记录"
 								onclick="openIframe('性能工单数据')">
-							<progress id="progress1" max="200" style="display: none">正在上传...</progress>
-							<div class="btn loading" id="capacity_load">
-							<img src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在上传...</span>
-						</div>
+							<div class="btn loading" id="capacity_load" style="display: none;">
+								<img src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在上传...</span>
+							</div>
 						</form>
 					</div>
 				</div>
@@ -233,8 +234,10 @@
 								onclick="laydate({istime: false, format: 'YYYYMMDD'})">
 							<input class="btn btn-white" type="file" id="comlainfile" name="file" accept=".xls .xlsx" style="display: inline;" multiple="multiple"> <br> <br>
 							<input class="btn btn-white" type="reset" value="重选">
-							<input class="btn btn-white" type="submit" value="上传"> 
-							<input class="btn btn-white" type="button" value="查看上传记录" onclick="openIframe('投诉工单数据')">
+							<input class="btn btn-success" type="submit" value="上传"> 
+							<input class="btn btn-inverse" type="button" value="查看上传记录" onclick="openIframe('投诉工单数据')">
+							<div class="btn loading" id="complaint_load" style="display: none;">
+							<img src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在上传...</span></div>
 						</form>
 					</div>
 				</div>
@@ -256,7 +259,7 @@
 								id="originfile" style="display: inline;" /><br> <br>
 							<button class="btn btn-white" type="reset">清空</button>
 							<button id="originsubmit" class="btn btn-success" type="submit">上传</button>
-							<input class="btn btn-white" type="button" value="查看上传记录"
+							<input class="btn btn-inverse" type="button" value="查看上传记录"
 							onclick="openIframe('中兴网管指标原始数据')">
 							<span id="span_progress" style="display: none;"><progress id="progress2" max="100" value="0"></progress><em>上传进度：</em><span id="progressvalue2">0%</span></span>
 						</form>						

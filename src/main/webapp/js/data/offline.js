@@ -3,41 +3,25 @@
  */
 //websocket
 var initFiles=[];//原始数据文件数组
-$(function(){
-$("#form1").submit(function(e) {
-    $("#progress").css("display", "inline");
-    $("#submit").attr("disabled", true);
-});
-$("#form2").submit(function() {
-    $("#progress1").css("display", "inline");
-    $("#submit1").attr("disabled", true);
-});
-$("#file3").change(function(e){
-	file_upload(e.target.files);
-});
-$("#reset_btn").click(function(){
-	$("#nettime_error").hide();
-	$("#netcaltime_error").hide();
-	$("#netpath_error").hide();
-});
-///
-/*$('#file1_up').submit(function(){
-    $.ajax({
-        url:upload_url,
-        data:$('#file1_up').serialize(),
-        type:"post",
-        error:function(data){
-            alert(data);
-        },
-        success:function(data){
-            alert(data);
-        }
-    });
-});*/    
+$(function() {
+			$("#form1").submit(function(e) {
+						$("#submit").attr("disabled", true);
+					});
+			$("#form2").submit(function() {
+						$("#submit1").attr("disabled", true);
+					});
+			$("#file3").change(function(e) {
+						file_upload(e.target.files);
+					});
+			$("#reset_btn").click(function() {
+						$("#nettime_error").hide();
+						$("#netcaltime_error").hide();
+						$("#netpath_error").hide();
+					});
 
-
-
-});
+		});
+        
+        
 function openIframe(type){
 	top.$("#offline").attr('src',"/newsdas/log/file/page?type="+type);
 }
@@ -212,9 +196,14 @@ function longPoling(){
 
 function submit_upload(id,formid){
 	if($(id).val()==""){
-		 alert("请选择文件进行上传");
+		 showOnlyMessage(ERROR, "请选择文件！");
 	}else{
 		$(formid).submit();
+        if(formid == "#form1"){
+            $("#network_load").css("display","inline");
+        }else if(formid == "#form2"){
+            $("#capacity_load").css("display","inline");
+        }   
 	}
 }
 
