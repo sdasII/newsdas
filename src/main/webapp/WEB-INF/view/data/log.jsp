@@ -29,10 +29,11 @@
 	</div>
 	<script type="text/javascript">
 		$(function(){
-			console.info("${type}");
-			if("${type}"!=""){
-				drawTables("${type}");
-				$("#title").html('${type}——上传历史记录');
+			var type = "${type}";
+			if(type!=""){
+				drawTables(type);
+				var title = type + "——上传记录"
+				$("#title").html(title);
 			}
 			
 		});

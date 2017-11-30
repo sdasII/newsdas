@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iscas.sdas.dao.complain.AllComplaintDetailDtoMapper">
+  <resultMap id="BaseResultMap" type="com.iscas.sdas.dto.complain.AllComplaintDetailDto">
+    <result column="complainttype" jdbcType="VARCHAR" property="complainttype" />
+    <result column="number" jdbcType="VARCHAR" property="number" />
+    <result column="complaintdetailtype" jdbcType="VARCHAR" property="complaintdetailtype" />
+    <result column="complaintdetailinfo" jdbcType="VARCHAR" property="complaintdetailinfo" />
+    <result column="phonenumber" jdbcType="VARCHAR" property="phonenumber" />
+    <result column="recordtime" jdbcType="VARCHAR" property="recordtime" />
+    <result column="attrplace" jdbcType="VARCHAR" property="attrplace" />
+    <result column="customerbrand" jdbcType="VARCHAR" property="customerbrand" />
+    <result column="customerlevel" jdbcType="VARCHAR" property="customerlevel" />
+    <result column="accworknum" jdbcType="VARCHAR" property="accworknum" />
+    <result column="accdepartment" jdbcType="VARCHAR" property="accdepartment" />
+    <result column="workcity" jdbcType="VARCHAR" property="workcity" />
+    <result column="accchannel" jdbcType="VARCHAR" property="accchannel" />
+    <result column="accmode" jdbcType="VARCHAR" property="accmode" />
+    <result column="emergdegree" jdbcType="VARCHAR" property="emergdegree" />
+    <result column="accmessage" jdbcType="VARCHAR" property="accmessage" />
+    <result column="creditlevel" jdbcType="VARCHAR" property="creditlevel" />
+    <result column="upwarining" jdbcType="VARCHAR" property="upwarining" />
+    <result column="customertype" jdbcType="VARCHAR" property="customertype" />
+    <result column="languages" jdbcType="VARCHAR" property="languages" />
+    <result column="markname" jdbcType="VARCHAR" property="markname" />
+    <result column="ifsendmessage" jdbcType="VARCHAR" property="ifsendmessage" />
+    <result column="replycontent" jdbcType="VARCHAR" property="replycontent" />
+    <result column="tapedincome" jdbcType="VARCHAR" property="tapedincome" />
+    <result column="recordtime2" jdbcType="VARCHAR" property="recordtime2" />
+    <result column="feedbacktime" jdbcType="VARCHAR" property="feedbacktime" />
+    <result column="ifsensitiveuser" jdbcType="VARCHAR" property="ifsensitiveuser" />
+    <result column="callingnum" jdbcType="VARCHAR" property="callingnum" />
+    <result column="contactname" jdbcType="VARCHAR" property="contactname" />
+    <result column="contacttel" jdbcType="VARCHAR" property="contacttel" />
+    <result column="contactmode" jdbcType="VARCHAR" property="contactmode" />
+    <result column="contacttel2" jdbcType="VARCHAR" property="contacttel2" />
+    <result column="faxnum" jdbcType="VARCHAR" property="faxnum" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="contactaddress" jdbcType="VARCHAR" property="contactaddress" />
+    <result column="respondep" jdbcType="VARCHAR" property="respondep" />
+    <result column="responcause" jdbcType="VARCHAR" property="responcause" />
+    <result column="preinfocoll1name" jdbcType="VARCHAR" property="preinfocoll1name" />
+    <result column="preinfocoll2name" jdbcType="VARCHAR" property="preinfocoll2name" />
+    <result column="preinfocoll2value" jdbcType="VARCHAR" property="preinfocoll2value" />
+    <result column="preinfocoll3name" jdbcType="VARCHAR" property="preinfocoll3name" />
+    <result column="preinfocoll3value" jdbcType="VARCHAR" property="preinfocoll3value" />
+    <result column="prenfocoll4name" jdbcType="VARCHAR" property="prenfocoll4name" />
+    <result column="preinfocoll4value" jdbcType="VARCHAR" property="preinfocoll4value" />
+    <result column="preinfocoll5name" jdbcType="VARCHAR" property="preinfocoll5name" />
+    <result column="preinfocoll5value" jdbcType="VARCHAR" property="preinfocoll5value" />
+    <result column="preinfocoll6name" jdbcType="VARCHAR" property="preinfocoll6name" />
+    <result column="preinfocoll6value" jdbcType="VARCHAR" property="preinfocoll6value" />
+    <result column="preinfocoll7name" jdbcType="VARCHAR" property="preinfocoll7name" />
+    <result column="preinfocoll7value" jdbcType="VARCHAR" property="preinfocoll7value" />
+    <result column="preinfocoll8name" jdbcType="VARCHAR" property="preinfocoll8name" />
+    <result column="preinfocoll8value" jdbcType="VARCHAR" property="preinfocoll8value" />
+    <result column="preinfocoll9name" jdbcType="VARCHAR" property="preinfocoll9name" />
+    <result column="preinfocoll9value" jdbcType="VARCHAR" property="preinfocoll9value" />
+    <result column="preinfocoll10name" jdbcType="VARCHAR" property="preinfocoll10name" />
+    <result column="preinfocoll10value" jdbcType="VARCHAR" property="preinfocoll10value" />
+    <result column="preinfocoll11name" jdbcType="VARCHAR" property="preinfocoll11name" />
+    <result column="preinfocoll11value" jdbcType="VARCHAR" property="preinfocoll11value" />
+    <result column="preinfocoll12name" jdbcType="VARCHAR" property="preinfocoll12name" />
+    <result column="preinfocoll12value" jdbcType="VARCHAR" property="preinfocoll12value" />
+    <result column="preinfocoll13name" jdbcType="VARCHAR" property="preinfocoll13name" />
+    <result column="preinfocoll13value" jdbcType="VARCHAR" property="preinfocoll13value" />
+    <result column="preinfocoll14name" jdbcType="VARCHAR" property="preinfocoll14name" />
+    <result column="preinfocoll14value" jdbcType="VARCHAR" property="preinfocoll14value" />
+    <result column="preinfocoll15name" jdbcType="VARCHAR" property="preinfocoll15name" />
+    <result column="preinfocoll15value" jdbcType="VARCHAR" property="preinfocoll15value" />
+    <result column="batchfaultname" jdbcType="VARCHAR" property="batchfaultname" />
+    <result column="batchmess1name" jdbcType="VARCHAR" property="batchmess1name" />
+    <result column="batchmess1value" jdbcType="VARCHAR" property="batchmess1value" />
+    <result column="batchmess2name" jdbcType="VARCHAR" property="batchmess2name" />
+    <result column="batchmess2value" jdbcType="VARCHAR" property="batchmess2value" />
+    <result column="batchmess3name" jdbcType="VARCHAR" property="batchmess3name" />
+    <result column="batchmess3value" jdbcType="VARCHAR" property="batchmess3value" />
+    <result column="batchmess4name" jdbcType="VARCHAR" property="batchmess4name" />
+    <result column="batchmess4value" jdbcType="VARCHAR" property="batchmess4value" />
+    <result column="batchmess5name" jdbcType="VARCHAR" property="batchmess5name" />
+    <result column="batchmess5value" jdbcType="VARCHAR" property="batchmess5value" />
+    <result column="batchmess6name" jdbcType="VARCHAR" property="batchmess6name" />
+    <result column="batchmess6value" jdbcType="VARCHAR" property="batchmess6value" />
+    <result column="batchmess7name" jdbcType="VARCHAR" property="batchmess7name" />
+    <result column="batchmess7value" jdbcType="VARCHAR" property="batchmess7value" />
+    <result column="batchmess8name" jdbcType="VARCHAR" property="batchmess8name" />
+    <result column="batchmess8value" jdbcType="VARCHAR" property="batchmess8value" />
+    <result column="batchmess9name" jdbcType="VARCHAR" property="batchmess9name" />
+    <result column="batchmess9value" jdbcType="VARCHAR" property="batchmess9value" />
+    <result column="batchmess10name" jdbcType="VARCHAR" property="batchmess10name" />
+    <result column="batchmess10value" jdbcType="VARCHAR" property="batchmess10value" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.iscas.sdas.dto.complain.AllComplaintDetailDtoWithBLOBs">
+    <result column="servicerequesttype" jdbcType="LONGVARCHAR" property="servicerequesttype" />
+    <result column="complaintinfo" jdbcType="LONGVARCHAR" property="complaintinfo" />
+    <result column="preinfocoll1value" jdbcType="LONGVARCHAR" property="preinfocoll1value" />
+    <result column="terbrandmodel" jdbcType="LONGVARCHAR" property="terbrandmodel" />
+    <result column="ternettype" jdbcType="LONGVARCHAR" property="ternettype" />
+  </resultMap>
+  <sql id="Blob_Column_List">
+    servicerequesttype, complaintinfo, preinfocoll1value, terbrandmodel, ternettype
+  </sql>
+  <insert id="insert" parameterType="com.iscas.sdas.dto.complain.AllComplaintDetailDtoWithBLOBs">
+    insert into t_complaint_detail_test (complainttype, number, complaintdetailtype, 
+      complaintdetailinfo, phonenumber, recordtime, 
+      attrplace, customerbrand, customerlevel, 
+      accworknum, accdepartment, workcity, 
+      accchannel, accmode, emergdegree, 
+      accmessage, creditlevel, upwarining, 
+      customertype, languages, markname, 
+      ifsendmessage, replycontent, tapedincome, 
+      recordtime2, feedbacktime, ifsensitiveuser, 
+      callingnum, contactname, contacttel, 
+      contactmode, contacttel2, faxnum, 
+      email, contactaddress, respondep, 
+      responcause, preinfocoll1name, preinfocoll2name, 
+      preinfocoll2value, preinfocoll3name, preinfocoll3value, 
+      prenfocoll4name, preinfocoll4value, preinfocoll5name, 
+      preinfocoll5value, preinfocoll6name, preinfocoll6value, 
+      preinfocoll7name, preinfocoll7value, preinfocoll8name, 
+      preinfocoll8value, preinfocoll9name, preinfocoll9value, 
+      preinfocoll10name, preinfocoll10value, 
+      preinfocoll11name, preinfocoll11value, 
+      preinfocoll12name, preinfocoll12value, 
+      preinfocoll13name, preinfocoll13value, 
+      preinfocoll14name, preinfocoll14value, 
+      preinfocoll15name, preinfocoll15value, 
+      batchfaultname, batchmess1name, batchmess1value, 
+      batchmess2name, batchmess2value, batchmess3name, 
+      batchmess3value, batchmess4name, batchmess4value, 
+      batchmess5name, batchmess5value, batchmess6name, 
+      batchmess6value, batchmess7name, batchmess7value, 
+      batchmess8name, batchmess8value, batchmess9name, 
+      batchmess9value, batchmess10name, batchmess10value, 
+      servicerequesttype, complaintinfo, 
+      preinfocoll1value, terbrandmodel, 
+      ternettype)
+    values (#{complainttype,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, #{complaintdetailtype,jdbcType=VARCHAR}, 
+      #{complaintdetailinfo,jdbcType=VARCHAR}, #{phonenumber,jdbcType=VARCHAR}, #{recordtime,jdbcType=VARCHAR}, 
+      #{attrplace,jdbcType=VARCHAR}, #{customerbrand,jdbcType=VARCHAR}, #{customerlevel,jdbcType=VARCHAR}, 
+      #{accworknum,jdbcType=VARCHAR}, #{accdepartment,jdbcType=VARCHAR}, #{workcity,jdbcType=VARCHAR}, 
+      #{accchannel,jdbcType=VARCHAR}, #{accmode,jdbcType=VARCHAR}, #{emergdegree,jdbcType=VARCHAR}, 
+      #{accmessage,jdbcType=VARCHAR}, #{creditlevel,jdbcType=VARCHAR}, #{upwarining,jdbcType=VARCHAR}, 
+      #{customertype,jdbcType=VARCHAR}, #{languages,jdbcType=VARCHAR}, #{markname,jdbcType=VARCHAR}, 
+      #{ifsendmessage,jdbcType=VARCHAR}, #{replycontent,jdbcType=VARCHAR}, #{tapedincome,jdbcType=VARCHAR}, 
+      #{recordtime2,jdbcType=VARCHAR}, #{feedbacktime,jdbcType=VARCHAR}, #{ifsensitiveuser,jdbcType=VARCHAR}, 
+      #{callingnum,jdbcType=VARCHAR}, #{contactname,jdbcType=VARCHAR}, #{contacttel,jdbcType=VARCHAR}, 
+      #{contactmode,jdbcType=VARCHAR}, #{contacttel2,jdbcType=VARCHAR}, #{faxnum,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{contactaddress,jdbcType=VARCHAR}, #{respondep,jdbcType=VARCHAR}, 
+      #{responcause,jdbcType=VARCHAR}, #{preinfocoll1name,jdbcType=VARCHAR}, #{preinfocoll2name,jdbcType=VARCHAR}, 
+      #{preinfocoll2value,jdbcType=VARCHAR}, #{preinfocoll3name,jdbcType=VARCHAR}, #{preinfocoll3value,jdbcType=VARCHAR}, 
+      #{prenfocoll4name,jdbcType=VARCHAR}, #{preinfocoll4value,jdbcType=VARCHAR}, #{preinfocoll5name,jdbcType=VARCHAR}, 
+      #{preinfocoll5value,jdbcType=VARCHAR}, #{preinfocoll6name,jdbcType=VARCHAR}, #{preinfocoll6value,jdbcType=VARCHAR}, 
+      #{preinfocoll7name,jdbcType=VARCHAR}, #{preinfocoll7value,jdbcType=VARCHAR}, #{preinfocoll8name,jdbcType=VARCHAR}, 
+      #{preinfocoll8value,jdbcType=VARCHAR}, #{preinfocoll9name,jdbcType=VARCHAR}, #{preinfocoll9value,jdbcType=VARCHAR}, 
+      #{preinfocoll10name,jdbcType=VARCHAR}, #{preinfocoll10value,jdbcType=VARCHAR}, 
+      #{preinfocoll11name,jdbcType=VARCHAR}, #{preinfocoll11value,jdbcType=VARCHAR}, 
+      #{preinfocoll12name,jdbcType=VARCHAR}, #{preinfocoll12value,jdbcType=VARCHAR}, 
+      #{preinfocoll13name,jdbcType=VARCHAR}, #{preinfocoll13value,jdbcType=VARCHAR}, 
+      #{preinfocoll14name,jdbcType=VARCHAR}, #{preinfocoll14value,jdbcType=VARCHAR}, 
+      #{preinfocoll15name,jdbcType=VARCHAR}, #{preinfocoll15value,jdbcType=VARCHAR}, 
+      #{batchfaultname,jdbcType=VARCHAR}, #{batchmess1name,jdbcType=VARCHAR}, #{batchmess1value,jdbcType=VARCHAR}, 
+      #{batchmess2name,jdbcType=VARCHAR}, #{batchmess2value,jdbcType=VARCHAR}, #{batchmess3name,jdbcType=VARCHAR}, 
+      #{batchmess3value,jdbcType=VARCHAR}, #{batchmess4name,jdbcType=VARCHAR}, #{batchmess4value,jdbcType=VARCHAR}, 
+      #{batchmess5name,jdbcType=VARCHAR}, #{batchmess5value,jdbcType=VARCHAR}, #{batchmess6name,jdbcType=VARCHAR}, 
+      #{batchmess6value,jdbcType=VARCHAR}, #{batchmess7name,jdbcType=VARCHAR}, #{batchmess7value,jdbcType=VARCHAR}, 
+      #{batchmess8name,jdbcType=VARCHAR}, #{batchmess8value,jdbcType=VARCHAR}, #{batchmess9name,jdbcType=VARCHAR}, 
+      #{batchmess9value,jdbcType=VARCHAR}, #{batchmess10name,jdbcType=VARCHAR}, #{batchmess10value,jdbcType=VARCHAR}, 
+      #{servicerequesttype,jdbcType=LONGVARCHAR}, #{complaintinfo,jdbcType=LONGVARCHAR}, 
+      #{preinfocoll1value,jdbcType=LONGVARCHAR}, #{terbrandmodel,jdbcType=LONGVARCHAR}, 
+      #{ternettype,jdbcType=LONGVARCHAR})
+  </insert>
+  
+</mapper>

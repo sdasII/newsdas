@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iscas.sdas.dao.complain.AllComplaintDao">
+  <resultMap id="BaseResultMap" type="com.iscas.sdas.dto.complain.AllComplaintDto">
+    <result column="depend_date" jdbcType="VARCHAR" property="depend_date" />
+    <result column="record_time" jdbcType="TIMESTAMP" property="record_time" />
+    <result column="ascription_city" jdbcType="VARCHAR" property="ascription_city" />
+    <result column="phone_number" jdbcType="VARCHAR" property="phone_number" />
+    <result column="work_city" jdbcType="VARCHAR" property="work_city" />
+    <result column="work_scene" jdbcType="VARCHAR" property="work_scene" />
+    <result column="work_cellname" jdbcType="VARCHAR" property="work_cellname" />
+    <result column="live_city" jdbcType="VARCHAR" property="live_city" />
+    <result column="live_scene" jdbcType="VARCHAR" property="live_scene" />
+    <result column="live_cellname" jdbcType="VARCHAR" property="live_cellname" />
+    <result column="distance" jdbcType="DOUBLE" property="distance" />
+    <result column="live_cgi1" jdbcType="VARCHAR" property="live_cgi1" />
+    <result column="live_cgi2" jdbcType="VARCHAR" property="live_cgi2" />
+    <result column="live_cgi3" jdbcType="VARCHAR" property="live_cgi3" />
+    <result column="live_cellname1" jdbcType="VARCHAR" property="live_cellname1" />
+    <result column="live_cellname2" jdbcType="VARCHAR" property="live_cellname2" />
+    <result column="live_cellname3" jdbcType="VARCHAR" property="live_cellname3" />
+    <result column="workcgi" jdbcType="VARCHAR" property="workcgi" />
+    <result column="livecgi" jdbcType="VARCHAR" property="livecgi" />
+  </resultMap>
+  <insert id="insert" parameterType="com.iscas.sdas.dto.complain.AllComplaintDto">
+    insert into t_complaint_residentarea_test (depend_date, record_time, ascription_city, 
+      phone_number, work_city, work_scene, 
+      work_cellname, live_city, live_scene, 
+      live_cellname, distance, live_cgi1, 
+      live_cgi2, live_cgi3, live_cellname1, 
+      live_cellname2, live_cellname3, workcgi, 
+      livecgi)
+    values (#{depend_date,jdbcType=VARCHAR}, #{record_time,jdbcType=TIMESTAMP}, #{ascription_city,jdbcType=VARCHAR}, 
+      #{phone_number,jdbcType=VARCHAR}, #{work_city,jdbcType=VARCHAR}, #{work_scene,jdbcType=VARCHAR}, 
+      #{work_cellname,jdbcType=VARCHAR}, #{live_city,jdbcType=VARCHAR}, #{live_scene,jdbcType=VARCHAR}, 
+      #{live_cellname,jdbcType=VARCHAR}, #{distance,jdbcType=DOUBLE}, #{live_cgi1,jdbcType=VARCHAR}, 
+      #{live_cgi2,jdbcType=VARCHAR}, #{live_cgi3,jdbcType=VARCHAR}, #{live_cellname1,jdbcType=VARCHAR}, 
+      #{live_cellname2,jdbcType=VARCHAR}, #{live_cellname3,jdbcType=VARCHAR}, #{workcgi,jdbcType=VARCHAR}, 
+      #{livecgi,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.iscas.sdas.dto.complain.AllComplaintDto">
+    insert into t_complaint_residentarea
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dependDate != null">
+        depend_date,
+      </if>
+      <if test="recordTime != null">
+        record_time,
+      </if>
+      <if test="ascriptionCity != null">
+        ascription_city,
+      </if>
+      <if test="phoneNumber != null">
+        phone_number,
+      </if>
+      <if test="workCity != null">
+        work_city,
+      </if>
+      <if test="workScene != null">
+        work_scene,
+      </if>
+      <if test="workCellname != null">
+        work_cellname,
+      </if>
+      <if test="liveCity != null">
+        live_city,
+      </if>
+      <if test="liveScene != null">
+        live_scene,
+      </if>
+      <if test="liveCellname != null">
+        live_cellname,
+      </if>
+      <if test="distance != null">
+        distance,
+      </if>
+      <if test="liveCgi1 != null">
+        live_cgi1,
+      </if>
+      <if test="liveCgi2 != null">
+        live_cgi2,
+      </if>
+      <if test="liveCgi3 != null">
+        live_cgi3,
+      </if>
+      <if test="liveCellname1 != null">
+        live_cellname1,
+      </if>
+      <if test="liveCellname2 != null">
+        live_cellname2,
+      </if>
+      <if test="liveCellname3 != null">
+        live_cellname3,
+      </if>
+      <if test="workcgi != null">
+        workcgi,
+      </if>
+      <if test="livecgi != null">
+        livecgi,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dependDate != null">
+        #{dependDate,jdbcType=VARCHAR},
+      </if>
+      <if test="recordTime != null">
+        #{recordTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ascriptionCity != null">
+        #{ascriptionCity,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null">
+        #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="workCity != null">
+        #{workCity,jdbcType=VARCHAR},
+      </if>
+      <if test="workScene != null">
+        #{workScene,jdbcType=VARCHAR},
+      </if>
+      <if test="workCellname != null">
+        #{workCellname,jdbcType=VARCHAR},
+      </if>
+      <if test="liveCity != null">
+        #{liveCity,jdbcType=VARCHAR},
+      </if>
+      <if test="liveScene != null">
+        #{liveScene,jdbcType=VARCHAR},
+      </if>
+      <if test="liveCellname != null">
+        #{liveCellname,jdbcType=VARCHAR},
+      </if>
+      <if test="distance != null">
+        #{distance,jdbcType=DOUBLE},
+      </if>
+      <if test="liveCgi1 != null">
+        #{liveCgi1,jdbcType=VARCHAR},
+      </if>
+      <if test="liveCgi2 != null">
+        #{liveCgi2,jdbcType=VARCHAR},
+      </if>
+      <if test="liveCgi3 != null">
+        #{liveCgi3,jdbcType=VARCHAR},
+      </if>
+      <if test="liveCellname1 != null">
+        #{liveCellname1,jdbcType=VARCHAR},
+      </if>
+      <if test="liveCellname2 != null">
+        #{liveCellname2,jdbcType=VARCHAR},
+      </if>
+      <if test="liveCellname3 != null">
+        #{liveCellname3,jdbcType=VARCHAR},
+      </if>
+      <if test="workcgi != null">
+        #{workcgi,jdbcType=VARCHAR},
+      </if>
+      <if test="livecgi != null">
+        #{livecgi,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

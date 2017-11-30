@@ -61,7 +61,7 @@ function drawTables(type){
 	    	    commonRowDatas("historyTable", data, "/newsdas/log/file/list", "commonCallback", true);
 	        },
 	        formatNoMatches : function() {
-	            return "NOT_FOUND_DATAS";
+	            return NOT_FOUND_DATAS;
 	        }
 	    });
 	 	var data = {};

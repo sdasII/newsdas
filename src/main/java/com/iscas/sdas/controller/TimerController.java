@@ -6,17 +6,16 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.iscas.sdas.util.CommonUntils;
+import com.iscas.sdas.util.Constraints;
+
 import tasks.BGTask;
 import tasks.cell.degree.HealthDegreeHistoryTask;
 import tasks.cell.model.OffLineHealthModelBDTask;
 import tasks.cell.model.OffLineHealthModelOfExpertDBTask;
-import tasks.cell.ratio.CellHealthPercentageWangGuanAllTask;
 import tasks.cell.ratio.CellHealthRatioHistoryTask;
 import tasks.sheet.IndexWarningTask;
 import tasks.split.FileSpliteTask;
-
-import com.iscas.sdas.util.CommonUntils;
-import com.iscas.sdas.util.Constraints;
 
 @Controller
 @RequestMapping("/timer")

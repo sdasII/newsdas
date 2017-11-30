@@ -55,17 +55,17 @@ public class FileImport {
 				continue;
 			}
 			int rowNum = sheet.getLastRowNum();
-			for (int i = 1; i <= rowNum; i++) {
+			for (int i = 1; i <= rowNum; i++) {//遍历每行
 				T t = list.get(i - 1);
 				Row titlerow = sheet.getRow(0);
 				Row row = sheet.getRow(i);
 				int minCol = row.getFirstCellNum();
 				int maxCol = row.getLastCellNum();
-				for (int col = minCol; col < maxCol; col++) {
+				for (int col = minCol; col < maxCol; col++) {//遍历每列
 					Cell cell = row.getCell(col);
 					Cell cellname = titlerow.getCell(col);
 					String titlevalue = cellname.getStringCellValue();// excel中表头的字段值
-					for (TableInfoDto column : tableindex) {
+					for (TableInfoDto column : tableindex) {//当数据库中表字段等于当前列字段
 						if (column.getColumnComment().equals(titlevalue)) {
 							String type = column.getColumnType();
 							String fieldname = column.getColumnName();

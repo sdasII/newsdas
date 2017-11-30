@@ -66,7 +66,7 @@
 		}
 		//连接发生错误的回调方法
 		ws.onerror = function() {
-			alert("WebSocket连接发生错误");
+			//alert("WebSocket连接发生错误");
 		};
 
 		//连接成功建立的回调方法
@@ -84,7 +84,7 @@
 
 		//连接关闭的回调方法
 		ws.onclose = function() {
-			alert("WebSocket连接关闭");
+			//alert("WebSocket连接关闭");
 		}
 						
 		// 监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
@@ -134,6 +134,29 @@
 		
 		function closews() {
 			ws.close();
+		}
+	</script>
+	<script type="text/javascript">
+		function complainSumit(element){
+			var select = $("#comlainfile").val();
+			var time = $("#complaintime").val();
+			var length = $("#comlainfile").files
+			if (time!="" && select!="") {
+				$(element).ajaxSubmit(function(message){
+					var status = message.success;
+					if(status.indexOf("成功")>0){
+						showOnlyMessage(INFO, status);
+					}else {
+						showOnlyMessage(ERROR, status);
+					}
+					
+				});
+			}else if(select == ""){
+				showOnlyMessage(ERROR, "请选择文件！");
+			}else if (time == "") {
+				showOnlyMessage(ERROR, "请选择时间！");
+			}			
+			return false;
 		}
 	</script>
 	<div class="ibox-content" id="offline">
@@ -192,6 +215,28 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="panel panel-success">
+					<div class="panel-heading">投诉工单数据</div>
+					<div class="panel-body">
+						<div>
+							<span><i>备注：</i> </span> <span>请选择客户投诉情况导出表和客户投诉小区导出表！</span><br>
+							<span style="color: red;"><em>特别提示：</em><span>可上传多个文件，待上传文件名需包含 "*客户投诉常驻小区*" 或 "*客户投诉情况*"，否则系统无法识别！</span></span>
+						</div>
+						<form action="${context}/data/uploadcomplain" method="post" 
+								enctype="multipart/form-data" onsubmit="return complainSumit(this);">
+							<input id="complaintime" name="time"
+								style="display: inline; padding: -10px; margin: -10px; height: 39px; margin-right: 10px;"
+								class="btn btn-white layer-date starttime" placeholder="请选择文件时间"
+								onclick="laydate({istime: false, format: 'YYYYMMDD'})">
+							<input class="btn btn-white" type="file" id="comlainfile" name="file" accept=".xls .xlsx" style="display: inline;" multiple="multiple"> <br> <br>
+							<input class="btn btn-white" type="reset" value="重选">
+							<input class="btn btn-white" type="submit" value="上传"> 
+							<input class="btn btn-white" type="button" value="查看上传记录" onclick="openIframe('投诉工单数据')">
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="panel panel-success">
 					<div class="panel-heading">中兴网管指标原始数据</div>
 					<div class="panel-body">
 						<div>
@@ -216,5 +261,6 @@
 			</div>
 		</div>
 	</div>
+	
 </body>
 </html>

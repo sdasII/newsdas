@@ -1,10 +1,13 @@
 package com.iscas.sdas.controller.data;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,9 +20,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.iscas.sdas.dto.FileLogDto;
 import com.iscas.sdas.dto.TableInfoDto;
+import com.iscas.sdas.dto.complain.AllComplaintDetailDtoWithBLOBs;
+import com.iscas.sdas.dto.complain.AllComplaintDto;
 import com.iscas.sdas.dto.work.AllCapacityWorkDto;
 import com.iscas.sdas.service.CommonService;
 import com.iscas.sdas.service.WorkService;
+import com.iscas.sdas.service.complain.AllComplainService;
 import com.iscas.sdas.service.log.FileLogService;
 import com.iscas.sdas.service.work.OutServerService;
 import com.iscas.sdas.util.CommonUntils;
@@ -28,9 +34,13 @@ import com.iscas.sdas.util.ContinueFTP;
 import com.iscas.sdas.util.FTPStatus;
 import com.iscas.sdas.util.FileImport;
 
+import tasks.cell.netupload.CellUploadFileOfExpertTask;
+import tasks.cell.netupload.CellUploadFileTask;
+
 @Controller
 @RequestMapping("/data")
 public class DataController{
+	
 	@Autowired
 	WorkService workService;
 	@Autowired
@@ -39,6 +49,9 @@ public class DataController{
 	OutServerService outServerService;
 	@Autowired
 	FileLogService fileLogService;
+	@Autowired
+	AllComplainService allComplainService;
+	
 	@RequestMapping("/online")
 	public ModelAndView online(){
 		return new ModelAndView("/data/online");
@@ -81,8 +94,8 @@ public class DataController{
 					args[1] = time;//XXX 
 					args[2]=cal_time;
 					fileLogDto.setMethodstart(new Date());
-					//new CellUploadFileTask().runTask(args);
-					//new CellUploadFileOfExpertTask().runTask(args);	
+					new CellUploadFileTask().runTask(args);
+					new CellUploadFileOfExpertTask().runTask(args);	
 					fileLogDto.setMethodend(new Date());
 					modelAndView.addObject("success", Constraints.RESULT_SUCCESS);
 					fileLogDto.setResult(1);
@@ -209,23 +222,141 @@ public class DataController{
 		}
 
 	}
+	
 	/**
-	 * 获取上传进度（务必在调用/uploadfile后使用）
-	 * @param request
+	 * 导入投诉数据
 	 * @return
 	 */
-	@RequestMapping("/uploadstatus")
+	@RequestMapping("/uploadcomplain")
 	@ResponseBody
-	public ModelMap getUploadStatus(HttpServletRequest request){
-		ModelMap map = new ModelMap();
-		ContinueFTP ftp = (ContinueFTP)request.getSession().getAttribute(Constraints.SESSION_FTP_STATUS);
-		if (ftp!=null) {
-			map.addAttribute("progress", ftp.getProgress());
-			map.addAttribute(Constraints.RESULT_SUCCESS, true);
-		}else {
-			map.addAttribute(Constraints.RESULT_SUCCESS, false);
+	public ModelMap uploadComplaints(HttpServletRequest request,HttpServletResponse response){
+		ModelMap map = new ModelMap(); 
+		String file_time = request.getParameter("time")+" 00:00:00";
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+		Date date = null;
+		try {
+			date = format.parse(file_time);
+		} catch (ParseException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
 		}
+		List<String> paths = null;
+		try {
+			paths = CommonUntils.MultipleFilesUpload(request);		
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			map.addAttribute(Constraints.RESULT_SUCCESS, "文件上传失败！");
+		}
+		String result1 = null,result2 = null,file1 = null,file2 = null;
+		for (String path : paths) {
+			if (path.contains("客户投诉常驻小区")) {
+				result1 = uploadComplainCell(date, request,path);
+				file1 = path.substring(path.lastIndexOf("/"));
+			}else if (path.contains("客户投诉情况")) {
+				result2 = uploadComplainDetail(request, path);
+				file2 = path.substring(path.lastIndexOf("/"));
+			}
+		}
+		String allStatus = file1 +": "+result1+";"+file2+": "+result2;
+		map.addAttribute(Constraints.RESULT_SUCCESS, allStatus);		
 		return map;
 	}
+	
+	private String uploadComplainCell(Date date,HttpServletRequest request,String path){
+		String result = null;
+		if (date!=null) {
+			String tablename = "t_complaint_residentarea";
+			List<TableInfoDto> fields = commonService.tableindex(tablename);//获取表中的所有字段***用户导入表中字段数据量应与该数据相等
+			List<AllComplaintDto> allComplaints = new ArrayList<>();
+			FileLogDto fileLogDto = new FileLogDto();
+			long starttime = System.currentTimeMillis();
+			fileLogDto.setStarttime(new Date());
+			fileLogDto.setType("投诉工单数据");			
+			if (path != null) {
+				String filename = path.substring(path.lastIndexOf("/"));
+				fileLogDto.setFilename(filename);
+				if (fields != null && fields.size() > 0) {
+					int rows = FileImport.tablerows(path);//根据带导入表中数据的条数预先生成等量的dto对象
+					for (int i = 0; i < rows; i++) {
+						AllComplaintDto dto = new AllComplaintDto();
+						dto.setRecord_time(date);
+						allComplaints.add(dto);
+					}
+					try {
+						FileImport.importwork(path, allComplaints, fields);// 将excel映射为对象
+						try {						
+							allComplainService.insert(allComplaints);
+							result = "导入成功! ";
+							fileLogDto.setResult(1);
+						} catch (Exception e) {
+							e.printStackTrace();
+							fileLogDto.setResult(0);
+							result = "文件导入失败！";
+						}
+					} catch (Exception e1) {
+						e1.printStackTrace();
+						fileLogDto.setResult(0);
+						result = "文件损坏！";
+					}			
+				}
+			}else {
+				fileLogDto.setResult(0);
+			}
+			long endtime = System.currentTimeMillis();
+			fileLogDto.setEndtime(new Date());
+			long alltime = endtime - starttime;
+			fileLogDto.setAlltime(alltime);
+			fileLogService.insertOne(fileLogDto);
+		}
+		return result;
+	}
+	
+	private String uploadComplainDetail(HttpServletRequest request, String path) {
+		String result = null;
+		String tablename = "t_complaint_detail";
+		List<TableInfoDto> fields = commonService.tableindex(tablename);// 获取表中的所有字段***用户导入表中字段数据量应与该数据相等
+		List<AllComplaintDetailDtoWithBLOBs> allDetails = new ArrayList<>();
+		FileLogDto fileLogDto = new FileLogDto();
+		long starttime = System.currentTimeMillis();
+		fileLogDto.setStarttime(new Date());
+		fileLogDto.setType("投诉工单数据");
+		if (path != null) {
+			String filename = path.substring(path.lastIndexOf("/"));
+			fileLogDto.setFilename(filename);
+			if (fields != null && fields.size() > 0) {
+				int rows = FileImport.tablerows(path);// 根据带导入表中数据的条数预先生成等量的dto对象
+				for (int i = 0; i < rows; i++) {
+					AllComplaintDetailDtoWithBLOBs dto = new AllComplaintDetailDtoWithBLOBs();
+					allDetails.add(dto);
+				}
+				try {
+					FileImport.importwork(path, allDetails, fields);// 将excel映射为对象
+					try {
+						allComplainService.insertDetails(allDetails);
+						result = "导入成功! ";
+						fileLogDto.setResult(1);
+					} catch (Exception e) {
+						e.printStackTrace();
+						fileLogDto.setResult(0);
+						result = "文件导入失败！";
+					}
+				} catch (Exception e1) {
+					e1.printStackTrace();
+					fileLogDto.setResult(0);
+					result = "文件损坏！";
+				}
+			}
+		} else {
+			fileLogDto.setResult(0);
+		}
+		long endtime = System.currentTimeMillis();
+		fileLogDto.setEndtime(new Date());
+		long alltime = endtime - starttime;
+		fileLogDto.setAlltime(alltime);
+		fileLogService.insertOne(fileLogDto);
+
+		return result;
+	}
+
 
 }
