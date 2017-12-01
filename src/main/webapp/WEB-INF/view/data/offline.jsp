@@ -62,17 +62,20 @@
 		var ws;
 		if ('WebSocket' in window) {
 			ws = new WebSocket("ws://49.4.6.47:9999/newsdas/websocket");
+			//ws = new WebSocket("ws://localhost:8080/newsdas/websocket");
 		} else {
 			alert("当前浏览器不支持WebSocket");
 		}
 		//连接发生错误的回调方法
 		ws.onerror = function() {
 			//alert("WebSocket连接发生错误");
+			showOnlyMessage(ERROR, "WebSocket连接发生错误");
 		};
 
 		//连接成功建立的回调方法
 		ws.onopen = function() {
 			//alert("WebSocket连接成功");
+			showOnlyMessage(INFO, "WebSocket连接成功");
 		}
 
 		//接收到消息的回调方法
@@ -86,6 +89,7 @@
 		//连接关闭的回调方法
 		ws.onclose = function() {
 			//alert("WebSocket连接关闭");
+			showOnlyMessage(INFO, "WebSocket连接关闭");
 		}
 						
 		// 监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
@@ -94,10 +98,11 @@
 		}
 	</script>
 	<script type="text/javascript">
+		var select = $("#originfile").val();
+		var time = $("#origintime").val();
 		
 		function mySubmit(element) {
-			var select = $("#originfile").val();
-			var time = $("#origintime").val();
+			
 			if (select != "" && time !="") {
 				$("#originsubmit").attr("disabled",true);
 				$("#span_progress").css("display","inline");
@@ -105,7 +110,7 @@
 				$("#progressvalue2").text("0%");
 				
 				$(element).ajaxSubmit(function(message) {
-					var msg = eval("(" + message + ")");
+					var msg = message;
 					var fileStatus = msg.status;
 					$("#originsubmit").attr("disabled",false);
 					if (fileStatus.indexOf("失败") >= 0) {
@@ -136,6 +141,59 @@
 		function closews() {
 			ws.close();
 		}
+		
+		$('#soucefile').ajaxForm({
+		    beforeSend: function(formData, jqForm, options) {
+		        var percentVal = '0%';
+		        var select = $("#originfile").val();
+				var time = $("#origintime").val();
+		        if (select != "" && time !="") {
+					$("#originsubmit").attr("disabled",true);				
+					$("#progress2").attr("value",0);
+					$("#progressvalue2").text("0%");
+					ws.send("start");		
+					var progress = "正在上传"+percentVal+"...";
+					$("#upload_progress").text(progress);
+					$("#upload_progress").css("display","inline");
+				}else if(select == ""){
+					showOnlyMessage(ERROR, "请选择文件！");
+					return false;
+				}else if (time == "") {
+					showOnlyMessage(ERROR, "请选择时间！");
+					return false;
+				}
+		    },
+		    uploadProgress: function(event, position, total, percentComplete) {
+		        var percentVal = percentComplete + '%';
+		        var progress = "正在上传"+percentVal+"...";
+		        if(percentComplete!=100){
+		        	$("#upload_progress").text(progress);
+		        }else{
+		        	$("#span_progress").css("display","inline");
+		        	$("#upload_progress").css("display","none");
+		        }
+		    },
+		    success: function(data,statusText) {
+		        var percentVal = '100%';
+		        
+		    },
+			complete: function(xhr,b,c) {
+				var fileStatus = xhr.responseText;
+				$("#originsubmit").attr("disabled",false);
+				if (fileStatus.indexOf("失败") >= 0) {
+					showOnlyMessage(ERROR, fileStatus);
+					$("#originsubmit").val("续传");
+				} else if (fileStatus.indexOf("成功") >= 0) {
+					showOnlyMessage(INFO, fileStatus);
+					$("#originsubmit").val("上传");
+				} else {
+					showOnlyMessage("warning", fileStatus);
+				}
+			},
+			error: function(data){
+				showOnlyMessage(ERROR, data.message);
+			}
+		}); 
 	</script>
 	<script type="text/javascript">
 		function complainSumit(element){
@@ -201,7 +259,7 @@
 								style="display: inline; padding: -10px; margin: -10px; height: 39px; margin-right: 10px;"
 								class="btn btn-white layer-date starttime" placeholder="请选择文件时间"
 								onclick="laydate({istime: false, format: 'YYYYMMDD'})">
-							<input class="btn btn-white" type="file" id="comlainfile" name="file" accept=".xls .xlsx" style="display: inline;" multiple="multiple"> <br> <br>
+							<input class="btn btn-white" type="file" id="comlainfile" name="file" accept=".xls,.xlsx" style="display: inline;" multiple="multiple"> <br> <br>
 							<input class="btn btn-white" type="reset" value="重选">
 							<input class="btn btn-success" type="submit" value="上传"> 
 							<input class="btn btn-inverse" type="button" value="查看上传记录" onclick="openIframe('投诉工单数据')">
@@ -285,9 +343,9 @@
 					<div class="panel-body">
 						<div>
 							<span><i>备注：</i> </span> <span>每次请选择一个文件！</span>
-						</div>
-						<form action='${context}/data/uploadfile' method='post'
-							enctype='multipart/form-data' onsubmit="return mySubmit(this);">
+						</div><!-- onsubmit="return mySubmit(this);" -->
+						<form id ="soucefile" action='${context}/data/uploadfile' method='post'
+							enctype='multipart/form-data'>
 							<input id="origintime" name="time"
 								style="display: inline; padding: -10px; margin: -10px; height: 39px; margin-right: 10px;"
 								class="btn btn-white layer-date starttime" placeholder="请选择文件时间"
@@ -298,7 +356,8 @@
 							<button id="originsubmit" class="btn btn-success" type="submit">上传</button>
 							<input class="btn btn-inverse" type="button" value="查看上传记录"
 							onclick="openIframe('中兴网管指标原始数据')">
-							<span id="span_progress" style="display: none;"><progress id="progress2" max="100" value="0"></progress><em>上传进度：</em><span id="progressvalue2">0%</span></span>
+							<span id="span_progress" style="display: none;"><progress id="progress2" max="100" value="0"></progress><em>上传进度：</em><span id="progressvalue2">0%</span></span><br>
+							<span id="upload_progress" style="display: none;"></span>
 						</form>						
 					</div>
 				</div>

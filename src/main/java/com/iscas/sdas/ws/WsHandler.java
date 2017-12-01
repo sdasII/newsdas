@@ -41,6 +41,7 @@ public class WsHandler implements WebSocketHandler {
 			}
 			if (Constraints.getFtp_upload_progress()==100) {
 				progress=0;
+				Constraints.setFtp_upload_progress(0);
 				break;
 			}			
 		}

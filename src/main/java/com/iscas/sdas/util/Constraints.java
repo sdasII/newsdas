@@ -23,10 +23,10 @@ public class Constraints {
 	
 	public static int ftp_upload_progress;
 	
-	public static int getFtp_upload_progress() {
+	public synchronized static int getFtp_upload_progress() {
 		return ftp_upload_progress;
 	}
-	public static void setFtp_upload_progress(int ftp_upload_progress) {
+	public synchronized static void setFtp_upload_progress(int ftp_upload_progress) {
 		Constraints.ftp_upload_progress = ftp_upload_progress;
 	}
 	
