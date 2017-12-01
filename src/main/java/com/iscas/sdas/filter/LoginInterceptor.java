@@ -27,10 +27,10 @@ public class LoginInterceptor implements HandlerInterceptor {
         	if ("isload".equals(load)) {
 				return true; 
 			}   	
-		}else if (url.equals(request.getContextPath()+"/index.jsp") || url.equals(request.getContextPath()+"/websocket") 
+		}/*else if (url.equals(request.getContextPath()+"/index.jsp") || url.equals(request.getContextPath()+"/websocket") 
 				|| url.equals(request.getContextPath()+"/sockjs/websocket") || url.equals(request.getContextPath()+"/wsprogress")) {
 			return true;
-		}
+		}*/
         
         UserDto userInfo = (UserDto)session.getAttribute("userInfo");          
         if(userInfo != null){  
