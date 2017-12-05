@@ -197,4 +197,193 @@ public class AllComplaintDto extends BaseDto{
     public void setLivecgi(String livecgi) {
         this.livecgi = livecgi == null ? null : livecgi.trim();
     }
+
+	@Override
+	public boolean equals(Object obj) {
+		AllComplaintDto allComplaintDto = (AllComplaintDto)obj;
+		boolean result = true;
+		if (this.depend_date!=null) {
+			if (!this.depend_date.equals(allComplaintDto.getDepend_date())) {
+				return false;
+			}
+		}else {
+			if (allComplaintDto.getDepend_date()!=null) {
+				return false;
+			}
+		}
+		if (this.ascription_city!=null) {
+			if (!this.ascription_city.equals(allComplaintDto.getAscription_city())) {
+				return false;
+			}
+		}else {
+			if (allComplaintDto.getAscription_city()!=null) {
+				return false;
+			}
+		}
+		if (this.phone_number!=null) {
+			if (!this.phone_number.equals(allComplaintDto.getPhone_number())) {
+				return false;
+			}
+		}else {
+			if (allComplaintDto.getPhone_number()!=null) {
+				return false;
+			}
+		}
+		if (this.work_cellname!=null) {
+			if (!this.work_cellname.equals(allComplaintDto.getWork_cellname())) {
+				return false;
+			}
+		}else {
+			if (allComplaintDto.getWork_cellname()!=null) {
+				return false;
+			}
+		}
+		if (this.work_city != null) {
+			if (!this.work_city.equals(allComplaintDto.getWork_city())) {
+				return false;
+			}
+		}else {
+			if (allComplaintDto.getWork_city()!=null) {
+				return false;
+			}
+		}
+		if (this.work_scene != null) {
+			if (!this.work_scene.equals(allComplaintDto.getWork_scene())) {
+				return false;
+			}
+		}else {
+			if (allComplaintDto.getWork_scene()!=null) {
+				return false;
+			}
+		}
+		if (this.live_cellname != null) {
+			if (!this.live_cellname.equals(allComplaintDto.getLive_cellname())) {
+				return false;
+			}
+		}else {
+			if (allComplaintDto.getLive_cellname()!=null) {
+				return false;
+			}
+		}
+		if (this.live_cellname1 != null) {
+			if (!this.live_cellname1.equals(allComplaintDto.getLive_cellname1())) {
+				return false;
+			}
+		}else {
+			if (allComplaintDto.getLive_cellname1()!=null) {
+				return false;
+			}
+		}
+		if (this.live_cellname2 != null) {
+			if (!this.live_cellname2.equals(allComplaintDto.getLive_cellname2())) {
+				return false;
+			}
+		}else {
+			if (allComplaintDto.getLive_cellname2()!=null) {
+				return false;
+			}
+		}
+		if (this.live_cellname3 != null) {
+			if (!this.live_cellname3.equals(allComplaintDto.getLive_cellname3())) {
+				return false;
+			}
+		}else {
+			if (allComplaintDto.getLive_cellname3()!=null) {
+				return false;
+			}
+		}
+		if (this.live_city != null) {
+			if (!this.live_city.equals(allComplaintDto.getLive_city())) {
+				return false;
+			}
+		}else {
+			if (allComplaintDto.getLive_city()!=null) {
+				return false;
+			}
+		}
+		if (this.live_scene != null) {
+			if (!this.live_scene.equals(allComplaintDto.getLive_scene())) {
+				return false;
+			}
+		}else {
+			if (allComplaintDto.getLive_scene()!=null) {
+				return false;
+			}
+		}
+		if (this.livecgi != null) {
+			if (!this.livecgi.equals(allComplaintDto.getLivecgi())) {
+				return false;
+			}
+		}else {
+			if (allComplaintDto.getLivecgi()!=null) {
+				return false;
+			}
+		}
+		if (this.live_cgi1 != null) {
+			if (!this.live_cgi1.equals(allComplaintDto.getLive_cgi1())) {
+				return false;
+			}
+		}else {
+			if (allComplaintDto.getLive_cgi1()!=null) {
+				return false;
+			}
+		}
+		if (this.live_cgi2 != null) {
+			if (!this.live_cgi2.equals(allComplaintDto.getLive_cgi2())) {
+				return false;
+			}
+		}else {
+			if (allComplaintDto.getLive_cgi2()!=null) {
+				return false;
+			}
+		}
+		if (this.live_cgi3 != null) {
+			if (!this.live_cgi3.equals(allComplaintDto.getLive_cgi3())) {
+				return false;
+			}
+		}else {
+			if (allComplaintDto.getLive_cgi3()!=null) {
+				return false;
+			}
+		}
+		if (this.workcgi!=null) {
+			if (!this.workcgi.equals(allComplaintDto.getWorkcgi())) {
+				return false;
+			}
+		}else{
+			if (allComplaintDto.getWorkcgi()!=null) {
+				return false;
+			}
+		}
+		if (this.distance!=null) {
+			if (!this.distance.equals(allComplaintDto.getDistance())) {
+				return false;
+			}
+		}else {
+			if (allComplaintDto.getDistance()!=null) {
+				return false;
+			}
+		}
+		/*if (this.record_time!=null) {
+			if (allComplaintDto.getRecord_time()!=null) {
+				if (!this.record_time.toString().equals(allComplaintDto.getRecord_time().toString())) {
+					System.out.println(this.record_time.toString());
+					System.out.println(allComplaintDto.getRecord_time().toString());
+					return false;
+				}
+			}else {
+				return false;
+			}
+			
+		}else {
+			if (allComplaintDto.getRecord_time()!=null) {
+				return false;
+			}
+		}*/
+		
+					
+		return result;
+		
+	}
+    
 }

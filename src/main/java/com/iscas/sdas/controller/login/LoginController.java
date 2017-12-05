@@ -75,22 +75,27 @@ public class LoginController {
 		dto.setUserId(userId);
 		dto.setPassword(password);
 		UserDto user = UserService.getUser(dto);
-		if (capText.equalsIgnoreCase(kaptcha) || capText.equals(kaptcha) || kaptcha == capText) {
-			if (user!=null) {
-				request.getSession().setAttribute("userInfo", user);
-				modelAndView = new ModelAndView("main/main");
-				List<MenuDto> firstMenu = menuService.getFirstMenus();//获取一级菜单及其子菜单
-				request.getSession().setAttribute("menuInfo", firstMenu);
-				firstMenu = getMenus(firstMenu);
-				modelAndView.addObject("firstMenu", firstMenu);
-			} else {
-				modelAndView = new ModelAndView("redirect:/");
-				modelAndView.addObject("loginMsg", "请输入正确的账号或密码！");
+		if (!CommonUntils.isempty(capText)) {
+			if (capText.equalsIgnoreCase(kaptcha) || capText.equals(kaptcha) || kaptcha == capText) {
+				if (user!=null) {
+					request.getSession().setAttribute("userInfo", user);
+					modelAndView = new ModelAndView("main/main");
+					List<MenuDto> firstMenu = menuService.getFirstMenus();//获取一级菜单及其子菜单
+					request.getSession().setAttribute("menuInfo", firstMenu);
+					firstMenu = getMenus(firstMenu);
+					modelAndView.addObject("firstMenu", firstMenu);
+				} else {
+					modelAndView = new ModelAndView("redirect:/");
+					modelAndView.addObject("loginMsg", "请输入正确的账号或密码！");
+				}
+			}else {
+				
 			}
 		}else {
 			modelAndView = new ModelAndView("redirect:/");
 			modelAndView.addObject("loginMsg", "请输入正确的验证码！");
 		}
+		
 		
 		return modelAndView;
 

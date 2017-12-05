@@ -5,5 +5,4 @@ import com.iscas.sdas.dto.complain.AllComplaintDto;
 
 public interface AllComplaintDao extends BaseDao<AllComplaintDto>{
 
-    int insertSelective(AllComplaintDto record);
 }

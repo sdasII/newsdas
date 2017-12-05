@@ -101,7 +101,7 @@
     servicerequesttype, complaintinfo, preinfocoll1value, terbrandmodel, ternettype
   </sql>
   <insert id="insert" parameterType="com.iscas.sdas.dto.complain.AllComplaintDetailDtoWithBLOBs">
-    insert into t_complaint_detail_test (complainttype, number, complaintdetailtype, 
+    insert into t_complaint_detail (complainttype, number, complaintdetailtype, 
       complaintdetailinfo, phonenumber, recordtime, 
       attrplace, customerbrand, customerlevel, 
       accworknum, accdepartment, workcity, 
@@ -170,5 +170,8 @@
       #{preinfocoll1value,jdbcType=LONGVARCHAR}, #{terbrandmodel,jdbcType=LONGVARCHAR}, 
       #{ternettype,jdbcType=LONGVARCHAR})
   </insert>
-  
+	
+  <select id="select" resultMap="ResultMapWithBLOBs">
+  	 select * from t_complaint_detail
+  </select>  
 </mapper>

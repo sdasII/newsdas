@@ -23,7 +23,7 @@
     <result column="livecgi" jdbcType="VARCHAR" property="livecgi" />
   </resultMap>
   <insert id="insert" parameterType="com.iscas.sdas.dto.complain.AllComplaintDto">
-    insert into t_complaint_residentarea_test (depend_date, record_time, ascription_city, 
+    insert into t_complaint_residentarea (depend_date, record_time, ascription_city, 
       phone_number, work_city, work_scene, 
       work_cellname, live_city, live_scene, 
       live_cellname, distance, live_cgi1, 
@@ -37,126 +37,8 @@
       #{live_cgi2,jdbcType=VARCHAR}, #{live_cgi3,jdbcType=VARCHAR}, #{live_cellname1,jdbcType=VARCHAR}, 
       #{live_cellname2,jdbcType=VARCHAR}, #{live_cellname3,jdbcType=VARCHAR}, #{workcgi,jdbcType=VARCHAR}, 
       #{livecgi,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.iscas.sdas.dto.complain.AllComplaintDto">
-    insert into t_complaint_residentarea
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="dependDate != null">
-        depend_date,
-      </if>
-      <if test="recordTime != null">
-        record_time,
-      </if>
-      <if test="ascriptionCity != null">
-        ascription_city,
-      </if>
-      <if test="phoneNumber != null">
-        phone_number,
-      </if>
-      <if test="workCity != null">
-        work_city,
-      </if>
-      <if test="workScene != null">
-        work_scene,
-      </if>
-      <if test="workCellname != null">
-        work_cellname,
-      </if>
-      <if test="liveCity != null">
-        live_city,
-      </if>
-      <if test="liveScene != null">
-        live_scene,
-      </if>
-      <if test="liveCellname != null">
-        live_cellname,
-      </if>
-      <if test="distance != null">
-        distance,
-      </if>
-      <if test="liveCgi1 != null">
-        live_cgi1,
-      </if>
-      <if test="liveCgi2 != null">
-        live_cgi2,
-      </if>
-      <if test="liveCgi3 != null">
-        live_cgi3,
-      </if>
-      <if test="liveCellname1 != null">
-        live_cellname1,
-      </if>
-      <if test="liveCellname2 != null">
-        live_cellname2,
-      </if>
-      <if test="liveCellname3 != null">
-        live_cellname3,
-      </if>
-      <if test="workcgi != null">
-        workcgi,
-      </if>
-      <if test="livecgi != null">
-        livecgi,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="dependDate != null">
-        #{dependDate,jdbcType=VARCHAR},
-      </if>
-      <if test="recordTime != null">
-        #{recordTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="ascriptionCity != null">
-        #{ascriptionCity,jdbcType=VARCHAR},
-      </if>
-      <if test="phoneNumber != null">
-        #{phoneNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="workCity != null">
-        #{workCity,jdbcType=VARCHAR},
-      </if>
-      <if test="workScene != null">
-        #{workScene,jdbcType=VARCHAR},
-      </if>
-      <if test="workCellname != null">
-        #{workCellname,jdbcType=VARCHAR},
-      </if>
-      <if test="liveCity != null">
-        #{liveCity,jdbcType=VARCHAR},
-      </if>
-      <if test="liveScene != null">
-        #{liveScene,jdbcType=VARCHAR},
-      </if>
-      <if test="liveCellname != null">
-        #{liveCellname,jdbcType=VARCHAR},
-      </if>
-      <if test="distance != null">
-        #{distance,jdbcType=DOUBLE},
-      </if>
-      <if test="liveCgi1 != null">
-        #{liveCgi1,jdbcType=VARCHAR},
-      </if>
-      <if test="liveCgi2 != null">
-        #{liveCgi2,jdbcType=VARCHAR},
-      </if>
-      <if test="liveCgi3 != null">
-        #{liveCgi3,jdbcType=VARCHAR},
-      </if>
-      <if test="liveCellname1 != null">
-        #{liveCellname1,jdbcType=VARCHAR},
-      </if>
-      <if test="liveCellname2 != null">
-        #{liveCellname2,jdbcType=VARCHAR},
-      </if>
-      <if test="liveCellname3 != null">
-        #{liveCellname3,jdbcType=VARCHAR},
-      </if>
-      <if test="workcgi != null">
-        #{workcgi,jdbcType=VARCHAR},
-      </if>
-      <if test="livecgi != null">
-        #{livecgi,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
+  </insert> 
+  <select id="getPageList" resultMap="BaseResultMap">
+  	select * from t_complaint_residentarea
+  </select>
 </mapper>

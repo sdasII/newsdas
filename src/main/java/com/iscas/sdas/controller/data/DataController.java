@@ -286,7 +286,7 @@ public class DataController{
 					try {
 						FileImport.importwork(path, allComplaints, fields);// 将excel映射为对象
 						try {						
-							allComplainService.insert(allComplaints);
+							allComplainService.insertCell(allComplaints);
 							result = "导入成功! ";
 							fileLogDto.setResult(1);
 						} catch (Exception e) {
@@ -333,9 +333,14 @@ public class DataController{
 				try {
 					FileImport.importwork(path, allDetails, fields);// 将excel映射为对象
 					try {
-						allComplainService.insertDetails(allDetails);
-						result = "导入成功! ";
-						fileLogDto.setResult(1);
+						boolean flag = allComplainService.insertDetails(allDetails);
+						if (flag) {
+							result = "导入成功! ";
+							fileLogDto.setResult(1);
+						}else {
+							result = "导入失败! ";
+							fileLogDto.setResult(0);
+						}			
 					} catch (Exception e) {
 						e.printStackTrace();
 						fileLogDto.setResult(0);
