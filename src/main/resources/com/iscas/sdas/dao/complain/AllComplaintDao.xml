@@ -41,4 +41,7 @@
   <select id="getPageList" resultMap="BaseResultMap">
   	select * from t_complaint_residentarea
   </select>
+  <select id="allCounts" resultType="java.lang.Long">
+  	SELECT COUNT(*) FROM t_complaint_residentarea
+  </select>
 </mapper>

@@ -89,7 +89,8 @@ public class LoginController {
 					modelAndView.addObject("loginMsg", "请输入正确的账号或密码！");
 				}
 			}else {
-				
+				modelAndView = new ModelAndView("redirect:/");
+				modelAndView.addObject("loginMsg", "请输入正确的验证码！");
 			}
 		}else {
 			modelAndView = new ModelAndView("redirect:/");
