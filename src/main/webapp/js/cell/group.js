@@ -49,6 +49,24 @@ function select(){
     commonRowDatas("table_list_1", bsdata, cellListUrl, "commonCallback", true);
    
 }
+//导出
+function exportExcel(){
+	var time=$("#exporttime").val();
+	if(time==""){//默认为当前月份
+		var myDate = new Date();
+		time=myDate.getFullYear().toString()+(myDate.getMonth()+1).toString();
+		
+	}else{
+		$.ajax({
+			type:"post",
+			url:"",
+			data:{"time":time},
+			success:function(data){
+				
+			}
+		});
+	}
+}
 function clear(){
 	$("#name").val("");
 }

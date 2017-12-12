@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <%@ include file="/include/common.jsp"%>
+<script src="${context}/lib/hplus/js/plugins/layer/laydate/laydate.js"></script>
 <link href="${context}/style/loader.css" rel="stylesheet"
 	type="text/css">
 <link
@@ -26,9 +27,16 @@
 						<div class="form-group">
 							<label for="name">小区名称<input type="text"
 								placeholder="请输入小区名称" id="name" name="name" class="form-control"></label>		
-							<button style="margin-left: 5px;" class="btn btn-white"
+							<button style="margin-left: 5px;" class="btn btn-success"
 								onclick="javascript:select()">查询</button>
 							<button id="clear" type="reset" class="btn btn-white">清空</button>
+							<label for="name" style="margin-left: 20px">数据导出
+							<input id="exporttime" name="time"style="margin: -10px;width: 125px; height: 35px; margin-right: 10px;margin-left: 10px"
+								class="btn btn-white layer-date" placeholder="请选择导出月份"
+								onclick="laydate({istime: false, format: 'YYYYMM'})">
+							</label>		
+							<button style="margin-left: 5px;" class="btn btn-success"
+								onclick="javascript:exportExcel()">导出</button>
 						</div>
 						<div>
 							<table id="table_list_1"></table>
