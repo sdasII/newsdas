@@ -9,6 +9,7 @@ var data=[];//testData
 var dataUrl=ctx+"/cell/cellResultHistroy";
 var tableUrl=ctx+"/work/allrtworks";
 var historyurl = ctx + "/cell/healthtrend";
+var imgUrl='image://../style/export.png';
 var historyCharts;
 var histroy_trend = {
 		tooltip : { // 提示框
@@ -29,12 +30,18 @@ var histroy_trend = {
 		},
 		toolbox: {
 	        show : true,
-	        feature : {
-	            saveAsImage : {
+	        top:20,
+	        right:150,
+	        feature : {  
+	        	myTool2 : {
 	            	show: true,
-	            	name:cellname+"-历史健康度"
-	            	}
-	        }
+	            	title:'数据导出',
+	            	icon:imgUrl, //图标
+	                onclick:function(obj) {
+	                	exportExcel(obj.option.series[0].name);
+	                   }
+	            	}  
+	        }  
 	    },
 		xAxis : {
 			type : 'category',
@@ -535,7 +542,7 @@ function drawEcharts(id, title, times, data,color) {
 		},
 		tooltip : {
 			trigger : 'axis', // 触发类型：坐标轴触发
-			position: ['50%', '50%'],
+			//position: ['50%', '50%'],
 			formatter : function(params) {
 				var status="";
 				if(params[0].value==0.5){
@@ -556,12 +563,19 @@ function drawEcharts(id, title, times, data,color) {
 		},
 		toolbox: {
 	        show : true,
-	        feature : {
-	        	saveAsImage : {
+	        top:20,
+	        right:150,
+	        feature : {  
+	        	mytool1 : {
 	            	show: true,
-	            	name:cellname+"-健康诊断结果"
-	            	}
-	        }
+	            	title:'数据导出',
+	            	icon:imgUrl, //图标
+	            	option:{},    
+	                onclick:function(obj) {
+	                	exportExcel(obj.option.series[0].name);
+	                   }
+	            	}  
+	        }  
 	    },
 		dataZoom : {
 			start : 0,
@@ -660,4 +674,15 @@ function drawEcharts(id, title, times, data,color) {
 }*/
 function toTableData(code){
 	top.$("#iframe_detail").attr('src',ctx +"/cell/toTableData?cell_code="+code);
+}
+function exportExcel(title){
+	var time=date_value;
+		$.ajax({
+			type:"post",
+			url:"",
+			data:{"time":time,"title":title,"cell_code":cell_code},
+			success:function(data){
+				
+			}
+		});
 }

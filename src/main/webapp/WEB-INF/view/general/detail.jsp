@@ -207,6 +207,7 @@ input {
 	<script type="text/javascript">
 		var ctx = ctx;
 		var cell_code = "${cellname}";
+		var context="${context}";
 		// 百度地图API功能
 		var map = new BMap.Map("allmap"); // 创建Map实例
 		map.centerAndZoom(new BMap.Point(113.270856, 23.137463), 15); // 初始化地图,设置中心点坐标和地图级别
