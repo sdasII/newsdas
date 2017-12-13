@@ -82,7 +82,7 @@ public class CellService{
 				cellHealths = cellDao.cellhealthtrendWithinSelect(cellname, start, end);
 			}
 			if (cellHealths!=null && cellHealths.size()>0) {
-				List<String> complaints = complaintsWithinCurrenttime(cellname,type,start,end);//投诉工单
+				//List<String> complaints = complaintsWithinCurrenttime(cellname,type,start,end);//投诉工单
 				String begintime = cellHealths.get(0).getYyyyMMdd();
 				if ("day".equals(type)) {
 					result = originData(1, begintime);
@@ -123,13 +123,13 @@ public class CellService{
 							}
 							
 						}
-						for (int z = 0; z < complaints.size(); z++) {
+						/*for (int z = 0; z < complaints.size(); z++) {
 							if (complaints.get(z).equals(result.get(i).getTime())) {							
 								int complaint = result.get(i).getComplaints()+1;
 								result.get(i).setComplaints(complaint);
 								logger.info("--投诉---"+complaints.get(z)+"--------"+result.get(i).getTime()+"总共"+complaint+"个");
 							}
-						}
+						}*/
 					}
 				}
 			}

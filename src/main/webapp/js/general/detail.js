@@ -2,6 +2,11 @@ var top_split = [];
 var bottom_spli = [];
 var middle_split = [];
 var times=[];
+
+
+/*
+ * 数据选择模式 年/月/日/任意时间段
+ */
 var date_value = "day";// 曲线时间范围
 var starttime;
 var endtime;
@@ -215,6 +220,11 @@ var histroy_trend = {
 					data : top_split
 				}]
 	}
+
+
+
+
+
 $(function(){
 	historyCharts = echarts.init($("#historyCharts").get(0));
 	//曲线时间选择
