@@ -47,7 +47,7 @@ var histroy_trend = {
 	            	title:'数据导出',
 	            	icon:imgUrl, //图标
 	                onclick:function(obj) {
-	                	exportExcel(obj.option.series[0].name);
+	                	exportExcel_history(obj.option.series[0].name);
 	                   }
 	            	}  
 	        }  
@@ -590,7 +590,7 @@ function drawEcharts(id, title, times, data,color) {
 	            	icon:imgUrl,
 	            	option:{},    
 	                onclick:function(obj) {
-	                	exportExcel(obj.option.series[0].name);
+	                	exportExcel_real(obj.option.series[0].name);
 	                   }
 	            	}  
 	        }  
@@ -696,7 +696,7 @@ function toTableData(code){
 
 var history_export_url = ctx + "/cell/healthtrend/export";
 
-function exportExcel(title){
+function exportExcel_history(title){
     /*
      * 以模拟表单方式发送请求
      */
@@ -709,5 +709,8 @@ function exportExcel(title){
         form.append($("<input></input>").attr("type", "hidden").attr("name","endtime").attr("value", endtime));
     }       
     form.appendTo('body').submit().remove();
+    
+}
+function exportExcel_real(title){
     
 }
