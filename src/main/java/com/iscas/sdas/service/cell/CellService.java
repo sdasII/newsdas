@@ -23,6 +23,7 @@ import com.iscas.sdas.dto.CellComplainDto;
 import com.iscas.sdas.dto.GroupIndexMeatdata;
 import com.iscas.sdas.dto.StationInfoDto;
 import com.iscas.sdas.dto.TotalHealthInfoDto;
+import com.iscas.sdas.dto.TotalHealthInfoDto2;
 import com.iscas.sdas.dto.cell.BaseCellHealth;
 import com.iscas.sdas.dto.cell.CellDto;
 import com.iscas.sdas.dto.cell.CellHealthTableDto;
@@ -64,7 +65,7 @@ public class CellService{
 		return cellDao.getgroup(cellname);
 	}
 	/**
-	 * 历史曲线
+	 * 历史曲线(全部信息)
 	 * @param cellname
 	 * @return
 	 */
@@ -133,6 +134,56 @@ public class CellService{
 					}
 				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 历史曲线(只有历史健康度信息)
+	 * @param cellname
+	 * @param type
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public List<TotalHealthInfoDto2> generateCellHealthTrend2(String cellname,String type,String start,String end){
+		List<TotalHealthInfoDto2> result = new ArrayList<>();
+		try {
+			List<BaseCellHealth> cellHealths;
+			if ("day".equals(type)) {
+				cellHealths = cellDao.cellhealthtrendDay(cellname);
+			}else if ("week".equals(type)) {
+				cellHealths = cellDao.cellhealthtrend(cellname);
+			}else if ("month".equals(type)) {
+				cellHealths = cellDao.cellhealthtrendWithinOneMonth(cellname);
+			}else {
+				cellHealths = cellDao.cellhealthtrendWithinSelect(cellname, start, end);
+			}
+			if (cellHealths != null && cellHealths.size() > 0) {
+				
+				for (int j = 0; j < cellHealths.size(); j++) {
+					
+					BaseCellHealth cellHealth = cellHealths.get(j);
+					String date = cellHealth.getYyyyMMdd();
+					TotalHealthInfoDto2 infoDto = new TotalHealthInfoDto2();
+					infoDto.setDate(date);
+					Method[] methods = cellHealth.getClass().getMethods();
+					for (Method method : methods) {
+						String methodName = method.getName();
+						if (methodName.startsWith("getRange")) {
+
+							String range = (String) method.invoke(cellHealth, null);
+							Double ratio = parseRatio(range);
+							Method setMethod =  infoDto.getClass().getMethod(methodName.replaceFirst("g", "s"), String.class);
+							setMethod.invoke(infoDto, String.valueOf(ratio));
+							}
+						}
+					result.add(infoDto);
+					}
+
+				}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -290,6 +341,9 @@ public class CellService{
 		}
 		return list;
 	}
+	
+	
+	
 	private List<TotalHealthInfoDto> originDataSelect(String starttime,String endtime){
 		List<TotalHealthInfoDto> list = new ArrayList<>();
 		int startmonth = Integer.parseInt(starttime.substring(4, 6))-1;
@@ -324,7 +378,6 @@ public class CellService{
 		}
 		return list;
 	}
-	
 	
 	/**
 	 * 返回最近一天的小区健康度

@@ -1,11 +1,19 @@
 package com.iscas.sdas.controller.cell;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,6 +33,7 @@ import com.github.pagehelper.PageInfo;
 import com.iscas.sdas.common.PageDto;
 import com.iscas.sdas.dto.GroupIndexMeatdata;
 import com.iscas.sdas.dto.TotalHealthInfoDto;
+import com.iscas.sdas.dto.TotalHealthInfoDto2;
 import com.iscas.sdas.dto.cell.BaseCellHealth;
 import com.iscas.sdas.dto.cell.CellHealthTableDto;
 import com.iscas.sdas.dto.cell.CellInfoDto;
@@ -32,6 +41,7 @@ import com.iscas.sdas.dto.cell.CellResultHistoryDto;
 import com.iscas.sdas.service.cell.CellService;
 import com.iscas.sdas.util.CommonUntils;
 import com.iscas.sdas.util.Constraints;
+import com.iscas.sdas.util.FileExport;
 /**
  * 小区有关：全部表、分组、健康度 
  * @author Administrator
@@ -286,4 +296,75 @@ public class CellController {
 		view.addObject("cellname", cellname);
 		return view;
 	 }
+	
+	
+	
+	/**
+	 * 历史健康度表格导出
+	 */
+	@RequestMapping("/healthtrend/export")
+    public  void downloadExcelFile(HttpServletRequest request,
+			@RequestParam(required=true,defaultValue="day",value="type")String type,
+			String title,HttpServletResponse response){
+  	
+        try {
+        	String cellname = request.getParameter("cellname");
+        	String starttime = null,endtime = null;
+    		if ("select".equals(type)) {
+    			starttime = request.getParameter("starttime");
+    			endtime = request.getParameter("endtime");
+    		}
+        	String titlename = title;
+        	title = cellname + "----" + title;
+        	if ("day".equals(type)) {
+				title = cellname +"最近一天";
+			}else if ("week".equals(type)) {
+				title = cellname +"最近一周";
+			}else if ("month".equals(type)) {
+				title = cellname +"最近一月";
+			}else if ("select".equals(type)) {
+				title = cellname +"_"+starttime+"_"+endtime;
+			}
+    		title += titlename;
+    		List<TotalHealthInfoDto2> list = cellService.generateCellHealthTrend2(cellname,type,starttime,endtime);
+    		Map<String,String> headMap = new LinkedHashMap<>();
+    		headMap.put("date", "日期");
+    		for (int i = 0; i < 24; i++) {
+				String range = "range_";
+				String count = i<10?"0"+i:i+"";
+				String head = range + count;
+				headMap.put(head, i+"时");
+
+			}
+    		JSONArray ja = null;
+        	if (list!=null) {
+				ja = JSONArray.parseArray(JSON.toJSONString(list));
+			}    	
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            FileExport.exportExcelX(title, headMap, ja, null, 0, os);
+            byte[] content = os.toByteArray();
+            InputStream is = new ByteArrayInputStream(content);
+            // 设置response参数，可以打开下载页面
+            response.reset();
+
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"); 
+            response.setHeader("Content-Disposition", "attachment;filename="+ new String((title + ".xlsx").getBytes(), "iso-8859-1"));
+            response.setContentLength(content.length);
+            ServletOutputStream outputStream = response.getOutputStream();
+            BufferedInputStream bis = new BufferedInputStream(is);
+            BufferedOutputStream bos = new BufferedOutputStream(outputStream);
+            byte[] buff = new byte[8192];
+            int bytesRead;
+            while (-1 != (bytesRead = bis.read(buff, 0, buff.length))) {
+                bos.write(buff, 0, bytesRead);
+
+            }
+            bis.close();
+            bos.close();
+            outputStream.flush();
+            outputStream.close();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

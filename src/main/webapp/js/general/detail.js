@@ -254,13 +254,13 @@ $(function(){
 							$(this).removeClass("btn-white");
 							$(this).addClass("btn-info");
 						}else if ($(this).html() == "按时间选择") {
-							date_value==null;
+							//date_value==null;
 							$(this).removeClass("btn-white");
 							$(this).addClass("btn-info");
 							$(this).parent().children(":last").css("display", "block");
-							date_value = "";
+							date_value = "select";
 						}
-						if(date_value != ""){
+						if(date_value != "select"){
 							var title=$("#topTabs").find(".active").find("a").html()
 							if (title == "健康诊断结果") {
 								getcharts("#rtratio", "健康诊断结果","rgb(46,199,201)",date_value,"","");
@@ -324,7 +324,7 @@ $(function(){
 function query(){
 	starttime=$("#starttime").val();
 	endtime=$("#endtime").val();
-	date_value="";
+	date_value="select";
 	var title=$("#topTabs").find(".active").find("a").html()
 	if (title == "健康诊断结果") {
 		getcharts("#rtratio", "健康诊断结果","rgb(46,199,201)","select",starttime,endtime);
@@ -455,7 +455,7 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 			"cellname":cellname,
 			"type":date_value,
 			"starttime":starttime,
-			"endtime":endtime,
+			"endtime":endtime
 		},
 		success:function(data){
 			//data=eval('(' + data + ')');
@@ -693,14 +693,21 @@ function drawEcharts(id, title, times, data,color) {
 function toTableData(code){
 	top.$("#iframe_detail").attr('src',ctx +"/cell/toTableData?cell_code="+code);
 }
+
+var history_export_url = ctx + "/cell/healthtrend/export";
+
 function exportExcel(title){
-	var time=date_value;
-		$.ajax({
-			type:"post",
-			url:"",
-			data:{"time":time,"title":title,"cell_code":cell_code},
-			success:function(data){
-				
-			}
-		});
+    /*
+     * 以模拟表单方式发送请求
+     */
+    var form = $("<form></form>").attr("action", history_export_url).attr("method", "post");
+    form.append($("<input></input>").attr("type", "hidden").attr("name","cellname").attr("value", cell_code));
+    form.append($("<input></input>").attr("type", "hidden").attr("name","title").attr("value", title));
+    form.append($("<input></input>").attr("type", "hidden").attr("name","type").attr("value", date_value));
+    if(date_value=="select"){
+        form.append($("<input></input>").attr("type", "hidden").attr("name","starttime").attr("value", starttime));
+        form.append($("<input></input>").attr("type", "hidden").attr("name","endtime").attr("value", endtime));
+    }       
+    form.appendTo('body').submit().remove();
+    
 }
