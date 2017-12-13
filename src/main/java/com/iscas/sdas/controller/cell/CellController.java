@@ -6,6 +6,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ import com.iscas.sdas.dto.cell.BaseCellHealth;
 import com.iscas.sdas.dto.cell.CellHealthTableDto;
 import com.iscas.sdas.dto.cell.CellInfoDto;
 import com.iscas.sdas.dto.cell.CellResultHistoryDto;
+import com.iscas.sdas.dto.cell.SignalCellResult;
 import com.iscas.sdas.service.cell.CellService;
 import com.iscas.sdas.util.CommonUntils;
 import com.iscas.sdas.util.Constraints;
@@ -367,4 +369,104 @@ public class CellController {
             e.printStackTrace();
         }
     }
+	/**
+	 * 判别结果导出
+	 * @param request
+	 * @param type
+	 * @param title
+	 * @param response
+	 */
+	@RequestMapping("/result/export")
+    public  void downloadExcelFile2(HttpServletRequest request,
+			@RequestParam(required=true,defaultValue="day",value="type")String type,
+			String title,HttpServletResponse response){
+  	
+        try {
+        	String cellname = request.getParameter("cellname");
+        	String starttime = null,endtime = null;
+    		if ("select".equals(type)) {
+    			starttime = request.getParameter("starttime");
+    			endtime = request.getParameter("endtime");
+    		}
+        	String titlename = title;
+        	title = cellname + "----" + title;
+        	if ("day".equals(type)) {
+				title = cellname +"最近一天";
+			}else if ("week".equals(type)) {
+				title = cellname +"最近一周";
+			}else if ("month".equals(type)) {
+				title = cellname +"最近一月";
+			}else if ("select".equals(type)) {
+				title = cellname +"_"+starttime+"_"+endtime;
+			}
+    		title += titlename;
+    		List<CellResultHistoryDto> list2 = cellService.cellResultHistroy(cellname, type, starttime, endtime);
+    		List<SignalCellResult> list = generateSingalValue(list2);
+    		Map<String,String> headMap = new LinkedHashMap<>();
+    		headMap.put("cellname", "小区名称");
+    		headMap.put("date", "日期");
+    		headMap.put("time", "时间");
+    		headMap.put("status", "状态");
+    		JSONArray ja = null;
+        	if (list!=null) {
+				ja = JSONArray.parseArray(JSON.toJSONString(list));
+			}    	
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            FileExport.exportExcelX(title, headMap, ja, null, 0, os);
+            byte[] content = os.toByteArray();
+            InputStream is = new ByteArrayInputStream(content);
+            // 设置response参数，可以打开下载页面
+            response.reset();
+
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"); 
+            response.setHeader("Content-Disposition", "attachment;filename="+ new String((title + ".xlsx").getBytes(), "iso-8859-1"));
+            response.setContentLength(content.length);
+            ServletOutputStream outputStream = response.getOutputStream();
+            BufferedInputStream bis = new BufferedInputStream(is);
+            BufferedOutputStream bos = new BufferedOutputStream(outputStream);
+            byte[] buff = new byte[8192];
+            int bytesRead;
+            while (-1 != (bytesRead = bis.read(buff, 0, buff.length))) {
+                bos.write(buff, 0, bytesRead);
+
+            }
+            bis.close();
+            bos.close();
+            outputStream.flush();
+            outputStream.close();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+	
+	private List<SignalCellResult> generateSingalValue(List<CellResultHistoryDto> list) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
+		List<SignalCellResult> results = new ArrayList<>();
+		if (list!=null) {
+			for (CellResultHistoryDto cellResultHistoryDto : list) {
+				Method[] methods = cellResultHistoryDto.getClass().getMethods();
+				for (Method method : methods) {
+					if (method.getName().startsWith("getRange_")) {
+						Integer value =  (Integer)method.invoke(cellResultHistoryDto, null);
+						if (value==0||value==1||value==3) {
+							SignalCellResult result = new SignalCellResult();
+							result.setDate(cellResultHistoryDto.getYyyymmdd());
+							if (value==0) {
+								result.setStatus("不健康");
+							}
+							if (value==1) {
+								result.setStatus("亚健康");
+							}
+							if (value==3) {
+								result.setStatus("计算无结果");
+							}
+							result.setCellname(cellResultHistoryDto.getCell_code());
+							result.setTime(method.getName().substring(9));
+							results.add(result);
+						}
+					}
+				}
+			}
+		}
+		return results;
+	}
 }

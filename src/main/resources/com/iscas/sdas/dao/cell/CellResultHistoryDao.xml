@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.iscas.sdas.dao.cell.CellResultHistoryDao">
 	<sql id="Base_Column_List">
-		yyyyMMdd,range_00, range_01, range_02,
+		cell_code,yyyyMMdd,range_00, range_01, range_02,
 		range_03,
 		range_04, range_05, range_06, range_07, range_08, range_09, range_10, range_11,
 		range_12,

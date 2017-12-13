@@ -695,7 +695,7 @@ function toTableData(code){
 }
 
 var history_export_url = ctx + "/cell/healthtrend/export";
-
+var real_export_url = ctx + "/cell/result/export";
 function exportExcel_history(title){
     /*
      * 以模拟表单方式发送请求
@@ -712,5 +712,13 @@ function exportExcel_history(title){
     
 }
 function exportExcel_real(title){
-    
+    var form = $("<form></form>").attr("action", real_export_url).attr("method", "post");
+    form.append($("<input></input>").attr("type", "hidden").attr("name","cellname").attr("value", cell_code));
+    form.append($("<input></input>").attr("type", "hidden").attr("name","title").attr("value", title));
+    form.append($("<input></input>").attr("type", "hidden").attr("name","type").attr("value", date_value));
+    if(date_value=="select"){
+        form.append($("<input></input>").attr("type", "hidden").attr("name","starttime").attr("value", starttime));
+        form.append($("<input></input>").attr("type", "hidden").attr("name","endtime").attr("value", endtime));
+    }       
+    form.appendTo('body').submit().remove();
 }
