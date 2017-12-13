@@ -32,7 +32,11 @@ var histroy_trend = {
 	        show : true,
 	        top:20,
 	        right:150,
-	        feature : {  
+	        feature : {
+	        	saveAsImage:{
+	        		show:true,
+	        		name:cellname+"-历史健康度"
+	        	},
 	        	myTool2 : {
 	            	show: true,
 	            	title:'数据导出',
@@ -565,11 +569,15 @@ function drawEcharts(id, title, times, data,color) {
 	        show : true,
 	        top:20,
 	        right:150,
-	        feature : {  
+	        feature : {
+	        	saveAsImage:{
+	        		show:true,
+	        		name:cellname+"-健康诊断结果"
+	        	},
 	        	mytool1 : {
 	            	show: true,
 	            	title:'数据导出',
-	            	icon:imgUrl, //图标
+	            	icon:imgUrl,
 	            	option:{},    
 	                onclick:function(obj) {
 	                	exportExcel(obj.option.series[0].name);
