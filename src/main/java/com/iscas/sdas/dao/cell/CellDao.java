@@ -87,4 +87,10 @@ public interface CellDao {
 	 * @return
 	 */
 	Integer getHealthRatio(@Param("cellname")String cellname,@Param("yyyymmdd")String yyyymmdd,@Param("hour")String hour);
+	/**
+	 * 按月获取全部小区健康度
+	 * @param yyyyMM
+	 * @return
+	 */
+	List<BaseCellHealth> allHealthRatioByMonth(String yyyyMM);
 }

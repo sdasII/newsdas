@@ -189,6 +189,41 @@ public class CellService{
 		}
 		return result;
 	}
+	public List<TotalHealthInfoDto2> generateCellHealthTrend2(String month){
+		List<TotalHealthInfoDto2> result = new ArrayList<>();
+		try {
+			List<BaseCellHealth> cellHealths;
+			cellHealths = cellDao.allHealthRatioByMonth(month);
+			if (cellHealths != null && cellHealths.size() > 0) {
+				
+				for (int j = 0; j < cellHealths.size(); j++) {
+					
+					BaseCellHealth cellHealth = cellHealths.get(j);
+					String date = cellHealth.getYyyyMMdd();
+					TotalHealthInfoDto2 infoDto = new TotalHealthInfoDto2();
+					infoDto.setDate(date);
+					infoDto.setCell_code(cellHealth.getCell_code());
+					Method[] methods = cellHealth.getClass().getMethods();
+					for (Method method : methods) {
+						String methodName = method.getName();
+						if (methodName.startsWith("getRange")) {
+
+							String range = (String) method.invoke(cellHealth, null);
+							Double ratio = parseRatio(range);
+							Method setMethod =  infoDto.getClass().getMethod(methodName.replaceFirst("g", "s"), String.class);
+							setMethod.invoke(infoDto, String.valueOf(ratio));
+							}
+						}
+					result.add(infoDto);
+					}
+
+				}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 	/**
 	 * 历史表格
 	 * @param cellname
@@ -709,5 +744,15 @@ public class CellService{
 		}else {
 			return null;
 		}
+	}
+	/**
+	 * 按月获取判别结果
+	 * @param yyyyMM
+	 * @return
+	 */
+	public List<CellResultHistoryDto> cellResultHistroy(String yyyyMM){
+
+			return cellResultHistoryDao.resultByMonth(yyyyMM);
+
 	}
 }

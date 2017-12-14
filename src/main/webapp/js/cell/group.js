@@ -49,24 +49,34 @@ function select(){
     commonRowDatas("table_list_1", bsdata, cellListUrl, "commonCallback", true);
    
 }
+var result_export_url = ctx + "/cell/result/all/export"
+var history_export_url = ctx + "/cell/history/all/export";
 //导出
-function exportExcel(){
-	var time=$("#exporttime").val();
+function resultexportExcel(){
+	var time=$("#resultexporttime").val();
 	if(time==""){//默认为当前月份
 		var myDate = new Date();
-		time=myDate.getFullYear().toString()+(myDate.getMonth()+1).toString();
-		
-	}else{
-		$.ajax({
-			type:"post",
-			url:"",
-			data:{"time":time},
-			success:function(data){
-				
-			}
-		});
+		time=myDate.getFullYear().toString()+(myDate.getMonth()+1).toString();        		
 	}
+    var form = $("<form></form>").attr("action", result_export_url).attr("method", "post");
+    form.append($("<input></input>").attr("type", "hidden").attr("name","month").attr("value", time));     
+    form.appendTo('body').submit().remove();
+    /*$("#load2").css("display","inline");*/
 }
+function exportExcel(){
+    var time=$("#exporttime").val();
+    if(time==""){//默认为当前月份
+        var myDate = new Date();
+        time=myDate.getFullYear().toString()+(myDate.getMonth()+1).toString();              
+    }
+    var form = $("<form></form>").attr("action", history_export_url).attr("method", "post");
+    form.append($("<input></input>").attr("type", "hidden").attr("name","month").attr("value", time));     
+    form.appendTo('body').submit().remove();
+    /*$("#load1").css("display","inline");*/
+}
+
+
+
 function clear(){
 	$("#name").val("");
 }

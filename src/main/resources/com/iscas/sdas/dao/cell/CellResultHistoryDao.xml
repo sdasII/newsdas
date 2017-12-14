@@ -43,4 +43,10 @@
 		and STR_TO_DATE(yyyyMMdd,'%Y%m%d') BETWEEN #{start} AND #{end} ORDER BY
 		yyyyMMdd
 	</select>
+	<select id="resultByMonth" parameterType="java.lang.String"
+		resultType="com.iscas.sdas.dto.cell.CellResultHistoryDto">
+		SELECT 
+		<include refid="Base_Column_List" />
+		FROM t_cell_result_history WHERE yyyyMM = #{yyyyMM} ORDER BY yyyyMMdd
+	</select>
 </mapper>

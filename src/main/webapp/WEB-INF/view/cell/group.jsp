@@ -25,18 +25,31 @@
 					</div>
 					<div class="ibox-content">
 						<div class="form-group">
-							<label for="name">小区名称<input type="text"
-								placeholder="请输入小区名称" id="name" name="name" class="form-control"></label>		
+							<label for="name" style="margin-left: 20px">小区名称<input type="text" style="margin: -10px;width: 225px; height: 35px; margin-right: 10px;margin-left: 10px"
+								class="btn btn-white" placeholder="请输入小区名称" id="name" name="name"></label>		
 							<button style="margin-left: 5px;" class="btn btn-success"
 								onclick="javascript:select()">查询</button>
 							<button id="clear" type="reset" class="btn btn-white">清空</button>
-							<label for="name" style="margin-left: 20px">数据导出
+							<label for="time" style="margin-left: 20px">数据导出
 							<input id="exporttime" name="time"style="margin: -10px;width: 125px; height: 35px; margin-right: 10px;margin-left: 10px"
 								class="btn btn-white layer-date" placeholder="请选择导出月份"
 								onclick="laydate({istime: false, format: 'YYYYMM'})">
 							</label>		
 							<button style="margin-left: 5px;" class="btn btn-success"
-								onclick="javascript:exportExcel()">导出</button>
+								onclick="javascript:exportExcel()">历史健康度导出</button>
+							<div class="btn loading" id="load1" style="display: none;">
+								<img src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在上传...</span>
+							</div>
+							<label for="time" style="margin-left: 20px">
+							<input id="resultexporttime" name="time"style="margin: -10px;width: 125px; height: 35px; margin-right: 10px;margin-left: 10px"
+								class="btn btn-white layer-date" placeholder="请选择导出月份"
+								onclick="laydate({istime: false, format: 'YYYYMM'})">
+							</label>		
+							<button style="margin-left: 5px;" class="btn btn-success"
+								onclick="javascript:resultexportExcel()">健康判断结果导出</button>
+							<div class="btn loading" id="load2" style="display: none;">
+								<img src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在上传...</span>
+							</div>
 						</div>
 						<div>
 							<table id="table_list_1"></table>

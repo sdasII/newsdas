@@ -130,4 +130,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getHealthRatio" resultType="java.lang.Integer">
 		SELECT app_result  FROM t_cell_result_info WHERE cell_code = #{cellname} AND yyyyMMdd = #{yyyymmdd} AND app_hour = #{hour}
 	</select>
+	<select id="allHealthRatioByMonth" parameterType="java.lang.String" 
+			resultType="com.iscas.sdas.dto.cell.BaseCellHealth">
+		SELECT * FROM t_cell_health_info WHERE yyyyMM = #{yyyyMM}  ORDER BY yyyyMMdd
+	</select>
 </mapper>
