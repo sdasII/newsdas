@@ -31,6 +31,16 @@ $(function(){
             return NOT_FOUND_DATAS;
         }
     });
+    //datapicker
+    $(".form_datetime").datetimepicker({
+    	 format: 'yyyymm',  
+    	 startView: 'year',
+         minView:'year',
+         maxView:'decade',
+         language:  'zh-CN' 
+    });
+    
+    
     searchInfo();
 });
 //全局查询参数
@@ -53,6 +63,7 @@ var result_export_url = ctx + "/cell/result/all/export"
 var history_export_url = ctx + "/cell/history/all/export";
 //导出
 function resultexportExcel(){
+	$("#load2").show();
 	var time=$("#resultexporttime").val();
 	if(time==""){//默认为当前月份
 		var myDate = new Date();
@@ -62,8 +73,10 @@ function resultexportExcel(){
     form.append($("<input></input>").attr("type", "hidden").attr("name","month").attr("value", time));     
     form.appendTo('body').submit().remove();
     /*$("#load2").css("display","inline");*/
+    setTimeout(function(){ $("#load2").hide();}, 3000);
 }
 function exportExcel(){
+	$("#load1").show();
     var time=$("#exporttime").val();
     if(time==""){//默认为当前月份
         var myDate = new Date();
@@ -73,6 +86,7 @@ function exportExcel(){
     form.append($("<input></input>").attr("type", "hidden").attr("name","month").attr("value", time));     
     form.appendTo('body').submit().remove();
     /*$("#load1").css("display","inline");*/
+    setTimeout(function(){ $("#load1").hide();}, 3000);
 }
 
 
