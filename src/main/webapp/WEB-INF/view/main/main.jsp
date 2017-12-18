@@ -33,78 +33,39 @@
 				<c:forEach items="${firstMenu}" var="menu">
 					<!-- 只有一级菜单的情况 -->
 					<c:if test="${fun:length(menu.menus) == 0}">
-					<c:if test="${menu.MENU_NAME=='首页'}">
-						<li>
-							<a class="J_menuItem" href="${context}${menu.MENU_URL}">
-								<i class="fa fa-home"></i><span class="nav-label">${menu.MENU_NAME}</span>
-							</a>
-						</li>
-					</c:if>
-					<c:if test="${menu.MENU_NAME=='小区列表'}">
-						<li>
-							<a class="J_menuItem" href="${context}${menu.MENU_URL}">
-								<i class="fa fa-columns"></i><span class="nav-label">${menu.MENU_NAME}</span>
-							</a>
-						</li>
-					</c:if>
-					<c:if test="${menu.MENU_NAME=='小区配置'}">
-						<li>
-							<a class="J_menuItem" href="${context}${menu.MENU_URL}">
-								<i class="fa fa-cog"></i><span class="nav-label">${menu.MENU_NAME}</span>
-							</a>
-						</li>
-					</c:if>
-					
-						<%-- <li><c:if test="${menu.MENU_NAME=='首页'}">
-								<a class="J_menuItem" href="${context}${menu.MENU_URL}"> <i
-									class="fa fa-home"></i> <span class="nav-label">${menu.MENU_NAME}</span>
-									<span class="fa arrow"></span>
-								</a>
-							</c:if> <c:if test="${menu.MENU_NAME=='算法示例'}">
-								<a class="J_menuItem" href="${context}${menu.MENU_URL}"> <i
-									class="fa fa-flask"></i> <span class="nav-label">${menu.MENU_NAME}</span>
-									<span class="fa arrow"></span>
-								</a>
-							</c:if> <c:if test="${menu.MENU_NAME=='小区监控'}">
-								<a class="J_menuItem" href="${context}${menu.MENU_URL}"> <i
-									class="fa fa-columns"></i> <span class="nav-label">${menu.MENU_NAME}</span>
-									<span class="fa arrow"></span>
-								</a>
-							</c:if>
-							<c:if test="${menu.MENU_NAME=='任务调度'}">
-								<a class="J_menuItem" href="${context}${menu.MENU_URL}"> <i
-									class="fa fa-edit"></i> <span class="nav-label">${menu.MENU_NAME}</span>
-									<span class="fa arrow"></span>
-								</a>
-							</c:if>
-							<c:if test="${menu.MENU_NAME=='用户管理'}">
-								<a class="J_menuItem" href="${context}${menu.MENU_URL}"> <i class="fa fa-flask"></i> <span
-									class="nav-label">${menu.MENU_NAME}</span> <span
-									class="fa arrow"></span>
-								</a>
-							</c:if> 
-						</li> --%>
+						<c:if test="${menu.MENU_NAME=='首页'}">
+							<li><a class="J_menuItem" href="${context}${menu.MENU_URL}">
+									<i class="fa fa-home"></i><span class="nav-label">${menu.MENU_NAME}</span>
+							</a></li>
+						</c:if>
+						<c:if test="${menu.MENU_NAME=='小区列表'}">
+							<li><a class="J_menuItem" href="${context}${menu.MENU_URL}">
+									<i class="fa fa-columns"></i><span class="nav-label">${menu.MENU_NAME}</span>
+							</a></li>
+						</c:if>
+						<c:if test="${menu.MENU_NAME=='小区配置'}">
+							<li><a class="J_menuItem" href="${context}${menu.MENU_URL}">
+									<i class="fa fa-cog"></i><span class="nav-label">${menu.MENU_NAME}</span>
+							</a></li>
+						</c:if>
+						<c:if test="${menu.MENU_NAME=='任务调度'}">
+							<li><a class="J_menuItem" href="${context}${menu.MENU_URL}">
+									<i class="fa fa-tasks"></i><span class="nav-label">${menu.MENU_NAME}</span>
+							</a></li>
+						</c:if>
+						<c:if test="${menu.MENU_NAME=='用户管理'}">
+							<li><a class="J_menuItem" href="${context}${menu.MENU_URL}">
+									<i class="fa fa-user"></i><span class="nav-label">${menu.MENU_NAME}</span>
+							</a></li>
+						</c:if>
 					</c:if>
 					<!-- 一级菜单下有二级菜单 -->
 					<c:if test="${fun:length(menu.menus) > 0}">
-						<li>
-							
+						<li>						
 							<!-- 显示一级菜单 --> 
 							<a href="#"> <i class="fa fa-list"></i>
 								<span class="nav-label">${menu.MENU_NAME}</span> <span class="fa arrow"></span>
-							</a> 
-							<%-- <c:if test="${menu.MENU_NAME=='工单信息'}">
-								<a href="#"> <i class="fa fa fa-bar-chart-o"></i> <span
-									class="nav-label">${menu.MENU_NAME}</span> <span
-									class="fa arrow"></span>
-								</a>
-							</c:if> 							
-							<c:if test="${menu.MENU_NAME=='数据集合'}">
-								<a href="#"> <i class="fa fa-desktop"></i> <span
-									class="nav-label">${menu.MENU_NAME}</span> <span
-									class="fa arrow"></span>
-								</a>
-							</c:if>  --%>
+							</a> 		
 							<!-- 循环显示二级菜单 -->
 							<ul class="nav nav-second-level">
 								<!-- 二级菜单下无三级菜单 -->
