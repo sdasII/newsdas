@@ -7,9 +7,11 @@
 <title>Insert title here</title>
 <%@ include file="/include/common.jsp"%>
 <script src="${context}/lib/hplus/js/plugins/layer/laydate/laydate.js"></script>
-<script type="text/javascript"
-	src="${context}/js/plugin/jQuery.sdas.core.js"></script>
+<script type="text/javascript" src="${context}/js/plugin/jQuery.sdas.core.js"></script>
+<script src="${context}/lib/datapicker/bootstrap-datetimepicker.min.js"></script>
+<script src="${context}/lib/datapicker/bootstrap-datetimepicker.zh-CN.js"></script>
 <script type="text/javascript" src="${context}/js/data/offline.js"></script>
+<link href="${context}/lib/datapicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
 <style type="text/css">
 .btn-circle {
 	width: 25px;
@@ -47,6 +49,34 @@
 }
 .error_msg{display: none; color:red}
 .loading img{height:20px;margin-right: 5px}
+
+[class^="icon-"], [class*=" icon-"] {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-top: 1px;
+    line-height: 14px;
+    vertical-align: text-top;
+    background-image: url(${context}/lib/datapicker/glyphicons-halflings.png);
+    background-position: 14px 14px;
+    background-repeat: no-repeat;
+}
+.icon-arrow-right {
+    background-position: -264px -96px;
+}
+.icon-arrow-left {
+    background-position: -240px -96px;
+}
+.form_datetime{
+	margin: -10px;
+	width: 125px; 
+	height: 35px;
+	border-radius:3px; 
+	margin-right: 10px;
+	margin-left: 10px;
+	border: 1px solid #e7eaec;
+	font-weight: normal;
+}
 </style>
 </head>
 <body>
@@ -308,8 +338,9 @@
  							<tips style="font-style: italic;">注意：计算日期需要与HDFS文件地址中的数据相对应</tips>
  							<br><br>
  							<label for="time" style="width:65px">选择月份：</label>
- 							<input name="time" id="net_time" class="btn btn-white layer-date" placeholder="请选择年月"
- 										onclick="laydate({istime: false, format: 'YYYYMM'})" style="margin-top: -10px">
+ 							<input size="16" type="text" name="time" id="net_time" placeholder="请选择年月" readonly class="form_datetime" style="margin-top: -10px">
+ 							<!-- <input name="time" id="net_time" class="btn btn-white layer-date" placeholder="请选择年月"
+ 										onclick="laydate({istime: false, format: 'YYYYMM'})" style="margin-top: -10px"> -->
  							<span id="nettime_error" class="error_msg">月份不能为空！</span>
  							</div>
  							<div class="form-group">

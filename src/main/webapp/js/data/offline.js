@@ -18,7 +18,14 @@ $(function() {
 						$("#netcaltime_error").hide();
 						$("#netpath_error").hide();
 					});
-
+			//datapicker
+		    $(".form_datetime").datetimepicker({
+		    	 format: 'yyyymm',  
+		    	 startView: 'year',
+		         minView:'year',
+		         maxView:'decade',
+		         language:  'zh-CN' 
+		    });
 		});
         
         
