@@ -7,6 +7,12 @@ var times=[];
 /*
  * 数据选择模式 年/月/日/任意时间段
  */
+var iscapacitywork = false;
+var isdevicework = false;
+var isoutservework = false;
+var isindexinfo = false;
+var isweek = true
+
 var date_value = "day";// 曲线时间范围
 var starttime;
 var endtime;
@@ -752,4 +758,125 @@ function exportExcel_real(title){
         form.append($("<input></input>").attr("type", "hidden").attr("name","endtime").attr("value", endtime));
     }       
     form.appendTo('body').submit().remove();
+}
+//工单切换
+function switchwork(url, params) {
+
+	$.ajax({
+				url : url,
+				data : {
+					'cellname' : params
+				},
+				type : "POST",
+				success : function(data, status) {
+                    //var data = eval('(' + data + ')');
+					var list = data.rows;
+					if (url == "/newsdas/capacitywork/oneweek") {
+						if (!iscapacitywork) {
+							refreshJqGrid_capacity(list);
+							iscapacitywork = true;
+							isdevicework = false;
+							isoutservework = false;
+						}
+					} /*else if (url == "/newsdas/complain/getcomplist") {
+						if (!isdevicework) {
+							var list = data.rows;
+							refreshJqGrid_complain(list)
+							isdevicework = true;
+							iscapacitywork = false;
+							isoutservework = false;
+						}
+					}*/
+
+				}
+			});
+}
+function refreshJqGrid_capacity(list) {
+	$("#table_list_work").jqGrid({
+				data : list,
+				datatype : "local",
+				height : "auto",
+				autowidth : true,
+				shrinkToFit : true,
+				rowNum : 10,
+				rowList : [10, 20, 30],
+				colNames : ['发生时间', '监控内容', '监控时值'],
+				colModel : [{
+							name : 'occurrence_time',
+							index : 'occurrence_time',
+							width : 40,
+							formatter : function(cellvalue, options, rowObject) {
+								return $.hd_jqGrid.dateTimeFormatter(cellvalue);
+							}
+						}, {
+							name : 'monitor_content',
+							index : 'monitor_content',
+							width : 40
+						}, {
+							name : 'monitor_value',
+							index : 'monitor_value',
+							width : 65
+						}],
+				pager : "#pager_list_work",
+				viewrecords : true,
+				hidegrid : false
+			});
+	$(window).bind('resize', function() {
+				var width = $('.jqGrid_wrapper').width();
+				$('#table_list_work').setGridWidth(width);
+			});
+}
+function refreshJqGrid_complain(list) {
+	$("#table_list_work2").jqGrid({
+		data : list,
+		datatype : "local",
+		height : "auto",
+		autowidth : true,
+		shrinkToFit : true,
+		rowNum : 10,
+		rowList : [10, 20, 30],
+		colNames : ['受理时间', '受理电话','常住小区1', '常住小区2', '常住小区3'],
+		colModel : [{
+					name : 'record_time',
+					index : '1',
+					width : 40,
+					formatter : function(cellvalue, options, rowObject) {
+						return $.hd_jqGrid.dateTimeFormatter(cellvalue);
+					}
+				}, {
+					name : 'phone_number',
+					index : '2',
+					width : 40
+				}, {
+					name : 'live_cellname1',
+					index : 'live_cellname1',
+					width : 60
+				}, {
+					name : 'live_cellname2',
+					index : 'live_cellname2',
+					width : 60
+				}, {
+					name : 'live_cellname3',
+					index : 'live_cellname3',
+					width : 60
+				}],
+		pager : "#pager_list_work2",
+		viewrecords : true,
+		hidegrid : false,
+		jsonReader : {
+			root : 'row',
+			total : 'pages',
+			page : 'pageNum',
+			records : 'total',
+			repeatitems : false
+		},
+		gridComplete : function() {
+		}
+	});
+// Add responsive to jqGrid
+$(window).bind('resize', function() {
+		var width = $('.jqGrid_wrapper').width();
+		$('#table_list_work2').setGridWidth(width);
+
+	}); 
 }

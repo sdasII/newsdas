@@ -203,6 +203,64 @@ input {
 				</div>
 			</div>
 		</div>
+		<div class="row">
+			<div class="ibox-title">
+				<h5>工单信息</h5>
+				<div class="ibox-tools">
+					<div class="btn-group">
+						<button class="btn btn-info" id="workinweek" type="button"
+							onclick="javascript:workoneweek()">一周</button>
+						<button class="btn btn-white" id="workinmonth" type="button"
+							onclick="javascript:workonemonth()">一月</button>
+						<button class="btn btn-white" id="workinselect" type="button"
+							onclick="javascript:worktimeselect()">按时间选择</button>
+						<div id="worktimeselect" style="display: none;">
+							<input id="start"
+								style="margin-left: 5px; margin-top: -7px !important;"
+								class="layer-date" placeholder="请输入开始时间"
+								onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+							<span id="span"
+								style="margin-top: -10px; display: inline !important;"
+								class="input-group-addon">到</span> <input id="end"
+								style="margin-top: -7px !important;" class="layer-date"
+								placeholder="请输入结束时间"
+								onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+							<button class="btn btn-info" type="button"
+								onclick="javascript:query2()">确定</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-12">
+				<div class="tabs-container">
+					<ul class="nav nav-tabs">
+						<li
+							onclick="switchwork('/newsdas/capacitywork/oneweek','${cellname}')"
+							class="active"><a data-toggle="tab" href="#tab-3"
+							aria-expanded="true">性能工单</a></li>
+						<li onclick="switchwork('/newsdas/devicework/oneweek','${cellname}')"
+							class=""><a data-toggle="tab" href="#tab-4"
+							aria-expanded="false">投诉信息</a></li>
+					</ul>
+					<div class="tab-content">
+						<div id="tab-3" class="tab-pane active">
+							<div class="panel-body">
+								<div class="jqGrid_wrapper">
+									<table class="table" id="table_list_work"></table>
+									<div id="pager_list_work"></div>
+								</div>
+							</div>
+						</div>
+						<div id="tab-4" class="tab-pane">
+							<div class="panel-body">
+								<table class="table" id="table_list_work2"></table>
+								<div id="pager_list_work2"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 	<script type="text/javascript">
 		var ctx = ctx;

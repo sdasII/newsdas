@@ -22,7 +22,7 @@ $(function(){
             'endtime':endtime
             },
 		success:function(data,status){
-            var data = eval('(' + data + ')');
+            //var data = eval('(' + data + ')');
 			var list = data.rows;
 			refreshJqGrid(list);
 		}
@@ -31,7 +31,7 @@ $(function(){
 		url: aeraurl,
 		type:"GET",
 		success:function(data,status){
-            var data = eval('(' + data + ')');
+            //var data = eval('(' + data + ')');
 			var areas = data.rows;
 			for(var i=0;i<areas.length;i++){
 				if (areas[i]!=null) {
@@ -175,7 +175,7 @@ function refreshJqGrid(list){
                  
                  var id = ids[i];
          	    var cellid = $("#table_list_1").getCell(id,'cellid');
-         	    var link = ctx + "/general/cellhome/";
+         	    var link = ctx + "/alarm/todetail";//"/general/cellhome/";
          	    var url='<a href=javascript:gotocellhome("'+link+'","'+cellid+'")>'+cellid+'</a>';
          	    $("#table_list_1").jqGrid('setRowData',id,{cellid:url});
             }
@@ -220,7 +220,7 @@ function select(daynum){
             "questionflag":questionflag
 		},
 		success:function(data,status){
-            var data = eval('(' + data + ')');
+            //var data = eval('(' + data + ')');
 			var list = data.rows;
 			$("#table_list_1").jqGrid('setGridParam',{
 			      datatype:'local',
@@ -279,7 +279,7 @@ function validate(){
                 url: validateurl,
                 type:"GET",
                 success:function(data,status){  
-                    var data = eval('(' + data + ')');
+                    //var data = eval('(' + data + ')');
                     var success = data.success;                   
                     if(success){
                         var list = data.rows;
@@ -322,7 +322,39 @@ function gotocellhome(url,params,station){
 		iframe_parent.children("iframe").css("display","none");
 		iframe_parent.prepend(content);
 	}
+	var a_parent = $(".page-tabs-content", window.parent.document);
+    var iframe_parent = $("#content-main", window.parent.document);
 
+    var target_url = url;
+    if (params != undefined) {
+        for (var i = 0; i < params.length; i++) {
+            if (i == 0) {
+                target_url += "?" + params[i].key + "=" + params[i].value;
+            } else {
+                target_url += "&" + params[i].key + "=" + params[i].value;
+            }
+        }
+    }
+    /////
+   /* var item = $('<a href="#" class="active J_menuTab" data-id="'
+            + url + '">'+iframe+' <i class="fa fa-times-circle"></i></a>');
+    var content = $('<iframe class="J_iframe" name="iframe10" width="100%" height="100%" src="'
+            + target_url + '" frameborder="0" data-id="' + url + '" seamless></iframe>');
+
+    a_parent.children("a").removeClass("active");
+
+    if (a_parent.has('a[data-id="' + url + '"]').length > 0) {
+        a_parent.children('a[data-id="' + url + '"]').addClass("active");
+        iframe_parent.children("iframe").css("display", "none");
+        iframe_parent.children().remove('iframe[data-id="' + url + '"]');
+        content.css("display", "inline");
+        iframe_parent.prepend(content);
+    } else {
+        content.css("display", "inline");
+        a_parent.append(item);
+        iframe_parent.children("iframe").css("display", "none");
+        iframe_parent.prepend(content);
+    }*/
 	
 
 }

@@ -43,6 +43,11 @@
 									<i class="fa fa-columns"></i><span class="nav-label">${menu.MENU_NAME}</span>
 							</a></li>
 						</c:if>
+						<c:if test="${menu.MENU_NAME=='工单验证'}">
+							<li><a class="J_menuItem" href="${context}${menu.MENU_URL}">
+									<i class="fa fa-table"></i><span class="nav-label">${menu.MENU_NAME}</span>
+							</a></li>
+						</c:if>
 						<c:if test="${menu.MENU_NAME=='小区配置'}">
 							<li><a class="J_menuItem" href="${context}${menu.MENU_URL}">
 									<i class="fa fa-cog"></i><span class="nav-label">${menu.MENU_NAME}</span>
