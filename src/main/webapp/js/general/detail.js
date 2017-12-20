@@ -464,11 +464,13 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 			middle_split=[];
 			top_split=[];
 			dataArr=[];
+			var markPointData=[];
 			if(data.rows.length>0){
 				if(data.rows.length>1){
 					$.each(data.rows,function(i,e){
 						var lasttime=e.yyyymmdd;
 						for (var j = 0; j < 24; j++) {
+							var point=[];
 							var arr = [];
 							arr.push(lasttime+" "+j+":00");
 							arr.push(1);
@@ -479,6 +481,12 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 							if(j<10){
 								if(e["range_0"+j]==0){
 									dataArr.push(0.5);
+									var point={};
+									point.name="事件";
+									point.value=0;
+									point.xAxis=lasttime+" "+j+":00";
+									point.yAxis=0.5;
+									markPointData.push(point);
 								}else if(e["range_0"+j]==1){
 									dataArr.push(1.5);
 								}else if(e["range_0"+j]==2){
@@ -487,13 +495,18 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 							}else{
 								if(e["range_"+j]==0){
 									dataArr.push(0.5);
+									var point={};
+									point.name="事件";
+									point.value=0;
+									point.xAxis=lasttime+" "+j+":00";
+									point.yAxis=0.5;
+									markPointData.push(point);
 								}else if(e["range_"+j]==1){
 									dataArr.push(1.5);
 								}else if(e["range_"+j]==2){
 									dataArr.push(2.5);
 								}
 							}
-							
 						}
 					});
 				}else{
@@ -509,6 +522,12 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 						if(i<10){
 							if(data.rows[0]["range_0"+i]==0){
 								dataArr.push(0.5);
+								var point={};
+								point.name="事件";
+								point.value=0;
+								point.xAxis=lasttime+" "+i+":00";
+								point.yAxis=0.5;
+								markPointData.push(point);
 							}else if(data.rows[0]["range_0"+i]==1){
 								dataArr.push(1.5);
 							}else if(data.rows[0]["range_0"+i]==2){
@@ -517,13 +536,18 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 						}else{
 							if(data.rows[0]["range_"+i]==0){
 								dataArr.push(0.5);
+								var point={};
+								point.name="事件";
+								point.value=0;
+								point.xAxis=lasttime+" "+i+":00";
+								point.yAxis=0.5;
+								markPointData.push(point);
 							}else if(data.rows[0]["range_"+i]==1){
 								dataArr.push(1.5);
 							}else if(data.rows[0]["range_"+i]==2){
 								dataArr.push(2.5);
 							}
 						}
-						
 					}
 				}
 			}else{
@@ -539,12 +563,11 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 					dataArr.push("");
 				}
 			}
-			
-			drawEcharts(id, title, times, dataArr,color);
+			drawEcharts(id, title, times, dataArr,markPointData,color);
 		}
 	});
 }
-function drawEcharts(id, title, times, data,color) {
+function drawEcharts(id, title, times, data,markPointData,color) {
 	var dataZoom=100;
 	if(data.length>100){
 		dataZoom=30;
@@ -560,11 +583,11 @@ function drawEcharts(id, title, times, data,color) {
 			formatter : function(params) {
 				var status="";
 				if(params[0].value==0.5){
-					status="危险";
+					status="事件";
 				}else if(params[0].value==1.5){
-					status="警告";
+					status="临界";
 				}else if(params[0].value==2.5){
-					status="正常";
+					status="健康";
 				}else{
 					status="无";
 				}
@@ -620,7 +643,15 @@ function drawEcharts(id, title, times, data,color) {
 					color : color
 				}
 			},
-			data : data
+			data : data,
+			markPoint : {
+                data :markPointData,
+                itemStyle:{
+                	normal:{
+                		color:'red'
+                	}
+                }
+            }
 		},{
 
 			name : '',
