@@ -39,12 +39,14 @@ public class AlarmService {
 	};
 	/**
 	 * 最新一小时各类预警的总数和数量
+	 * 0事件1亚健康2健康3计算无数据
 	 * @return
 	 */
 	public JSONObject lastHourClassCount(){
 		try {
 			AlarmDto dto = new AlarmDto();
-			List<AlarmDto> list = alarmDao.alarmLastHour(dto);
+			dto.setApp_result(null);
+			List<AlarmDto> list = alarmDao.alarmLastHour(null);
 			JSONObject object = new JSONObject();
 			object.put("all", list.size());
 			dto.setApp_result(0);
@@ -61,7 +63,6 @@ public class AlarmService {
 			object.put("health", list.size());
 			return object;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}	

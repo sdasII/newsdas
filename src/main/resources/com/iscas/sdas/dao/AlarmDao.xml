@@ -34,8 +34,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</if>
 		GROUP BY cell_code,yyyyMMdd ORDER BY yyyyMMdd
 	</select>
-	<select id="alarmLastHour" resultType="com.iscas.sdas.dto.AlarmDto"
-		parameterType="com.iscas.sdas.dto.AlarmDto">
+	<select id="alarmLastHour" resultType="com.iscas.sdas.dto.AlarmDto" 
+			parameterType="java.lang.Integer">
 		SELECT * FROM t_cell_result_info WHERE app_hour= (SELECT
 		app_hour FROM t_cell_result_info WHERE yyyyMMdd = (SELECT yyyyMMdd
 		FROM t_cell_result_info ORDER BY yyyyMMdd DESC LIMIT 1) ORDER BY
