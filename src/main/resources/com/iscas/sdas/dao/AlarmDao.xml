@@ -52,7 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT app_hour FROM t_cell_result_info WHERE yyyyMMdd = (SELECT yyyyMMdd
 		FROM t_cell_result_info ORDER BY yyyyMMdd DESC LIMIT 1) ORDER BY app_hour DESC LIMIT 1
 	</select>
-	<select id="getLastDayInCell" resultType="java.lang.String" parameterType="jva.lang.String">
+	<select id="getLastDayInCell" resultType="java.lang.String" parameterType="java.lang.String">
 		SELECT yyyyMMdd FROM t_cell_result_info where cell_code = #{cellname} ORDER BY yyyyMMdd DESC LIMIT 1
 	</select>
 	<select id="getLastHourInCell" resultType="java.lang.String" parameterType="java.lang.String">
