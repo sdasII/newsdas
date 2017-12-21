@@ -233,3 +233,9 @@ function submit_cal(){
 }
 
 
+
+function formatSubmit(){
+    $("#formatFile").submit();
+}
+
+

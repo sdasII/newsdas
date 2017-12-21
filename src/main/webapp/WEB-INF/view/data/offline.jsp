@@ -301,7 +301,27 @@
 			</div>
 		</div>
 		<div class="row">
-			
+			<div class="col-sm-6">
+				<div class="panel panel-success">
+					<div class="panel-heading">网管数据转换</div>
+					<div class="panel-body">
+						<div>
+							<span><i>备注：</i> </span> <span>数据解压、编码转换、导入等<br>先上传网管原始数据，再执行此操作</span><br>
+						</div><br>
+						<form id ="formatFile" action='${context}/data/formatFile' method='post'>
+							<input id="YYYYMMDD" name="YYYYMMDD"
+								style="display: inline; padding: -10px; margin: -10px; height: 39px; margin-right: 10px;"
+								class="btn btn-white layer-date starttime" placeholder="请选择日期"
+								onclick="laydate({istime: false, format: 'YYYYMMDD'})">
+							<br> <br>
+							<button class="btn btn-white" type="reset">清空</button>
+							<button id="formatSubmit" class="btn btn-success" type="submit">确定</button>
+							<span id="span_progress" style="display: none;"><progress id="progress3" max="100" value="0"></progress><em>上传进度：</em><span id="progressvalue3">0%</span></span><br>
+							<span id="upload_progress" style="display: none;"></span>
+						</form>						
+					</div>
+				</div>
+			</div>
 			
 			<div class="col-sm-6">
 				<div class="panel panel-success">
@@ -329,32 +349,30 @@
 								<img src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在上传...</span>
 							</div>
 						</form> --%>
-						
-						
-						
-						
 						<form id="form1" action="${context}/data/upload?type=network" method="post">
  							<div class="form-group">
  							<tips style="font-style: italic;">注意：计算日期需要与HDFS文件地址中的数据相对应</tips>
  							<br><br>
- 							<label for="time" style="width:65px">选择月份：</label>
- 							<input size="16" type="text" name="time" id="net_time" placeholder="请选择年月" readonly class="form_datetime" style="margin-top: -10px">
+ 							<label for="time" style="width:65px">模式年月：</label>
+ 							<input size="16" type="text" name="time" id="net_time" placeholder="请选择模式年月" readonly class="form_datetime" style="margin-top: -10px">
  							<!-- <input name="time" id="net_time" class="btn btn-white layer-date" placeholder="请选择年月"
  										onclick="laydate({istime: false, format: 'YYYYMM'})" style="margin-top: -10px"> -->
  							<span id="nettime_error" class="error_msg">月份不能为空！</span>
  							</div>
  							<div class="form-group">
  								<label for="cal_time">计算日期：</label>
- 									<input name="cal_time" id="net_caltime" class="btn btn-white layer-date" placeholder="请选择计算日期"
- 										onclick="laydate({istime: false, format: 'YYYYMMDD'})" style="margin-top: -10px">
+ 									<!-- <input name="cal_time" id="net_caltime" class="btn btn-white layer-date" placeholder="请选择计算日期"
+ 										onclick="laydate({istime: false, format: 'YYYYMMDD'})" style="margin-top: -10px"> -->
+ 									<input size="16" type="text" name="cal_time" id="net_caltime" placeholder="请选择年月" readonly class="form_datetime" style="margin-top: -10px">
  									<span id="netcaltime_error" class="error_msg">计算日期不能为空！</span>
  								</div>
  							<div class="form-group">
- 								<label for="path">HDFS文件地址：</label>
+ 							<input type="hidden" id="net_path" value="123"/>
+ 								<!-- <label for="path">HDFS文件地址：</label>
  									<input type="text" id="net_path" class="form-control" name="path" placeholder="请输入NDFS文件地址" />
  									<span class="help-block m-b-none">格式：'hdfs://ip:port/data/NetManage/yyyy/MM/yyyyMMdd*.csv'</span>
  									<span id="netpath_error" class="error_msg">文件地址不能为空！</span>
- 								</div>
+ 								</div> -->
  							<div class="form-group">
  								<div class="col-sm-4 col-sm-offset-3" style="margin-top: 10px">
  									<button class="btn btn-info search" type="button" onclick="submit_cal()">计算</button>
@@ -362,12 +380,14 @@
  								</div>
  							</div>
   						</form>
-						
-						
-						
 					</div>
 				</div>
 			</div>
+			
+		</div>
+		
+		<div class="row">
+			
 			<div class="col-sm-6">
 				<div class="panel panel-success">
 					<div class="panel-heading">中兴网管指标原始数据</div>

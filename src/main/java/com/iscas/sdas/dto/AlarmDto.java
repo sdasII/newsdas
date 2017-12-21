@@ -10,7 +10,7 @@ public class AlarmDto {
 	
 	private String app_hour;
 	
-	private int app_result;
+	private Integer app_result;
 	private String daynum;
 	private String starttime;
 	private String endtime;
@@ -48,11 +48,11 @@ public class AlarmDto {
 		this.app_hour = app_hour;
 	}
 
-	public int getApp_result() {
+	public Integer getApp_result() {
 		return app_result;
 	}
 
-	public void setApp_result(int app_result) {
+	public void setApp_result(Integer app_result) {
 		this.app_result = app_result;
 	}
 

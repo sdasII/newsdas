@@ -34,8 +34,9 @@ import com.iscas.sdas.util.ContinueFTP;
 import com.iscas.sdas.util.FTPStatus;
 import com.iscas.sdas.util.FileImport;
 
-import tasks.cell.netupload.CellUploadFileOfExpertTask;
+import objects.JSON;
 import tasks.cell.netupload.CellUploadFileTask;
+import tasks.cell.netupload.PutNetFile2HDFSTask;
 
 @Controller
 @RequestMapping("/data")
@@ -62,7 +63,19 @@ public class DataController{
 		modelAndView.addObject("success", Constraints.RESULT_UNKNOWN);		
 		return modelAndView;
 	}
-
+	
+	
+	@RequestMapping("/formatFile")
+	public ModelAndView formatFile(HttpServletRequest request) {
+		ModelAndView modelAndView = new ModelAndView("data/offline");
+		String yyyyMMdd = request.getParameter("YYYYMMDD");
+		System.out.println("用户选择的年月日\t"+yyyyMMdd);
+		String[] params = new String[]{yyyyMMdd};
+		JSON result = new PutNetFile2HDFSTask().runTask(params);
+		System.out.println("返回数据结果\t"+result);
+		return modelAndView;
+	}
+	
 	/**
 	 * 文件上传
 	 * @param request
@@ -80,13 +93,102 @@ public class DataController{
 			long starttime = System.currentTimeMillis();
 			fileLogDto.setStarttime(new Date());
 			fileLogDto.setType("中兴网管指标数据");
-			/*try {
-				path = CommonUntils.FileImprot(request, fileLogDto);
+			if (path!=null) {
+				try {
+					String[] args = new String[3];
+					//args[0] = path;
+					args[0] = time;//XXX 
+					args[1]=cal_time;
+					fileLogDto.setMethodstart(new Date());
+					JSON result = new CellUploadFileTask().runTask(args);
+					System.out.println("返回数据结果\t"+result);
+					//new CellUploadFileOfExpertTask().runTask(args);	
+					fileLogDto.setMethodend(new Date());
+					modelAndView.addObject("success", Constraints.RESULT_SUCCESS);
+					fileLogDto.setResult(1);
+				} catch (Exception e) {
+					e.printStackTrace();
+					fileLogDto.setResult(0);
+					modelAndView.addObject("success", Constraints.RESULT_FAIL+ ":调用后台方法失败！");
+				}
+			}else {
+				fileLogDto.setResult(0);
+			}
+			long endtime = System.currentTimeMillis();
+			fileLogDto.setEndtime(new Date());
+			long alltime = endtime - starttime;
+			fileLogDto.setAlltime(alltime);
+			List<FileLogDto> fileLogDtos = new ArrayList<>();
+			fileLogDtos.add(fileLogDto);
+			fileLogService.insert(fileLogDtos);
+		} else if ("capacity".equals(type)) {
+			String tablename = "t_performance_work";
+			List<TableInfoDto> tableInfoDtos = commonService.tableindex(tablename);
+			List<AllCapacityWorkDto> performanceWorkDtos = new ArrayList<>();
+			String path = null;
+			FileLogDto fileLogDto = new FileLogDto();
+			long starttime = System.currentTimeMillis();
+			fileLogDto.setStarttime(new Date());
+			fileLogDto.setType("性能工单数据");
+			try {
+				path = CommonUntils.FileImprot(request, fileLogDto);			
 			} catch (Exception e1) {
 				e1.printStackTrace();
 				fileLogDto.setResult(0);
 				modelAndView.addObject("success", Constraints.RESULT_FAIL+ ":上传失败！");
-			}*/
+			}
+			if (path != null) {
+				if (tableInfoDtos != null && tableInfoDtos.size() > 0) {
+					int rows = FileImport.tablerows(path);
+					for (int i = 0; i < rows; i++) {
+						AllCapacityWorkDto workDto = new AllCapacityWorkDto();
+						performanceWorkDtos.add(workDto);
+					}
+					try {
+						FileImport.importwork(path, performanceWorkDtos, tableInfoDtos);// 将excel映射为对象
+						try {						
+							workService.clearPerformanceWork(); // 清空表
+							workService.insertPerformanceWork(performanceWorkDtos);// 插入表并将questionflag置为-1
+							modelAndView.addObject("success", Constraints.RESULT_SUCCESS);
+							fileLogDto.setResult(1);
+						} catch (Exception e) {
+							e.printStackTrace();
+							fileLogDto.setResult(0);
+							modelAndView.addObject("success", Constraints.RESULT_FAIL + ":文件导入失败！");
+						}
+					} catch (Exception e1) {
+						e1.printStackTrace();
+						fileLogDto.setResult(0);
+						modelAndView.addObject("success", Constraints.RESULT_FAIL + ":文件损坏！");
+					}			
+				}
+			}else {
+				fileLogDto.setResult(0);
+			}
+			long endtime = System.currentTimeMillis();
+			fileLogDto.setEndtime(new Date());
+			long alltime = endtime - starttime;
+			fileLogDto.setAlltime(alltime);
+			List<FileLogDto> fileLogDtos = new ArrayList<>();
+			fileLogDtos.add(fileLogDto);
+			fileLogService.insert(fileLogDtos);
+		}
+		return modelAndView;
+	}
+
+	/*
+	@RequestMapping("/upload")
+	public ModelAndView upload(HttpServletRequest request) {
+		ModelAndView modelAndView = new ModelAndView("data/offline");
+		String type = request.getParameter("type");
+		if ("network".equals(type)) {
+			String time = request.getParameter("time");
+			String cal_time=request.getParameter("cal_time");
+			String path = request.getParameter("path");
+			FileLogDto fileLogDto = new FileLogDto();
+			long starttime = System.currentTimeMillis();
+			fileLogDto.setStarttime(new Date());
+			fileLogDto.setType("中兴网管指标数据");
 			if (path!=null) {
 				try {
 					String[] args = new String[3];
@@ -167,7 +269,9 @@ public class DataController{
 			fileLogService.insert(fileLogDtos);
 		}
 		return modelAndView;
-	}
+	}//*/
+	
+	
 	/**
 	 * 上传原始文件--采用ftp协议，支持断点续传
 	 * @param request

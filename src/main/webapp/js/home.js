@@ -16,20 +16,10 @@ $(function(){
 		url:counts,
 		type:"post",
 		success:function(data){
-			//data=eval('(' + data + ')');
 			$("#all").html("共有"+data.rows.all+"个小区被监控：");
 			$("#event").html(data.rows.event);
 			$("#critical").html(data.rows.critical);
 			$("#health").html(data.rows.health);
-			/*if(data.rows.all>0){
-				for (var i = 0; i < data.rows.all; i++) {
-					var temp = {};
-					temp.lng = 113.27 + Math.random() * 0.1;
-					temp.lat = 23.14 + Math.random() * 0.1;
-					var marker = new BMap.Marker(new BMap.Point(temp.lng, temp.lat));
-					map.addOverlay(marker);
-				}
-			}*/
 		}
 	});
 	switchTab(1);
