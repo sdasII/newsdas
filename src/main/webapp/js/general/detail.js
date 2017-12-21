@@ -7,6 +7,12 @@ var times=[];
 /*
  * 数据选择模式 年/月/日/任意时间段
  */
+var iscapacitywork = false;
+var isdevicework = false;
+var isoutservework = false;
+var isindexinfo = false;
+var isweek = true
+
 var date_value = "day";// 曲线时间范围
 var starttime;
 var endtime;
@@ -464,11 +470,13 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 			middle_split=[];
 			top_split=[];
 			dataArr=[];
+			var markPointData=[];
 			if(data.rows.length>0){
 				if(data.rows.length>1){
 					$.each(data.rows,function(i,e){
 						var lasttime=e.yyyymmdd;
 						for (var j = 0; j < 24; j++) {
+							var point=[];
 							var arr = [];
 							arr.push(lasttime+" "+j+":00");
 							arr.push(1);
@@ -479,6 +487,12 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 							if(j<10){
 								if(e["range_0"+j]==0){
 									dataArr.push(0.5);
+									var point={};
+									point.name="事件";
+									point.value=0;
+									point.xAxis=lasttime+" "+j+":00";
+									point.yAxis=0.5;
+									markPointData.push(point);
 								}else if(e["range_0"+j]==1){
 									dataArr.push(1.5);
 								}else if(e["range_0"+j]==2){
@@ -487,13 +501,18 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 							}else{
 								if(e["range_"+j]==0){
 									dataArr.push(0.5);
+									var point={};
+									point.name="事件";
+									point.value=0;
+									point.xAxis=lasttime+" "+j+":00";
+									point.yAxis=0.5;
+									markPointData.push(point);
 								}else if(e["range_"+j]==1){
 									dataArr.push(1.5);
 								}else if(e["range_"+j]==2){
 									dataArr.push(2.5);
 								}
 							}
-							
 						}
 					});
 				}else{
@@ -509,6 +528,12 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 						if(i<10){
 							if(data.rows[0]["range_0"+i]==0){
 								dataArr.push(0.5);
+								var point={};
+								point.name="事件";
+								point.value=0;
+								point.xAxis=lasttime+" "+i+":00";
+								point.yAxis=0.5;
+								markPointData.push(point);
 							}else if(data.rows[0]["range_0"+i]==1){
 								dataArr.push(1.5);
 							}else if(data.rows[0]["range_0"+i]==2){
@@ -517,13 +542,18 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 						}else{
 							if(data.rows[0]["range_"+i]==0){
 								dataArr.push(0.5);
+								var point={};
+								point.name="事件";
+								point.value=0;
+								point.xAxis=lasttime+" "+i+":00";
+								point.yAxis=0.5;
+								markPointData.push(point);
 							}else if(data.rows[0]["range_"+i]==1){
 								dataArr.push(1.5);
 							}else if(data.rows[0]["range_"+i]==2){
 								dataArr.push(2.5);
 							}
 						}
-						
 					}
 				}
 			}else{
@@ -539,12 +569,11 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 					dataArr.push("");
 				}
 			}
-			
-			drawEcharts(id, title, times, dataArr,color);
+			drawEcharts(id, title, times, dataArr,markPointData,color);
 		}
 	});
 }
-function drawEcharts(id, title, times, data,color) {
+function drawEcharts(id, title, times, data,markPointData,color) {
 	var dataZoom=100;
 	if(data.length>100){
 		dataZoom=30;
@@ -560,11 +589,11 @@ function drawEcharts(id, title, times, data,color) {
 			formatter : function(params) {
 				var status="";
 				if(params[0].value==0.5){
-					status="危险";
+					status="事件";
 				}else if(params[0].value==1.5){
-					status="警告";
+					status="临界";
 				}else if(params[0].value==2.5){
-					status="正常";
+					status="健康";
 				}else{
 					status="无";
 				}
@@ -620,7 +649,15 @@ function drawEcharts(id, title, times, data,color) {
 					color : color
 				}
 			},
-			data : data
+			data : data,
+			markPoint : {
+                data :markPointData,
+                itemStyle:{
+                	normal:{
+                		color:'red'
+                	}
+                }
+            }
 		},{
 
 			name : '',
@@ -721,4 +758,125 @@ function exportExcel_real(title){
         form.append($("<input></input>").attr("type", "hidden").attr("name","endtime").attr("value", endtime));
     }       
     form.appendTo('body').submit().remove();
+}
+//工单切换
+function switchwork(url, params) {
+
+	$.ajax({
+				url : url,
+				data : {
+					'cellname' : params
+				},
+				type : "POST",
+				success : function(data, status) {
+                    //var data = eval('(' + data + ')');
+					var list = data.rows;
+					if (url == "/newsdas/capacitywork/oneweek") {
+						if (!iscapacitywork) {
+							refreshJqGrid_capacity(list);
+							iscapacitywork = true;
+							isdevicework = false;
+							isoutservework = false;
+						}
+					} /*else if (url == "/newsdas/complain/getcomplist") {
+						if (!isdevicework) {
+							var list = data.rows;
+							refreshJqGrid_complain(list)
+							isdevicework = true;
+							iscapacitywork = false;
+							isoutservework = false;
+						}
+					}*/
+
+				}
+			});
+}
+function refreshJqGrid_capacity(list) {
+	$("#table_list_work").jqGrid({
+				data : list,
+				datatype : "local",
+				height : "auto",
+				autowidth : true,
+				shrinkToFit : true,
+				rowNum : 10,
+				rowList : [10, 20, 30],
+				colNames : ['发生时间', '监控内容', '监控时值'],
+				colModel : [{
+							name : 'occurrence_time',
+							index : 'occurrence_time',
+							width : 40,
+							formatter : function(cellvalue, options, rowObject) {
+								return $.hd_jqGrid.dateTimeFormatter(cellvalue);
+							}
+						}, {
+							name : 'monitor_content',
+							index : 'monitor_content',
+							width : 40
+						}, {
+							name : 'monitor_value',
+							index : 'monitor_value',
+							width : 65
+						}],
+				pager : "#pager_list_work",
+				viewrecords : true,
+				hidegrid : false
+			});
+	$(window).bind('resize', function() {
+				var width = $('.jqGrid_wrapper').width();
+				$('#table_list_work').setGridWidth(width);
+			});
+}
+function refreshJqGrid_complain(list) {
+	$("#table_list_work2").jqGrid({
+		data : list,
+		datatype : "local",
+		height : "auto",
+		autowidth : true,
+		shrinkToFit : true,
+		rowNum : 10,
+		rowList : [10, 20, 30],
+		colNames : ['受理时间', '受理电话','常住小区1', '常住小区2', '常住小区3'],
+		colModel : [{
+					name : 'record_time',
+					index : '1',
+					width : 40,
+					formatter : function(cellvalue, options, rowObject) {
+						return $.hd_jqGrid.dateTimeFormatter(cellvalue);
+					}
+				}, {
+					name : 'phone_number',
+					index : '2',
+					width : 40
+				}, {
+					name : 'live_cellname1',
+					index : 'live_cellname1',
+					width : 60
+				}, {
+					name : 'live_cellname2',
+					index : 'live_cellname2',
+					width : 60
+				}, {
+					name : 'live_cellname3',
+					index : 'live_cellname3',
+					width : 60
+				}],
+		pager : "#pager_list_work2",
+		viewrecords : true,
+		hidegrid : false,
+		jsonReader : {
+			root : 'row',
+			total : 'pages',
+			page : 'pageNum',
+			records : 'total',
+			repeatitems : false
+		},
+		gridComplete : function() {
+		}
+	});
+// Add responsive to jqGrid
+$(window).bind('resize', function() {
+		var width = $('.jqGrid_wrapper').width();
+		$('#table_list_work2').setGridWidth(width);
+
+	}); 
 }
