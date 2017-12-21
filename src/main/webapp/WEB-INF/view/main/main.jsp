@@ -38,12 +38,17 @@
 									<i class="fa fa-home"></i><span class="nav-label">${menu.MENU_NAME}</span>
 							</a></li>
 						</c:if>
-						<c:if test="${menu.MENU_NAME=='小区列表'}">
+						<c:if test="${menu.MENU_NAME=='健康评估'}">
 							<li><a class="J_menuItem" href="${context}${menu.MENU_URL}">
 									<i class="fa fa-columns"></i><span class="nav-label">${menu.MENU_NAME}</span>
 							</a></li>
 						</c:if>
 						<c:if test="${menu.MENU_NAME=='工单验证'}">
+							<li><a class="J_menuItem" href="${context}${menu.MENU_URL}">
+									<i class="fa fa-edit"></i><span class="nav-label">${menu.MENU_NAME}</span>
+							</a></li>
+						</c:if>
+						<c:if test="${menu.MENU_NAME=='数据存储'}">
 							<li><a class="J_menuItem" href="${context}${menu.MENU_URL}">
 									<i class="fa fa-table"></i><span class="nav-label">${menu.MENU_NAME}</span>
 							</a></li>
@@ -94,6 +99,10 @@
 					</c:if>
 				</c:forEach>
 			</ul>
+			<div class="navbar-header"style="bottom: 0; position: fixed;">
+					<a class="navbar-minimalize minimalize-styl-2 btn btn-primary "style="height:30px;" id="shrink_btn"
+						href="#"><i class="fa fa-chevron-right" style="margin-top: 2px;"></i></a>
+			</div>
 		</div>
 		</nav>
 		<!--左侧导航结束-->
@@ -102,10 +111,10 @@
 			<div class="row border-bottom">
 				<nav class="navbar navbar-static-top" role="navigation"
 					style="margin-bottom: 0">
-				<div class="navbar-header">
+				<!-- <div class="navbar-header">
 					<a class="navbar-minimalize minimalize-styl-2 btn btn-primary "style="height:30px;" id="shrink_btn"
-						href="#"><i class="fa fa-chevron-right" style="margin-top: 2px;"></i></a><!-- <i class="fa fa-chevron-left"></i> -->
-				</div>
+						href="#"><i class="fa fa-chevron-right" style="margin-top: 2px;"></i></a><i class="fa fa-chevron-left"></i>
+				</div> -->
 				</nav>
 			</div>
 			<div class="row content-tabs">
@@ -149,14 +158,26 @@
 		<!--右侧部分结束-->
 	</div>
 	<script type="text/javascript">
-		$("#shrink_btn").click(function(){
-			console.info();
+	$("#shrink_btn").one("click",function(){
+		if($(this)[0].firstChild.className.indexOf("left")>-1){
+			$(this)[0].firstChild.className="fa fa-chevron-right";
+			$($(this)[0]).parent().css("left","");
+			//$("body").addClass("mini-navbar");
+		}else{
+			$(this)[0].firstChild.className="fa fa-chevron-left";
+			$($(this)[0]).parent().css("left","150px");
+		} 
+	});
+		/* $("#shrink_btn").click(function(){
 			if($(this)[0].firstChild.className.indexOf("left")>-1){
 				$(this)[0].firstChild.className="fa fa-chevron-right";
+				$($(this)[0]).parent().parent().css("left","none");
+				//$("body").addClass("mini-navbar");
 			}else{
 				$(this)[0].firstChild.className="fa fa-chevron-left";
-			}
-		});
+				$($(this)[0]).parent().parent().css("left","150px");
+			} 
+		}); */
 	</script>
 </body>
 </html>
