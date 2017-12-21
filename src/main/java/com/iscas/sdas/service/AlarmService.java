@@ -80,4 +80,26 @@ public class AlarmService {
 			return null;
 		}
 	}
+	
+	/**
+	 * 小区预警数据更新时间
+	 * @return
+	 */
+	public String getCellUpdateTime(String cellname){
+		String yyyyMMdd = alarmDao.getLastDayInCell(cellname);
+		String hour = alarmDao.getLastHourInCell(cellname);
+		if (!CommonUntils.isempty(yyyyMMdd) && !CommonUntils.isempty(hour)) {
+			return yyyyMMdd.substring(0,4)+"-"+yyyyMMdd.substring(4, 6)+"-"+yyyyMMdd.substring(6)+","+hour+":00";
+		}else {
+			return null;
+		}
+	}
+	/**
+	 * 小区最近一天数据
+	 * @param alarmDto
+	 * @return
+	 */
+	public List<AlarmDto> getCellByLastDay(AlarmDto alarmDto){
+		return alarmDao.alarmLastDay(alarmDto);
+	}
 }

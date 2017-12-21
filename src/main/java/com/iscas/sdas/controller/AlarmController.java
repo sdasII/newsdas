@@ -86,12 +86,42 @@ public class AlarmController {
 	public ModelAndView page(){
 		return new ModelAndView("alarm/alarm");
 	}
-	
+	/**
+	 * 全部小区的判别结果更新时间
+	 * @return
+	 */
 	@RequestMapping("/updatetime")
 	@ResponseBody
 	public String update(){
 		return alarmService.getUpdateTime();
 	}
+	/**
+	 * 指定小区的更新时间
+	 * @param cellname
+	 * @return
+	 */
+	@RequestMapping("/cellupdatetime")
+	@ResponseBody
+	public String cellupdate(@RequestParam(required=true,value="cellname")String cellname){
+		return alarmService.getCellUpdateTime(cellname);
+	}
+	/**
+	 * 指定小区最近一天数据
+	 * @param cellname
+	 * @return
+	 */
+	@RequestMapping("/celllastday")
+	@ResponseBody
+	public ModelMap cellLastDay(@RequestParam(required=true,value="cellname")String cellname){
+		ModelMap map = new ModelMap();
+		AlarmDto alarmDto = new AlarmDto();
+		alarmDto.setCell_code(cellname);
+		List<AlarmDto> alarmDtos = alarmService.getCellByLastDay(alarmDto);
+		map.addAttribute(Constraints.RESULT_ROW, alarmDtos);
+		return map;
+	}
+	
+	
 	/**
 	 * 最新一小时预警
 	 * @param request

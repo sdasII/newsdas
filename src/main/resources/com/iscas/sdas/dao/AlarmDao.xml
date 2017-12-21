@@ -35,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		GROUP BY cell_code,yyyyMMdd ORDER BY yyyyMMdd
 	</select>
 	<select id="alarmLastHour" resultType="com.iscas.sdas.dto.AlarmDto" 
-			parameterType="java.lang.Integer">
+			parameterType="com.iscas.sdas.dto.AlarmDto">
 		SELECT * FROM t_cell_result_info WHERE app_hour= (SELECT
 		app_hour FROM t_cell_result_info WHERE yyyyMMdd = (SELECT yyyyMMdd
 		FROM t_cell_result_info ORDER BY yyyyMMdd DESC LIMIT 1) ORDER BY
@@ -51,5 +51,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getLastHour" resultType="java.lang.String">
 		SELECT app_hour FROM t_cell_result_info WHERE yyyyMMdd = (SELECT yyyyMMdd
 		FROM t_cell_result_info ORDER BY yyyyMMdd DESC LIMIT 1) ORDER BY app_hour DESC LIMIT 1
+	</select>
+	<select id="getLastDayInCell" resultType="java.lang.String" parameterType="jva.lang.String">
+		SELECT yyyyMMdd FROM t_cell_result_info where cell_code = #{cellname} ORDER BY yyyyMMdd DESC LIMIT 1
+	</select>
+	<select id="getLastHourInCell" resultType="java.lang.String" parameterType="java.lang.String">
+		SELECT app_hour FROM t_cell_result_info WHERE cell_code = #{cellname} and yyyyMMdd = (SELECT yyyyMMdd
+		FROM t_cell_result_info where cell_code = #{cellname} ORDER BY yyyyMMdd DESC LIMIT 1) ORDER BY app_hour DESC LIMIT 1
+	</select>
+	<select id="alarmLastDay" resultType="com.iscas.sdas.dto.AlarmDto" 
+			parameterType="com.iscas.sdas.dto.AlarmDto">
+		SELECT * FROM t_cell_result_info WHERE yyyyMMdd = (SELECT yyyyMMdd FROM
+		t_cell_result_info where cell_code = #{cell_code} ORDER BY yyyyMMdd DESC LIMIT 1) and cell_code = #{cell_code}
 	</select>
 </mapper>
