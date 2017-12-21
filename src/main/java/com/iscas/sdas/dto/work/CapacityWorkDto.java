@@ -19,6 +19,7 @@ public class CapacityWorkDto {
 	private String daynum;
 	private String starttime;
 	private String endtime;
+	
 	public Timestamp getOccurrence_time() {
 		return occurrence_time;
 	}
