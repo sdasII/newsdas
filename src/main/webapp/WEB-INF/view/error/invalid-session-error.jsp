@@ -4,7 +4,7 @@
 <html>
 <head>
 <title>SessionError</title>
-<%@include file="../common/import.jsp"%>
+<%@ include file="/include/common.jsp" %>
 </head>
 <body class="gray-bg">
     <div class="middle-box text-center animated fadeInDown">

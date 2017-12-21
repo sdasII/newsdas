@@ -100,7 +100,7 @@
 				</c:forEach>
 			</ul>
 			<div class="navbar-header"style="bottom: 0; position: fixed;">
-					<a class="navbar-minimalize minimalize-styl-2 btn btn-primary "style="height:30px;" id="shrink_btn"
+					<a class="navbar-minimalize minimalize-styl-2 btn btn-primary" title="展开/收起" style="height:30px;" id="shrink_btn"
 						href="#"><i class="fa fa-chevron-right" style="margin-top: 2px;"></i></a>
 			</div>
 		</div>
@@ -158,26 +158,16 @@
 		<!--右侧部分结束-->
 	</div>
 	<script type="text/javascript">
-	$("#shrink_btn").one("click",function(){
-		if($(this)[0].firstChild.className.indexOf("left")>-1){
-			$(this)[0].firstChild.className="fa fa-chevron-right";
-			$($(this)[0]).parent().css("left","");
-			//$("body").addClass("mini-navbar");
+	$("#shrink_btn").on("click",function(){
+		var el=$($(this)[0]).find("i")[0];
+		if($(el).attr("class").indexOf("left")>-1){
+			$(el).attr('class',"fa fa-chevron-right");
+			$(el).parent().parent().css("left","");
 		}else{
-			$(this)[0].firstChild.className="fa fa-chevron-left";
-			$($(this)[0]).parent().css("left","150px");
+			$(el).attr('class',"fa fa-chevron-left");
+			$(el).parent().parent().css("left","150px");
 		} 
 	});
-		/* $("#shrink_btn").click(function(){
-			if($(this)[0].firstChild.className.indexOf("left")>-1){
-				$(this)[0].firstChild.className="fa fa-chevron-right";
-				$($(this)[0]).parent().parent().css("left","none");
-				//$("body").addClass("mini-navbar");
-			}else{
-				$(this)[0].firstChild.className="fa fa-chevron-left";
-				$($(this)[0]).parent().parent().css("left","150px");
-			} 
-		}); */
 	</script>
 </body>
 </html>

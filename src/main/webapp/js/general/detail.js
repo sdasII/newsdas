@@ -7,19 +7,178 @@ var times=[];
 /*
  * 数据选择模式 年/月/日/任意时间段
  */
-var iscapacitywork = false;
+/*var iscapacitywork = false;
 var isdevicework = false;
 var isoutservework = false;
 var isindexinfo = false;
-var isweek = true
+var isweek = true*/
 
 var date_value = "day";// 曲线时间范围
 var starttime;
 var endtime;
 var data=[];//testData
 var dataUrl=ctx+"/cell/cellResultHistroy";
-var tableUrl=ctx+"/work/allrtworks";
+var tableUrl=ctx+"/alarm/celllastday";
 var historyurl = ctx + "/cell/healthtrend";
+var updateTimeUrl = ctx + "/alarm/cellupdatetime";
+//工单
+var capacityweekurl = ctx + "/capacitywork/oneweek";
+var belongGroupUrl = ctx + "/cell/belonggroup";
+//簇新
+var groupIndexUrl =ctx + "/cell/groupindexs";
+var indexUrl = ctx + "/cell/index";
+var name1 = '历史分析';
+var name2 = '实时数据';
+var nullchart = [];
+for (var i = 0; i < 24; i++) {
+	nullchart.push(i);
+}
+var upColor = '#68C5CC';
+var upBorderColor = '#19B7CF';
+var downColor = '#68C5CC';
+var downBorderColor = '#19B7CF';
+var color = ['rgba(104, 197, 204, 0.73)', 'rgba(51,51,204, 0.23)',
+		'rgba(171, 226, 98, 0.62)'];
+var borderColor = ['rgb(25, 183, 207)', 'rgb(51,51,204,)', 'rgb(163, 222, 84)'];
+var top_split = [];
+var bottom_spli = [];
+var middle_split = [];
+for (var i = 0; i < 1000; i++) {
+	var b_arr = [];
+	b_arr.push(i);
+	b_arr.push(25);
+	bottom_spli.push(b_arr);
+	var s_arr = [];
+	s_arr.push(i);
+	s_arr.push(55);
+	middle_split.push(s_arr);
+	var t_arr = [];
+	t_arr.push(i);
+	t_arr.push(20);
+	top_split.push(t_arr);
+}
+var echart_option = {
+		tooltip : {
+			trigger : 'axis',
+			axisPointer : {
+				type : 'cross'
+			},
+			formatter : function(params) {
+				var res = params[0].seriesName + ' ' + params[0].name + ': '
+						+ params[0].value;
+				for (var i = 1; i < params.length; i++) {
+
+					res += '<br/>' + params[i].seriesName + '  前值 : '
+							+ params[i].value[1] + '<br/>' + params[i].seriesName
+							+ '  后值 : ' + params[i].value[2];
+					res += '<br/>' + params[i].seriesName + '  最小 : '
+							+ params[i].value[3] + '<br/>' + params[i].seriesName
+							+ '  最大 : ' + params[i].value[4];
+
+				}
+				return res;
+			}
+		},
+		legend : {
+			data : [name1, name2]
+		},
+		grid : {
+			left : '10%',
+			right : '10%',
+			bottom : '15%'
+		},
+		xAxis : {
+			type : 'category',
+			scale : true,
+			boundaryGap : false,
+			axisLine : {
+				onZero : false
+			},
+			splitLine : {
+				show : false
+			},
+			data : nullchart,
+			axisLabel : {
+				formatter : function(value) {
+					return value;
+				}
+			}
+		},
+		yAxis : {
+			scale : true,
+			splitArea : {
+				show : true
+			}
+		},
+		dataZoom : [{
+					type : 'inside',
+					start : 0,
+					end : 100
+				}, {
+					show : true,
+					type : 'slider',
+					y : '90%',
+					start : 50,
+					end : 100
+				}],
+		series : []
+	};
+	var serie = {
+		name : name1,
+		type : 'candlestick',
+		data : {},
+		itemStyle : {
+			normal : {
+				color : upColor,
+				color0 : downColor,
+				borderColor : upBorderColor,
+				borderColor0 : downBorderColor
+			}
+		},
+		markLine : {
+			symbol : ['none', 'none'],
+			data : [[{
+						name : 'from lowest to highest',
+						type : 'min',
+						valueDim : 'lowest',
+						symbol : 'circle',
+						symbolSize : 10,
+						label : {
+							normal : {
+								show : false
+							},
+							emphasis : {
+								show : false
+							}
+						}
+					}, {
+						type : 'max',
+						valueDim : 'highest',
+						symbol : 'circle',
+						symbolSize : 10,
+						label : {
+							normal : {
+								show : false
+							},
+							emphasis : {
+								show : false
+							}
+						}
+					}]]
+		}
+	}
+	var line = {
+		name : name2,
+		type : 'line',
+		data : {},
+		smooth : true,
+		lineStyle : {
+			normal : {
+				opacity : 0.2
+			}
+		}
+	}
+//簇新end
 var imgUrl='image://../style/export.png';
 var historyCharts;
 var histroy_trend = {
@@ -231,10 +390,6 @@ var histroy_trend = {
 				}]
 	}
 
-
-
-
-
 $(function(){
 	historyCharts = echarts.init($("#historyCharts").get(0));
 	//曲线时间选择
@@ -280,9 +435,8 @@ $(function(){
 	$.ajax({
 		url:tableUrl,
 		type:"post",
-		data:{"cellid":cellname,"type":date_value},
+		data:{"cellname":cell_code},
 		success:function(data){
-			//data=eval('(' + data + ')');
 			$('#alarm_table').bootstrapTable({
 		        cache : false,
 		        striped : true,
@@ -301,15 +455,25 @@ $(function(){
                             return index+1;  
                         }  
                     },
-		            { field : "occurrence_time", title : "发生时间", align : "center", valign : "middle",
+		            { field : "yyyyMMdd", title : "时间", align : "center", valign : "middle",
 		            	formatter:function(value,row,index){
-			                  var jsDate = new Date(value);
-			                  var UnixTimeToDate = jsDate.getFullYear() + '/' + (jsDate.getMonth() + 1) + '/'+jsDate.getDate()+ ' ' + jsDate.getHours() + ':' + jsDate.getMinutes() + ':' + jsDate.getSeconds();
-			                   return UnixTimeToDate;
+			                   return value+" "+row.app_hour+":00";
 			                 }
 		            },
-		            { field : 'reasons', title : '工单原因', align : 'center', valign : 'middle' },
-		            { field : 'monitor_content', title : '监控内容', align : 'center', valign : 'middle' }
+		            { field : 'app_result', title : '风险提示', align : 'center', valign : 'middle',
+		            	formatter:function(value,row,index){
+			                  var str="";
+			                  if(value==0){
+			                	  str="事件"
+			                  }else if(value==1){
+			                	  str="亚健康"
+			                  }else if(value==2){
+			                	  str="健康"
+			                  }
+			                  return str;
+			                 }
+		            },
+		            { field : 'create_time', title : '发布时间', align : 'center', valign : 'middle' }
 		        ],
 		       /* onPageChange : function(size, number) {
 		        	 	var data = {};
@@ -325,6 +489,92 @@ $(function(){
 	getcharts("#rtratio", "健康诊断结果","rgb(46,199,201)",date_value);
 	///
 	historyTrendQuery(date_value,"","");
+	/*
+	 * 性能工单
+	 */
+	$.ajax({
+		url : capacityweekurl,
+		data : {
+			'cellname' : cell_code
+		},
+		type : "POST",
+		success : function(data, status) {
+            //var temp = eval('(' + data + ')'); 
+            var list = data.rows;
+			//var list = data.rows;
+			refresh_capacity(list);
+			//iscapacitywork = true;
+		}
+	});
+	/*
+	 * K线图
+	 */
+	$.ajax({
+		url : belongGroupUrl,
+		data : {
+			'cellname' : cell_code
+		},
+		type : "POST",
+		success : function(data, status) {
+			var group = data.group;
+			$.ajax({
+				url : groupIndexUrl,
+				type : "post",
+				data : {
+					'type' : group
+				},
+				success : function(data, status) {
+                    var list = data.rows;
+					$("#group_index").children().remove();
+					for (var i = 0; i < list.length; i++) {
+						var item = list[i];
+						var type = item.cell_code;
+						var index = item.indeicator_code;
+						var option;
+                        var name = cellname;
+						if (i == 0) {
+							option = $('<li onclick=cellindex("'
+									+ name
+									+ '","'
+									+ index
+									+ '") class="active"><a data-toggle="tab" aria-expanded="true">'
+									+ item.indeicator_name + '</a></li>');
+						} else {
+							option = $('<li onclick=cellindex("'
+									+ name
+									+ '","'
+									+ index
+									+ '") class=""><a data-toggle="tab" aria-expanded="false">'
+									+ item.indeicator_name + '</a></li>');
+						}
+
+						$("#group_index").append(option);
+					}
+					$("li.active").trigger("click");
+				}
+			});
+		}
+	});
+	//更新时间
+	$.ajax({
+		url : updateTimeUrl,
+		type : "post",
+		data : {
+			'cellname' : cell_code
+		},
+		success : function(data, status) {
+			$("#updateTime").html("最新发布时间 : "+data);
+		}
+	});
+	//datapicker
+    $(".form_datetime").datetimepicker({
+    	 format: 'yyyymm',  
+    	 startView: 'year',
+         minView:'year',
+         maxView:'decade',
+         language:  'zh-CN' 
+    });
+    rtRatio();
 });
 //按日期查询按钮
 function query(){
@@ -591,7 +841,7 @@ function drawEcharts(id, title, times, data,markPointData,color) {
 				if(params[0].value==0.5){
 					status="事件";
 				}else if(params[0].value==1.5){
-					status="临界";
+					status="亚健康";
 				}else if(params[0].value==2.5){
 					status="健康";
 				}else{
@@ -638,7 +888,20 @@ function drawEcharts(id, title, times, data,markPointData,color) {
 			splitLine : {
 				show : false
 			},
-			max : 3
+			 type : 'value',
+	            axisLabel : {
+	                formatter: function(value, index) {
+	                	if(value==0.5){
+	                		return "事件";
+	                	}else if(value==1.5){
+	                		return "亚健康";
+	                	}else if(value==2.5){
+	                		return "健康";
+	                	}else{
+	                		return "";
+	                	}
+	    			}
+	            }
 		},
 		series : [ {
 			name : title,
@@ -650,14 +913,14 @@ function drawEcharts(id, title, times, data,markPointData,color) {
 				}
 			},
 			data : data,
-			markPoint : {
+			/*markPoint : {
                 data :markPointData,
                 itemStyle:{
                 	normal:{
                 		color:'red'
                 	}
                 }
-            }
+            }*/
 		},{
 
 			name : '',
@@ -772,111 +1035,208 @@ function switchwork(url, params) {
                     //var data = eval('(' + data + ')');
 					var list = data.rows;
 					if (url == "/newsdas/capacitywork/oneweek") {
-						if (!iscapacitywork) {
-							refreshJqGrid_capacity(list);
-							iscapacitywork = true;
-							isdevicework = false;
-							isoutservework = false;
-						}
-					} /*else if (url == "/newsdas/complain/getcomplist") {
-						if (!isdevicework) {
+							refresh_capacity(list);
+					} else if (url == "/newsdas/complain/getcomplist") {
 							var list = data.rows;
-							refreshJqGrid_complain(list)
-							isdevicework = true;
-							iscapacitywork = false;
-							isoutservework = false;
-						}
-					}*/
-
+							refresh_complain(list)
+					}
 				}
 			});
 }
-function refreshJqGrid_capacity(list) {
-	$("#table_list_work").jqGrid({
-				data : list,
-				datatype : "local",
-				height : "auto",
-				autowidth : true,
-				shrinkToFit : true,
-				rowNum : 10,
-				rowList : [10, 20, 30],
-				colNames : ['发生时间', '监控内容', '监控时值'],
-				colModel : [{
-							name : 'occurrence_time',
-							index : 'occurrence_time',
-							width : 40,
-							formatter : function(cellvalue, options, rowObject) {
-								return $.hd_jqGrid.dateTimeFormatter(cellvalue);
-							}
-						}, {
-							name : 'monitor_content',
-							index : 'monitor_content',
-							width : 40
-						}, {
-							name : 'monitor_value',
-							index : 'monitor_value',
-							width : 65
-						}],
-				pager : "#pager_list_work",
-				viewrecords : true,
-				hidegrid : false
-			});
-	$(window).bind('resize', function() {
-				var width = $('.jqGrid_wrapper').width();
-				$('#table_list_work').setGridWidth(width);
-			});
+function refresh_capacity(list) {
+	$('#table_list_work').bootstrapTable({
+        cache : false,
+        striped : true,
+        pagination : true,
+        data:list,
+        toolbar : '#pager_list_work',
+        pageSize : 10,
+        pageNumber : 1,
+        pageList : [ 5, 10, 20 ],
+        clickToSelect : true,
+        //sidePagination : 'server',// 设置为服务器端分页
+        columns : [
+            { field : "occurrence_time", title : "发生时间", align : "center", valign : "middle",
+            	formatter:function(value,row,index){
+	                  var jsDate = new Date(value);
+	                  var UnixTimeToDate = jsDate.getFullYear() + '/' + (jsDate.getMonth() + 1) + '/'+jsDate.getDate()+ ' ' + jsDate.getHours() + ':' + jsDate.getMinutes() + ':' + jsDate.getSeconds();
+	                   return UnixTimeToDate;
+	                 }
+            },
+            { field : 'monitor_content', title : '监控内容', align : 'center', valign : 'middle' },
+            { field : 'reasons', title : '原因', align : 'center', valign : 'middle' },
+            { field : 'monitor_value', title : '监控时值', align : 'center', valign : 'middle' }
+        ],
+        formatNoMatches : function() {
+            return "没有数据内容";
+        }
+    });
 }
-function refreshJqGrid_complain(list) {
-	$("#table_list_work2").jqGrid({
-		data : list,
-		datatype : "local",
-		height : "auto",
-		autowidth : true,
-		shrinkToFit : true,
-		rowNum : 10,
-		rowList : [10, 20, 30],
-		colNames : ['受理时间', '受理电话','常住小区1', '常住小区2', '常住小区3'],
-		colModel : [{
-					name : 'record_time',
-					index : '1',
-					width : 40,
-					formatter : function(cellvalue, options, rowObject) {
-						return $.hd_jqGrid.dateTimeFormatter(cellvalue);
-					}
-				}, {
-					name : 'phone_number',
-					index : '2',
-					width : 40
-				}, {
-					name : 'live_cellname1',
-					index : 'live_cellname1',
-					width : 60
-				}, {
-					name : 'live_cellname2',
-					index : 'live_cellname2',
-					width : 60
-				}, {
-					name : 'live_cellname3',
-					index : 'live_cellname3',
-					width : 60
-				}],
-		pager : "#pager_list_work2",
-		viewrecords : true,
-		hidegrid : false,
-		jsonReader : {
-			root : 'row',
-			total : 'pages',
-			page : 'pageNum',
-			records : 'total',
-			repeatitems : false
+function refresh_complain(list) {
+	$("#complain_loadbk").show();
+	$("#complain_load").show();
+	$('#table_list_work2').bootstrapTable({
+        cache : false,
+        striped : true,
+        pagination : true,
+        data:list,
+        toolbar : '#pager_list_work2',
+        pageSize : 10,
+        pageNumber : 1,
+        pageList : [ 5, 10, 20 ],
+        clickToSelect : true,
+        //sidePagination : 'server',// 设置为服务器端分页
+        columns : [
+            { field : "record_time", title : "受理时间", align : "center", valign : "middle",
+            	formatter:function(value,row,index){
+	                  var jsDate = new Date(value);
+	                  var UnixTimeToDate = jsDate.getFullYear() + '/' + (jsDate.getMonth() + 1) + '/'+jsDate.getDate()+ ' ' + jsDate.getHours() + ':' + jsDate.getMinutes() + ':' + jsDate.getSeconds();
+	                   return UnixTimeToDate;
+	                 }
+            },
+            { field : 'phone_number', title : '受理电话', align : 'center', valign : 'middle' },
+            { field : 'live_cellname1', title : '常住小区1', align : 'center', valign : 'middle' },
+            { field : 'live_cellname2', title : '常住小区2', align : 'center', valign : 'middle' },
+            { field : 'live_cellname3', title : '常住小区3', align : 'center', valign : 'middle' }
+        ],
+        formatNoMatches : function() {
+            return "没有数据内容";
+        }
+    });
+	$("#complain_loadbk").hide();
+	$("#complain_load").hide();
+}
+function cellindex(cellcode, indexcode) {
+	$.ajax({
+		url : indexUrl,
+		type : "post",
+		data : {
+			'cellname' : cellcode,
+			'index' : indexcode
 		},
-		gridComplete : function() {
+		success : function(data, status) {
+           // var data = eval('(' + data + ')'); 
+			if (data.success) {
+				var scatter = data.rows;
+				var temp0 = splitData(scatter[0]);
+				var rtdata = calculateRT(temp0.values);
+				line.data = rtdata;
+				echart_option.series[0] = line;
+				var k = scatter.length;
+				for (var i = 0; i < k; i++) {
+					var serie1 = {
+						name : name1,
+						type : 'candlestick',
+						data : [],
+						itemStyle : {
+							normal : {
+								color : upColor,
+								color0 : downColor,
+								borderColor : upBorderColor,
+								borderColor0 : downBorderColor
+							}
+						},
+						markLine : {
+							symbol : ['none', 'none'],
+							data : [{
+										name : 'from lowest to highest',
+										type : 'min',
+										valueDim : 'lowest',
+										symbol : 'circle',
+										symbolSize : 10,
+										label : {
+											normal : {
+												show : false
+											},
+											emphasis : {
+												show : false
+											}
+										}
+									}, {
+										type : 'max',
+										valueDim : 'highest',
+										symbol : 'circle',
+										symbolSize : 10,
+										label : {
+											normal : {
+												show : false
+											},
+											emphasis : {
+												show : false
+											}
+										}
+									}]
+						}
+					}
+					if (i == 0) {
+						var name = "簇心" + i;
+						serie1.name = name;
+						serie1.data = temp0.values;
+						serie1.itemStyle.normal.color = color[i];
+						serie1.itemStyle.normal.color0 = color[i];
+						serie1.itemStyle.normal.borderColor = borderColor[i];
+						serie1.itemStyle.normal.borderColor0 = borderColor[i];
+					} else {
+						var temp = splitData(scatter[i]);
+						var name = "簇心" + i;
+						serie1.name = name;
+						serie1.data = temp.values;
+						if (i < 3) {
+							serie1.itemStyle.normal.color = color[i];
+							serie1.itemStyle.normal.color0 = color[i];
+							serie1.itemStyle.normal.borderColor = borderColor[i];
+							serie1.itemStyle.normal.borderColor0 = borderColor[i];
+						}
+					}
+
+					echart_option.series[i + 1] = serie1;
+				}
+				chart_mb.setOption(echart_option);
+			} else {
+				echart_option.series.push(line);
+				echart_option.series.push(serie);
+				chart_mb.setOption(echart_option);
+			}
 		}
 	});
-// Add responsive to jqGrid
-$(window).bind('resize', function() {
-		var width = $('.jqGrid_wrapper').width();
-		$('#table_list_work2').setGridWidth(width);
-
-	}); 
 }
+
+//健康度
+var rtratioUrl = ctx + "/cell/rtratio";
+setInterval(function() {
+	rtRatio()
+}, 5 * 60 * 1000);
+
+var refreshcount = 0;
+function rtRatio() {
+if (refreshcount < 23) {
+refreshcount++;
+} else {
+refreshcount = 0;
+}
+$.ajax({
+		url : rtratioUrl,
+		type : "post",
+		data : {
+			'cellname' : cell_code,
+			'count' : refreshcount
+		},
+		success : function(data, status) {
+			var ratio = data.ratio;
+			if (ratio != undefined && ratio != "" && ratio != null) {
+				$("#h_ratio").text("健康度： "+ratio);
+				if (ratio > 80) {
+					$("#h_ratio").css("color", "green");
+				} else if (ratio > 25 && ratio <= 80) {
+					$("#h_ratio").css("color", "#B9C83F");
+				} else {
+					$("#h_ratio").css("color", "red");
+				}
+			} else {
+				$("#h_ratio").css("display", "none");
+			}
+
+		}
+	});
+}
+//健康度end

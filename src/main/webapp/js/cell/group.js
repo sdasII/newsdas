@@ -2,7 +2,7 @@
  * 小区列表
  */
 var cellListUrl = ctx + '/cell/getcelllist';
-
+var searchurl="";
 $(function(){
     $('#table_list_1').bootstrapTable({
         cache : false,
@@ -97,3 +97,67 @@ function clear(){
 $("#clear").click(function() {
 	clear();
 });
+function searchtimeselect() {
+	$("#searchinselect").addClass("btn-info");
+	$("#searchinselect").removeClass("btn-white");
+	$("#searchelect").css("display", "inline");
+	$("#searchinmonth").addClass("btn-white");
+	$("#searchinmonth").removeClass("btn-info");
+	$("#searchinweek").removeClass("btn-info");
+	$("#searchinweek").addClass("btn-white");
+}
+function searchoneday() {
+	$("#searchinweek").addClass("btn-info");
+	$("#searchinweek").removeClass("btn-white");
+	$("#searchinmonth").addClass("btn-white");
+	$("#searchinmonth").removeClass("btn-info");
+	$("#searchinselect").removeClass("btn-info");
+	$("#searchinselect").addClass("btn-white");
+	$("#searchtimeselect").css("display", "none");
+	workQuery("day");
+}
+function searchoneweek() {
+	$("#searchinweek").addClass("btn-info");
+	$("#searchinweek").removeClass("btn-white");
+	$("#searchinmonth").addClass("btn-white");
+	$("#searchinmonth").removeClass("btn-info");
+	$("#searchinselect").removeClass("btn-info");
+	$("#searchinselect").addClass("btn-white");
+	$("#searchtimeselect").css("display", "none");
+	workQuery("week");
+}
+function searchonemonth() {
+	$("#searchinmonth").addClass("btn-info");
+	$("#searchinmonth").removeClass("btn-white");
+	$("#searchinweek").removeClass("btn-info");
+	$("#searchinweek").addClass("btn-white");
+	$("#searchinselect").removeClass("btn-info");
+	$("#searchinselect").addClass("btn-white");
+	$("#searchtimeselect").css("display", "none");
+	workQuery("month");
+}
+function workQuery(type, start, end) {
+	if ("day" == type) {
+        var data = {};
+        data.type = "day";
+        commonAjax(searchurl,data,"POST","table_list_1")			
+	}else if ("week" == type) {
+            var data = {};
+            data.type = "week";
+            commonAjax(searchurl,data,"POST","table_list_1")			
+		} else if ("month" == type) {
+            var data = {};
+            data.type = "month";
+            commonAjax(searchurl,data,"POST","table_list_1");			
+		} else {
+            var data = {};
+            data.starttime = start;
+            data.endtime = end;
+            commonAjax(searchurl,data,"POST","table_list_1");
+		}
+}
+function query() {
+	var start = $("#start").val();
+	var end = $("#end").val();
+	workQuery("select", start, end);
+}
