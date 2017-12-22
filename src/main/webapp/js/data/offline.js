@@ -26,6 +26,8 @@ $(function() {
 		         maxView:'decade',
 		         language:  'zh-CN' 
 		    });
+		    //log初始化
+		    drawTables('');
 		});
         
         
@@ -237,5 +239,77 @@ function submit_cal(){
 function formatSubmit(){
     $("#formatFile").submit();
 }
-
-
+/**
+ * 历史数据列表
+ */
+function drawTables(type){
+	 $('#historyTable').bootstrapTable({
+		 cache : false,
+	        striped : true,
+	        pagination : true,
+	        toolbar : '#pager_Table',
+	        pageSize : 10,
+	        pageNumber : 1,
+	        pageList : [ 5, 10, 20 ],
+	        clickToSelect : true,
+	        sidePagination : 'server',// 设置为服务器端分页
+	        columns: [{
+	              field: 'starttime',
+	              title: '开始时间',
+	              width:500,
+	              formatter:function(value,row,index){
+	                  var jsDate = new Date(value);
+	                  var UnixTimeToDate = jsDate.getFullYear() + '/' + (jsDate.getMonth() + 1) + '/'+jsDate.getDate()+ ' ' + jsDate.getHours() + ':' + jsDate.getMinutes() + ':' + jsDate.getSeconds();
+	                   return UnixTimeToDate;
+	                 }
+	          },{
+	              field: 'endtime',
+	              title: '结束时间',
+	              width:500,
+	              formatter:function(value,row,index){
+	                  var jsDate = new Date(value);
+	                  var UnixTimeToDate = jsDate.getFullYear() + '/' + (jsDate.getMonth() + 1) + '/'+jsDate.getDate()+ ' ' + jsDate.getHours() + ':' + jsDate.getMinutes() + ':' + jsDate.getSeconds();
+	                   return UnixTimeToDate;
+	                 }
+	          },{
+                  field: 'alltime',
+                  title: '总消耗时间(ms)',
+                  width:500
+              },{
+	              field: 'filename',
+	              title: '信息',
+	              width:500
+	          },{
+	              field: 'type',
+	              title: '类型',
+	              width:500
+	          },{
+	              field: 'result',
+	              title: '状态',
+	              width:500,
+	              formatter:function(value,row,index){
+	                 if(value=="0"){
+	                	 return "失败";
+	                 }else if(value=="1"){
+	                	 return "成功";
+	                 }
+	                 }
+	          }],
+	        onPageChange : function(size, number) {
+	        	var data = {};
+	    	 	data.type=type;
+	    	    commonRowDatas("historyTable", data, "/newsdas/log/file/list", "commonCallback", true);
+	        },
+	        formatNoMatches : function() {
+	            return NOT_FOUND_DATAS;
+	        }
+	    });
+	 	var data = {};
+	 	data.type=type;
+	    commonRowDatas("historyTable", data, "/newsdas/log/file/list", "commonCallback", true);
+}
+function search_log(){
+	var data = {};
+ 	data.type=$("#type").val();
+    commonRowDatas("historyTable", data, "/newsdas/log/file/list", "commonCallback", true);
+}
