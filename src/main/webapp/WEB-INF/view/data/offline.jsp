@@ -453,7 +453,7 @@
 								<option value="success">成功</option>
 								<option value="fail">失败</option>
 							</select>
-							<button class="btn btn-info search" type="button" onclick="">查询</button>
+							<button class="btn btn-info search" type="button" onclick="search_log()">查询</button>
 						</div>
 							<div id="historyTable"></div>
 							<div id="pager_Table"></div>
