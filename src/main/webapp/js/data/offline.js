@@ -311,5 +311,6 @@ function drawTables(type){
 function search_log(){
 	var data = {};
  	data.type=$("#type").val();
+ 	data.result=$("#status").val();
     commonRowDatas("historyTable", data, "/newsdas/log/file/list", "commonCallback", true);
 }
