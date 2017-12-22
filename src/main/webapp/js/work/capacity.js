@@ -8,10 +8,20 @@ var capacityworkurl = ctx + "/work/allrtworks";
 var doubutworkurl = ctx +"/work/validatedoubt";
 var aeraurl = ctx + "/capacitywork/belongare";
 var validateurl = ctx +"/work/validate";
+var updatetimeUrl = ctx + "/alarm/updatetime"
 var starttime="";
 var endtime="";
 var work_date=null;
 $(function(){
+	//最新时间
+	$.ajax({
+		url:updatetimeUrl,
+		type:"post",
+		success:function(data){
+			$("#updateTime").html("最新发布时间： "+data);
+		}
+	});
+	
 	$.jgrid.defaults.styleUI = 'Bootstrap';
 	$.ajax({
 		url: capacityworkurl,

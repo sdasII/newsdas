@@ -215,27 +215,98 @@ function submit_upload(id,formid){
         }   
 	}
 }
+function complainSumit(element) {
+	var file1 = $("#comlainfile").val();
+	var file2 = $("#customerfile").val();
+	var complaintimes=$("#complaintime").val();
+	//var length = $("#comlainfile").files
+	if (complaintimes != "" &&file1 != "" && file2 != "") {
+		$(element).ajaxSubmit(function(message) {
+			$("#complaint_load").css("display", "none");
+			var status = message.success;
+			if (status.indexOf("成功") > 0) {
+				showOnlyMessage(INFO, status);
+			} else {
+				showOnlyMessage(ERROR, status);
+			}
 
+		});
+		$("#complaint_load").css("display", "inline");
+	}else if (complaintimes == "") {
+		showOnlyMessage(ERROR, "请选择时间！");
+	} else if (file1 == "") {
+		showOnlyMessage(ERROR, "请选择常驻小区文件！");
+	} else if (file2 == "") {
+		showOnlyMessage(ERROR, "请选择投诉情况文件！");
+	}
+	return false;
+}
+function networkSumit(element) {
+	var file = $("#file3").val();
+	var times=$("#nettest_time").val();
+	//var length = $("#comlainfile").files
+	if (times != "" &&file != "") {
+		$(element).ajaxSubmit(function(message) {
+			//$("#complaint_load").css("display", "none");
+			var status = message.success;
+			if (status.indexOf("成功") > 0) {
+				showOnlyMessage(INFO, status);
+			} else {
+				showOnlyMessage(ERROR, status);
+			}
+
+		});
+		//$("#complaint_load").css("display", "inline");
+	}else if (times == "") {
+		showOnlyMessage(ERROR, "请选择时间！");
+	} else if (file == "") {
+		showOnlyMessage(ERROR, "请选择文件！");
+	}
+	return false;
+}
 function submit_cal(){
-	$("#nettime_error").hide();
-	$("#netcaltime_error").hide();
-	$("#netpath_error").hide();
-	if($("#net_time").val()==""){
-		$("#nettime_error").show();
-		return;
-	}else if($("#net_caltime").val()==""){
-		$("#netcaltime_error").show();
-		return;
-	}else if($("#net_path").val()==""){
-		$("#netpath_error").show();
-		return;
-	}else{
-		$("#form1").submit();
+	var time = $("#net_caltime").val();
+	if(time==""){//默认为上一个月
+		var date=new Date;
+		var year=date.getFullYear(); 
+		var month=date.getMonth();
+		month =(month<10 ? "0"+month:month);
+		time=(year.toString()+month.toString());
 	}
 }
+function netzipSumit(element) {
+	var file = $("#originfile").val();
+	var times=$("#origintime").val();
+	//var length = $("#comlainfile").files
+	if (times != "" &&file != "") {
+		$(element).ajaxSubmit(function(message) {
+			//$("#complaint_load").css("display", "none");
+			var status = message.success;
+			if (status.indexOf("成功") > 0) {
+				showOnlyMessage(INFO, status);
+			} else {
+				showOnlyMessage(ERROR, status);
+			}
 
-
-
+		});
+		//$("#complaint_load").css("display", "inline");
+	}else if (times == "") {
+		showOnlyMessage(ERROR, "请选择时间！");
+	} else if (file == "") {
+		showOnlyMessage(ERROR, "请选择文件！");
+	}
+	return false;
+}
+function submit_calzip(){
+	var time = $("#net_caltime2").val();
+	if(time==""){//默认为上一个月
+		var date=new Date;
+		var year=date.getFullYear(); 
+		var month=date.getMonth();
+		month =(month<10 ? "0"+month:month);
+		time=(year.toString()+month.toString());
+	}
+}
 function formatSubmit(){
     $("#formatFile").submit();
 }

@@ -57,6 +57,9 @@
 
 <body class="gray-bg">
 	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="row" style="text-align: center;">
+			<h3><span id="updateTime">最新发布时间</span></h3>
+		</div>
 		<div class="row">
 			<div class="col-sm-16">
 				<div class="ibox float-e-margins">

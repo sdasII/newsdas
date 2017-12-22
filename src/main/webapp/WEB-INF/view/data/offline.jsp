@@ -243,29 +243,7 @@
 		});
 	</script>
 	<script type="text/javascript">
-		function complainSumit(element) {
-			var select = $("#comlainfile").val();
-			var time = $("#complaintime").val();
-			var length = $("#comlainfile").files
-			if (time != "" && select != "") {
-				$(element).ajaxSubmit(function(message) {
-					$("#complaint_load").css("display", "none");
-					var status = message.success;
-					if (status.indexOf("成功") > 0) {
-						showOnlyMessage(INFO, status);
-					} else {
-						showOnlyMessage(ERROR, status);
-					}
-
-				});
-				$("#complaint_load").css("display", "inline");
-			} else if (select == "") {
-				showOnlyMessage(ERROR, "请选择文件！");
-			} else if (time == "") {
-				showOnlyMessage(ERROR, "请选择时间！");
-			}
-			return false;
-		}
+		
 	</script>
 	<div class="wrapper wrapper-content animated fadeInRight">
 	<div class="row">
@@ -284,8 +262,7 @@
 								<div>
 									<span><i>备注：</i> </span> <span>请选择客户投诉情况导出表和客户投诉小区导出表！</span><br><br>
 								</div>
-								<form action="${context}/data/uploadcomplain" method="post"
-									enctype="multipart/form-data"
+								<form action="${context}/data/uploadcomplain" method="post" enctype="multipart/form-data"
 									onsubmit="return complainSumit(this);">
 									<label>时间选择：</label> <input id="complaintime" name="time"
 										style="display: inline; padding: -10px; margin: -10px; height: 39px; margin-left: 10px;"
@@ -361,7 +338,7 @@
 									<span><i>备注：</i> </span> <span>请选择小区一天的网管数据</span>
 								</div> -->
 								<form id="form3" action="${context}/data/upload?type=network"
-									method="post">
+									method="post" onsubmit="return networkSumit(this);">
 									<div class="form-group">
 										<!-- <tips style="font-style: italic;">注意：计算日期需要与HDFS文件地址中的数据相对应</tips> 
 										<br> <br> <label for="time" style="width: 65px">模式年月：</label>
@@ -381,7 +358,6 @@
 										<input size="16" type="text" name="cal_time" id="net_caltime"
 											placeholder="请选择计算模式月份（默认上一个月）" readonly
 											class="form_datetime" style="width:220px;margin-top: -10px"> 
-											<span id="netcaltime_error" class="error_msg">计算日期不能为空！</span>
 										<button class="btn btn-info search" type="button"
 											onclick="submit_cal()">分析</button>
 									</div>
@@ -396,8 +372,7 @@
 								<!-- <div>
 									<span><i>备注：</i> </span> <span>请选择小区一天的网管数据</span>
 								</div> -->
-								<form id="form3" action="${context}/data/uploadfile"
-									method="post">
+								<form id="form3" action="${context}/data/uploadfile" method="post"onsubmit="return netzipSumit(this);">
 									<div class="ibox-tools" style="margin-top: -10px;">
 										<a href="${context}/cell/celltable"><i>查看详情</i></a>
 									</div>
@@ -407,20 +382,17 @@
 											class="btn btn-white layer-date starttime"
 											placeholder="请选择文件时间"
 											onclick="laydate({istime: false, format: 'YYYYMMDD'})">
-										<span id="nettime_error" class="error_msg">时间不能为空！</span><br><br>
 										<label>选择文件:</label>
 										<input class="btn btn-white" type="file" name="file"
 											id="originfile" style="display: inline;" />
-										<button id="originsubmit" class="btn btn-success"
-											type="submit">上传</button>
+										<button id="originsubmit" class="btn btn-success" type="submit">上传</button>
 										<br>
 										<br> <label for="cal_time">计算日期：</label> <input size="16"
 											type="text" name="cal_time" id="net_caltime2"
 											placeholder="请选择计算模式月份（默认上一个月）" readonly
-											class="form_datetime" style="width:220px;margin-top: -10px"> <span
-											id="netcaltime_error2" class="error_msg">计算日期不能为空！</span>
+											class="form_datetime" style="width:220px;margin-top: -10px">
 										<button class="btn btn-info search" type="button"
-											onclick="submit_cal()">分析</button><br>
+											onclick="submit_calzip()">分析</button><br>
 										<button class="btn btn-info search" type="button" onclick="" style="float: right">模式计算</button>
 									</div>
 								</form>
