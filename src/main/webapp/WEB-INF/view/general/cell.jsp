@@ -97,7 +97,6 @@ input {
 			<div>
 				<h1 id="h_ratio" style="color: green; display: none;">
 					<b id="b_ratio">90</b>
-
 				</h1>
 				<h3 id="h3_ratio" style="display: none;">健康度</h3>
 			</div>

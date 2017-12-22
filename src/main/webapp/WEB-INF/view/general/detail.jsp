@@ -13,14 +13,13 @@
 <%-- <script src="${context}/lib/hplus/js/plugins/layer/laydate/laydate.js"></script> --%>
 <script type="text/javascript"
 	src="http://api.map.baidu.com/api?v=2.0&ak=EmXf0NLcNCvBO5hdDliGtvC9D5v6GA5K"></script>
-<script type="text/javascript"
-	src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
-	<script src="${context}/lib/hplus/js/plugins/layer/laydate/laydate.js"></script>
-<link href="${context}/style/loader.css" rel="stylesheet"
-	type="text/css">
-<link
-	href="${context}/lib/hplus/css/plugins/dataTables/dataTables.bootstrap.css"
-	rel="stylesheet">
+<script type="text/javascript"src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+<script src="${context}/lib/datapicker/bootstrap-datetimepicker.min.js"></script>
+<script src="${context}/lib/datapicker/bootstrap-datetimepicker.zh-CN.js"></script>
+<link href="${context}/lib/datapicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<script src="${context}/lib/hplus/js/plugins/layer/laydate/laydate.js"></script>
+<link href="${context}/style/loader.css" rel="stylesheet" type="text/css">
+<link href="${context}/lib/hplus/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
 <style type="text/css">
 td {
 	margin-left: 10px;
@@ -81,6 +80,33 @@ input {
 .ibox-content .yellow {
 	background-color: yellow
 }
+[class^="icon-"], [class*=" icon-"] {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-top: 1px;
+    line-height: 14px;
+    vertical-align: text-top;
+    background-image: url(${context}/lib/datapicker/glyphicons-halflings.png);
+    background-position: 14px 14px;
+    background-repeat: no-repeat;
+}
+.icon-arrow-right {
+    background-position: -264px -96px;
+}
+.icon-arrow-left {
+    background-position: -240px -96px;
+}
+.form_datetime{
+	margin: -10px;
+	width: 125px; 
+	height: 35px;
+	border-radius:3px; 
+	margin-right: 10px;
+	margin-left: 10px;
+	border: 1px solid #e7eaec;
+	font-weight: normal;
+}
 </style>
 </head>
 <body>
@@ -97,11 +123,12 @@ input {
 			<h1 style="margin: 0 auto; margin-bottom: 10px">
 				<b>${cellname}</b>小区健康详情查看
 			</h1>
+			<h3><span id="updateTime">最新发布时间</span>&nbsp;&nbsp;&nbsp;<span id="h_ratio"></span></h3>
 		</div>
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="ibox-title">
-					<h5>当前时段风险预警</h5>
+					<h5>健康预警</h5>
 					<%-- <a href="javascript:;" onclick="toTableData('${cellname}')"
 						style="float: right; margin-right: 20px"><h5>查看详情</h5></a> --%>
 				</div>
@@ -149,25 +176,23 @@ input {
 									type="button">周</button>
 								<button class="btn btn-white datePicker" id="workinmonth"
 									type="button">月</button>
-									<button class="btn btn-white datePicker" type="button">按时间选择</button>
-												<div id="timeselect" style="display: none; float: left;">
-													<input
-														style="margin-left: 5px; margin-top: -7px !important;"
-														id="starttime" class="layer-date starttime"
-														placeholder="请输入开始时间"
-														onclick="laydate({istime: false, format: 'YYYYMMDD'})">
+								<button class="btn btn-white datePicker" type="button">按时间选择</button>
+								<div id="timeselect" style="display: none; float: left;">
+									<input style="margin-left: 5px; margin-top: -7px !important;"
+										id="starttime" class="layer-date starttime"
+										placeholder="请输入开始时间"
+										onclick="laydate({istime: false, format: 'YYYYMMDD'})">
 
-													<span id="span"
-														style="margin-top: -10px; display: inline !important;"
-														class="input-group-addon">到</span> <input
-														style="margin-top: -7px !important;"
-														class="layer-date endtime" id="endtime"
-														placeholder="请输入结束时间"
-														onclick="laydate({istime: false, format: 'YYYYMMDD'})">
+									<span id="span"
+										style="margin-top: -10px; display: inline !important;"
+										class="input-group-addon">到</span> <input
+										style="margin-top: -7px !important;"
+										class="layer-date endtime" id="endtime" placeholder="请输入结束时间"
+										onclick="laydate({istime: false, format: 'YYYYMMDD'})">
 
-													<button class="btn btn-info search" type="button"
-														onclick="query()">确定</button>
-												</div>
+									<button class="btn btn-info search" type="button"
+										onclick="query()">确定</button>
+								</div>
 							</div>
 						</div>
 						<!-- loading -->
@@ -189,8 +214,9 @@ input {
 						<div class="tab-content">
 							<div id="tab-1" class="tab-pane active">
 								<div class="panel-body">
-									<div id="rtratio" style="width: 1250px; height: 350px;margin-bottom: 30px"></div>
-									<div id="historyCharts" style="width: 1250px;height: 300px;"></div>
+									<div id="rtratio"
+										style="width: 1250px; height: 350px; margin-bottom: 30px"></div>
+									<div id="historyCharts" style="width: 1250px; height: 300px;"></div>
 								</div>
 							</div>
 							<div id="tab-2" class="tab-pane">
@@ -206,7 +232,7 @@ input {
 		<div class="row">
 			<div class="ibox-title">
 				<h5>工单信息</h5>
-				<div class="ibox-tools">
+				<!-- <div class="ibox-tools">
 					<div class="btn-group">
 						<button class="btn btn-info" id="workinweek" type="button"
 							onclick="javascript:workoneweek()">一周</button>
@@ -229,8 +255,9 @@ input {
 								onclick="javascript:query2()">确定</button>
 						</div>
 					</div>
-				</div>
+				</div> -->
 			</div>
+			<div class="ibox-content">
 			<div class="col-sm-12">
 				<div class="tabs-container">
 					<ul class="nav nav-tabs">
@@ -238,13 +265,14 @@ input {
 							onclick="switchwork('/newsdas/capacitywork/oneweek','${cellname}')"
 							class="active"><a data-toggle="tab" href="#tab-3"
 							aria-expanded="true">性能工单</a></li>
-						<li onclick="switchwork('/newsdas/devicework/oneweek','${cellname}')"
+						<li
+							onclick="switchwork('/newsdas/complain/getcomplist','${cellname}')"
 							class=""><a data-toggle="tab" href="#tab-4"
 							aria-expanded="false">投诉信息</a></li>
 					</ul>
 					<div class="tab-content">
 						<div id="tab-3" class="tab-pane active">
-							<div class="panel-body">
+							<div class="panel-body" style="min-height: 450px;">
 								<div class="jqGrid_wrapper">
 									<table class="table" id="table_list_work"></table>
 									<div id="pager_list_work"></div>
@@ -252,7 +280,14 @@ input {
 							</div>
 						</div>
 						<div id="tab-4" class="tab-pane">
-							<div class="panel-body">
+							<div class="panel-body" style="min-height: 450px;">
+								<!-- loading -->
+								<div class="loading_bk" id="complain_loadbk" style="height:60%"></div>
+								<div class="loading" id="complain_load">
+									<img
+										src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>内容加载中...</span>
+								</div>
+								<!-- loading -->
 								<table class="table" id="table_list_work2"></table>
 								<div id="pager_list_work2"></div>
 							</div>
@@ -260,12 +295,40 @@ input {
 					</div>
 				</div>
 			</div>
+			</div>
+		</div>
+		<div class="row">
+		<div class="ibox-title">
+				<h5>指标分析</h5>
+				<div class="ibox-tools">
+				<label for="time" style="margin-left: 20px">指标查询
+					<input size="16" type="text" id="time" placeholder="请选择月份" readonly class="form_datetime">
+					<button style="margin-left: 5px;" class="btn btn-success" onclick="javascript:">查询</button>
+				</label>		
+				</div>
+			</div>
+			<div class="ibox-content">
+			<div class="col-sm-12">
+				<div class="tabs-container">
+					<ul id="group_index" class="nav nav-tabs">
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active">
+							<div class="panel-body">
+								<div id="mb" style="height: 350px"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
 		</div>
 	</div>
 	<script type="text/javascript">
 		var ctx = ctx;
 		var cell_code = "${cellname}";
-		var context="${context}";
+		var context = "${context}";
+		var chart_mb = echarts.init($("#mb").get(0));
 		// 百度地图API功能
 		var map = new BMap.Map("allmap"); // 创建Map实例
 		map.centerAndZoom(new BMap.Point(113.270856, 23.137463), 15); // 初始化地图,设置中心点坐标和地图级别
