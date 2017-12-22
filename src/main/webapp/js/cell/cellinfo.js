@@ -13,7 +13,6 @@ $(function(){
 		type:"post",
 		async:false,
 		success:function(data){
-			console.info(data);
 			$("#updateTime").html("最新发布时间： "+data);
 		}
 	});

@@ -13,6 +13,7 @@ import com.iscas.sdas.dto.AlarmDto;
 import com.iscas.sdas.dto.cell.CellResultHistoryDto;
 import com.iscas.sdas.dto.result.CellResultHistory;
 import com.iscas.sdas.util.CommonUntils;
+import com.iscas.sdas.util.Constraints;
 
 @Service
 public class AlarmService {
@@ -111,8 +112,19 @@ public class AlarmService {
 	 * @param cellResultHistory
 	 * @return
 	 */
-	public List<CellResultHistory> getCellList(CellResultHistory cellResultHistory){
-		List<CellResultHistoryDto> sources =  alarmDao.celllist(cellResultHistory);
+	public List<CellResultHistory> getCellList(String cellname,String type,String starttime,String endtime){
+		
+		List<CellResultHistoryDto> sources;
+		
+		if (Constraints.DAY.equals(type)) {
+			sources = alarmDao.cellListLastDay(cellname);
+		}else if (Constraints.WEEK.equals(type)) {
+			sources = alarmDao.cellListLastWeek(cellname);
+		}else if (Constraints.MONTH.equals(type)) {
+			sources = alarmDao.cellListLastMonth(cellname);
+		}else {
+			sources = alarmDao.cellListBySelect(cellname,starttime,endtime);
+		}
 		List<CellResultHistory> result = new ArrayList<>();
 		for (CellResultHistoryDto dto : sources) {
 			Method[] methods = dto.getClass().getMethods();
@@ -120,10 +132,10 @@ public class AlarmService {
 				String methodName = method.getName();
 				if (methodName.startsWith("getRange")) {
 					CellResultHistory crh = new CellResultHistory();
-					crh.setCalcultime(dto.getCreateTime());
+					crh.setCalcultime(dto.getCreate_time());
 					crh.setCellname(dto.getCell_code());
 					crh.setYyyymmdd(dto.getYyyyMMdd());
-					String strhour = methodName.substring(6);
+					String strhour = methodName.substring(9);
 					crh.setHour(Integer.valueOf(strhour));
 					try {
 						Integer r = (Integer)method.invoke(dto, null);

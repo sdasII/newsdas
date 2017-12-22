@@ -19,8 +19,8 @@ $(function(){
         pagination : true,
         toolbar : '#toolbar',
         pageSize : 10,
-        pageNumber : 1,
-        pageList : [ 5, 10, 20 ],
+        pageNumber : 1,  
+        pageList : [ 10, 20, 30 ],
         clickToSelect : true,
         sidePagination : 'server',// 设置为服务器端分页
         columns : [
@@ -72,7 +72,7 @@ var bsdata = {};
 function searchInfo() { 
 	bsdata.cellname=$("#name").val();
 	bsdata.result=$("#status").val();
-    commonRowDatas("table_list_1", bsdata, cellListUrl, "commonCallback", true);
+    commonRowDatas("table_list_1", bsdata, cellListUrl,"commonCallback", true);
 }
 
 
@@ -163,23 +163,23 @@ function searchonemonth() {
 }
 function workQuery(type, start, end) {
 	if ("day" == type) {
-        var data = {};
-        data.type = "day";
-        commonAjax(searchurl,data,"POST","table_list_1")			
-	}else if ("week" == type) {
-            var data = {};
-            data.type = "week";
-            commonAjax(searchurl,data,"POST","table_list_1")			
-		} else if ("month" == type) {
-            var data = {};
-            data.type = "month";
-            commonAjax(searchurl,data,"POST","table_list_1");			
-		} else {
-            var data = {};
-            data.starttime = start;
-            data.endtime = end;
-            commonAjax(searchurl,data,"POST","table_list_1");
-		}
+		var data = {};
+		data.type = "day";
+
+	} else if ("week" == type) {
+		var data = {};
+		data.type = "week";
+
+	} else if ("month" == type) {
+		var data = {};
+		data.type = "month";
+	} else {
+		var data = {};
+		data.type = "select";
+		data.starttime = start;
+		data.endtime = end;
+	}
+	commonRowDatas("table_list_1", data, cellListUrl, "commonCallback", true)
 }
 function query() {
 	var start = $("#start").val();

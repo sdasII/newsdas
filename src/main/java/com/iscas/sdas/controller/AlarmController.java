@@ -171,17 +171,19 @@ public class AlarmController {
 	@RequestMapping("/celllist")
 	@ResponseBody
 	public ModelMap celllist(@RequestParam(value = "currpage", required = true, defaultValue = "1") String num,
-			@RequestParam(value = "pageSize", required = true, defaultValue = "10") String size,HttpServletRequest request){
+			@RequestParam(value = "pageSize", required = true, defaultValue = "10") String size,
+			@RequestParam(value = "type", required = true, defaultValue = "day") String type,HttpServletRequest request){
 		ModelMap map = new ModelMap();
-		CellResultHistory cellResultHistory = new CellResultHistory();
-		String name = request.getParameter("name");
-		if (!CommonUntils.isempty(name)) {
-			cellResultHistory.setCellname(name);
-		}
+		String cellname = request.getParameter("name");
 		int pageNum = Integer.parseInt(num);
 		int pageSize = Integer.parseInt(size);
 		PageHelper.startPage(pageNum, pageSize);
-		List<CellResultHistory> cells = alarmService.getCellList(cellResultHistory);
+		String starttime= null,endtime = null;
+		if (Constraints.SELECT.equals(type)) {
+			starttime = request.getParameter("starttime");
+			endtime = request.getParameter("endtime");
+		}
+		List<CellResultHistory> cells = alarmService.getCellList(cellname,type,starttime,endtime);
 		PageInfo<CellResultHistory> pageInfo = new PageInfo<>(cells);
 		List<CellResultHistory> rows = new ArrayList<>();
 		for (int i = 0; i < cells.size(); i++) {

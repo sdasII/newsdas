@@ -68,7 +68,7 @@
 						<div class="ibox-tools">
 							<div class="btn-group">
 								<button class="btn btn-info" id="searchinday" type="button"
-									onclick="javascript:searchoneday()">日</button>
+									onclick="javascript:searchoneday()">最近一日</button>
 								<button class="btn btn-white" id="searchinmonth" type="button"
 									onclick="javascript:searchonemonth()">周</button>
 								<button class="btn btn-white" id="searchinmonth" type="button"
@@ -117,8 +117,8 @@
 							</label> -->
 							<label style="margin-left: 20px">导出类型</label> 
 							<select id="type" name="type" class="btn btn-white">
-								<option value="hour">小时</option>
-								<option value="days">天数</option>
+								<option value="hour">按小时</option>
+								<option value="days">按天</option>
 							</select>
 							<div class="btn loading" id="load1" style="display: none">
 								<img
@@ -139,6 +139,7 @@
 						</div>
 						<div>
 							<table id="table_list_1"></table>
+							<div id="toolbar"></div>
 						</div>
 					</div>
 

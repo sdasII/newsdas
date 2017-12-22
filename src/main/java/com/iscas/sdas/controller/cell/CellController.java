@@ -449,7 +449,7 @@ public class CellController {
 						Integer value =  (Integer)method.invoke(cellResultHistoryDto, null);
 						if (value==0||value==1||value==3) {
 							SignalCellResult result = new SignalCellResult();
-							result.setDate(cellResultHistoryDto.getYyyymmdd());
+							result.setDate(cellResultHistoryDto.getYyyyMMdd());
 							if (value==0) {
 								result.setStatus("不健康");
 							}
