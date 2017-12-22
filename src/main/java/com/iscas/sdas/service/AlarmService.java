@@ -1,5 +1,7 @@
 package com.iscas.sdas.service;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONObject;
 import com.iscas.sdas.dao.AlarmDao;
 import com.iscas.sdas.dto.AlarmDto;
+import com.iscas.sdas.dto.cell.CellResultHistoryDto;
+import com.iscas.sdas.dto.result.CellResultHistory;
 import com.iscas.sdas.util.CommonUntils;
 
 @Service
@@ -101,5 +105,36 @@ public class AlarmService {
 	 */
 	public List<AlarmDto> getCellByLastDay(AlarmDto alarmDto){
 		return alarmDao.alarmLastDay(alarmDto);
+	}
+	/**
+	 * 小区历史列表
+	 * @param cellResultHistory
+	 * @return
+	 */
+	public List<CellResultHistory> getCellList(CellResultHistory cellResultHistory){
+		List<CellResultHistoryDto> sources =  alarmDao.celllist(cellResultHistory);
+		List<CellResultHistory> result = new ArrayList<>();
+		for (CellResultHistoryDto dto : sources) {
+			Method[] methods = dto.getClass().getMethods();
+			for (Method method : methods) {
+				String methodName = method.getName();
+				if (methodName.startsWith("getRange")) {
+					CellResultHistory crh = new CellResultHistory();
+					crh.setCalcultime(dto.getCreateTime());
+					crh.setCellname(dto.getCell_code());
+					crh.setYyyymmdd(dto.getYyyyMMdd());
+					String strhour = methodName.substring(6);
+					crh.setHour(Integer.valueOf(strhour));
+					try {
+						Integer r = (Integer)method.invoke(dto, null);
+						crh.setResult(r);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					result.add(crh);
+				}
+			}
+		}
+		return result;
 	}
 }

@@ -10,14 +10,6 @@ public class AlarmDto {
 
 	private int count;
 
-	public Date getCreate_time() {
-		return create_time;
-	}
-
-	public void setCreate_time(Date create_time) {
-		this.create_time = create_time;
-	}
-
 	private String app_hour;
 
 	private Integer app_result;
@@ -91,4 +83,11 @@ public class AlarmDto {
 		this.endtime = endtime;
 	}
 
+	public Date getCreate_time() {
+		return create_time;
+	}
+
+	public void setCreate_time(Date create_time) {
+		this.create_time = create_time;
+	}
 }

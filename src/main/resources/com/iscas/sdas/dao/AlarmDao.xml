@@ -64,4 +64,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM t_cell_result_info WHERE yyyyMMdd = (SELECT yyyyMMdd FROM
 		t_cell_result_info where cell_code = #{cell_code} ORDER BY yyyyMMdd DESC LIMIT 1) and cell_code = #{cell_code}
 	</select>
+	<select id="celllist" resultType="com.iscas.sdas.dto.cell.CellResultHistoryDto"
+	 	parameterType="com.iscas.sdas.dto.result.CellResultHistory">
+		select * from t_cell_result_history
+		<where>
+			<if test="cellname!=null">
+				cell_code = #{cellname}
+			</if>
+		</where>
+	</select>
 </mapper>

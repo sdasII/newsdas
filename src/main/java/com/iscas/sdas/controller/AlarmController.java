@@ -18,10 +18,15 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.iscas.sdas.common.PageDto;
 import com.iscas.sdas.dto.AlarmDto;
+import com.iscas.sdas.dto.result.CellResultHistory;
 import com.iscas.sdas.service.AlarmService;
 import com.iscas.sdas.util.CommonUntils;
 import com.iscas.sdas.util.Constraints;
-
+/**
+ * 判别结果--t_cell_result_info(实时表) t_cell_result_history(历史表)
+ * @author dongqun
+ * 2017年12月21日下午5:01:30
+ */
 @Controller
 @RequestMapping("/alarm")
 public class AlarmController {
@@ -161,5 +166,33 @@ public class AlarmController {
 		ModelAndView modelAndView = new ModelAndView("/general/detail");
 		modelAndView.addObject("cellname", cellname);
 		return modelAndView;
+	}
+	
+	@RequestMapping("/celllist")
+	@ResponseBody
+	public ModelMap celllist(@RequestParam(value = "currpage", required = true, defaultValue = "1") String num,
+			@RequestParam(value = "pageSize", required = true, defaultValue = "10") String size,HttpServletRequest request){
+		ModelMap map = new ModelMap();
+		CellResultHistory cellResultHistory = new CellResultHistory();
+		String name = request.getParameter("name");
+		if (!CommonUntils.isempty(name)) {
+			cellResultHistory.setCellname(name);
+		}
+		int pageNum = Integer.parseInt(num);
+		int pageSize = Integer.parseInt(size);
+		PageHelper.startPage(pageNum, pageSize);
+		List<CellResultHistory> cells = alarmService.getCellList(cellResultHistory);
+		PageInfo<CellResultHistory> pageInfo = new PageInfo<>(cells);
+		List<CellResultHistory> rows = new ArrayList<>();
+		for (int i = 0; i < cells.size(); i++) {
+			CellResultHistory dto = cells.get(i);
+			rows.add(dto);
+		}
+		PageDto<CellResultHistory> pageDto = new PageDto<>();
+		pageDto.setTotal(pageInfo.getTotal());
+		pageDto.setRows(rows);
+		map.addAttribute(Constraints.RESULT_ROW, pageDto);
+	
+		return map;
 	}
 }
