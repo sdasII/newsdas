@@ -298,7 +298,7 @@
 								<form id="form2" action="/newsdas/data/upload?type=capacity"
 									method="post" enctype="multipart/form-data">
 									<div class="ibox-tools" style="margin-top: -30px;">
-										<a href="${context}/work/capacity"><i>查看详情</i></a>
+										<a href="javascript:;" onclick="openIframe('${context}/work/capacity','工单验证')"><i>查看详情</i></a>
 									</div>
 									<label>选择文件:</label> <input class="btn btn-white" type="file"
 										name="file" id="file2" accept=".xls"> <br> <input
@@ -374,7 +374,7 @@
 								</div> -->
 								<form id="form3" action="${context}/data/uploadfile" method="post"onsubmit="return netzipSumit(this);">
 									<div class="ibox-tools" style="margin-top: -10px;">
-										<a href="${context}/cell/celltable"><i>查看详情</i></a>
+										<a  href="javascript:;" onclick="openIframe('${context}/cell/celltable','健康评估')"><i>查看详情</i></a>
 									</div>
 									<div class="form-group">
 										<label>时间选择：</label> <input id="origintime" name="time"
