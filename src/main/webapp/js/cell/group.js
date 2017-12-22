@@ -47,7 +47,13 @@ $(function(){
                    }
                     return str;
               }},
-            { field : "calcultime", title : "计算时间", align : "center", valign : "middle"}            
+            { field : "calcultime", title : "计算时间", align : "center", valign : "middle",
+            	  formatter:function(value,row,index){
+	                  var jsDate = new Date(value);
+	                  var UnixTimeToDate = jsDate.getFullYear() + '/' + (jsDate.getMonth() + 1) + '/'+jsDate.getDate()+ ' ' + jsDate.getHours() + ':' + jsDate.getMinutes() + ':' + jsDate.getSeconds();
+	                   return UnixTimeToDate;
+	                 }
+              }            
         ],
         onPageChange : function(size, number) {
             searchInfo();

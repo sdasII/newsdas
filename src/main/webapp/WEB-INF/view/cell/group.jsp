@@ -52,6 +52,7 @@
 }
 #name{margin: -10px; width: 130px; height: 35px; margin-right: 10px; margin-left: 10px;border-radius: 3px;border: 1px solid #e7eaec;}
 .form-group select{width: 130px; height: 35px; margin-right: 10px; margin-left: 10px;}
+.pull-left{display: none}
 </style>
 </head>
 
