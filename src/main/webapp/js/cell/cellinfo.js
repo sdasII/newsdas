@@ -4,7 +4,28 @@
 var cellListUrl = ctx + '/cellinfo/getlist';
 var setUsedUrl= ctx + '/cellinfo/setUsed';
 var clearUsedUrl= ctx + '/cellinfo/clearUsed';
+var updatetimeUrl = ctx + "/alarm/updatetime"
+var counts = ctx + "/alarm/lastHourClassCount";
 $(function(){
+	//最新时间
+	$.ajax({
+		url:updatetimeUrl,
+		type:"post",
+		async:false,
+		success:function(data){
+			$("#updateTime").html("最新发布时间： "+data);
+		}
+	});
+	//监控小区个数
+	$.ajax({
+		url:counts,
+		type:"post",
+		async:false,
+		success:function(data){
+			$("#counts").html("共有"+data.rows.all+"个小区被监控");
+		}
+	});
+	
     $('#table_list').bootstrapTable({
         cache : false,
         striped : true,
@@ -52,6 +73,14 @@ function searchInfo() {
     commonRowDatas("table_list", bsdata, cellListUrl, "commonCallback", true);
 }
 function setUsed(){
+	//获取选中状态的总数,若大于350，提示客户，不能继续增加。
+	/*$.ajax({
+		url:setUsedUrl,
+		type:"post",
+		success:function(data){
+			
+		}
+	})*/
 	var selected= $("#table_list").bootstrapTable('getSelections');
 	if(selected.length>0){
 		var selectedId="";

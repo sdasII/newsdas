@@ -2,7 +2,17 @@
  * 小区列表
  */
 var cellListUrl = ctx + '/alarm/celllist';
+var updatetimeUrl = ctx + "/alarm/updatetime"
+var searchurl="";
 $(function(){
+	//最新时间
+	$.ajax({
+		url:updatetimeUrl,
+		type:"post",
+		success:function(data){
+			$("#updatetime").html("最新发布更新时间： "+data);
+		}
+	});
     $('#table_list_1').bootstrapTable({
         cache : false,
         striped : true,
