@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.iscas.sdas.dao.AlarmDao;
 import com.iscas.sdas.dao.ComplainDao;
 import com.iscas.sdas.dao.StationInfoDtoMapper;
 import com.iscas.sdas.dao.cell.CellDao;
@@ -44,6 +45,8 @@ public class CellService{
 	ComplainDao complainDao;
 	@Autowired
 	CellResultHistoryDao cellResultHistoryDao;
+	@Autowired
+	AlarmDao alarmDao;
 	
 	public List<CellInfoDto> getCellInfoList(CellInfoDto dto){
 		return cellDao.select(dto);
@@ -734,13 +737,13 @@ public class CellService{
 	 */
 	public List<CellResultHistoryDto> cellResultHistroy(String cellname,String type,String start,String end){
 		if ("day".equals(type)) {
-			return cellResultHistoryDao.historyWithinLastDay(cellname);
+			return alarmDao.cellListLastDay(cellname);
 		}else if ("month".equals(type)) {
-			return cellResultHistoryDao.historyWithinLastMonth(cellname);
+			return alarmDao.cellListLastMonth(cellname);
 		}else if ("week".equals(type)) {
-			return cellResultHistoryDao.historyWithinLastWeek(cellname);
+			return alarmDao.cellListLastWeek(cellname);
 		}else if ("select".equals(type)) {
-			return cellResultHistoryDao.historyWithinSelect(cellname, start, end);
+			return alarmDao.cellListBySelect(cellname, start, end);
 		}else {
 			return null;
 		}
@@ -749,10 +752,10 @@ public class CellService{
 	 * 按月获取判别结果
 	 * @param yyyyMM
 	 * @return
-	 */
+	 *//*
 	public List<CellResultHistoryDto> cellResultHistroy(String yyyyMM){
 
 			return cellResultHistoryDao.resultByMonth(yyyyMM);
 
-	}
+	}*/
 }

@@ -99,7 +99,7 @@
 								name="name">
 							<label>状态</label> 
 							<select id="status" name="status" class="btn btn-white">
-								<option value="">全部</option>
+								<option value="-1">全部</option>
 								<option value="2">健康</option>
 								<option value="1">亚健康</option>
 								<option value="0">事件</option>

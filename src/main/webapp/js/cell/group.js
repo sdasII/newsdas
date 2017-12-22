@@ -3,7 +3,18 @@
  */
 var cellListUrl = ctx + '/alarm/celllist';
 var updatetimeUrl = ctx + "/alarm/updatetime"
-var searchurl="";
+/*
+ * 全局查询字段
+ */
+var date_Type = "day";//数据时间类型
+var start_Time;
+var end_Time;
+var cell_Name;
+var result_Status;
+/*
+ * 全就查询字段完 
+ */
+
 $(function(){
 	//最新时间
 	$.ajax({
@@ -84,18 +95,24 @@ function select(){
     commonRowDatas("table_list_1", bsdata, cellListUrl, "commonCallback", true);
    
 }
-var result_export_url = ctx + "/cell/result/all/export"
+var result_export_url = ctx + "/cell/result/export"
 var history_export_url = ctx + "/cell/history/all/export";
 //导出
 function resultexportExcel(){
 	$("#load2").show();
-	var time=$("#resultexporttime").val();
+	//var time=$("#resultexporttime").val();
+    /*var time = date_Type;
 	if(time==""){//默认为当前月份
 		var myDate = new Date();
 		time=myDate.getFullYear().toString()+(myDate.getMonth()+1).toString();        		
-	}
+	}*/
+    var export_type = $("#type").val();
     var form = $("<form></form>").attr("action", result_export_url).attr("method", "post");
-    form.append($("<input></input>").attr("type", "hidden").attr("name","month").attr("value", time));     
+    form.append($("<input></input>").attr("type", "hidden").attr("name","type").attr("value", date_Type));
+    form.append($("<input></input>").attr("type", "hidden").attr("name","starttime").attr("value", start_Time));
+    form.append($("<input></input>").attr("type", "hidden").attr("name","endtime").attr("value", end_Time));
+    form.append($("<input></input>").attr("type", "hidden").attr("name","cellname").attr("value", cell_Name));
+    form.append($("<input></input>").attr("type", "hidden").attr("name","export_type").attr("value", export_type));
     form.appendTo('body').submit().remove();
     /*$("#load2").css("display","inline");*/
     setTimeout(function(){ $("#load2").hide();}, 3000);
@@ -118,6 +135,9 @@ function exportExcel(){
 
 function clear(){
 	$("#name").val("");
+    $("#status").val("全部");
+    cell_Name="";
+    result_Status="-1"; 
 }
 $("#clear").click(function() {
 	clear();
@@ -165,19 +185,23 @@ function workQuery(type, start, end) {
 	if ("day" == type) {
 		var data = {};
 		data.type = "day";
-
+        date_Type = "day";
 	} else if ("week" == type) {
 		var data = {};
 		data.type = "week";
-
+        date_Type = "week";
 	} else if ("month" == type) {
 		var data = {};
 		data.type = "month";
+        date_Type = "month";
 	} else {
 		var data = {};
 		data.type = "select";
+        date_Type = "select";
 		data.starttime = start;
+        start_Time = start;
 		data.endtime = end;
+        end_Time = end;
 	}
 	commonRowDatas("table_list_1", data, cellListUrl, "commonCallback", true)
 }

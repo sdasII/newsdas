@@ -175,14 +175,14 @@ public class AlarmController {
 			@RequestParam(value = "type", required = true, defaultValue = "day") String type,HttpServletRequest request){
 		ModelMap map = new ModelMap();
 		String cellname = request.getParameter("name");
-		int pageNum = Integer.parseInt(num);
-		int pageSize = Integer.parseInt(size);
-		PageHelper.startPage(pageNum, pageSize);
 		String starttime= null,endtime = null;
 		if (Constraints.SELECT.equals(type)) {
 			starttime = request.getParameter("starttime");
 			endtime = request.getParameter("endtime");
 		}
+		int pageNum = Integer.parseInt(num);
+		int pageSize = Integer.parseInt(size);
+		PageHelper.startPage(pageNum, pageSize);	
 		List<CellResultHistory> cells = alarmService.getCellList(cellname,type,starttime,endtime);
 		PageInfo<CellResultHistory> pageInfo = new PageInfo<>(cells);
 		List<CellResultHistory> rows = new ArrayList<>();

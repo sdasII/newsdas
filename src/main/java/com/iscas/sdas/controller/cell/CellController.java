@@ -40,6 +40,7 @@ import com.iscas.sdas.dto.cell.CellHealthTableDto;
 import com.iscas.sdas.dto.cell.CellInfoDto;
 import com.iscas.sdas.dto.cell.CellResultHistoryDto;
 import com.iscas.sdas.dto.cell.SignalCellResult;
+import com.iscas.sdas.dto.cell.SignalCellResult2;
 import com.iscas.sdas.service.cell.CellService;
 import com.iscas.sdas.util.CommonUntils;
 import com.iscas.sdas.util.Constraints;
@@ -379,40 +380,69 @@ public class CellController {
 	@RequestMapping("/result/export")
     public  void resultExport(HttpServletRequest request,
 			@RequestParam(required=true,defaultValue="day",value="type")String type,
-			String title,HttpServletResponse response){
-  	
+			@RequestParam(required=true,defaultValue="hour",value="export_type")String exportType,HttpServletResponse response){
         try {
         	String cellname = request.getParameter("cellname");
+        	if (CommonUntils.isempty(cellname)) {
+				cellname = null;
+			}
+        	String title  = request.getParameter("title");
         	String starttime = null,endtime = null;
     		if ("select".equals(type)) {
     			starttime = request.getParameter("starttime");
     			endtime = request.getParameter("endtime");
     		}
-        	String titlename = title;
-        	title = cellname + "----" + title;
-        	if ("day".equals(type)) {
-				title = cellname +"最近一天";
-			}else if ("week".equals(type)) {
-				title = cellname +"最近一周";
-			}else if ("month".equals(type)) {
-				title = cellname +"最近一月";
-			}else if ("select".equals(type)) {
-				title = cellname +"_"+starttime+"_"+endtime;
+       	
+        	if (!CommonUntils.isempty(title)) {
+        		String titlename = title;
+        		title = cellname + "----" + title;
+            	if ("day".equals(type)) {
+    				title = cellname +"最近一天";
+    			}else if ("week".equals(type)) {
+    				title = cellname +"最近一周";
+    			}else if ("month".equals(type)) {
+    				title = cellname +"最近一月";
+    			}else if ("select".equals(type)) {
+    				title = cellname +"_"+starttime+"_"+endtime;
+    			}
+        		title += titlename;
+			}else {
+            	if ("day".equals(type)) {
+    				title =  "全部数据_最近一天";
+    			}else if ("week".equals(type)) {
+    				title = "全部数据_最近一周";
+    			}else if ("month".equals(type)) {
+    				title = "全部数据_最近一月";
+    			}else if ("select".equals(type)) {
+    				title = "全部数据__"+starttime+"_"+endtime;
+    			}
+
 			}
-    		title += titlename;
+        	
     		List<CellResultHistoryDto> list2 = cellService.cellResultHistroy(cellname, type, starttime, endtime);
-    		List<SignalCellResult> list = generateSingalValue(list2);
     		Map<String,String> headMap = new LinkedHashMap<>();
-    		headMap.put("cellname", "小区名称");
-    		headMap.put("date", "日期");
-    		headMap.put("time", "时间");
-    		headMap.put("status", "状态");
-    		JSONArray ja = null;
-        	if (list!=null) {
-				ja = JSONArray.parseArray(JSON.toJSONString(list));
-			}    	
+    		JSONArray sourcesJson = null;
+    		if ("hour".equals(exportType)) {
+    			headMap.put("cellname", "小区名称");
+        		headMap.put("date", "日期");
+        		headMap.put("time", "时间");
+        		headMap.put("status", "状态");
+        		List<SignalCellResult> list = generateSingalValue(list2);	
+            	if (list!=null) {
+            		sourcesJson = JSONArray.parseArray(JSON.toJSONString(list));
+    			} 
+			}else if ("days".equals(exportType)) {
+				headMap.put("cellname", "小区名称");
+	    		headMap.put("date", "日期");
+	    		headMap.put("status", "状态");
+	    		List<SignalCellResult2> list = generateSingalValue2(list2);	
+            	if (list!=null) {
+            		sourcesJson = JSONArray.parseArray(JSON.toJSONString(list));
+    			}
+			}    		    		   		
+    		   	
             ByteArrayOutputStream os = new ByteArrayOutputStream();
-            FileExport.exportExcelX(title, headMap, ja, null, 0, os);
+            FileExport.exportExcelX(title, headMap, sourcesJson, null, 0, os);
             byte[] content = os.toByteArray();
             InputStream is = new ByteArrayInputStream(content);
             // 设置response参数，可以打开下载页面
@@ -470,15 +500,63 @@ public class CellController {
 		return results;
 	}
 	
-	
-	@RequestMapping("/result/all/export")
+	private List<SignalCellResult2> generateSingalValue2(List<CellResultHistoryDto> list){
+		List<SignalCellResult2> results = new ArrayList<>();
+		try {
+			if (list!=null) {
+				for (CellResultHistoryDto cellResultHistoryDto : list) {
+					Method[] methods = cellResultHistoryDto.getClass().getMethods();
+					int unhealths=0,lowhealths=0,noresult=0;
+					SignalCellResult2 result = new SignalCellResult2();
+					result.setDate(cellResultHistoryDto.getYyyyMMdd());
+					result.setCellname(cellResultHistoryDto.getCell_code());
+					for (Method method : methods) {
+						if (method.getName().startsWith("getRange_")) {
+							Integer value =  (Integer)method.invoke(cellResultHistoryDto, null);
+							if (value==0||value==1||value==3) {
+								if (value==0) {
+									unhealths++;
+								}
+								if (value==1) {
+									lowhealths++;
+								}
+								if (value==3) {
+									noresult++;
+								}																					
+							}
+						}
+					}
+					if (unhealths>0) {
+						result.setStatus("不健康");
+						results.add(result);
+					}else if (lowhealths>0) {
+						results.add(result);
+						result.setStatus("亚健康");
+					}else if (noresult>0) {
+						result.setStatus("计算无结果");
+						results.add(result);
+					}
+					
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return results;
+	}
+	/*@RequestMapping("/result/all/export")
     public  void allResultExport(HttpServletRequest request,HttpServletResponse response){
-  	
+		String starttime= null,endtime=null;
         try {      	
-        	String yyyyMM = null;
-        	yyyyMM = request.getParameter("month");    		
-        	String title = "健康度判别结果_"+yyyyMM;
-    		List<CellResultHistoryDto> list2 = cellService.cellResultHistroy(yyyyMM);
+        	String type = request.getParameter("type");  
+        	String exportType = request.getParameter("export_type");
+        	if (Constraints.SELECT.equals(type)) {
+				starttime = request.getParameter("start");
+				endtime = request.getParameter("end");
+			}
+        	String cellname = request.getParameter("cellname");
+        	String title = "健康度判别结果_"+type;
+    		List<CellResultHistoryDto> list2 = cellService.cellResultHistroy(cellname, type, starttime, endtime);
     		List<SignalCellResult> list = generateSingalValue(list2);
     		Map<String,String> headMap = new LinkedHashMap<>();
     		headMap.put("cellname", "小区名称");
@@ -515,7 +593,7 @@ public class CellController {
         }catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 	
 	@RequestMapping("/history/all/export")
     public  void allHistoryExport(HttpServletRequest request,HttpServletResponse response){

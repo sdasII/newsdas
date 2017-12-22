@@ -1,11 +1,10 @@
 package com.iscas.sdas.dto.cell;
 
-public class SignalCellResult {
+public class SignalCellResult2 {
 	
 	private String date;
 	private String cellname;
 	private String status;
-	private String time;
 	
 	public String getDate() {
 		return date;
@@ -24,12 +23,6 @@ public class SignalCellResult {
 	}
 	public void setStatus(String status) {
 		this.status = status;
-	}
-	public String getTime() {
-		return time;
-	}
-	public void setTime(String time) {
-		this.time = time;
 	}
 	
 }
