@@ -97,10 +97,10 @@
 							<label>状态</label> 
 							<select id="status" name="status" class="btn btn-white">
 								<option value="">全部</option>
-								<option value="3">健康</option>
+								<option value="2">健康</option>
 								<option value="1">亚健康</option>
 								<option value="0">事件</option>
-								<option value="4">计算无结果</option>
+								<option value="3">计算无结果</option>
 							</select>
 							<button style="margin-left: 5px;" class="btn btn-success"
 								onclick="javascript:select()">查询</button>

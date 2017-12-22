@@ -1,7 +1,7 @@
 /**
  * 小区列表
  */
-var cellListUrl = ctx + '/cell/getcelllist';
+var cellListUrl = ctx + '/alarm/celllist';
 var searchurl="";
 $(function(){
     $('#table_list_1').bootstrapTable({
@@ -15,14 +15,30 @@ $(function(){
         clickToSelect : true,
         sidePagination : 'server',// 设置为服务器端分页
         columns : [
-            { field : "cell_code", title : "小区名称", align : "center", valign : "middle"},
-            { field : "", title : "健康监控", align : "center", valign : "middle",formatter:function(value,row,index){
+            { field : "cellname", title : "小区名称", align : "center", valign : "middle",
+            	formatter:function(value,row,index){
                     var url = ctx + "/alarm/todetail";
-                    var params = "[{\"key\":\"cell_code\",\"value\":\""+row.cell_code+"\"}]";
-                    var url = '<a href=javascript:iframeconvert("' + url + '","小区日常监控",' + params + ')>健康监控</a>';
+                    var params = "[{\"key\":\"cell_code\",\"value\":\""+value+"\"}]";
+                    var url = '<a href=javascript:iframeconvert("' + url + '","小区日常监控",' + params + ')>'+value+'</a>';
                     return url;
-              }
-            }            
+              }},
+            { field : "yyyymmdd", title : "日期", align : "center", valign : "middle"},
+            { field : "hour", title : "时间", align : "center", valign : "middle"},
+            { field : "result", title : "状态", align : "center", valign : "middle",
+            	formatter:function(value,row,index){
+                   var str="";
+                   if(value==0){
+                	   str="事件"
+                   }else if(value==1){
+                	   str="亚健康"
+                   }else if(value==2){
+                	   str="健康"
+                   }else if(value==3){
+                	   str="计算无结果"
+                   }
+                    return str;
+              }},
+            { field : "calcultime", title : "计算时间", align : "center", valign : "middle"}            
         ],
         onPageChange : function(size, number) {
             searchInfo();
@@ -39,14 +55,14 @@ $(function(){
          maxView:'decade',
          language:  'zh-CN' 
     });
-    
-    
     searchInfo();
 });
 //全局查询参数
 var bsdata = {};
 // 查询表格信息
 function searchInfo() { 
+	bsdata.cellname=$("#name").val();
+	bsdata.result=$("#status").val();
     commonRowDatas("table_list_1", bsdata, cellListUrl, "commonCallback", true);
 }
 
