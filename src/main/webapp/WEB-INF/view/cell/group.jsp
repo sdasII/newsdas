@@ -68,13 +68,13 @@
 						<div class="ibox-tools">
 							<div class="btn-group">
 								<button class="btn btn-info" id="searchinday" type="button"
-									onclick="javascript:searchoneday()">最近一日</button>
+									onclick="javascript:searchoneday(this)">最近一日</button>
 								<button class="btn btn-white" id="searchinmonth" type="button"
-									onclick="javascript:searchonemonth()">周</button>
+									onclick="javascript:searchonemonth(this)">周</button>
 								<button class="btn btn-white" id="searchinmonth" type="button"
-									onclick="javascript:searchonemonth()">月</button>
+									onclick="javascript:searchonemonth(this)">月</button>
 								<button class="btn btn-white" id="searchinselect" type="button"
-									onclick="javascript:searchtimeselect()">按时间选择</button>
+									onclick="javascript:searchtimeselect(this)">按时间选择</button>
 								<div id="searchimeselect" style="display: none;">
 									<input id="start"
 										style="margin-left: 5px; margin-top: -7px !important;"
