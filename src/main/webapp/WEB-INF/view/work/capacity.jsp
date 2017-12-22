@@ -25,7 +25,7 @@ input {
 	color: #DFCD15;
 }
 .loading_bk{
-	display:none;
+	/* display:none; */
     height: 80%;
     width: 100%;
     min-height:310px;
@@ -36,7 +36,7 @@ input {
     text-align: center;
     }
 .loading{
-	display:none;
+	/* display:none; */
 	color:#fff;
     margin-left: 40%;
     margin-top: 10%;
@@ -117,7 +117,7 @@ input {
 								<option>可疑工单</option>
 								<option>正常工单</option>
 							</select>							
-							<button class="btn btn-white" onclick="javascript:select()">查询</button>																					
+							<button class="btn btn-success" onclick="javascript:select()">查询</button>																					
 							<button class="btn btn-white" onclick="">导出</button>
 
 							<div>
@@ -145,12 +145,11 @@ input {
 								<span><i>备注：</i> </span> <span>红色为高度可疑工单；绿色为符合条件工单；黄色为可疑工单</span>
 							</div>
 						</div>
-					<div class="jqGrid_wrapper">
 						<!-- loading -->
 						<div class="loading_bk" id="loadbk"></div>
 						<div class="loading" id="load"><img src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>内容加载中...</span></div>
 						<!-- loading -->
-						
+					<div class="jqGrid_wrapper">
 						<table class="table" id="table_list_1"></table>
 						<div id="pager_list_1"></div>
 					</div>

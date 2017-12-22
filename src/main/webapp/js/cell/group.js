@@ -21,7 +21,7 @@ $(function(){
 		url:updatetimeUrl,
 		type:"post",
 		success:function(data){
-			$("#updatetime").html("最新发布更新时间： "+data);
+			$("#updateTime").html("最新发布更新时间： "+data);
 		}
 	});
     $('#table_list_1').bootstrapTable({
@@ -58,7 +58,13 @@ $(function(){
                    }
                     return str;
               }},
-            { field : "calcultime", title : "计算时间", align : "center", valign : "middle"}            
+            { field : "calcultime", title : "计算时间", align : "center", valign : "middle",
+            	  formatter:function(value,row,index){
+	                  var jsDate = new Date(value);
+	                  var UnixTimeToDate = jsDate.getFullYear() + '/' + (jsDate.getMonth() + 1) + '/'+jsDate.getDate()+ ' ' + jsDate.getHours() + ':' + jsDate.getMinutes() + ':' + jsDate.getSeconds();
+	                   return UnixTimeToDate;
+	                 }
+              }            
         ],
         onPageChange : function(size, number) {
             searchInfo();
@@ -142,43 +148,39 @@ function clear(){
 $("#clear").click(function() {
 	clear();
 });
-function searchtimeselect() {
-	$("#searchinselect").addClass("btn-info");
+function searchtimeselect(obj) {
+	$(obj).parent().find(".btn").removeClass("btn-info");
+	$(obj).parent().find(".btn").removeClass("btn-white");
+	$(obj).parent().find(".btn").addClass("btn-white");
 	$("#searchinselect").removeClass("btn-white");
-	$("#searchelect").css("display", "inline");
-	$("#searchinmonth").addClass("btn-white");
-	$("#searchinmonth").removeClass("btn-info");
-	$("#searchinweek").removeClass("btn-info");
-	$("#searchinweek").addClass("btn-white");
+	$("#searchinselect").addClass("btn-info");
+	$("#searchimeselect").css("display", "inline");
 }
-function searchoneday() {
-	$("#searchinweek").addClass("btn-info");
-	$("#searchinweek").removeClass("btn-white");
-	$("#searchinmonth").addClass("btn-white");
-	$("#searchinmonth").removeClass("btn-info");
-	$("#searchinselect").removeClass("btn-info");
-	$("#searchinselect").addClass("btn-white");
-	$("#searchtimeselect").css("display", "none");
+function searchoneday(obj) {
+	$(obj).parent().find(".btn").removeClass("btn-info");
+	$(obj).parent().find(".btn").removeClass("btn-white");
+	$(obj).parent().find(".btn").addClass("btn-white");
+	$("#searchinday").removeClass("btn-white");
+	$("#searchinday").addClass("btn-info");
+	$("#searchimeselect").css("display", "none");
 	workQuery("day");
 }
-function searchoneweek() {
-	$("#searchinweek").addClass("btn-info");
+function searchoneweek(obj) {
+	$(obj).parent().find(".btn").removeClass("btn-info");
+	$(obj).parent().find(".btn").removeClass("btn-white");
+	$(obj).parent().find(".btn").addClass("btn-white");
 	$("#searchinweek").removeClass("btn-white");
-	$("#searchinmonth").addClass("btn-white");
-	$("#searchinmonth").removeClass("btn-info");
-	$("#searchinselect").removeClass("btn-info");
-	$("#searchinselect").addClass("btn-white");
-	$("#searchtimeselect").css("display", "none");
+	$("#searchinweek").addClass("btn-info");
+	$("#searchimeselect").css("display", "none");
 	workQuery("week");
 }
-function searchonemonth() {
-	$("#searchinmonth").addClass("btn-info");
+function searchonemonth(obj) {
+	$(obj).parent().find(".btn").removeClass("btn-info");
+	$(obj).parent().find(".btn").removeClass("btn-white");
+	$(obj).parent().find(".btn").addClass("btn-white");
 	$("#searchinmonth").removeClass("btn-white");
-	$("#searchinweek").removeClass("btn-info");
-	$("#searchinweek").addClass("btn-white");
-	$("#searchinselect").removeClass("btn-info");
-	$("#searchinselect").addClass("btn-white");
-	$("#searchtimeselect").css("display", "none");
+	$("#searchinmonth").addClass("btn-info");
+	$("#searchimeselect").css("display", "none");
 	workQuery("month");
 }
 function workQuery(type, start, end) {

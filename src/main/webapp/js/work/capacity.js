@@ -33,6 +33,8 @@ $(function(){
             },
 		success:function(data,status){
             //var data = eval('(' + data + ')');
+			$("#loadbk").show();
+			$("#load").show();
 			var list = data.rows;
 			refreshJqGrid(list);
 		}
@@ -48,7 +50,6 @@ $(function(){
 					var option = $('<option>'+areas[i]+'</option>');
 					$("#area").append(option);
 				}
-				
 			}
 		}
 	});
@@ -93,6 +94,8 @@ $(function(){
 });
 
 function refreshJqGrid(list){
+	$("#loadbk").show();
+	$("#load").show();
 	$("#table_list_1").jqGrid({
 		data:list,
 		datatype: "local",
@@ -119,7 +122,7 @@ function refreshJqGrid(list){
             {
                 name: 'belong_area',
                 index: 'belong_area',
-                width: 50
+                width: 80
             },
             {
                 name: 'monitor_content',
@@ -134,12 +137,12 @@ function refreshJqGrid(list){
             {
                 name: 'alerm_level',
                 index: 'alerm_level',
-                width: 50
+                width: 80
             },
             {
                 name: 'reasions',
                 index: 'reasions',
-                width: 50
+                width: 85
             },
             {
                 name: 'boutique_level',
@@ -149,7 +152,7 @@ function refreshJqGrid(list){
             {
             	name: 'limit_times',
                 index: 'limit_times',
-                width: 50
+                width: 80
             },
             {
             	name: 'complete_time',
@@ -186,7 +189,10 @@ function refreshJqGrid(list){
                  var id = ids[i];
          	    var cellid = $("#table_list_1").getCell(id,'cellid');
          	    var link = ctx + "/alarm/todetail";//"/general/cellhome/";
-         	    var url='<a href=javascript:gotocellhome("'+link+'","'+cellid+'")>'+cellid+'</a>';
+         	    var url='<a href="javascript:iframeconvert('
+         	    	+"'"+link+"','小区信息',"+"[{'key':'cell_code','value':'"+cellid+"'}]"+')">'
+         	    	+cellid+'</a>';
+         	    //var url='<a href=javascript:gotocellhome("'+link+'","'+cellid+'")>'+cellid+'</a>';
          	    $("#table_list_1").jqGrid('setRowData',id,{cellid:url});
             }
         }
@@ -196,6 +202,8 @@ function refreshJqGrid(list){
         $('#table_list_1').setGridWidth(width);
 
     });
+    $("#loadbk").hide();
+	$("#load").hide();
 }
 function select(daynum){
 	var name = $("#name").val();
@@ -215,7 +223,8 @@ function select(daynum){
     }else{
        questionflag = 3; 
     }
-	
+    $("#loadbk").show();
+	$("#load").show();
 	$("#table_list_1").jqGrid("clearGridData");
 	$.ajax({
 		url:capacityworkurl,
@@ -231,17 +240,22 @@ function select(daynum){
 		},
 		success:function(data,status){
             //var data = eval('(' + data + ')');
+			$("#loadbk").show();
+			$("#load").show();
 			var list = data.rows;
 			$("#table_list_1").jqGrid('setGridParam',{
 			      datatype:'local',
 			      data : list,   
 			      page:1
 			}).trigger("reloadGrid");
+			$("#loadbk").hide();
+			$("#load").hide();
 		},
 		error:function(data,status){
 			alert(status);
 		}
 	});
+	
 }
 /*$(function(){
 	$("#doubtwork").change(function() {

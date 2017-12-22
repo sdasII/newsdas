@@ -11,7 +11,7 @@
 <%@ include file="/include/common.jsp"%>
 <script type="text/javascript" src="${context}/js/login/main.js"></script>
 </head>
-<body class="fixed-sidebar full-height-layout gray-bg mini-navbar"
+<body class="fixed-sidebar full-height-layout gray-bg"
 	style="overflow: hidden">
 	<div id="wrapper">
 		<!--左侧导航开始-->
@@ -99,9 +99,9 @@
 					</c:if>
 				</c:forEach>
 			</ul>
-			<div class="navbar-header"style="bottom: 0; position: fixed;">
-					<a class="navbar-minimalize minimalize-styl-2 btn btn-primary" title="展开/收起" style="height:30px;" id="shrink_btn"
-						href="#"><i class="fa fa-chevron-right" style="margin-top: 2px;"></i></a>
+			<div class="navbar-header"style="bottom: 0; position: fixed;left: 150px">
+					<a class="navbar-minimalize minimalize-styl-2" title="展开/收起" style="height:30px;" id="shrink_btn"
+						href="#"><img src="${context}/style/side-left.png"></a>
 			</div>
 		</div>
 		</nav>
@@ -158,13 +158,15 @@
 		<!--右侧部分结束-->
 	</div>
 	<script type="text/javascript">
+	var rightImg="${context}/style/side-right.png";
+	var leftImg="${context}/style/side-left.png";
 	$("#shrink_btn").on("click",function(){
-		var el=$($(this)[0]).find("i")[0];
-		if($(el).attr("class").indexOf("left")>-1){
-			$(el).attr('class',"fa fa-chevron-right");
+		var el=$($(this)[0]).find("img")[0];
+		if($(el).attr("src").indexOf("left")>-1){
+			$(el).attr('src',rightImg);
 			$(el).parent().parent().css("left","");
 		}else{
-			$(el).attr('class',"fa fa-chevron-left");
+			$(el).attr('src',leftImg);
 			$(el).parent().parent().css("left","150px");
 		} 
 	});

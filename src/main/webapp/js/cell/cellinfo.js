@@ -70,6 +70,7 @@ var bsdata = {};
 // 查询表格信息
 function searchInfo() {
 	bsdata.type=$("#type").val();
+	bsdata.cell_name=$("#name").val();
     commonRowDatas("table_list", bsdata, cellListUrl, "commonCallback", true);
 }
 function setUsed(){
@@ -94,12 +95,20 @@ function setUsed(){
 			success:function(data){
 				 swal({
 				        title: "修改成功",
-				        text: "已经内容修改为“使用”状态",
+				        text: "已经内容修改为“使用”状态。小区状态更换后，需要重新计算小区的月度模式，请到“数据存储”-->“中兴指标全网数据（zip文件）”——>“模式计算”，按照月份计算",
 				        type: "success",
-				        showCancelButton: false,
+				        showCancelButton: true,
 				        confirmButtonColor: "#1a7bb9",
-				        confirmButtonText: "确定",
+				        confirmButtonText: "确定", 
+				        cancelButtonText: "取消",
 				        closeOnConfirm: false
+				    },function(isConfirm){ 
+				    	  if (isConfirm) {//进行页面跳转 
+				    		  iframeconvert("/newsdas/data/offline","数据存储");
+				    		  } else { 
+				    		    swal("修改成功", "小区月度模式未重新计算",
+				    		"warning"); 
+				    		  }
 				    });
 				commonRowDatas("table_list", bsdata, cellListUrl, "commonCallback", true);
 			}

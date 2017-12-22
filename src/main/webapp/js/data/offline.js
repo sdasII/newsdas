@@ -31,8 +31,9 @@ $(function() {
 		});
         
         
-function openIframe(type){
-	top.$("#offline").attr('src',"/newsdas/log/file/page?type="+type);
+function openIframe(url,title){
+	//top.$("#offline").attr('src',"/newsdas/log/file/page?type="+type);
+	iframeconvert(url,title);
 }
 
 var upload_url = ctx + "/data/uploadfile?type=file";
