@@ -724,7 +724,7 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 			if(data.rows.length>0){
 				if(data.rows.length>1){
 					$.each(data.rows,function(i,e){
-						var lasttime=e.yyyymmdd;
+						var lasttime=e.yyyyMMdd;
 						for (var j = 0; j < 24; j++) {
 							var point=[];
 							var arr = [];
@@ -766,7 +766,7 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 						}
 					});
 				}else{
-					var lasttime=data.rows[0].yyyymmdd;
+					var lasttime=data.rows[0].yyyyMMdd;
 					for (var i = 0; i < 24; i++) {
 						var arr = [];
 						arr.push(lasttime+" "+i+":00");
@@ -912,7 +912,7 @@ function drawEcharts(id, title, times, data,markPointData,color) {
 					color : color
 				}
 			},
-			data : data,
+			data : data
 			/*markPoint : {
                 data :markPointData,
                 itemStyle:{
@@ -1240,3 +1240,23 @@ $.ajax({
 	});
 }
 //健康度end
+function splitData(rawData) {
+    var categoryData = [];
+    var values = []
+    for (var i = 0; i < rawData.length; i++) {
+        categoryData.push(rawData[i].splice(0, 1)[0]);
+        values.push(rawData[i])
+    }
+    return {
+        categoryData : categoryData,
+        values : values
+    };
+}
+
+function calculateRT(data) {
+    var result = [];
+    for (var i = 0, len = data.length; i < len; i++) {
+        result.push(data[i][0]);
+    }
+    return result;
+}

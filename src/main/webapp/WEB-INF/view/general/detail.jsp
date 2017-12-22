@@ -214,9 +214,8 @@ input {
 						<div class="tab-content">
 							<div id="tab-1" class="tab-pane active">
 								<div class="panel-body">
-									<div id="rtratio"
-										style="width: 1250px; height: 350px; margin-bottom: 30px"></div>
-									<div id="historyCharts" style="width: 1250px; height: 300px;"></div>
+									<div id="rtratio" style="height: 350px; margin-bottom: 30px"></div>
+									<div id="historyCharts" style="height: 300px;"></div>
 								</div>
 							</div>
 							<div id="tab-2" class="tab-pane">

@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND "2017-08-01 23:45:00"
 	</select>
 	<select id="getCellWeight" resultType="com.iscas.sdas.dto.cell.BaseWeight">
-		select * from t_cell_weight_info where cell_code = #{cellname} and yyyyMM = "201708"
+		select * from t_cell_weight_info where cell_code = #{cellname} and yyyyMM = "201708" limit 1
 	</select>
 	
 	
@@ -24,12 +24,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		t_normalcheckmetadata.indeicator_id WHERE 
 		t_normalcheckmetadata.in_used = 1 AND
 		t_normal_model_detail_info.indeicator_code = #{indexcode} AND
-		t_normal_model_detail_info.cell_code= #{cellname}
+		t_normal_model_detail_info.cell_code= #{cellname} limit 1
 	</select>
 	<select id="getGroupIndexContent" resultType="com.iscas.sdas.dto.cell.BaseGroupIndex">
 		SELECT * FROM
 		t_groupDetailInfo WHERE cell_code = #{grouptype} AND
-		indeicator_code=#{indexcode}
+		indeicator_code=#{indexcode} limit 1
 	</select>
 	
 </mapper>
