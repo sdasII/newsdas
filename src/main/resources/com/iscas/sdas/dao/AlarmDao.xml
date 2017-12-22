@@ -64,13 +64,48 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM t_cell_result_info WHERE yyyyMMdd = (SELECT yyyyMMdd FROM
 		t_cell_result_info where cell_code = #{cell_code} ORDER BY yyyyMMdd DESC LIMIT 1) and cell_code = #{cell_code}
 	</select>
-	<select id="celllist" resultType="com.iscas.sdas.dto.cell.CellResultHistoryDto"
-	 	parameterType="com.iscas.sdas.dto.result.CellResultHistory">
-		select * from t_cell_result_history
-		<where>
-			<if test="cellname!=null">
-				cell_code = #{cellname}
-			</if>
-		</where>
+	<select id="cellListLastDay" resultType="com.iscas.sdas.dto.cell.CellResultHistoryDto"
+	 	parameterType="java.lang.String">
+		select * from t_cell_result_history where yyyyMMdd = (SELECT yyyyMMdd
+		FROM t_cell_result_info ORDER BY yyyyMMdd DESC LIMIT 1)
+		<if test="cellname!=null">
+			and cell_code = #{cellname}
+		</if>
+	</select>
+	<select id="cellListLastWeek" parameterType="java.lang.String"
+		resultType="com.iscas.sdas.dto.cell.CellResultHistoryDto">
+		SELECT * FROM t_cell_result_history WHERE
+		STR_TO_DATE(yyyyMMdd,'%Y%m%d') > DATE_SUB((SELECT yyyyMMdd FROM
+		t_cell_result_history WHERE 1=1  
+		<if test="cellname!=null">
+			and cell_code = #{cellname}
+		</if>
+		ORDER BY yyyyMMdd
+		DESC LIMIT 1),INTERVAL 7 DAY) 
+		<if test="cellname!=null">
+			and cell_code = #{cellname}
+		</if>
+	</select>
+	<select id="cellListLastMonth" parameterType="java.lang.String"
+		resultType="com.iscas.sdas.dto.cell.CellResultHistoryDto">
+		SELECT * FROM t_cell_result_history WHERE
+		STR_TO_DATE(yyyyMMdd,'%Y%m%d') > DATE_SUB((SELECT yyyyMMdd FROM
+		t_cell_result_history WHERE 1=1  
+		<if test="cellname!=null">
+			and cell_code = #{cellname}
+		</if>
+		ORDER BY yyyyMMdd
+		DESC LIMIT 1),INTERVAL 30 DAY) 
+		<if test="cellname!=null">
+			and cell_code = #{cellname}
+		</if>
+	</select>
+	<select id="cellListBySelect" parameterType="java.lang.String"
+		resultType="com.iscas.sdas.dto.cell.CellResultHistoryDto">
+		SELECT * FROM t_cell_result_history WHERE
+		STR_TO_DATE(yyyyMMdd,'%Y%m%d') BETWEEN #{start} AND #{end}
+		<if test="cellname!=null">
+			and cell_code = #{cellname}
+		</if>
 	</select>
 </mapper>

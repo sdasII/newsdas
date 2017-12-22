@@ -20,6 +20,12 @@ public class Constraints {
 	public static final String ROLE_ADMIN = "管理员";
 	public static final String ROLE_USER = "普通用户";
 	public static final String SESSION_FTP_STATUS = "FTPObj";
+	public static final String DAY = "day";
+	public static final String WEEK = "week";
+	public static final String MONTH = "month";
+	public static final String SELECT = "select";
+	
+	
 	
 	public static int ftp_upload_progress;
 	

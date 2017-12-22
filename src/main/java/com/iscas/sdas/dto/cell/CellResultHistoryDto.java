@@ -2,7 +2,7 @@ package com.iscas.sdas.dto.cell;
 
 import java.util.Date;
 
-public class CellResultHistoryDto extends CellResultHistoryDtoKey {
+public class CellResultHistoryDto {
     private Integer range_00;
                          
     private Integer range_01;
@@ -50,17 +50,20 @@ public class CellResultHistoryDto extends CellResultHistoryDtoKey {
     private Integer range_22;
                          
     private Integer range_23;
-
-    private Integer stateModel;
-
-    private Date createTime;
     
+    private String app_code;
+
     private String cell_code;
-    
-    private int used_type;
+
+    private String yyyyMM;
     
     private String yyyyMMdd;
 
+    private Integer usedType;
+    
+    private Integer state_model;
+
+    private Date create_time;
     
     public Integer getRange_00() {
 		return range_00;
@@ -254,6 +257,14 @@ public class CellResultHistoryDto extends CellResultHistoryDtoKey {
 		this.range_23 = range_23;
 	}
 
+	public String getApp_code() {
+		return app_code;
+	}
+
+	public void setApp_code(String app_code) {
+		this.app_code = app_code;
+	}
+
 	public String getCell_code() {
 		return cell_code;
 	}
@@ -262,12 +273,12 @@ public class CellResultHistoryDto extends CellResultHistoryDtoKey {
 		this.cell_code = cell_code;
 	}
 
-	public int getUsed_type() {
-		return used_type;
+	public String getYyyyMM() {
+		return yyyyMM;
 	}
 
-	public void setUsed_type(int used_type) {
-		this.used_type = used_type;
+	public void setYyyyMM(String yyyyMM) {
+		this.yyyyMM = yyyyMM;
 	}
 
 	public String getYyyyMMdd() {
@@ -278,19 +289,28 @@ public class CellResultHistoryDto extends CellResultHistoryDtoKey {
 		this.yyyyMMdd = yyyyMMdd;
 	}
 
-	public Integer getStateModel() {
-        return stateModel;
-    }
+	public Integer getUsedType() {
+		return usedType;
+	}
 
-    public void setStateModel(Integer stateModel) {
-        this.stateModel = stateModel;
-    }
+	public void setUsedType(Integer usedType) {
+		this.usedType = usedType;
+	}
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+	public Integer getState_model() {
+		return state_model;
+	}
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+	public void setState_model(Integer state_model) {
+		this.state_model = state_model;
+	}
+
+	public Date getCreate_time() {
+		return create_time;
+	}
+
+	public void setCreate_time(Date create_time) {
+		this.create_time = create_time;
+	}
+
 }
