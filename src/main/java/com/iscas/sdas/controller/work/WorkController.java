@@ -98,15 +98,22 @@ public class WorkController {
 	public ModelMap workvalidate() throws Exception{
 		ModelMap map = new ModelMap();
 		// junwei
-		BGTask task = new NewGDCheckTask();//XXX 调用spark跑工单验证
-		task.doTask();//阻塞
-		List<CapacityWorkDto> capacityWorks =  workService.workValidate2();
+		try {
+			BGTask task = new NewGDCheckTask();//XXX 调用spark跑工单验证
+			task.doTask();//阻塞
+			map.addAttribute(Constraints.RESULT_SUCCESS, true);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			map.addAttribute(Constraints.RESULT_SUCCESS, false);
+		}
+		/*List<CapacityWorkDto> capacityWorks =  workService.workValidate2();
 		if (capacityWorks.size()>0) {
-			map.addAttribute(Constraints.RESULT_ROW, capacityWorks);
+			//map.addAttribute(Constraints.RESULT_ROW, capacityWorks);
 			map.addAttribute(Constraints.RESULT_SUCCESS, true);
 		}else {
 			map.addAttribute(Constraints.RESULT_SUCCESS, false);
-		}
+		}*/
 		return map;
 	}
 	
