@@ -94,6 +94,16 @@
 }
 .panel-body .ibox-tools{text-decoration: underline;}
 .panel-body .ibox-tools i{color:#337ab7;font-style: normal;}
+input[name="time"]{width:160px}
+input[type="file"]{
+	display: inline;
+    opacity: 0;
+    position: relative;
+    width: 160px;
+    z-index:9
+    }
+
+.upload_btn{width: 160px;margin-left: -160px;}
 </style>
 </head>
 <body>
@@ -270,11 +280,13 @@
 										placeholder="请选择文件时间"
 										onclick="laydate({istime: false, format: 'YYYYMMDD'})"><br><br>
 									<label>客户投诉常驻小区:</label> <input class="btn btn-white"
-										type="file" id="comlainfile" name="file" accept=".xls,.xlsx"
-										style="display: inline;" multiple="multiple"> <br><br>
+										type="file" id="comlainfile" name="file" accept=".xls,.xlsx" multiple="multiple">
+										<button class="btn btn-white upload_btn">选择上传文件</button>
+										 <br><br>
 									<label>客户投诉情况:</label> <input class="btn btn-white" type="file"
-										id="customerfile" name="file" accept=".xls,.xlsx"
-										style="display: inline;" multiple="multiple"> <br><br>
+										id="customerfile" name="file" accept=".xls,.xlsx" multiple="multiple">
+										<button class="btn btn-white upload_btn">选择上传文件</button>
+										 <br><br>
 									<input class="btn btn-success" type="submit" value="上传">
 									<!-- <input
 										class="btn btn-inverse" type="button" value="查看上传记录"
@@ -300,8 +312,9 @@
 									<div class="ibox-tools" style="margin-top: -30px;">
 										<a href="javascript:;" onclick="openIframe('${context}/work/capacity','工单验证')"><i>查看详情</i></a>
 									</div>
-									<label>选择文件:</label> <input class="btn btn-white" type="file"
-										name="file" id="file2" accept=".xls"> <br> <input
+									<label>选择文件:</label> <input class="btn btn-white" type="file" name="file" id="file2" accept=".xls">
+										<button class="btn btn-white upload_btn">选择上传文件</button>
+										 <br> <input
 										class="btn btn-white" type="reset" value="重选"> <input
 										id="submit1" class="btn btn-success" type="button" value="上传"
 										onclick="submit_upload('#file2','#form2')">
@@ -352,8 +365,9 @@
 											onclick="laydate({istime: false, format: 'YYYYMMDD'})">
 										<span id="nettime_error" class="error_msg">月份不能为空！</span><br><br>
 										<label>选择文件:</label>
-										<input class="btn btn-white" type="file" name="file"id="file3" accept=".xls"style="display: inline;"> 
-										<input class="btn btn-success" type="button" value="上传" onclick="submit_upload('#file3','#form3')"><br> 
+										<input class="btn btn-white" type="file" name="file"id="file3" accept=".xls"> 
+										<button class="btn btn-white upload_btn">选择上传文件</button>
+										<input class="btn btn-success" type="button" value="上传" onclick="submit_upload('#file3','#form3')" style="margin-left: 10px;"><br> 
 										<label for="cal_time">计算日期：</label> 
 										<input size="16" type="text" name="cal_time" id="net_caltime"
 											placeholder="请选择计算模式月份（默认上一个月）" readonly
@@ -383,9 +397,9 @@
 											placeholder="请选择文件时间"
 											onclick="laydate({istime: false, format: 'YYYYMMDD'})">
 										<label>选择文件:</label>
-										<input class="btn btn-white" type="file" name="file"
-											id="originfile" style="display: inline;" />
-										<button id="originsubmit" class="btn btn-success" type="submit">上传</button>
+										<input class="btn btn-white" type="file" name="file"id="originfile"/>
+										<button class="btn btn-white upload_btn">选择上传文件</button>
+										<button id="originsubmit" class="btn btn-success" type="submit" style="margin-left: 10px;">上传</button>
 										<br>
 										<br> <label for="cal_time">计算日期：</label> <input size="16"
 											type="text" name="cal_time" id="net_caltime2"
