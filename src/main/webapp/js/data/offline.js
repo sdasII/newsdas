@@ -26,6 +26,18 @@ $(function() {
 		         maxView:'decade',
 		         language:  'zh-CN' 
 		    });
+		    //
+		    $("input[type='file']").on('change', function(e){
+		        var name = e.currentTarget.files[0].name;
+		        var filediv=$(e.currentTarget).prev('input[type="file"]').prevObject[0];
+		        if($(filediv).attr("id").indexOf("customerfile")>-1){
+		        	 var title=$(e.currentTarget).siblings(".upload_title")[1];
+				        $(title).html(name);
+		        }else{
+		        	 var title=$(e.currentTarget).siblings(".upload_title")[0];
+				        $(title).html(name);
+		        }
+		    });
 		    //log初始化
 		    drawTables('');
 		});

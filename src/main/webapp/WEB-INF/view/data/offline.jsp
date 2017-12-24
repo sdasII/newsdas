@@ -103,7 +103,8 @@ input[type="file"]{
     z-index:9
     }
 
-.upload_btn{width: 160px;margin-left: -160px;}
+.upload_btn{width: 160px;margin-left: -160px;display: inline;}
+.upload_title{display: inline;margin-top: 10px;}
 </style>
 </head>
 <body>
@@ -282,10 +283,12 @@ input[type="file"]{
 									<label>客户投诉常驻小区:</label> <input class="btn btn-white"
 										type="file" id="comlainfile" name="file" accept=".xls,.xlsx" multiple="multiple">
 										<button class="btn btn-white upload_btn">选择上传文件</button>
+										<div class="upload_title">未选择任何文件</div>
 										 <br><br>
 									<label>客户投诉情况:</label> <input class="btn btn-white" type="file"
 										id="customerfile" name="file" accept=".xls,.xlsx" multiple="multiple">
 										<button class="btn btn-white upload_btn">选择上传文件</button>
+										<div class="upload_title">未选择任何文件</div>
 										 <br><br>
 									<input class="btn btn-success" type="submit" value="上传">
 									<!-- <input
@@ -314,6 +317,7 @@ input[type="file"]{
 									</div>
 									<label>选择文件:</label> <input class="btn btn-white" type="file" name="file" id="file2" accept=".xls">
 										<button class="btn btn-white upload_btn">选择上传文件</button>
+										<div class="upload_title">未选择任何文件</div>
 										 <br> <input
 										class="btn btn-white" type="reset" value="重选"> <input
 										id="submit1" class="btn btn-success" type="button" value="上传"
@@ -367,6 +371,7 @@ input[type="file"]{
 										<label>选择文件:</label>
 										<input class="btn btn-white" type="file" name="file"id="file3" accept=".xls"> 
 										<button class="btn btn-white upload_btn">选择上传文件</button>
+										<div class="upload_title">未选择任何文件</div>
 										<input class="btn btn-success" type="button" value="上传" onclick="submit_upload('#file3','#form3')" style="margin-left: 10px;"><br> 
 										<label for="cal_time">计算日期：</label> 
 										<input size="16" type="text" name="cal_time" id="net_caltime"
@@ -399,6 +404,7 @@ input[type="file"]{
 										<label>选择文件:</label>
 										<input class="btn btn-white" type="file" name="file"id="originfile"/>
 										<button class="btn btn-white upload_btn">选择上传文件</button>
+										<div class="upload_title">未选择任何文件</div>
 										<button id="originsubmit" class="btn btn-success" type="submit" style="margin-left: 10px;">上传</button>
 										<br>
 										<br> <label for="cal_time">计算日期：</label> <input size="16"

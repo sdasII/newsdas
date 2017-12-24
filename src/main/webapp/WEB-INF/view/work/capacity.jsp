@@ -118,7 +118,7 @@ input {
 								<option>正常工单</option>
 							</select>							
 							<button class="btn btn-success" onclick="javascript:select()">查询</button>																					
-							<button class="btn btn-white" onclick="">导出</button>
+							<!-- <button class="btn btn-white" onclick="">导出</button> -->
 
 							<div>
 								<%-- <form action="${context}/work/import/capacity" method="post"
