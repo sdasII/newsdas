@@ -730,7 +730,8 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 			middle_split=[];
 			top_split=[];
 			dataArr=[];
-			var markPointData=[];
+			var markPointData_0=[];
+			var markPointData_1=[];
 			if(data.rows.length>0){
 				if(data.rows.length>1){
 					$.each(data.rows,function(i,e){
@@ -749,12 +750,18 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 									dataArr.push(0.5);
 									var point={};
 									point.name="事件";
-									point.value=0;
+									point.value="事件";
 									point.xAxis=lasttime+" "+j+":00";
 									point.yAxis=0.5;
-									markPointData.push(point);
+									markPointData_0.push(point);
 								}else if(e["range_0"+j]==1){
 									dataArr.push(1.5);
+									var point={};
+									point.name="亚健康";
+									point.value="亚健康";
+									point.xAxis=lasttime+" "+j+":00";
+									point.yAxis=1.5;
+									markPointData_1.push(point);
 								}else if(e["range_0"+j]==2){
 									dataArr.push(2.5);
 								}
@@ -766,9 +773,15 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 									point.value=0;
 									point.xAxis=lasttime+" "+j+":00";
 									point.yAxis=0.5;
-									markPointData.push(point);
+									markPointData_0.push(point);
 								}else if(e["range_"+j]==1){
 									dataArr.push(1.5);
+									var point={};
+									point.name="亚健康";
+									point.value="亚健康";
+									point.xAxis=lasttime+" "+j+":00";
+									point.yAxis=1.5;
+									markPointData_1.push(point);
 								}else if(e["range_"+j]==2){
 									dataArr.push(2.5);
 								}
@@ -793,9 +806,15 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 								point.value=0;
 								point.xAxis=lasttime+" "+i+":00";
 								point.yAxis=0.5;
-								markPointData.push(point);
+								markPointData_0.push(point);
 							}else if(data.rows[0]["range_0"+i]==1){
 								dataArr.push(1.5);
+								var point={};
+								point.name="亚健康";
+								point.value="亚健康";
+								point.xAxis=lasttime+" "+i+":00";
+								point.yAxis=1.5;
+								markPointData_1.push(point);
 							}else if(data.rows[0]["range_0"+i]==2){
 								dataArr.push(2.5);
 							}
@@ -807,9 +826,15 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 								point.value=0;
 								point.xAxis=lasttime+" "+i+":00";
 								point.yAxis=0.5;
-								markPointData.push(point);
+								markPointData_0.push(point);
 							}else if(data.rows[0]["range_"+i]==1){
 								dataArr.push(1.5);
+								var point={};
+								point.name="亚健康";
+								point.value="亚健康";
+								point.xAxis=lasttime+" "+i+":00";
+								point.yAxis=1.5;
+								markPointData_1.push(point);
 							}else if(data.rows[0]["range_"+i]==2){
 								dataArr.push(2.5);
 							}
@@ -829,11 +854,11 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 					dataArr.push("");
 				}
 			}
-			drawEcharts(id, title, times, dataArr,markPointData,color);
+			drawEcharts(id, title, times, dataArr,markPointData_0,markPointData_1,color);
 		}
 	});
 }
-function drawEcharts(id, title, times, data,markPointData,color) {
+function drawEcharts(id, title, times, data,markPointData_0,markPointData_1,color) {
 	var dataZoom=100;
 	if(data.length>100){
 		dataZoom=30;
@@ -922,15 +947,17 @@ function drawEcharts(id, title, times, data,markPointData,color) {
 					color : color
 				}
 			},
-			data : data
-			/*markPoint : {
-                data :markPointData,
+			data : data,
+			markPoint : {
+				symbol:'pin',
+				symbolSize:30,
+                data :markPointData_0,
                 itemStyle:{
                 	normal:{
-                		color:'red'
+                		color:'#C1232B'
                 	}
                 }
-            }*/
+            }
 		},{
 
 			name : '',
@@ -971,7 +998,17 @@ function drawEcharts(id, title, times, data,markPointData,color) {
 					}
 				}
 			},
-			data : middle_split
+			data : middle_split,
+			markPoint : {
+				symbol:'pin',
+				symbolSize:30,
+                data :markPointData_1,
+                itemStyle:{
+                	normal:{
+                		color:'#FF6347'
+                	}
+                }
+            }
 		}, {
 			name : '',
 			type : 'line',
