@@ -143,8 +143,6 @@ public class WorkService {
 	}
 	
 	
-	
-	
 	private void updateState(List<CapacityWorkDto> works){
 		for (CapacityWorkDto capacityWorkDto : works) {
 			capacityWorkDao.update(capacityWorkDto);
@@ -160,25 +158,6 @@ public class WorkService {
 			capacityWorkDao.updatealarmwork(capacityWorkDto);
 		}
 	}
-	/*
-	@Test
-	public void test1(){
-		String cellcode ="广州天河区石牌复建房南区1E-ZLW-1";
-		String yyyyMM = "201708";
-    	String yyyyMMdd = "20170804";
-    	cellcode = utils.CharUtils.cellCode(cellcode);
-    	HealthDegree hd = new HealthDegree(cellcode, yyyyMM, yyyyMMdd);
-    	Map<String, HealthDegree.Degree> map = hd.getDegrees();
-    	System.out.println(map);
-	}//*/
-	/*@Test
-	public void test2(){
-		Date sheetTime = DateUtils.convert2Date("2017-08-03 13:00:00", "yyyy-MM-dd HH:mm:ss");
-        String sheetTypeString = "新PRB利用率(4次连续)";
-        String cellid = "广州五山科技街F-ZLH-1";
-        double ss = SparkValidator.validate(sheetTime, sheetTypeString, cellid);
-        System.out.println(ss);
-	}*/
 	
 	public List<CapacityWorkDto> getAllDoubtWorks(){
 		return capacityWorkDao.getAllDoubtWorks();

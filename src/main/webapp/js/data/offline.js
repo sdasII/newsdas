@@ -48,7 +48,7 @@ function openIframe(url,title){
 	iframeconvert(url,title);
 }
 
-var upload_url = ctx + "/data/uploadfile?type=file";
+var upload_url = ctx + "/data/uploadfile";
 
 
 
@@ -215,7 +215,11 @@ function longPoling(){
         }
     });
 }
-
+/**
+ * 文件上传
+ * @param {} id
+ * @param {} formid
+ */
 function submit_upload(id,formid){
 	if($(id).val()==""){
 		 showOnlyMessage(ERROR, "请选择文件！");
@@ -225,7 +229,7 @@ function submit_upload(id,formid){
             $("#network_load").css("display","inline");
         }else if(formid == "#form2"){
             $("#capacity_load").css("display","inline");
-        }   
+        }  
 	}
 }
 function complainSumit(element) {
@@ -254,22 +258,23 @@ function complainSumit(element) {
 	}
 	return false;
 }
-function networkSumit(element) {
+/*
+ * 单个csv网管文件导入
+ */
+function signalCSVSumit(element) {
 	var file = $("#file3").val();
 	var times=$("#nettest_time").val();
-	//var length = $("#comlainfile").files
 	if (times != "" &&file != "") {
 		$(element).ajaxSubmit(function(message) {
-			//$("#complaint_load").css("display", "none");
+            $("#csv_load").css("display", "none");
 			var status = message.success;
 			if (status.indexOf("成功") > 0) {
 				showOnlyMessage(INFO, status);
 			} else {
 				showOnlyMessage(ERROR, status);
 			}
-
 		});
-		//$("#complaint_load").css("display", "inline");
+		$("#csv_load").css("display", "inline");
 	}else if (times == "") {
 		showOnlyMessage(ERROR, "请选择时间！");
 	} else if (file == "") {
@@ -277,6 +282,9 @@ function networkSumit(element) {
 	}
 	return false;
 }
+/*
+ * 单个网管csv文件分析
+ */
 function submit_cal(){
 	var time = $("#net_caltime").val();
 	if(time==""){//默认为上一个月
@@ -286,11 +294,13 @@ function submit_cal(){
 		month =(month<10 ? "0"+month:month);
 		time=(year.toString()+month.toString());
 	}
+    /*$.ajax({
+      
+    });*/
 }
 function netzipSumit(element) {
 	var file = $("#originfile").val();
 	var times=$("#origintime").val();
-	//var length = $("#comlainfile").files
 	if (times != "" &&file != "") {
 		$(element).ajaxSubmit(function(message) {
 			//$("#complaint_load").css("display", "none");
@@ -310,6 +320,9 @@ function netzipSumit(element) {
 	}
 	return false;
 }
+/*
+ * 网关数据分析 
+ */
 function submit_calzip(){
 	var time = $("#net_caltime2").val();
 	if(time==""){//默认为上一个月
@@ -319,7 +332,20 @@ function submit_calzip(){
 		month =(month<10 ? "0"+month:month);
 		time=(year.toString()+month.toString());
 	}
+    /*$.ajax({
+      
+    });*/
 }
+
+/*
+ * 网管数据模式计算
+ */
+function submit_modelzip(){
+    /*$.ajax({
+      
+    });*/
+}
+
 function formatSubmit(){
     $("#formatFile").submit();
 }

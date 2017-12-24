@@ -119,8 +119,8 @@ input[type="file"]{
 	<script type="text/javascript">
 		var ws;
 		if ('WebSocket' in window) {
-			//ws = new WebSocket("ws://49.4.6.47:9999/newsdas/websocket");
-			ws = new WebSocket("ws://localhost:8080/newsdas/websocket");
+			ws = new WebSocket("ws://49.4.6.47:9999/newsdas/websocket");
+			//ws = new WebSocket("ws://localhost:8080/newsdas/websocket");
 		} else {
 			alert("当前浏览器不支持WebSocket");
 		}
@@ -253,17 +253,11 @@ input[type="file"]{
 			}
 		});
 	</script>
-	<script type="text/javascript">
-		
-	</script>
 	<div class="wrapper wrapper-content animated fadeInRight">
 	<div class="row">
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>数据上传</h5>
-					<div class="ibox-tools">
-						<!-- <a href="#"><i>更多...</i></a> -->
-					</div>
 				</div>
 				<div class="ibox-content" id="offline">
 					<div class="col-sm-6">
@@ -291,9 +285,6 @@ input[type="file"]{
 										<div class="upload_title">未选择任何文件</div>
 										 <br><br>
 									<input class="btn btn-success" type="submit" value="上传">
-									<!-- <input
-										class="btn btn-inverse" type="button" value="查看上传记录"
-										onclick="openIframe('投诉工单数据')"> -->
 									<div class="btn loading" id="complaint_load"
 										style="display: none;">
 										<img
@@ -310,7 +301,7 @@ input[type="file"]{
 								<div>
 									<span><i>备注：</i> </span> <span>请选择单个性能工单表格文件</span>
 								</div>
-								<form id="form2" action="/newsdas/data/upload?type=capacity"
+								<form id="form2" action="/newsdas/data/upload/capacitywork"
 									method="post" enctype="multipart/form-data">
 									<div class="ibox-tools" style="margin-top: -30px;">
 										<a href="javascript:;" onclick="openIframe('${context}/work/capacity','工单验证')"><i>查看详情</i></a>
@@ -322,8 +313,6 @@ input[type="file"]{
 										class="btn btn-white" type="reset" value="重选"> <input
 										id="submit1" class="btn btn-success" type="button" value="上传"
 										onclick="submit_upload('#file2','#form2')">
-									<!-- <input class="btn btn-inverse" type="button" value="查看上传记录"
-										onclick="openIframe('性能工单数据')"> -->
 									<div class="btn loading" id="capacity_load"
 										style="display: none;">
 										<img
@@ -348,17 +337,9 @@ input[type="file"]{
 						<div class="panel panel-success" style="height:250px">
 							<div class="panel-heading">中兴指标数据csv测试文件</div>
 							<div class="panel-body">
-								<!-- <div>
-									<span><i>备注：</i> </span> <span>请选择小区一天的网管数据</span>
-								</div> -->
-								<form id="form3" action="${context}/data/upload?type=network"
+								<form action="${context}/data/csvUpload"
 									method="post" onsubmit="return networkSumit(this);">
 									<div class="form-group">
-										<!-- <tips style="font-style: italic;">注意：计算日期需要与HDFS文件地址中的数据相对应</tips> 
-										<br> <br> <label for="time" style="width: 65px">模式年月：</label>
-										<input size="16" type="text" name="time" id="net_time"
-											placeholder="请选择模式年月" readonly class="form_datetime"
-											style="margin-top: -10px">-->
 										<label>时间选择：</label> <input id="nettest_time" name="time"
 											style="display: inline; padding: -10px; margin: -10px; height: 39px; margin-right: 10px;"
 											class="btn btn-white layer-date starttime"
@@ -366,10 +347,14 @@ input[type="file"]{
 											onclick="laydate({istime: false, format: 'YYYYMMDD'})">
 										<span id="nettime_error" class="error_msg">月份不能为空！</span><br><br>
 										<label>选择文件:</label>
-										<input class="btn btn-white" type="file" name="file"id="file3" accept=".xls"> 
+										<input class="btn btn-white" type="file" name="file"id="file3" accept=".csv" > 
 										<button class="btn btn-white upload_btn">选择上传文件</button>
 										<div class="upload_title">未选择任何文件</div>
-										<input class="btn btn-success" type="button" value="上传" onclick="submit_upload('#file3','#form3')" style="margin-left: 10px;"><br> 
+										<input class="btn btn-success" type="submit" value="上传" style="margin-left: 10px;"><br>
+										<div class="btn loading" id="csv_load"
+											style="display: none;">
+											<img src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在上传...</span>
+										</div> 
 										<label for="cal_time">计算日期：</label> 
 										<input size="16" type="text" name="cal_time" id="net_caltime"
 											placeholder="请选择计算模式月份（默认上一个月）" readonly
@@ -388,7 +373,7 @@ input[type="file"]{
 								<!-- <div>
 									<span><i>备注：</i> </span> <span>请选择小区一天的网管数据</span>
 								</div> -->
-								<form id="form3" action="${context}/data/uploadfile" method="post"onsubmit="return netzipSumit(this);">
+								<form action="${context}/data/uploadfile" method="post"onsubmit="return netzipSumit(this);">
 									<div class="ibox-tools" style="margin-top: -10px;">
 										<a  href="javascript:;" onclick="openIframe('${context}/cell/celltable','健康评估')"><i>查看详情</i></a>
 									</div>
@@ -410,7 +395,7 @@ input[type="file"]{
 											class="form_datetime" style="width:220px;margin-top: -10px">
 										<button class="btn btn-info search" type="button"
 											onclick="submit_calzip()">分析</button><br>
-										<button class="btn btn-info search" type="button" onclick="" style="float: right">模式计算</button>
+										<button class="btn btn-info search" type="button" onclick="submit_modelzip()" style="float: right">模式计算</button>
 									</div>
 								</form>
 							</div>
@@ -450,68 +435,6 @@ input[type="file"]{
 				</div>
 			</div>
 	</div>
-	</div>
-	<%-- 	<div class="ibox-content" id="offline">
-		<div class="row">
-			<div class="col-sm-6">
-				<div class="panel panel-success">
-					<div class="panel-heading">网管数据转换</div>
-					<div class="panel-body">
-						<div>
-							<span><i>备注：</i> </span> <span>数据解压、编码转换、导入等<br>先上传网管原始数据，再执行此操作
-							</span><br>
-						</div>
-						<br>
-						<form id="formatFile" action='${context}/data/formatFile'
-							method='post'>
-							<input id="YYYYMMDD" name="YYYYMMDD"
-								style="display: inline; padding: -10px; margin: -10px; height: 39px; margin-right: 10px;"
-								class="btn btn-white layer-date starttime" placeholder="请选择日期"
-								onclick="laydate({istime: false, format: 'YYYYMMDD'})">
-							<br> <br>
-							<button class="btn btn-white" type="reset">清空</button>
-							<button id="formatSubmit" class="btn btn-success" type="submit">确定</button>
-							<span id="span_progress" style="display: none;"><progress
-									id="progress3" max="100" value="0"></progress><em>上传进度：</em><span
-								id="progressvalue3">0%</span></span><br> <span
-								id="upload_progress" style="display: none;"></span>
-						</form>
-					</div>
-				</div>
-			</div>
-
-
-
-		</div>
-
-		<div class="row">
-
-			<div class="col-sm-6">
-				<div class="panel panel-success">
-					<div class="panel-heading">中兴网管指标原始数据</div>
-					<div class="panel-body">
-						<div>
-							<span><i>备注：</i> </span> <span>每次请选择一个文件！</span>
-						</div>
-						<!-- onsubmit="return mySubmit(this);" -->
-						<form id="soucefile" action='${context}/data/uploadfile'
-							method='post' enctype='multipart/form-data'>
-							
-							<br> <br>
-							<button class="btn btn-white" type="reset">清空</button>
-							
-							<input class="btn btn-inverse" type="button" value="查看上传记录"
-								onclick="openIframe('中兴网管指标原始数据')"> <span
-								id="span_progress" style="display: none;"><progress
-									id="progress2" max="100" value="0"></progress><em>上传进度：</em><span
-								id="progressvalue2">0%</span></span><br> <span
-								id="upload_progress" style="display: none;"></span>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div> --%>
-
+</div>
 </body>
 </html>
