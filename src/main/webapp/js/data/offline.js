@@ -386,3 +386,19 @@ function search_log(){
  	data.result=$("#status").val();
     commonRowDatas("historyTable", data, "/newsdas/log/file/list", "commonCallback", true);
 }
+/*
+ * 工单验证
+ */
+var validate_url = ctx + "/work/validate"
+function workOrderValidate(){
+    $.ajax({
+        url : validate_url,
+        type : "get",
+        success:function(data,status){
+            var state = data.success;
+            //TODO state = true
+            
+            //TODO state = false
+        }
+    })
+}

@@ -118,8 +118,8 @@ input[type="file"]{
 	<script type="text/javascript">
 		var ws;
 		if ('WebSocket' in window) {
-			ws = new WebSocket("ws://49.4.6.47:9999/newsdas/websocket");
-			//ws = new WebSocket("ws://localhost:8080/newsdas/websocket");
+			//ws = new WebSocket("ws://49.4.6.47:9999/newsdas/websocket");
+			ws = new WebSocket("ws://localhost:8080/newsdas/websocket");
 		} else {
 			alert("当前浏览器不支持WebSocket");
 		}
@@ -325,7 +325,7 @@ input[type="file"]{
 										<img
 											src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在上传...</span>
 									</div>
-									<button class="btn btn-info search" type="button" onclick="" style="float: right;margin-top: 90px;">工单验证</button>
+									<button class="btn btn-info search" type="button" onclick="workOrderValidate()" style="float: right;margin-top: 90px;">工单验证</button>
 								</form>
 							</div>
 						</div>
@@ -338,9 +338,6 @@ input[type="file"]{
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>指标数据</h5>
-					<div class="ibox-tools">
-						<!-- <a href="#"><i>更多...</i></a> -->
-					</div>
 				</div>
 				<div class="ibox-content">
 					<div class="col-sm-6">
