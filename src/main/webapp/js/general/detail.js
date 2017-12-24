@@ -17,6 +17,7 @@ var date_value = "day";// 曲线时间范围
 var starttime;
 var endtime;
 var data=[];//testData
+var updateTime='';//最新更新时间
 var dataUrl=ctx+"/cell/cellResultHistroy";
 var tableUrl=ctx+"/alarm/celllastday";
 var historyurl = ctx + "/cell/healthtrend";
@@ -473,7 +474,13 @@ $(function(){
 			                  return str;
 			                 }
 		            },
-		            { field : 'create_time', title : '发布时间', align : 'center', valign : 'middle' }
+		            { field : 'create_time', title : '发布时间', align : 'center', valign : 'middle',
+		            	formatter:function(value,row,index){
+			                  var jsDate = new Date(value);
+			                  var UnixTimeToDate = jsDate.getFullYear() + '/' + (jsDate.getMonth() + 1) + '/'+jsDate.getDate()+ ' ' + jsDate.getHours() + ':' + jsDate.getMinutes() + ':' + jsDate.getSeconds();
+			                   return UnixTimeToDate;
+			                 }
+		            }
 		        ],
 		       /* onPageChange : function(size, number) {
 		        	 	var data = {};
@@ -489,23 +496,7 @@ $(function(){
 	getcharts("#rtratio", "健康诊断结果","rgb(46,199,201)",date_value);
 	///
 	historyTrendQuery(date_value,"","");
-	/*
-	 * 性能工单
-	 */
-	$.ajax({
-		url : capacityweekurl,
-		data : {
-			'cellname' : cell_code
-		},
-		type : "POST",
-		success : function(data, status) {
-            //var temp = eval('(' + data + ')'); 
-            var list = data.rows;
-			//var list = data.rows;
-			refresh_capacity(list);
-			//iscapacitywork = true;
-		}
-	});
+	
 	/*
 	 * K线图
 	 */
@@ -564,6 +555,25 @@ $(function(){
 		},
 		success : function(data, status) {
 			$("#updateTime").html("最新发布时间 : "+data);
+			updateTime=data;
+			/*
+			 * 性能工单
+			 */
+			$.ajax({
+				url : capacityweekurl,
+				data : {
+					'cellname' : cell_code,
+					'updatetime':updateTime
+				},
+				type : "POST",
+				success : function(data, status) {
+		            //var temp = eval('(' + data + ')'); 
+		            var list = data.rows;
+					//var list = data.rows;
+					refresh_capacity(list);
+					//iscapacitywork = true;
+				}
+			});
 		}
 	});
 	//datapicker
@@ -1023,13 +1033,15 @@ function exportExcel_real(title){
     form.appendTo('body').submit().remove();
 }
 //工单切换
-function switchwork(url, params) {
-
+function switchwork(url, cellname) {
+	var param={};
+	param.cellname=cellname;
+	if(updateTime!=''){
+		param.updatetime=updateTime;
+	}
 	$.ajax({
 				url : url,
-				data : {
-					'cellname' : params
-				},
+				data : param,
 				type : "POST",
 				success : function(data, status) {
                     //var data = eval('(' + data + ')');
@@ -1200,7 +1212,18 @@ function cellindex(cellcode, indexcode) {
 		}
 	});
 }
-
+//指标分析查询
+function cellindex_search(){
+	var time=$("#time").val();
+	$.ajax({
+		type:"post",
+		url:"",
+		data:{"time":time},
+		success:function(data){
+			
+		}
+	});
+}
 //健康度
 var rtratioUrl = ctx + "/cell/rtratio";
 setInterval(function() {
