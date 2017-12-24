@@ -211,6 +211,7 @@
 
 
 	<build>
+		<finalName>newsdas</finalName> 
 		<defaultGoal>compile</defaultGoal>
 		<plugins>
 			<plugin>
