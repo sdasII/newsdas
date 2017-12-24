@@ -175,8 +175,10 @@ function refreshJqGrid(list){
             //获取某列的每一行id
             var ids = jQuery("#table_list_1").jqGrid("getDataIDs");
             for(var i=0;i<ids.length;i++){
+            	
                 var id = ids[i];
                 var questionflag = $("#table_list_1").getCell(id,'questionflag');
+                //console.info(questionflag);
                 var rowData = $("#table_list_1").getRowData(id);
                  if(questionflag=="0"){
                      $('#'+ids[i]).find("td").addClass("SelectRed");
