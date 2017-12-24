@@ -70,8 +70,8 @@
 							<div class="btn-group">
 								<button class="btn btn-info" id="searchinday" type="button"
 									onclick="javascript:searchoneday(this)">最近一日</button>
-								<button class="btn btn-white" id="searchinmonth" type="button"
-									onclick="javascript:searchonemonth(this)">周</button>
+								<button class="btn btn-white" id="searchinweek" type="button"
+									onclick="javascript:searchoneweek(this)">周</button>
 								<button class="btn btn-white" id="searchinmonth" type="button"
 									onclick="javascript:searchonemonth(this)">月</button>
 								<button class="btn btn-white" id="searchinselect" type="button"

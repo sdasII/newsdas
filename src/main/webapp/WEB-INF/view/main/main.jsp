@@ -108,15 +108,15 @@
 		<!--左侧导航结束-->
 		<!--右侧部分开始-->
 		<div id="page-wrapper" class="gray-bg dashbard-1">
-			<div class="row border-bottom">
+			<!-- <div class="row border-bottom">
 				<nav class="navbar navbar-static-top" role="navigation"
 					style="margin-bottom: 0">
-				<!-- <div class="navbar-header">
+				<div class="navbar-header">
 					<a class="navbar-minimalize minimalize-styl-2 btn btn-primary "style="height:30px;" id="shrink_btn"
 						href="#"><i class="fa fa-chevron-right" style="margin-top: 2px;"></i></a><i class="fa fa-chevron-left"></i>
-				</div> -->
+				</div>
 				</nav>
-			</div>
+			</div> -->
 			<div class="row content-tabs">
 				<button class="roll-nav roll-left J_tabLeft">
 					<i class="fa fa-backward"></i>

@@ -142,7 +142,7 @@ input {
 					</div>
 					<div class="footer" style="height: 60px;">
 							<div>
-								<span><i>备注：</i> </span> <span>红色为高度可疑工单；绿色为符合条件工单；黄色为可疑工单</span>
+								<span><i>备注：</i> </span> <span>红色为高度可疑工单;绿色为符合条件工单;黄色为可疑工单;其它为待验证工单</span>
 							</div>
 						</div>
 						<!-- loading -->
