@@ -102,7 +102,7 @@ function select(){
    
 }
 var result_export_url = ctx + "/cell/result/export"
-var history_export_url = ctx + "/cell/history/all/export";
+var history_export_url = ctx + "/cell/healthtrend/export";
 //导出
 function resultexportExcel(){
 	$("#load2").show();
@@ -125,13 +125,16 @@ function resultexportExcel(){
 }
 function exportExcel(){
 	$("#load1").show();
-    var time=$("#exporttime").val();
+    /*var time=$("#exporttime").val();
     if(time==""){//默认为当前月份
         var myDate = new Date();
         time=myDate.getFullYear().toString()+(myDate.getMonth()+1).toString();              
-    }
+    }*/
     var form = $("<form></form>").attr("action", history_export_url).attr("method", "post");
-    form.append($("<input></input>").attr("type", "hidden").attr("name","month").attr("value", time));     
+    form.append($("<input></input>").attr("type", "hidden").attr("name","type").attr("value", date_Type));
+    form.append($("<input></input>").attr("type", "hidden").attr("name","starttime").attr("value", start_Time));
+    form.append($("<input></input>").attr("type", "hidden").attr("name","endtime").attr("value", end_Time));
+    form.append($("<input></input>").attr("type", "hidden").attr("name","cellname").attr("value", cell_Name));   
     form.appendTo('body').submit().remove();
     /*$("#load1").css("display","inline");*/
     setTimeout(function(){ $("#load1").hide();}, 3000);

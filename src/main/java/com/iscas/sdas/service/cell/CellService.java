@@ -79,7 +79,7 @@ public class CellService{
 			if ("day".equals(type)) {
 				cellHealths = cellDao.cellhealthtrendDay(cellname);
 			}else if ("week".equals(type)) {
-				cellHealths = cellDao.cellhealthtrend(cellname);
+				cellHealths = cellDao.cellhealthtrendWeek(cellname);
 			}else if ("month".equals(type)) {
 				cellHealths = cellDao.cellhealthtrendWithinOneMonth(cellname);
 			}else {
@@ -157,7 +157,7 @@ public class CellService{
 			if ("day".equals(type)) {
 				cellHealths = cellDao.cellhealthtrendDay(cellname);
 			}else if ("week".equals(type)) {
-				cellHealths = cellDao.cellhealthtrend(cellname);
+				cellHealths = cellDao.cellhealthtrendWeek(cellname);
 			}else if ("month".equals(type)) {
 				cellHealths = cellDao.cellhealthtrendWithinOneMonth(cellname);
 			}else {
@@ -171,6 +171,7 @@ public class CellService{
 					String date = cellHealth.getYyyyMMdd();
 					TotalHealthInfoDto2 infoDto = new TotalHealthInfoDto2();
 					infoDto.setDate(date);
+					infoDto.setCell_code(cellHealth.getCell_code());
 					Method[] methods = cellHealth.getClass().getMethods();
 					for (Method method : methods) {
 						String methodName = method.getName();
@@ -192,7 +193,7 @@ public class CellService{
 		}
 		return result;
 	}
-	public List<TotalHealthInfoDto2> generateCellHealthTrend2(String month){
+	/*public List<TotalHealthInfoDto2> generateCellHealthTrend2(String month){
 		List<TotalHealthInfoDto2> result = new ArrayList<>();
 		try {
 			List<BaseCellHealth> cellHealths;
@@ -226,7 +227,7 @@ public class CellService{
 			e.printStackTrace();
 		}
 		return result;
-	}
+	}*/
 	/**
 	 * 历史表格
 	 * @param cellname

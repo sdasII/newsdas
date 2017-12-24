@@ -25,19 +25,19 @@ public interface CellDao {
 	 * @param cellname
 	 * @return
 	 */
-	List<BaseCellHealth> cellhealthtrendDay(String cellname);
+	List<BaseCellHealth> cellhealthtrendDay(@Param("cellname")String cellname);
 	/**
 	 * 一个周的健康度
 	 * @param cellname
 	 * @return
 	 */
-	List<BaseCellHealth> cellhealthtrend(String cellname);
+	List<BaseCellHealth> cellhealthtrendWeek(@Param("cellname")String cellname);
 	/**
 	 * 一个月的健康度
 	 * @param cellname
 	 * @return
 	 */
-	List<BaseCellHealth> cellhealthtrendWithinOneMonth(String cellname);
+	List<BaseCellHealth> cellhealthtrendWithinOneMonth(@Param("cellname")String cellname);
 	/**
 	 * 一定时间段的健康度
 	 * @param cellname
@@ -47,7 +47,7 @@ public interface CellDao {
 	 */
 	List<BaseCellHealth> cellhealthtrendWithinSelect(@Param("cellname")String cellname,@Param("starttime")String starttime,@Param("endtime")String endtime);
 	/**
-	 * 该小区最近健康度
+	 * 该小区最近健康度值
 	 * @param cellname
 	 * @return
 	 */
@@ -92,5 +92,5 @@ public interface CellDao {
 	 * @param yyyyMM
 	 * @return
 	 */
-	List<BaseCellHealth> allHealthRatioByMonth(String yyyyMM);
+	//List<BaseCellHealth> allHealthRatioByMonth(String yyyyMM);
 }
