@@ -951,6 +951,11 @@ function drawEcharts(id, title, times, data,markPointData_0,markPointData_1,colo
 			markPoint : {
 				symbol:'pin',
 				symbolSize:30,
+				label:{
+					normal:{
+						show:false
+					}
+				},
                 data :markPointData_0,
                 itemStyle:{
                 	normal:{
@@ -1002,6 +1007,11 @@ function drawEcharts(id, title, times, data,markPointData_0,markPointData_1,colo
 			markPoint : {
 				symbol:'pin',
 				symbolSize:30,
+				label:{
+					normal:{
+						show:false
+					}
+				},
                 data :markPointData_1,
                 itemStyle:{
                 	normal:{
