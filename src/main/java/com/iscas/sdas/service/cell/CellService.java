@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.iscas.sdas.dao.AlarmDao;
 import com.iscas.sdas.dao.ComplainDao;
 import com.iscas.sdas.dao.StationInfoDtoMapper;
 import com.iscas.sdas.dao.cell.CellDao;
@@ -23,6 +24,7 @@ import com.iscas.sdas.dto.CellComplainDto;
 import com.iscas.sdas.dto.GroupIndexMeatdata;
 import com.iscas.sdas.dto.StationInfoDto;
 import com.iscas.sdas.dto.TotalHealthInfoDto;
+import com.iscas.sdas.dto.TotalHealthInfoDto2;
 import com.iscas.sdas.dto.cell.BaseCellHealth;
 import com.iscas.sdas.dto.cell.CellDto;
 import com.iscas.sdas.dto.cell.CellHealthTableDto;
@@ -43,6 +45,8 @@ public class CellService{
 	ComplainDao complainDao;
 	@Autowired
 	CellResultHistoryDao cellResultHistoryDao;
+	@Autowired
+	AlarmDao alarmDao;
 	
 	public List<CellInfoDto> getCellInfoList(CellInfoDto dto){
 		return cellDao.select(dto);
@@ -64,7 +68,7 @@ public class CellService{
 		return cellDao.getgroup(cellname);
 	}
 	/**
-	 * 历史曲线
+	 * 历史曲线(全部信息)
 	 * @param cellname
 	 * @return
 	 */
@@ -75,14 +79,14 @@ public class CellService{
 			if ("day".equals(type)) {
 				cellHealths = cellDao.cellhealthtrendDay(cellname);
 			}else if ("week".equals(type)) {
-				cellHealths = cellDao.cellhealthtrend(cellname);
+				cellHealths = cellDao.cellhealthtrendWeek(cellname);
 			}else if ("month".equals(type)) {
 				cellHealths = cellDao.cellhealthtrendWithinOneMonth(cellname);
 			}else {
 				cellHealths = cellDao.cellhealthtrendWithinSelect(cellname, start, end);
 			}
 			if (cellHealths!=null && cellHealths.size()>0) {
-				List<String> complaints = complaintsWithinCurrenttime(cellname,type,start,end);//投诉工单
+				//List<String> complaints = complaintsWithinCurrenttime(cellname,type,start,end);//投诉工单
 				String begintime = cellHealths.get(0).getYyyyMMdd();
 				if ("day".equals(type)) {
 					result = originData(1, begintime);
@@ -123,13 +127,13 @@ public class CellService{
 							}
 							
 						}
-						for (int z = 0; z < complaints.size(); z++) {
+						/*for (int z = 0; z < complaints.size(); z++) {
 							if (complaints.get(z).equals(result.get(i).getTime())) {							
 								int complaint = result.get(i).getComplaints()+1;
 								result.get(i).setComplaints(complaint);
 								logger.info("--投诉---"+complaints.get(z)+"--------"+result.get(i).getTime()+"总共"+complaint+"个");
 							}
-						}
+						}*/
 					}
 				}
 			}
@@ -138,6 +142,92 @@ public class CellService{
 		}
 		return result;
 	}
+	/**
+	 * 历史曲线(只有历史健康度信息)
+	 * @param cellname
+	 * @param type
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public List<TotalHealthInfoDto2> generateCellHealthTrend2(String cellname,String type,String start,String end){
+		List<TotalHealthInfoDto2> result = new ArrayList<>();
+		try {
+			List<BaseCellHealth> cellHealths;
+			if ("day".equals(type)) {
+				cellHealths = cellDao.cellhealthtrendDay(cellname);
+			}else if ("week".equals(type)) {
+				cellHealths = cellDao.cellhealthtrendWeek(cellname);
+			}else if ("month".equals(type)) {
+				cellHealths = cellDao.cellhealthtrendWithinOneMonth(cellname);
+			}else {
+				cellHealths = cellDao.cellhealthtrendWithinSelect(cellname, start, end);
+			}
+			if (cellHealths != null && cellHealths.size() > 0) {
+				
+				for (int j = 0; j < cellHealths.size(); j++) {
+					
+					BaseCellHealth cellHealth = cellHealths.get(j);
+					String date = cellHealth.getYyyyMMdd();
+					TotalHealthInfoDto2 infoDto = new TotalHealthInfoDto2();
+					infoDto.setDate(date);
+					infoDto.setCell_code(cellHealth.getCell_code());
+					Method[] methods = cellHealth.getClass().getMethods();
+					for (Method method : methods) {
+						String methodName = method.getName();
+						if (methodName.startsWith("getRange")) {
+
+							String range = (String) method.invoke(cellHealth, null);
+							Double ratio = parseRatio(range);
+							Method setMethod =  infoDto.getClass().getMethod(methodName.replaceFirst("g", "s"), String.class);
+							setMethod.invoke(infoDto, String.valueOf(ratio));
+							}
+						}
+					result.add(infoDto);
+					}
+
+				}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/*public List<TotalHealthInfoDto2> generateCellHealthTrend2(String month){
+		List<TotalHealthInfoDto2> result = new ArrayList<>();
+		try {
+			List<BaseCellHealth> cellHealths;
+			cellHealths = cellDao.allHealthRatioByMonth(month);
+			if (cellHealths != null && cellHealths.size() > 0) {
+				
+				for (int j = 0; j < cellHealths.size(); j++) {
+					
+					BaseCellHealth cellHealth = cellHealths.get(j);
+					String date = cellHealth.getYyyyMMdd();
+					TotalHealthInfoDto2 infoDto = new TotalHealthInfoDto2();
+					infoDto.setDate(date);
+					infoDto.setCell_code(cellHealth.getCell_code());
+					Method[] methods = cellHealth.getClass().getMethods();
+					for (Method method : methods) {
+						String methodName = method.getName();
+						if (methodName.startsWith("getRange")) {
+
+							String range = (String) method.invoke(cellHealth, null);
+							Double ratio = parseRatio(range);
+							Method setMethod =  infoDto.getClass().getMethod(methodName.replaceFirst("g", "s"), String.class);
+							setMethod.invoke(infoDto, String.valueOf(ratio));
+							}
+						}
+					result.add(infoDto);
+					}
+
+				}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}*/
 	/**
 	 * 历史表格
 	 * @param cellname
@@ -290,6 +380,9 @@ public class CellService{
 		}
 		return list;
 	}
+	
+	
+	
 	private List<TotalHealthInfoDto> originDataSelect(String starttime,String endtime){
 		List<TotalHealthInfoDto> list = new ArrayList<>();
 		int startmonth = Integer.parseInt(starttime.substring(4, 6))-1;
@@ -324,7 +417,6 @@ public class CellService{
 		}
 		return list;
 	}
-	
 	
 	/**
 	 * 返回最近一天的小区健康度
@@ -646,15 +738,25 @@ public class CellService{
 	 */
 	public List<CellResultHistoryDto> cellResultHistroy(String cellname,String type,String start,String end){
 		if ("day".equals(type)) {
-			return cellResultHistoryDao.historyWithinLastDay(cellname);
+			return alarmDao.cellListLastDay(cellname);
 		}else if ("month".equals(type)) {
-			return cellResultHistoryDao.historyWithinLastMonth(cellname);
+			return alarmDao.cellListLastMonth(cellname);
 		}else if ("week".equals(type)) {
-			return cellResultHistoryDao.historyWithinLastWeek(cellname);
+			return alarmDao.cellListLastWeek(cellname);
 		}else if ("select".equals(type)) {
-			return cellResultHistoryDao.historyWithinSelect(cellname, start, end);
+			return alarmDao.cellListBySelect(cellname, start, end);
 		}else {
 			return null;
 		}
 	}
+	/**
+	 * 按月获取判别结果
+	 * @param yyyyMM
+	 * @return
+	 *//*
+	public List<CellResultHistoryDto> cellResultHistroy(String yyyyMM){
+
+			return cellResultHistoryDao.resultByMonth(yyyyMM);
+
+	}*/
 }

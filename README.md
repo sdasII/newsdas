@@ -17,6 +17,10 @@ the station of data staistic system to guangzhou mobile<br>
 2017/11/9 增加登陆状态和验证码<br>
 2017/11/13 添加数据导入模块的日志，后期计划做一个独立的日志模块<br>
 2017/11/15 移植代码为新版系统，修改首页预警，支持最新一小时预警信息的查询<br>
+2017/12/6 原始数据上传采用ftp协议，利用了Apache的Commons-net包中ftpclient，支持断点续传；使用websocket向前台发送上传进度,
+	web项目中使用websocket两种方式：1、采用j2ee中支持的注解的方式2、在spring中注入，其中注册类有两种实现方式，包括shiyongxml配置文件和利用注解使用java注册类，本项目中使用了
+	第二种，在使用配置文件时，总会报出找不到相应的adapter异常，原因尚待查找；
+	新增投诉数据的导入、实现原理同性能工单
 
 
 <h2>技术选型</h2>
@@ -28,5 +32,6 @@ the station of data staistic system to guangzhou mobile<br>
 6. echarts<br>
 7. bootsrap.table.notify,validator..<br>
 8. hplus jqgrid<br>
-9. ......
+9. websocket <br>
+10. ......
 

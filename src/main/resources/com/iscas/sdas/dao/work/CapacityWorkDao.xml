@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iscas.sdas.dao.work.CapacityWorkDao">
+	<select id="getlist" parameterType="com.iscas.sdas.dto.work.CapacityWorkDto"
+		resultType="com.iscas.sdas.dto.work.CapacityWorkDto">
+		select
+		occurrence_time,alarm_id,cellid,boutique_level,limit_times,belong_area,reasons,
+		monitor_content,monitor_value,alerm_level,complete_time
+		from
+		t_performance_work
+		<where>
+			<if test="cellid != null">
+				<bind name="cellid" value="'%' + _parameter.getCellid() + '%'" />
+				cellid like #{cellid}
+			</if>
+			<if test="occurrence_time != null">
+				and occurrence_time like #{occurrence_time}
+			</if>
+			<if test="belong_area != null">
+				and belong_area like #{belong_area}
+			</if>
+			<if test="monitor_content != null">
+				and monitor_content like #{monitor_content}
+			</if>
+		</where>
+		limit 1000
+	</select>
+	<select id="getlist2" resultType="com.iscas.sdas.dto.work.CapacityWorkDto">
+		select
+		occurrence_time,alarm_id,cellid,boutique_level,limit_times,belong_area,reasons,
+		monitor_content,monitor_value,alerm_level,complete_time
+		from
+		t_performance_work where occurrence_time between #{starttime} and
+		#{endtime}
+		<if test="work.cellid != null">
+			<bind name="cellid" value="'%' + work.getCellid() + '%'" />
+			and cellid like #{cellid}
+		</if>
+		<if test="work.belong_area != null">
+			and belong_area like #{work.belong_area}
+		</if>
+		<if test="work.monitor_content != null">
+			and monitor_content like #{work.monitor_content}
+		</if>
+		limit 1000
+	</select>
+	<select id="getDoubtlist" resultType="com.iscas.sdas.dto.work.CapacityWorkDto">
+		select
+		occurrence_time,alarm_id,cellid,boutique_level,limit_times,belong_area,reasons,
+		monitor_content,monitor_value,alerm_level,complete_time
+		from
+		t_performance_work where questionflag = 1
+		limit 1000
+	</select>
+	<select id="getbelongaera" resultType="java.lang.String">
+		SELECT belong_area FROM
+		t_performance_work GROUP BY belong_area
+	</select>
+	<select id="getlistWhithinOneWeek" resultType="com.iscas.sdas.dto.work.CapacityWorkDto"
+		parameterType="java.lang.String">
+		SELECT
+		occurrence_time,alarm_id,cellid,boutique_level,limit_times,belong_area,reasons,
+		monitor_content,monitor_value,alerm_level,complete_time,questionflag FROM
+		t_performance_work WHERE occurrence_time > DATE_SUB((SELECT
+		occurrence_time FROM t_performance_work WHERE cellid = #{cellname}
+		ORDER BY occurrence_time DESC LIMIT 1),INTERVAL 7 DAY) AND cellid =
+		#{cellname}
+	</select>
+	<select id="getlistWhithinOneMonth" resultType="com.iscas.sdas.dto.work.CapacityWorkDto"
+		parameterType="java.lang.String">
+		SELECT
+		occurrence_time,alarm_id,cellid,boutique_level,limit_times,belong_area,reasons,
+		monitor_content,monitor_value,alerm_level,complete_time,questionflag FROM
+		t_performance_work WHERE occurrence_time >
+		DATE_SUB((SELECT
+		occurrence_time FROM t_performance_work WHERE cellid
+		= #{cellname}
+		ORDER BY occurrence_time DESC LIMIT 1),INTERVAL 30 DAY)
+		AND cellid =
+		#{cellname}
+	</select>
+	<select id="getvalidatelist" resultType="com.iscas.sdas.dto.work.CapacityWorkDto">
+		select
+		occurrence_time,alarm_id,cellid,boutique_level,limit_times,belong_area,reasons,
+		monitor_content,monitor_value,alerm_level,complete_time
+		from
+		t_performance_work_rt
+	</select>
+	<update id="update" parameterType="com.iscas.sdas.dto.work.CapacityWorkDto">
+		update t_performance_work_rt
+		set questionflag = 1 where alarm_id = #{alarm_id}
+	</update>
+	<update id="updatedoubtwork" parameterType="com.iscas.sdas.dto.work.CapacityWorkDto">
+		update
+		t_performance_work_rt
+		set questionflag = 0 where alarm_id = #{alarm_id}
+	</update>
+	<update id="updatealarmwork" parameterType="com.iscas.sdas.dto.work.CapacityWorkDto">
+		update
+		t_performance_work_rt
+		set questionflag = 2 where alarm_id = #{alarm_id}
+	</update>
+	<select id="getListTheDay" resultType="com.iscas.sdas.dto.work.CapacityWorkDto">
+		select
+		occurrence_time,alarm_id,cellid,boutique_level,limit_times,belong_area,reasons,
+		monitor_content,monitor_value,alerm_level,complete_time,questionflag
+		from
+		t_performance_work_rt WHERE occurrence_time BETWEEN DATE_SUB((SELECT
+		occurrence_time FROM t_performance_work_rt ORDER BY occurrence_time
+		DESC LIMIT 1),INTERVAL 1 DAY) AND (SELECT occurrence_time FROM
+		t_performance_work_rt ORDER BY occurrence_time DESC LIMIT 1)
+	</select>
+	<select id="getAllDoubtWorks" resultType="com.iscas.sdas.dto.work.CapacityWorkDto">
+		SELECT * FROM
+		t_performance_work_rt WHERE questionflag = 0
+	</select>
+	<select id="getAllWorks" resultType="com.iscas.sdas.dto.work.CapacityWorkDto"
+		parameterType="com.iscas.sdas.dto.work.CapacityWorkDto">
+		SELECT * FROM t_performance_work_rt where 1=1
+			<if test="questionflag != null">
+				and questionflag = #{questionflag}
+			</if>		
+			<if test="cellid != null ">
+				and cellid like #{cellid}
+			</if>
+			<if test="starttime !=null and starttime!=null ">
+				and occurrence_time &gt;=#{starttime} and occurrence_time &lt;=#{endtime}
+			</if>
+			<if test="starttime==null and endtime==null and daynum==7">
+				and TO_DAYS(NOW())-TO_DAYS(occurrence_time) &lt;=#{daynum}
+			</if>
+			<if test="starttime==null and endtime==null and daynum==30">
+				and TO_DAYS(NOW())-TO_DAYS(occurrence_time) &lt;=#{daynum}
+			</if>
+			<if test="starttime==null and endtime==null and daynum==0">
+				and TO_DAYS(NOW())-TO_DAYS(occurrence_time) =#{daynum}
+			</if>
+	</select>
+</mapper>

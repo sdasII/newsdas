@@ -14,7 +14,7 @@ import com.iscas.sdas.dto.ComplainDto;
 import com.iscas.sdas.util.CommonUntils;
 
 @Service
-public class ComplainService {
+public class ComplainService{
 	
 	@Autowired
 	ComplainDao complainDao;

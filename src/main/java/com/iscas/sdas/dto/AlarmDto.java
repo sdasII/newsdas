@@ -1,20 +1,23 @@
 package com.iscas.sdas.dto;
 
+import java.util.Date;
+
 public class AlarmDto {
 
 	private String cell_code;
-	
+
 	private String yyyyMMdd;
-	
+
 	private int count;
-	
+
 	private String app_hour;
-	
-	private int app_result;
+
+	private Integer app_result;
 	private String daynum;
 	private String starttime;
 	private String endtime;
-	
+
+	private Date create_time;
 
 	public String getCell_code() {
 		return cell_code;
@@ -48,11 +51,11 @@ public class AlarmDto {
 		this.app_hour = app_hour;
 	}
 
-	public int getApp_result() {
+	public Integer getApp_result() {
 		return app_result;
 	}
 
-	public void setApp_result(int app_result) {
+	public void setApp_result(Integer app_result) {
 		this.app_result = app_result;
 	}
 
@@ -79,5 +82,12 @@ public class AlarmDto {
 	public void setEndtime(String endtime) {
 		this.endtime = endtime;
 	}
-	
+
+	public Date getCreate_time() {
+		return create_time;
+	}
+
+	public void setCreate_time(Date create_time) {
+		this.create_time = create_time;
+	}
 }

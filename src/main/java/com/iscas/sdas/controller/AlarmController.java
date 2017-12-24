@@ -18,10 +18,15 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.iscas.sdas.common.PageDto;
 import com.iscas.sdas.dto.AlarmDto;
+import com.iscas.sdas.dto.result.CellResultHistory;
 import com.iscas.sdas.service.AlarmService;
 import com.iscas.sdas.util.CommonUntils;
 import com.iscas.sdas.util.Constraints;
-
+/**
+ * 判别结果--t_cell_result_info(实时表) t_cell_result_history(历史表)
+ * @author dongqun
+ * 2017年12月21日下午5:01:30
+ */
 @Controller
 @RequestMapping("/alarm")
 public class AlarmController {
@@ -86,12 +91,42 @@ public class AlarmController {
 	public ModelAndView page(){
 		return new ModelAndView("alarm/alarm");
 	}
-	
+	/**
+	 * 全部小区的判别结果更新时间
+	 * @return
+	 */
 	@RequestMapping("/updatetime")
 	@ResponseBody
 	public String update(){
 		return alarmService.getUpdateTime();
 	}
+	/**
+	 * 指定小区的更新时间
+	 * @param cellname
+	 * @return
+	 */
+	@RequestMapping("/cellupdatetime")
+	@ResponseBody
+	public String cellupdate(@RequestParam(required=true,value="cellname")String cellname){
+		return alarmService.getCellUpdateTime(cellname);
+	}
+	/**
+	 * 指定小区最近一天数据
+	 * @param cellname
+	 * @return
+	 */
+	@RequestMapping("/celllastday")
+	@ResponseBody
+	public ModelMap cellLastDay(@RequestParam(required=true,value="cellname")String cellname){
+		ModelMap map = new ModelMap();
+		AlarmDto alarmDto = new AlarmDto();
+		alarmDto.setCell_code(cellname);
+		List<AlarmDto> alarmDtos = alarmService.getCellByLastDay(alarmDto);
+		map.addAttribute(Constraints.RESULT_ROW, alarmDtos);
+		return map;
+	}
+	
+	
 	/**
 	 * 最新一小时预警
 	 * @param request
@@ -131,5 +166,35 @@ public class AlarmController {
 		ModelAndView modelAndView = new ModelAndView("/general/detail");
 		modelAndView.addObject("cellname", cellname);
 		return modelAndView;
+	}
+	
+	@RequestMapping("/celllist")
+	@ResponseBody
+	public ModelMap celllist(@RequestParam(value = "currpage", required = true, defaultValue = "1") String num,
+			@RequestParam(value = "pageSize", required = true, defaultValue = "10") String size,
+			@RequestParam(value = "type", required = true, defaultValue = "day") String type,HttpServletRequest request){
+		ModelMap map = new ModelMap();
+		String cellname = request.getParameter("name");
+		String starttime= null,endtime = null;
+		if (Constraints.SELECT.equals(type)) {
+			starttime = request.getParameter("starttime");
+			endtime = request.getParameter("endtime");
+		}
+		int pageNum = Integer.parseInt(num);
+		int pageSize = Integer.parseInt(size);
+		PageHelper.startPage(pageNum, pageSize);	
+		List<CellResultHistory> cells = alarmService.getCellList(cellname,type,starttime,endtime);
+		PageInfo<CellResultHistory> pageInfo = new PageInfo<>(cells);
+		List<CellResultHistory> rows = new ArrayList<>();
+		for (int i = 0; i < cells.size(); i++) {
+			CellResultHistory dto = cells.get(i);
+			rows.add(dto);
+		}
+		PageDto<CellResultHistory> pageDto = new PageDto<>();
+		pageDto.setTotal(pageInfo.getTotal());
+		pageDto.setRows(rows);
+		map.addAttribute(Constraints.RESULT_ROW, pageDto);
+	
+		return map;
 	}
 }

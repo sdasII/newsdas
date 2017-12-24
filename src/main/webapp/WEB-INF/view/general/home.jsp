@@ -74,7 +74,7 @@
 								<h5 id="all">共有n个小区被监控：</h5>
 								<div class="media-body ">
 									<small>其中处于事件状态<small id="event"></small>个
-									</small><br> <small>其中处于临界状态<small id="critical"></small>个
+									</small><br> <small>其中处于亚健康状态<small id="critical"></small>个
 									</small><br> <small>其中处于健康状态<small id="health"></small>个
 									</small><br>
 								</div>
@@ -86,7 +86,7 @@
 											<li class="" onclick="switchTab(0)"><a data-toggle="tab"
 												href="#tab-1" aria-expanded="true">事件</a></li>
 											<li class="active" onclick="switchTab(1)"><a
-												data-toggle="tab" href="#tab-2" aria-expanded="false">临界</a></li>
+												data-toggle="tab" href="#tab-2" aria-expanded="false">亚健康</a></li>
 											<li class="" onclick="switchTab(2)"><a data-toggle="tab"
 												href="#tab-3" aria-expanded="false">健康</a></li>
 										</ul>

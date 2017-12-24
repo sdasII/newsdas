@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @version 0.2 实现上传下载进度汇报
  * @version 0.3 实现中文目录创建及中文文件创建，添加对于中文的支持
  */
-public class ContinueFTP {
+public class ContinueFTP{
 
 	/** 本地字符编码 */
 	private static String LOCAL_CHARSET = "GBK";
@@ -38,9 +38,8 @@ public class ContinueFTP {
 		// 设置将过程中使用到的命令输出到控制台
 		this.ftpClient.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(System.out)));
 	}
-
 	// 上传/下载进度
-	private int progress;
+	private int progress=0;
 
 	// 获取当前进度
 	public int getProgress() {
@@ -332,15 +331,16 @@ public class ContinueFTP {
 			double temp = localreadbytes / allbytes;
 			if (temp * 100 != process) {
 				process = (localreadbytes / allbytes) * 100;
-
+				System.out.println(process);
 				// TODO 汇报上传状态
-
+				
 				setProgress(process);
+				Constraints.setFtp_upload_progress(progress);
 			}
 		}
 		out.flush();
-		in.close();
 		out.close();
+		in.close();
 		System.out.println("8.....写完数据！");
 		// boolean result = ftpClient.storeFile(remoteFile, in);
 		boolean result = ftpClient.completePendingCommand();
@@ -352,25 +352,5 @@ public class ContinueFTP {
 		}
 		return status;
 	}
-
-	public static void main(String[] args) {
-		ContinueFTP myFtp = new ContinueFTP();
-		try {
-			myFtp.connect("192.168.21.181", 21, "nid", "123");
-			// myFtp.ftpClient.makeDirectory(new
-			// String("电视剧".getBytes("GBK"),"iso-8859-1"));
-			// myFtp.ftpClient.changeWorkingDirectory(new
-			// String("电视剧".getBytes("GBK"),"iso-8859-1"));
-			// myFtp.ftpClient.makeDirectory(new
-			// String("走西口".getBytes("GBK"),"iso-8859-1"));
-			// System.out.println(myFtp.upload("http://www.5a520.cn /yw.flv",
-			// "/yw.flv",5));
-			// System.out.println(myFtp.upload("http://www.5a520.cn
-			// /走西口24.mp4","/央视走西口/新浪网/走西口24.mp4"));
-			System.out.println(myFtp.download("/央视走西口/新浪网/走西口24.mp4", "E:\\走西口242.mp4"));
-			myFtp.disconnect();
-		} catch (IOException e) {
-			System.out.println("连接FTP出错：" + e.getMessage());
-		}
-	}
+	
 }

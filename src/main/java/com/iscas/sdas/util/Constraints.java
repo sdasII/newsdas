@@ -20,5 +20,22 @@ public class Constraints {
 	public static final String ROLE_ADMIN = "管理员";
 	public static final String ROLE_USER = "普通用户";
 	public static final String SESSION_FTP_STATUS = "FTPObj";
+	public static final String DAY = "day";
+	public static final String WEEK = "week";
+	public static final String MONTH = "month";
+	public static final String SELECT = "select";
+	
+	
+	
+	public static int ftp_upload_progress;
+	
+	public synchronized static int getFtp_upload_progress() {
+		return ftp_upload_progress;
+	}
+	public synchronized static void setFtp_upload_progress(int ftp_upload_progress) {
+		Constraints.ftp_upload_progress = ftp_upload_progress;
+	}
+	
+	
 
 }

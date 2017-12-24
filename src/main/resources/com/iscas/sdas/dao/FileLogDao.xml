@@ -20,7 +20,12 @@
     select 
     <include refid="Base_Column_List" />
     from log_upload_file
-    where id = #{id,jdbcType=INTEGER}
+    <where>
+    	<if test="type != null">
+    		type = #{type} 
+    	</if>
+    </where>
+    order by starttime  DESC
   </select>
   <delete id="delete" parameterType="com.iscas.sdas.dto.FileLogDto">
     delete from log_upload_file
@@ -66,12 +71,4 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="all" parameterType="com.iscas.sdas.dto.FileLogDto" resultMap="BaseResultMap">
-    select  * from log_upload_file
-    where 1=1
-    <if test="type != null">
-        and type=#{type}
-      </if>
-      order by starttime  DESC
-  </select>
 </mapper>

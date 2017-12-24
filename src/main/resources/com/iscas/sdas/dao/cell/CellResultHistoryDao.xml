@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.iscas.sdas.dao.cell.CellResultHistoryDao">
 	<sql id="Base_Column_List">
-		yyyyMMdd,range_00, range_01, range_02,
+		app_code, cell_code, yyyyMM, yyyyMMdd, used_type, range_00, range_01, range_02,
 		range_03,
 		range_04, range_05, range_06, range_07, range_08, range_09, range_10, range_11,
 		range_12,
@@ -42,5 +42,11 @@
 		FROM t_cell_result_history WHERE cell_code=#{cellname} 
 		and STR_TO_DATE(yyyyMMdd,'%Y%m%d') BETWEEN #{start} AND #{end} ORDER BY
 		yyyyMMdd
+	</select>
+	<select id="resultByMonth" parameterType="java.lang.String"
+		resultType="com.iscas.sdas.dto.cell.CellResultHistoryDto">
+		SELECT 
+		<include refid="Base_Column_List" />
+		FROM t_cell_result_history WHERE yyyyMM = #{yyyyMM} ORDER BY yyyyMMdd
 	</select>
 </mapper>

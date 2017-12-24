@@ -1,8 +1,5 @@
 package com.iscas.sdas.controller.log;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.iscas.sdas.common.PageDto;
-import com.iscas.sdas.dto.FileLogDto;
 import com.iscas.sdas.dto.FileLogDto;
 import com.iscas.sdas.service.log.FileLogService;
 import com.iscas.sdas.util.CommonUntils;
@@ -48,23 +42,19 @@ public class LogController {
 			HttpServletRequest request) {
 		ModelMap map = new ModelMap();
 		FileLogDto dto = new FileLogDto();
-		String type=request.getParameter("type");
-		if (!CommonUntils.isempty(type)) {
-			dto.setType(type);
+		String type=request.getParameter("type").trim();
+		String result=request.getParameter("result");
+		if("4".equals(type)){
+			dto.setType("投诉工单数据");
+		}else{
+			if (!CommonUntils.isempty(type)) {
+				dto.setType(type);
+			}
+			if (!CommonUntils.isempty(result)) {
+				dto.setType(result);
+			}
 		}
-		int pageNum = Integer.parseInt(num);
-		int pageSize = Integer.parseInt(size);
-		PageHelper.startPage(pageNum, pageSize);
-		List<FileLogDto> FileLogDtos =  fileLogService.all(dto);	
-		PageInfo<FileLogDto> pageInfo = new PageInfo<>(FileLogDtos);
-		List<FileLogDto> rows = new ArrayList<>();
-		for (int i = 0; i < FileLogDtos.size(); i++) {
-			FileLogDto fdto = FileLogDtos.get(i);
-			rows.add(fdto);
-		}
-		PageDto<FileLogDto> pageDto = new PageDto<>();
-		pageDto.setTotal(pageInfo.getTotal());
-		pageDto.setRows(rows);
+		PageDto<FileLogDto> pageDto = fileLogService.getPageList(dto, num, size);
 		map.addAttribute(Constraints.RESULT_ROW, pageDto);
 		return map;
 	}

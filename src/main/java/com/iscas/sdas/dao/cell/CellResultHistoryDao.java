@@ -35,4 +35,10 @@ public interface CellResultHistoryDao {
      * @return
      */
     List<CellResultHistoryDto> historyWithinSelect(@Param("cellname")String cellname,@Param("start")String starttime,@Param("end")String endtime);
+    /**
+     * 按月查询数据
+     * @param yyyyMM
+     * @return
+     */
+    List<CellResultHistoryDto> resultByMonth(String yyyyMM);
 }

@@ -8,10 +8,20 @@ var capacityworkurl = ctx + "/work/allrtworks";
 var doubutworkurl = ctx +"/work/validatedoubt";
 var aeraurl = ctx + "/capacitywork/belongare";
 var validateurl = ctx +"/work/validate";
+var updatetimeUrl = ctx + "/alarm/updatetime"
 var starttime="";
 var endtime="";
 var work_date=null;
 $(function(){
+	//最新时间
+	$.ajax({
+		url:updatetimeUrl,
+		type:"post",
+		success:function(data){
+			$("#updateTime").html("最新发布时间： "+data);
+		}
+	});
+	
 	$.jgrid.defaults.styleUI = 'Bootstrap';
 	$.ajax({
 		url: capacityworkurl,
@@ -22,7 +32,9 @@ $(function(){
             'endtime':endtime
             },
 		success:function(data,status){
-            var data = eval('(' + data + ')');
+            //var data = eval('(' + data + ')');
+			$("#loadbk").show();
+			$("#load").show();
 			var list = data.rows;
 			refreshJqGrid(list);
 		}
@@ -31,14 +43,13 @@ $(function(){
 		url: aeraurl,
 		type:"GET",
 		success:function(data,status){
-            var data = eval('(' + data + ')');
+            //var data = eval('(' + data + ')');
 			var areas = data.rows;
 			for(var i=0;i<areas.length;i++){
 				if (areas[i]!=null) {
 					var option = $('<option>'+areas[i]+'</option>');
 					$("#area").append(option);
 				}
-				
 			}
 		}
 	});
@@ -83,6 +94,8 @@ $(function(){
 });
 
 function refreshJqGrid(list){
+	$("#loadbk").show();
+	$("#load").show();
 	$("#table_list_1").jqGrid({
 		data:list,
 		datatype: "local",
@@ -109,7 +122,7 @@ function refreshJqGrid(list){
             {
                 name: 'belong_area',
                 index: 'belong_area',
-                width: 50
+                width: 80
             },
             {
                 name: 'monitor_content',
@@ -124,12 +137,12 @@ function refreshJqGrid(list){
             {
                 name: 'alerm_level',
                 index: 'alerm_level',
-                width: 50
+                width: 80
             },
             {
                 name: 'reasions',
                 index: 'reasions',
-                width: 50
+                width: 85
             },
             {
                 name: 'boutique_level',
@@ -139,7 +152,7 @@ function refreshJqGrid(list){
             {
             	name: 'limit_times',
                 index: 'limit_times',
-                width: 50
+                width: 80
             },
             {
             	name: 'complete_time',
@@ -162,8 +175,10 @@ function refreshJqGrid(list){
             //获取某列的每一行id
             var ids = jQuery("#table_list_1").jqGrid("getDataIDs");
             for(var i=0;i<ids.length;i++){
+            	
                 var id = ids[i];
                 var questionflag = $("#table_list_1").getCell(id,'questionflag');
+                //console.info(questionflag);
                 var rowData = $("#table_list_1").getRowData(id);
                  if(questionflag=="0"){
                      $('#'+ids[i]).find("td").addClass("SelectRed");
@@ -175,8 +190,11 @@ function refreshJqGrid(list){
                  
                  var id = ids[i];
          	    var cellid = $("#table_list_1").getCell(id,'cellid');
-         	    var link = ctx + "/general/cellhome/";
-         	    var url='<a href=javascript:gotocellhome("'+link+'","'+cellid+'")>'+cellid+'</a>';
+         	    var link = ctx + "/alarm/todetail";//"/general/cellhome/";
+         	    var url='<a href="javascript:iframeconvert('
+         	    	+"'"+link+"','小区信息',"+"[{'key':'cell_code','value':'"+cellid+"'}]"+')">'
+         	    	+cellid+'</a>';
+         	    //var url='<a href=javascript:gotocellhome("'+link+'","'+cellid+'")>'+cellid+'</a>';
          	    $("#table_list_1").jqGrid('setRowData',id,{cellid:url});
             }
         }
@@ -186,6 +204,8 @@ function refreshJqGrid(list){
         $('#table_list_1').setGridWidth(width);
 
     });
+    $("#loadbk").hide();
+	$("#load").hide();
 }
 function select(daynum){
 	var name = $("#name").val();
@@ -205,7 +225,8 @@ function select(daynum){
     }else{
        questionflag = 3; 
     }
-	
+    $("#loadbk").show();
+	$("#load").show();
 	$("#table_list_1").jqGrid("clearGridData");
 	$.ajax({
 		url:capacityworkurl,
@@ -220,18 +241,23 @@ function select(daynum){
             "questionflag":questionflag
 		},
 		success:function(data,status){
-            var data = eval('(' + data + ')');
+            //var data = eval('(' + data + ')');
+			$("#loadbk").show();
+			$("#load").show();
 			var list = data.rows;
 			$("#table_list_1").jqGrid('setGridParam',{
 			      datatype:'local',
 			      data : list,   
 			      page:1
 			}).trigger("reloadGrid");
+			$("#loadbk").hide();
+			$("#load").hide();
 		},
 		error:function(data,status){
 			alert(status);
 		}
 	});
+	
 }
 /*$(function(){
 	$("#doubtwork").change(function() {
@@ -279,7 +305,7 @@ function validate(){
                 url: validateurl,
                 type:"GET",
                 success:function(data,status){  
-                    var data = eval('(' + data + ')');
+                    //var data = eval('(' + data + ')');
                     var success = data.success;                   
                     if(success){
                         var list = data.rows;
@@ -322,7 +348,39 @@ function gotocellhome(url,params,station){
 		iframe_parent.children("iframe").css("display","none");
 		iframe_parent.prepend(content);
 	}
+	var a_parent = $(".page-tabs-content", window.parent.document);
+    var iframe_parent = $("#content-main", window.parent.document);
 
+    var target_url = url;
+    if (params != undefined) {
+        for (var i = 0; i < params.length; i++) {
+            if (i == 0) {
+                target_url += "?" + params[i].key + "=" + params[i].value;
+            } else {
+                target_url += "&" + params[i].key + "=" + params[i].value;
+            }
+        }
+    }
+    /////
+   /* var item = $('<a href="#" class="active J_menuTab" data-id="'
+            + url + '">'+iframe+' <i class="fa fa-times-circle"></i></a>');
+    var content = $('<iframe class="J_iframe" name="iframe10" width="100%" height="100%" src="'
+            + target_url + '" frameborder="0" data-id="' + url + '" seamless></iframe>');
+
+    a_parent.children("a").removeClass("active");
+
+    if (a_parent.has('a[data-id="' + url + '"]').length > 0) {
+        a_parent.children('a[data-id="' + url + '"]').addClass("active");
+        iframe_parent.children("iframe").css("display", "none");
+        iframe_parent.children().remove('iframe[data-id="' + url + '"]');
+        content.css("display", "inline");
+        iframe_parent.prepend(content);
+    } else {
+        content.css("display", "inline");
+        a_parent.append(item);
+        iframe_parent.children("iframe").css("display", "none");
+        iframe_parent.prepend(content);
+    }*/
 	
 
 }

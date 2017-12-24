@@ -11,7 +11,7 @@
 <%@ include file="/include/common.jsp"%>
 <script type="text/javascript" src="${context}/js/login/main.js"></script>
 </head>
-<body class="fixed-sidebar full-height-layout gray-bg mini-navbar"
+<body class="fixed-sidebar full-height-layout gray-bg"
 	style="overflow: hidden">
 	<div id="wrapper">
 		<!--左侧导航开始-->
@@ -33,78 +33,49 @@
 				<c:forEach items="${firstMenu}" var="menu">
 					<!-- 只有一级菜单的情况 -->
 					<c:if test="${fun:length(menu.menus) == 0}">
-					<c:if test="${menu.MENU_NAME=='首页'}">
-						<li>
-							<a class="J_menuItem" href="${context}${menu.MENU_URL}">
-								<i class="fa fa-home"></i><span class="nav-label">${menu.MENU_NAME}</span>
-							</a>
-						</li>
-					</c:if>
-					<c:if test="${menu.MENU_NAME=='小区列表'}">
-						<li>
-							<a class="J_menuItem" href="${context}${menu.MENU_URL}">
-								<i class="fa fa-columns"></i><span class="nav-label">${menu.MENU_NAME}</span>
-							</a>
-						</li>
-					</c:if>
-					<c:if test="${menu.MENU_NAME=='小区配置'}">
-						<li>
-							<a class="J_menuItem" href="${context}${menu.MENU_URL}">
-								<i class="fa fa-cog"></i><span class="nav-label">${menu.MENU_NAME}</span>
-							</a>
-						</li>
-					</c:if>
-					
-						<%-- <li><c:if test="${menu.MENU_NAME=='首页'}">
-								<a class="J_menuItem" href="${context}${menu.MENU_URL}"> <i
-									class="fa fa-home"></i> <span class="nav-label">${menu.MENU_NAME}</span>
-									<span class="fa arrow"></span>
-								</a>
-							</c:if> <c:if test="${menu.MENU_NAME=='算法示例'}">
-								<a class="J_menuItem" href="${context}${menu.MENU_URL}"> <i
-									class="fa fa-flask"></i> <span class="nav-label">${menu.MENU_NAME}</span>
-									<span class="fa arrow"></span>
-								</a>
-							</c:if> <c:if test="${menu.MENU_NAME=='小区监控'}">
-								<a class="J_menuItem" href="${context}${menu.MENU_URL}"> <i
-									class="fa fa-columns"></i> <span class="nav-label">${menu.MENU_NAME}</span>
-									<span class="fa arrow"></span>
-								</a>
-							</c:if>
-							<c:if test="${menu.MENU_NAME=='任务调度'}">
-								<a class="J_menuItem" href="${context}${menu.MENU_URL}"> <i
-									class="fa fa-edit"></i> <span class="nav-label">${menu.MENU_NAME}</span>
-									<span class="fa arrow"></span>
-								</a>
-							</c:if>
-							<c:if test="${menu.MENU_NAME=='用户管理'}">
-								<a class="J_menuItem" href="${context}${menu.MENU_URL}"> <i class="fa fa-flask"></i> <span
-									class="nav-label">${menu.MENU_NAME}</span> <span
-									class="fa arrow"></span>
-								</a>
-							</c:if> 
-						</li> --%>
+						<c:if test="${menu.MENU_NAME=='首页'}">
+							<li><a class="J_menuItem" href="${context}${menu.MENU_URL}">
+									<i class="fa fa-home"></i><span class="nav-label">${menu.MENU_NAME}</span>
+							</a></li>
+						</c:if>
+						<c:if test="${menu.MENU_NAME=='健康评估'}">
+							<li><a class="J_menuItem" href="${context}${menu.MENU_URL}">
+									<i class="fa fa-columns"></i><span class="nav-label">${menu.MENU_NAME}</span>
+							</a></li>
+						</c:if>
+						<c:if test="${menu.MENU_NAME=='工单验证'}">
+							<li><a class="J_menuItem" href="${context}${menu.MENU_URL}">
+									<i class="fa fa-edit"></i><span class="nav-label">${menu.MENU_NAME}</span>
+							</a></li>
+						</c:if>
+						<c:if test="${menu.MENU_NAME=='数据存储'}">
+							<li><a class="J_menuItem" href="${context}${menu.MENU_URL}">
+									<i class="fa fa-table"></i><span class="nav-label">${menu.MENU_NAME}</span>
+							</a></li>
+						</c:if>
+						<c:if test="${menu.MENU_NAME=='小区配置'}">
+							<li><a class="J_menuItem" href="${context}${menu.MENU_URL}">
+									<i class="fa fa-cog"></i><span class="nav-label">${menu.MENU_NAME}</span>
+							</a></li>
+						</c:if>
+						<c:if test="${menu.MENU_NAME=='任务调度'}">
+							<li><a class="J_menuItem" href="${context}${menu.MENU_URL}">
+									<i class="fa fa-tasks"></i><span class="nav-label">${menu.MENU_NAME}</span>
+							</a></li>
+						</c:if>
+						<c:if test="${menu.MENU_NAME=='用户管理'}">
+							<li><a class="J_menuItem" href="${context}${menu.MENU_URL}">
+									<i class="fa fa-user"></i><span class="nav-label">${menu.MENU_NAME}</span>
+							</a></li>
+						</c:if>
 					</c:if>
 					<!-- 一级菜单下有二级菜单 -->
 					<c:if test="${fun:length(menu.menus) > 0}">
-						<li>
-							
+						<li>						
 							<!-- 显示一级菜单 --> 
 							<a href="#"> <i class="fa fa-list"></i>
 								<span class="nav-label">${menu.MENU_NAME}</span> <span class="fa arrow"></span>
-							</a> 
-							<%-- <c:if test="${menu.MENU_NAME=='工单信息'}">
-								<a href="#"> <i class="fa fa fa-bar-chart-o"></i> <span
-									class="nav-label">${menu.MENU_NAME}</span> <span
-									class="fa arrow"></span>
-								</a>
-							</c:if> 							
-							<c:if test="${menu.MENU_NAME=='数据集合'}">
-								<a href="#"> <i class="fa fa-desktop"></i> <span
-									class="nav-label">${menu.MENU_NAME}</span> <span
-									class="fa arrow"></span>
-								</a>
-							</c:if>  --%>
+							</a> 		
 							<!-- 循环显示二级菜单 -->
 							<ul class="nav nav-second-level">
 								<!-- 二级菜单下无三级菜单 -->
@@ -128,20 +99,24 @@
 					</c:if>
 				</c:forEach>
 			</ul>
+			<div class="navbar-header"style="bottom: 0; position: fixed;left: 150px">
+					<a class="navbar-minimalize minimalize-styl-2" title="展开/收起" style="height:30px;" id="shrink_btn"
+						href="#"><img src="${context}/style/side-left.png"></a>
+			</div>
 		</div>
 		</nav>
 		<!--左侧导航结束-->
 		<!--右侧部分开始-->
 		<div id="page-wrapper" class="gray-bg dashbard-1">
-			<div class="row border-bottom">
+			<!-- <div class="row border-bottom">
 				<nav class="navbar navbar-static-top" role="navigation"
 					style="margin-bottom: 0">
 				<div class="navbar-header">
 					<a class="navbar-minimalize minimalize-styl-2 btn btn-primary "style="height:30px;" id="shrink_btn"
-						href="#"><i class="fa fa-chevron-right" style="margin-top: 2px;"></i></a><!-- <i class="fa fa-chevron-left"></i> -->
+						href="#"><i class="fa fa-chevron-right" style="margin-top: 2px;"></i></a><i class="fa fa-chevron-left"></i>
 				</div>
 				</nav>
-			</div>
+			</div> -->
 			<div class="row content-tabs">
 				<button class="roll-nav roll-left J_tabLeft">
 					<i class="fa fa-backward"></i>
@@ -183,14 +158,18 @@
 		<!--右侧部分结束-->
 	</div>
 	<script type="text/javascript">
-		$("#shrink_btn").click(function(){
-			console.info();
-			if($(this)[0].firstChild.className.indexOf("left")>-1){
-				$(this)[0].firstChild.className="fa fa-chevron-right";
-			}else{
-				$(this)[0].firstChild.className="fa fa-chevron-left";
-			}
-		});
+	var rightImg="${context}/style/side-right.png";
+	var leftImg="${context}/style/side-left.png";
+	$("#shrink_btn").on("click",function(){
+		var el=$($(this)[0]).find("img")[0];
+		if($(el).attr("src").indexOf("left")>-1){
+			$(el).attr('src',rightImg);
+			$(el).parent().parent().css("left","");
+		}else{
+			$(el).attr('src',leftImg);
+			$(el).parent().parent().css("left","150px");
+		} 
+	});
 	</script>
 </body>
 </html>

@@ -75,23 +75,28 @@ public class LoginController {
 		dto.setUserId(userId);
 		dto.setPassword(password);
 		UserDto user = UserService.getUser(dto);
-		if (kaptcha.equalsIgnoreCase(capText) || kaptcha.equals(capText)
-				|| kaptcha == capText) {
-			if (user!=null) {
-				request.getSession().setAttribute("userInfo", user);
-				modelAndView = new ModelAndView("main/main");
-				List<MenuDto> firstMenu = menuService.getFirstMenus();//获取一级菜单及其子菜单
-				request.getSession().setAttribute("menuInfo", firstMenu);
-				firstMenu = getMenus(firstMenu);
-				modelAndView.addObject("firstMenu", firstMenu);
-			} else {
+		if (!CommonUntils.isempty(capText)) {
+			if (capText.equalsIgnoreCase(kaptcha) || capText.equals(kaptcha) || kaptcha == capText) {
+				if (user!=null) {
+					request.getSession().setAttribute("userInfo", user);
+					modelAndView = new ModelAndView("main/main");
+					List<MenuDto> firstMenu = menuService.getFirstMenus();//获取一级菜单及其子菜单
+					request.getSession().setAttribute("menuInfo", firstMenu);
+					firstMenu = getMenus(firstMenu);
+					modelAndView.addObject("firstMenu", firstMenu);
+				} else {
+					modelAndView = new ModelAndView("redirect:/");
+					modelAndView.addObject("loginMsg", "请输入正确的账号或密码！");
+				}
+			}else {
 				modelAndView = new ModelAndView("redirect:/");
-				modelAndView.addObject("loginMsg", "请输入正确的账号或密码！");
+				modelAndView.addObject("loginMsg", "请输入正确的验证码！");
 			}
 		}else {
 			modelAndView = new ModelAndView("redirect:/");
 			modelAndView.addObject("loginMsg", "请输入正确的验证码！");
 		}
+		
 		
 		return modelAndView;
 
@@ -156,5 +161,28 @@ public class LoginController {
 			out.close();
 		}
 		return null;
+	}
+	
+	/**
+	 * 登录后面直接输入url返回的页面
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/login/error")
+	public ModelAndView error(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ModelAndView result = null;
+		// 获取错误代码
+		String errorCode = request.getParameter("error");
+		if (errorCode.equals("401")) {
+			result = new ModelAndView("error/InvalidSessionError");
+		} else if(errorCode.equals("403")) {
+			result = new ModelAndView("error/403");
+		} else if (errorCode.endsWith("500")) {
+			result = new ModelAndView("error/500");
+		}
+		return result;
 	}
 }

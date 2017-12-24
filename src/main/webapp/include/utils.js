@@ -160,11 +160,11 @@ function commonGridAjax(type, url, data, success, gridid, boolean) {
             if (jqXHR.status === 0) {
                 showOnlyMessage(ERROR, "服务器停止运行，请与管理员联系");
             } else if ((jqXHR.responseText).indexOf("401") > 0) {
-                top.location.href = contextPath + "/login/error?error=401";
+                top.location.href = ctx + "/login/error?error=401";
             } else if ((jqXHR.responseText).indexOf("403") > 0) {
-                top.location.href = contextPath + "/login/error?error=403";
+                top.location.href = ctx + "/login/error?error=403";
             } else if ((jqXHR.responseText).indexOf("500") > 0) {
-                top.location.href = contextPath + "/login/error?error=500";
+                top.location.href = ctx + "/login/error?error=500";
             } else if (exception === 'parsererror') {
                 showOnlyMessage(ERROR, "json数据解析错误");
             } else if (exception === 'timeout') {

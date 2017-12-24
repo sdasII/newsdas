@@ -1,10 +1,13 @@
 package com.iscas.sdas.controller.data;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,9 +20,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.iscas.sdas.dto.FileLogDto;
 import com.iscas.sdas.dto.TableInfoDto;
+import com.iscas.sdas.dto.complain.AllComplaintDetailDtoWithBLOBs;
+import com.iscas.sdas.dto.complain.AllComplaintDto;
 import com.iscas.sdas.dto.work.AllCapacityWorkDto;
 import com.iscas.sdas.service.CommonService;
 import com.iscas.sdas.service.WorkService;
+import com.iscas.sdas.service.complain.AllComplainService;
 import com.iscas.sdas.service.log.FileLogService;
 import com.iscas.sdas.service.work.OutServerService;
 import com.iscas.sdas.util.CommonUntils;
@@ -28,12 +34,18 @@ import com.iscas.sdas.util.ContinueFTP;
 import com.iscas.sdas.util.FTPStatus;
 import com.iscas.sdas.util.FileImport;
 
-import tasks.cell.netupload.CellUploadFileOfExpertTask;
+import objects.JSON;
+import tasks.BGTask;
+import tasks.cell.CaculateTask;
+import tasks.cell.CaculateTestTask;
+import tasks.cell.model.OffLineHealthModelBDTask;
 import tasks.cell.netupload.CellUploadFileTask;
+import tasks.cell.netupload.PutNetFile2HDFSTask;
 
 @Controller
 @RequestMapping("/data")
 public class DataController{
+	
 	@Autowired
 	WorkService workService;
 	@Autowired
@@ -42,6 +54,9 @@ public class DataController{
 	OutServerService outServerService;
 	@Autowired
 	FileLogService fileLogService;
+	@Autowired
+	AllComplainService allComplainService;
+	
 	@RequestMapping("/online")
 	public ModelAndView online(){
 		return new ModelAndView("/data/online");
@@ -52,13 +67,25 @@ public class DataController{
 		modelAndView.addObject("success", Constraints.RESULT_UNKNOWN);		
 		return modelAndView;
 	}
-
+	
+	
+	@RequestMapping("/formatFile")
+	public ModelAndView formatFile(HttpServletRequest request) {
+		ModelAndView modelAndView = new ModelAndView("data/offline");
+		String yyyyMMdd = request.getParameter("YYYYMMDD");
+		System.out.println("用户选择的年月日\t"+yyyyMMdd);
+		String[] params = new String[]{yyyyMMdd};
+		JSON result = new PutNetFile2HDFSTask().runTask(params);
+		System.out.println("返回数据结果\t"+result);
+		return modelAndView;
+	}
+	
 	/**
-	 * 文件上传
+	 * 网管文件上传
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("/upload")
+	@RequestMapping("/upload/network")
 	public ModelAndView upload(HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView("data/offline");
 		String type = request.getParameter("type");
@@ -70,22 +97,14 @@ public class DataController{
 			long starttime = System.currentTimeMillis();
 			fileLogDto.setStarttime(new Date());
 			fileLogDto.setType("中兴网管指标数据");
-			/*try {
-				path = CommonUntils.FileImprot(request, fileLogDto);
-			} catch (Exception e1) {
-				e1.printStackTrace();
-				fileLogDto.setResult(0);
-				modelAndView.addObject("success", Constraints.RESULT_FAIL+ ":上传失败！");
-			}*/
 			if (path!=null) {
 				try {
 					String[] args = new String[3];
-					args[0] = path;
-					args[1] = time;//XXX 
-					args[2]=cal_time;
+					args[0] = time;//XXX 
+					args[1]=cal_time;
 					fileLogDto.setMethodstart(new Date());
-					new CellUploadFileTask().runTask(args);
-					new CellUploadFileOfExpertTask().runTask(args);	
+					JSON result = new CellUploadFileTask().runTask(args);
+					System.out.println("返回数据结果\t"+result);
 					fileLogDto.setMethodend(new Date());
 					modelAndView.addObject("success", Constraints.RESULT_SUCCESS);
 					fileLogDto.setResult(1);
@@ -104,60 +123,71 @@ public class DataController{
 			List<FileLogDto> fileLogDtos = new ArrayList<>();
 			fileLogDtos.add(fileLogDto);
 			fileLogService.insert(fileLogDtos);
-		} else if ("capacity".equals(type)) {
-			String tablename = "t_performance_work";
-			List<TableInfoDto> tableInfoDtos = commonService.tableindex(tablename);
-			List<AllCapacityWorkDto> performanceWorkDtos = new ArrayList<>();
-			String path = null;
-			FileLogDto fileLogDto = new FileLogDto();
-			long starttime = System.currentTimeMillis();
-			fileLogDto.setStarttime(new Date());
-			fileLogDto.setType("性能工单数据");
-			try {
-				path = CommonUntils.FileImprot(request, fileLogDto);			
-			} catch (Exception e1) {
-				e1.printStackTrace();
-				fileLogDto.setResult(0);
-				modelAndView.addObject("success", Constraints.RESULT_FAIL+ ":上传失败！");
-			}
-			if (path != null) {
-				if (tableInfoDtos != null && tableInfoDtos.size() > 0) {
-					int rows = FileImport.tablerows(path);
-					for (int i = 0; i < rows; i++) {
-						AllCapacityWorkDto workDto = new AllCapacityWorkDto();
-						performanceWorkDtos.add(workDto);
-					}
-					try {
-						FileImport.importwork(path, performanceWorkDtos, tableInfoDtos);// 将excel映射为对象
-						try {						
-							workService.clearPerformanceWork(); // 清空表
-							workService.insertPerformanceWork(performanceWorkDtos);// 插入表并将questionflag置为-1
-							modelAndView.addObject("success", Constraints.RESULT_SUCCESS);
-							fileLogDto.setResult(1);
-						} catch (Exception e) {
-							e.printStackTrace();
-							fileLogDto.setResult(0);
-							modelAndView.addObject("success", Constraints.RESULT_FAIL + ":文件导入失败！");
-						}
-					} catch (Exception e1) {
-						e1.printStackTrace();
-						fileLogDto.setResult(0);
-						modelAndView.addObject("success", Constraints.RESULT_FAIL + ":文件损坏！");
-					}			
-				}
-			}else {
-				fileLogDto.setResult(0);
-			}
-			long endtime = System.currentTimeMillis();
-			fileLogDto.setEndtime(new Date());
-			long alltime = endtime - starttime;
-			fileLogDto.setAlltime(alltime);
-			List<FileLogDto> fileLogDtos = new ArrayList<>();
-			fileLogDtos.add(fileLogDto);
-			fileLogService.insert(fileLogDtos);
 		}
 		return modelAndView;
 	}
+	/**
+	 * 性能工单导入
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/upload/capacitywork")
+	public ModelAndView uploadCapacityWork(HttpServletRequest request) {
+		ModelAndView modelAndView = new ModelAndView("data/offline");
+		String tablename = "t_performance_work";
+		List<TableInfoDto> tableInfoDtos = commonService.tableindex(tablename);
+		List<AllCapacityWorkDto> performanceWorkDtos = new ArrayList<>();
+		String path = null;
+		FileLogDto fileLogDto = new FileLogDto();
+		long starttime = System.currentTimeMillis();
+		fileLogDto.setStarttime(new Date());
+		fileLogDto.setType("性能工单数据");
+		try {
+			path = CommonUntils.FileImprot(request, fileLogDto);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			fileLogDto.setResult(0);
+			modelAndView.addObject("success", Constraints.RESULT_FAIL + ":上传失败！");
+		}
+		if (path != null) {
+			if (tableInfoDtos != null && tableInfoDtos.size() > 0) {
+				int rows = FileImport.tablerows(path);
+				for (int i = 0; i < rows; i++) {
+					AllCapacityWorkDto workDto = new AllCapacityWorkDto();
+					performanceWorkDtos.add(workDto);
+				}
+				try {
+					FileImport.importwork(path, performanceWorkDtos, tableInfoDtos);// 将excel映射为对象
+					try {
+						workService.clearPerformanceWork(); // 清空表
+						workService.insertPerformanceWork(performanceWorkDtos);// 插入表并将questionflag置为-1
+						modelAndView.addObject("success", Constraints.RESULT_SUCCESS);
+						fileLogDto.setResult(1);
+					} catch (Exception e) {
+						e.printStackTrace();
+						fileLogDto.setResult(0);
+						modelAndView.addObject("success", Constraints.RESULT_FAIL + ":文件导入失败！");
+					}
+				} catch (Exception e1) {
+					e1.printStackTrace();
+					fileLogDto.setResult(0);
+					modelAndView.addObject("success", Constraints.RESULT_FAIL + ":文件损坏！");
+				}
+			}
+		} else {
+			fileLogDto.setResult(0);
+		}
+		long endtime = System.currentTimeMillis();
+		fileLogDto.setEndtime(new Date());
+		long alltime = endtime - starttime;
+		fileLogDto.setAlltime(alltime);
+		List<FileLogDto> fileLogDtos = new ArrayList<>();
+		fileLogDtos.add(fileLogDto);
+		fileLogService.insert(fileLogDtos);
+		return modelAndView;
+	}
+	
+	
 	/**
 	 * 上传原始文件--采用ftp协议，支持断点续传
 	 * @param request
@@ -188,9 +218,10 @@ public class DataController{
 		fileLogDto.setFilename(filename);
 		ContinueFTP myFtp = new ContinueFTP();
 		try {
-			myFtp.connect("49.4.6.47", 21, "ftpadmin", "ftp_qd123");
+			//myFtp.connect("49.4.6.47", 21, "ftpadmin", "ftp_qd123");			
+			myFtp.connect("192.168.0.199", 21, "ftpadmin", "ftp_qd123");
+			
 			System.out.println("3...连接到ftp");
-			//myFtp.connect("192.168.0.199", 21, "ftpadmin", "ftp_qd123");
 			request.getSession().setAttribute(Constraints.SESSION_FTP_STATUS, myFtp);						
 			long starttime = System.currentTimeMillis();
 			FTPStatus status = myFtp.upload(sourceFile, filename,yyyyMMdd);
@@ -212,23 +243,228 @@ public class DataController{
 		}
 
 	}
+	
 	/**
-	 * 获取上传进度（务必在调用/uploadfile后使用）
+	 * 导入投诉数据
+	 * @return
+	 */
+	@RequestMapping("/uploadcomplain")
+	@ResponseBody
+	public ModelMap uploadComplaints(HttpServletRequest request,HttpServletResponse response){
+		ModelMap map = new ModelMap(); 
+		String file_time = request.getParameter("time")+" 00:00:00";
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+		Date date = null;
+		try {
+			date = format.parse(file_time);
+		} catch (ParseException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		List<String> paths = null;
+		try {
+			paths = CommonUntils.MultipleFilesUpload(request);		
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			map.addAttribute(Constraints.RESULT_SUCCESS, "文件上传失败！");
+		}
+		String result1 = null,result2 = null,file1 = null,file2 = null;
+		for (String path : paths) {
+			if (path.contains("客户投诉常驻小区")) {
+				result1 = uploadComplainCell(date, request,path);
+				file1 = path.substring(path.lastIndexOf("/"));
+			}else if (path.contains("客户投诉情况")) {
+				result2 = uploadComplainDetail(request, path);
+				file2 = path.substring(path.lastIndexOf("/"));
+			}
+		}
+		String allStatus = file1 +": "+result1+";"+file2+": "+result2;
+		map.addAttribute(Constraints.RESULT_SUCCESS, allStatus);		
+		return map;
+	}
+	
+	private String uploadComplainCell(Date date,HttpServletRequest request,String path){
+		String result = null;
+		if (date!=null) {
+			String tablename = "t_complaint_residentarea";
+			List<TableInfoDto> fields = commonService.tableindex(tablename);//获取表中的所有字段***用户导入表中字段数据量应与该数据相等
+			List<AllComplaintDto> allComplaints = new ArrayList<>();
+			FileLogDto fileLogDto = new FileLogDto();
+			long starttime = System.currentTimeMillis();
+			fileLogDto.setStarttime(new Date());
+			fileLogDto.setType("投诉工单数据");			
+			if (path != null) {
+				String filename = path.substring(path.lastIndexOf("/"));
+				fileLogDto.setFilename(filename);
+				if (fields != null && fields.size() > 0) {
+					int rows = FileImport.tablerows(path);//根据带导入表中数据的条数预先生成等量的dto对象
+					for (int i = 0; i < rows; i++) {
+						AllComplaintDto dto = new AllComplaintDto();
+						dto.setRecord_time(date);
+						allComplaints.add(dto);
+					}
+					try {
+						FileImport.importwork(path, allComplaints, fields);// 将excel映射为对象
+						try {						
+							allComplainService.insertCell(allComplaints);
+							result = "导入成功! ";
+							fileLogDto.setResult(1);
+						} catch (Exception e) {
+							e.printStackTrace();
+							fileLogDto.setResult(0);
+							result = "文件导入失败！";
+						}
+					} catch (Exception e1) {
+						e1.printStackTrace();
+						fileLogDto.setResult(0);
+						result = "文件损坏！";
+					}			
+				}
+			}else {
+				fileLogDto.setResult(0);
+			}
+			long endtime = System.currentTimeMillis();
+			fileLogDto.setEndtime(new Date());
+			long alltime = endtime - starttime;
+			fileLogDto.setAlltime(alltime);
+			fileLogService.insertOne(fileLogDto);
+		}
+		return result;
+	}
+	
+	private String uploadComplainDetail(HttpServletRequest request, String path) {
+		String result = null;
+		String tablename = "t_complaint_detail";
+		List<TableInfoDto> fields = commonService.tableindex(tablename);// 获取表中的所有字段***用户导入表中字段数据量应与该数据相等
+		List<AllComplaintDetailDtoWithBLOBs> allDetails = new ArrayList<>();
+		FileLogDto fileLogDto = new FileLogDto();
+		long starttime = System.currentTimeMillis();
+		fileLogDto.setStarttime(new Date());
+		fileLogDto.setType("投诉工单数据");
+		if (path != null) {
+			String filename = path.substring(path.lastIndexOf("/"));
+			fileLogDto.setFilename(filename);
+			if (fields != null && fields.size() > 0) {
+				int rows = FileImport.tablerows(path);// 根据带导入表中数据的条数预先生成等量的dto对象
+				for (int i = 0; i < rows; i++) {
+					AllComplaintDetailDtoWithBLOBs dto = new AllComplaintDetailDtoWithBLOBs();
+					allDetails.add(dto);
+				}
+				try {
+					FileImport.importwork(path, allDetails, fields);// 将excel映射为对象
+					try {
+						boolean flag = allComplainService.insertDetails(allDetails);
+						if (flag) {
+							result = "导入成功! ";
+							fileLogDto.setResult(1);
+						}else {
+							result = "导入失败! ";
+							fileLogDto.setResult(0);
+						}			
+					} catch (Exception e) {
+						e.printStackTrace();
+						fileLogDto.setResult(0);
+						result = "文件导入失败！";
+					}
+				} catch (Exception e1) {
+					e1.printStackTrace();
+					fileLogDto.setResult(0);
+					result = "文件损坏！";
+				}
+			}
+		} else {
+			fileLogDto.setResult(0);
+		}
+		long endtime = System.currentTimeMillis();
+		fileLogDto.setEndtime(new Date());
+		long alltime = endtime - starttime;
+		fileLogDto.setAlltime(alltime);
+		fileLogService.insertOne(fileLogDto);
+
+		return result;
+	}
+
+	/**
+	 * 单个csv网管文件上传
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("/uploadstatus")
+	@RequestMapping("/csvUpload")
 	@ResponseBody
-	public ModelMap getUploadStatus(HttpServletRequest request){
+	public ModelMap uploadCsvTestFile(HttpServletRequest request) {
 		ModelMap map = new ModelMap();
-		ContinueFTP ftp = (ContinueFTP)request.getSession().getAttribute(Constraints.SESSION_FTP_STATUS);
-		if (ftp!=null) {
-			map.addAttribute("progress", ftp.getProgress());
-			map.addAttribute(Constraints.RESULT_SUCCESS, true);
-		}else {
-			map.addAttribute(Constraints.RESULT_SUCCESS, false);
-		}
+		String time = request.getParameter("time");
+		FileLogDto fileLogDto = new FileLogDto();
+		long starttime = System.currentTimeMillis();
+		fileLogDto.setStarttime(new Date());
+		fileLogDto.setType("单个中兴网管指标数据");
+		fileLogDto.setStarttime(new Date());
+		String path = null;	
+		try {
+			path = CommonUntils.CsvFileImprot(request, fileLogDto, time);
+			map.addAttribute("success", Constraints.RESULT_SUCCESS + ":上传成功！");
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			fileLogDto.setResult(0);
+			map.addAttribute("success", Constraints.RESULT_FAIL + ":上传失败！");
+		}		
+		long endtime = System.currentTimeMillis();
+		fileLogDto.setEndtime(new Date());
+		long alltime = endtime - starttime;
+		fileLogDto.setAlltime(alltime);
+		List<FileLogDto> fileLogDtos = new ArrayList<>();
+		fileLogDtos.add(fileLogDto);
+		fileLogService.insert(fileLogDtos);
 		return map;
-	}
 
+	}
+	/**
+	 * 单个csv网管文件分析
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/csvStatistic")
+	@ResponseBody
+	public ModelMap statisticCsvTestFile(HttpServletRequest request) {
+		ModelMap map = new ModelMap();
+		String filetime = request.getParameter("filetime");
+		String modeltime = request.getParameter("modeltime");
+		BGTask task = new CaculateTestTask();
+		String[] args = new String[]{modeltime,filetime};
+		JSON ret = task.runTask(args);
+		return map;
+
+	}
+	/**
+	 * zip网管文件分析
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/zipStatistic")
+	@ResponseBody
+	public ModelMap statisticZipFile(HttpServletRequest request) {
+		ModelMap map = new ModelMap();
+		String filetime = request.getParameter("filetime");
+		String modeltime = request.getParameter("modeltime");
+		BGTask task = new CaculateTask();
+		String[] args = new String[]{modeltime,filetime};
+		JSON ret = task.runTask(args);
+		return map;
+
+	}
+	/**
+	 * zip网管文件模式计算
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/modelCalculate")
+	@ResponseBody
+	public ModelMap modelCalculate(HttpServletRequest request) {
+		ModelMap map = new ModelMap();
+		String modeltime = request.getParameter("modeltime");
+		BGTask task = new OffLineHealthModelBDTask();
+		JSON ret = task.runTask(modeltime);
+		return map;
+
+	}
 }

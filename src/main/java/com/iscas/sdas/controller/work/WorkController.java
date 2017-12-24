@@ -13,16 +13,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.iscas.sdas.dto.TableInfoDto;
-import com.iscas.sdas.dto.work.CapacityWorkDto;
 import com.iscas.sdas.dto.work.AllCapacityWorkDto;
+import com.iscas.sdas.dto.work.CapacityWorkDto;
 import com.iscas.sdas.service.CommonService;
 import com.iscas.sdas.service.WorkService;
 import com.iscas.sdas.util.CommonUntils;
 import com.iscas.sdas.util.Constraints;
 import com.iscas.sdas.util.FileImport;
 
+import objects.JSON;
 import tasks.BGTask;
-import tasks.sheet.NewGDCheckTask;
+import tasks.sheet.SheetCheckTask;
 
 
 @Controller
@@ -97,17 +98,21 @@ public class WorkController {
 	@ResponseBody
 	public ModelMap workvalidate() throws Exception{
 		ModelMap map = new ModelMap();
-		BGTask task = new NewGDCheckTask();//XXX 调用spark跑工单验证
-		task.doTask();//阻塞
-		//task.runTaskWithThread();//新的线程
-		//List<CapacityWorkDto> capacityWorks = workService.workValidate(workService.allvalidatelist(),0);
-		List<CapacityWorkDto> capacityWorks =  workService.workValidate2();
+		try {
+			BGTask task = new SheetCheckTask();
+			JSON ret = task.runTask(new String[]{});
+			map.addAttribute(Constraints.RESULT_SUCCESS, true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.addAttribute(Constraints.RESULT_SUCCESS, false);
+		}
+		/*List<CapacityWorkDto> capacityWorks =  workService.workValidate2();
 		if (capacityWorks.size()>0) {
-			map.addAttribute(Constraints.RESULT_ROW, capacityWorks);
+			//map.addAttribute(Constraints.RESULT_ROW, capacityWorks);
 			map.addAttribute(Constraints.RESULT_SUCCESS, true);
 		}else {
 			map.addAttribute(Constraints.RESULT_SUCCESS, false);
-		}
+		}*/
 		return map;
 	}
 	
@@ -163,7 +168,7 @@ public class WorkController {
 	 */
 	@RequestMapping("/allrtworks")
 	@ResponseBody
-	public ModelMap alltest(HttpServletRequest request){
+	public ModelMap workOrderValidate(HttpServletRequest request){
 		ModelMap map = new ModelMap();
 		CapacityWorkDto cwdto=new CapacityWorkDto();
 		String cellid = request.getParameter("cellid");
