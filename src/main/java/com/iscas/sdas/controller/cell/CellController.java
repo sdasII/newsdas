@@ -312,32 +312,48 @@ public class CellController {
   	
         try {
         	String cellname = request.getParameter("cellname");
+        	if (CommonUntils.isempty(cellname)) {
+				cellname = null;
+			}
         	String starttime = null,endtime = null;
     		if ("select".equals(type)) {
     			starttime = request.getParameter("starttime");
     			endtime = request.getParameter("endtime");
     		}
-        	String titlename = title;
-        	title = cellname + "----" + title;
-        	if ("day".equals(type)) {
-				title = cellname +"最近一天";
-			}else if ("week".equals(type)) {
-				title = cellname +"最近一周";
-			}else if ("month".equals(type)) {
-				title = cellname +"最近一月";
-			}else if ("select".equals(type)) {
-				title = cellname +"_"+starttime+"_"+endtime;
-			}
-    		title += titlename;
-    		List<TotalHealthInfoDto2> list = cellService.generateCellHealthTrend2(cellname,type,starttime,endtime);
     		Map<String,String> headMap = new LinkedHashMap<>();
+    		
+    		if (!CommonUntils.isempty(cellname)) {
+    			String titlename = title;
+            	title = cellname + "----" + title;
+            	if ("day".equals(type)) {
+    				title = cellname +"最近一天";
+    			}else if ("week".equals(type)) {
+    				title = cellname +"最近一周";
+    			}else if ("month".equals(type)) {
+    				title = cellname +"最近一月";
+    			}else if ("select".equals(type)) {
+    				title = cellname +"_"+starttime+"_"+endtime;
+    			}
+        		title += titlename;
+			}else{
+				if ("day".equals(type)) {
+    				title =  "历史健康度全部数据_最近一天";
+    			}else if ("week".equals(type)) {
+    				title =  "历史健康度全部数据_最近一周";
+    			}else if ("month".equals(type)) {
+    				title = "历史健康度全部数据_最近一月";
+    			}else if ("select".equals(type)) {
+    				title = "历史健康度全部数据_"+starttime+"_"+endtime;
+    			}
+				headMap.put("cell_code", "小区名称");
+			}	
+    		List<TotalHealthInfoDto2> list = cellService.generateCellHealthTrend2(cellname,type,starttime,endtime);
     		headMap.put("date", "日期");
     		for (int i = 0; i < 24; i++) {
 				String range = "range_";
 				String count = i<10?"0"+i:i+"";
 				String head = range + count;
 				headMap.put(head, i+"时");
-
 			}
     		JSONArray ja = null;
         	if (list!=null) {
@@ -408,13 +424,13 @@ public class CellController {
         		title += titlename;
 			}else {
             	if ("day".equals(type)) {
-    				title =  "全部数据_最近一天";
+    				title =  "判别结果导出_全部数据_最近一天";
     			}else if ("week".equals(type)) {
-    				title = "全部数据_最近一周";
+    				title = "判别结果导出_全部数据_最近一周";
     			}else if ("month".equals(type)) {
-    				title = "全部数据_最近一月";
+    				title = "判别结果导出_全部数据_最近一月";
     			}else if ("select".equals(type)) {
-    				title = "全部数据__"+starttime+"_"+endtime;
+    				title = "判别结果导出_全部数据__"+starttime+"_"+endtime;
     			}
 
 			}
@@ -595,7 +611,7 @@ public class CellController {
         }
     }*/
 	
-	@RequestMapping("/history/all/export")
+	/*@RequestMapping("/history/all/export")
     public  void allHistoryExport(HttpServletRequest request,HttpServletResponse response){
   	
         try {      	
@@ -643,5 +659,5 @@ public class CellController {
         }catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }
