@@ -409,7 +409,7 @@ public class CommonUntils {
 					if (index>0) {
 						String filename = file.getOriginalFilename().substring(0, index) +"-"+ System.currentTimeMillis()+file.getOriginalFilename().substring(index);
 						//String filepath = "/home/hadoop/systempdata/" + filename;
-						String filepath = createDirecroty("E:/newsdas/test", yyyyMMdd) + filename;
+						String filepath = createDirecroty("/home/hadoop/systempdata/test", yyyyMMdd) + filename;
 						fileLogDto.setFilename(file.getOriginalFilename());						
 						File targetfile = new File(filepath);
 						if (targetfile.exists()) {
