@@ -97,7 +97,7 @@ public class WorkController {
 	@ResponseBody
 	public ModelMap workvalidate() throws Exception{
 		ModelMap map = new ModelMap();
-		// junwei
+		//TODO junwei
 		try {
 			BGTask task = new NewGDCheckTask();//XXX 调用spark跑工单验证
 			task.doTask();//阻塞

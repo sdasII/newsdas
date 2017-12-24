@@ -119,8 +119,8 @@ input[type="file"]{
 	<script type="text/javascript">
 		var ws;
 		if ('WebSocket' in window) {
-			ws = new WebSocket("ws://49.4.6.47:9999/newsdas/websocket");
-			//ws = new WebSocket("ws://localhost:8080/newsdas/websocket");
+			//ws = new WebSocket("ws://49.4.6.47:9999/newsdas/websocket");
+			ws = new WebSocket("ws://localhost:8080/newsdas/websocket");
 		} else {
 			alert("当前浏览器不支持WebSocket");
 		}
@@ -156,46 +156,6 @@ input[type="file"]{
 		}
 	</script>
 	<script type="text/javascript">
-		var select = $("#originfile").val();
-		var time = $("#origintime").val();
-
-		function mySubmit(element) {
-
-			if (select != "" && time != "") {
-				$("#originsubmit").attr("disabled", true);
-				$("#span_progress").css("display", "inline");
-				$("#progress2").attr("value", 0);
-				$("#progressvalue2").text("0%");
-
-				$(element).ajaxSubmit(function(message) {
-					var msg = message;
-					var fileStatus = msg.status;
-					$("#originsubmit").attr("disabled", false);
-					if (fileStatus.indexOf("失败") >= 0) {
-						showOnlyMessage(ERROR, fileStatus);
-						$("#originsubmit").val("续传");
-					} else if (fileStatus.indexOf("成功") >= 0) {
-						showOnlyMessage(INFO, fileStatus);
-						//$("#originfile").val("");
-						$("#originsubmit").val("上传");
-					} else {
-						showOnlyMessage("warning", fileStatus);
-					}
-				});
-				ws.send("start");
-				/* setTimeout(function() {
-					longPoling();
-				}, 100); */
-			} else if (select == "") {
-				showOnlyMessage(ERROR, "请选择文件！");
-			} else if (time == "") {
-				showOnlyMessage(ERROR, "请选择时间！");
-			}
-
-			//$("#myform").myform();
-			return false;
-		}
-
 		function closews() {
 			ws.close();
 		}
@@ -338,7 +298,7 @@ input[type="file"]{
 							<div class="panel-heading">中兴指标数据csv测试文件</div>
 							<div class="panel-body">
 								<form action="${context}/data/csvUpload"
-									method="post" onsubmit="return networkSumit(this);">
+									method="post" onsubmit="return signalCSVSumit(this);">
 									<div class="form-group">
 										<label>时间选择：</label> <input id="nettest_time" name="time"
 											style="display: inline; padding: -10px; margin: -10px; height: 39px; margin-right: 10px;"
@@ -373,7 +333,7 @@ input[type="file"]{
 								<!-- <div>
 									<span><i>备注：</i> </span> <span>请选择小区一天的网管数据</span>
 								</div> -->
-								<form action="${context}/data/uploadfile" method="post"onsubmit="return netzipSumit(this);">
+								<form id="soucefile" action="${context}/data/uploadfile" method="post"onsubmit="return netzipSumit(this);">
 									<div class="ibox-tools" style="margin-top: -10px;">
 										<a  href="javascript:;" onclick="openIframe('${context}/cell/celltable','健康评估')"><i>查看详情</i></a>
 									</div>
@@ -388,6 +348,11 @@ input[type="file"]{
 										<button class="btn btn-white upload_btn">选择上传文件</button>
 										<div class="upload_title">未选择任何文件</div>
 										<button id="originsubmit" class="btn btn-success" type="submit" style="margin-left: 10px;">上传</button>
+										<span id="span_progress" style="display: none;">
+											<progress id="progress2" max="100" value="0"></progress><em>上传进度：</em>
+											<span id="progressvalue2">0%</span>
+										</span><br> 
+										<span id="upload_progress" style="display: none;"></span>
 										<br>
 										<br> <label for="cal_time">计算日期：</label> <input size="16"
 											type="text" name="cal_time" id="net_caltime2"
@@ -395,6 +360,10 @@ input[type="file"]{
 											class="form_datetime" style="width:220px;margin-top: -10px">
 										<button class="btn btn-info search" type="button"
 											onclick="submit_calzip()">分析</button><br>
+										<div class="btn loading" id="zip_load"
+											style="display: none;">
+											<img src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在上传...</span>
+										</div> 
 										<button class="btn btn-info search" type="button" onclick="submit_modelzip()" style="float: right">模式计算</button>
 									</div>
 								</form>
@@ -418,8 +387,8 @@ input[type="file"]{
 								<option value="">全部</option>
 								<option value="性能工单数据">性能工单数据</option>
 								<option value="投诉工单数据">投诉工单数据</option>
-								<option value="投诉工单数据">中兴网管指标数据</option>
-								<option value="投诉工单数据">中兴网管指标原始数据</option>
+								<option value="单个中兴网管指标数据">单个中兴网管指标数据</option>
+								<option value="中兴网管指标原始数据">中兴网管指标原始数据</option>
 							</select>
 							<label for="status" style="margin-left: 20px">状态</label>
 							<select id="status" name="status" class="btn btn-white">

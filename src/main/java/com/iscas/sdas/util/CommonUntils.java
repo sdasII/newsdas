@@ -235,7 +235,7 @@ public class CommonUntils {
 		return filepaths;
 	}
 	/**
-	 * 单个文件导入(数据导入专用)
+	 * 文件导入
 	 * @param service
 	 * @param request
 	 * @param fileLogDto
@@ -256,7 +256,7 @@ public class CommonUntils {
 					int index = file.getOriginalFilename().lastIndexOf(".");
 					if (index>0) {
 						String filename = file.getOriginalFilename().substring(0, index) +"-"+ System.currentTimeMillis()+file.getOriginalFilename().substring(index);
-						String filepath = "/home/hadoop/systempdata/" + filename;
+						String filepath = "/home/hadoop/newsdastempfile/" + filename;
 						//String filepath = "E:/newsdas/" + filename;
 						fileLogDto.setFilename(file.getOriginalFilename());						
 						File targetfile = new File(filepath);
@@ -377,5 +377,51 @@ public class CommonUntils {
         int days = (int) ((date2.getTime() - date1.getTime()) / (1000*3600*24));
         return days;
     }
+    /**
+     * 创建指定文件目录
+     * @param yyyyMMdd
+     * @return
+     * @throws IOException
+     */
+    public static String createDirecroty(String rootDir,String yyyyMMdd) throws IOException {
+		String yearDir = yyyyMMdd.substring(0, 4);
+		String monthDir = yyyyMMdd.substring(4, 6);
+		String dayDir = yyyyMMdd.substring(6);
+		String directory =rootDir +"/" + yearDir + "/" + monthDir + "/" + dayDir;	
+		File file = new File(directory);
+		if (!file.exists()) {
+			file.mkdirs();
+		}
+		directory += "/";
+		return directory;
+	}
+    
+    public static String CsvFileImprot(HttpServletRequest request,FileLogDto fileLogDto,String yyyyMMdd) throws IllegalStateException, IOException  {
+		// 将当前上下文初始化给 CommonsMutipartResolver （多部分解析器）
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
+				request.getSession().getServletContext());
+		if (multipartResolver.isMultipart(request)) {
+			MultipartHttpServletRequest mutiRequest = (MultipartHttpServletRequest) request;
+			List<MultipartFile> files = mutiRequest.getFiles("file");
+			for (MultipartFile file : files) {
+				if (file != null) {
+					int index = file.getOriginalFilename().lastIndexOf(".");
+					if (index>0) {
+						String filename = file.getOriginalFilename().substring(0, index) +"-"+ System.currentTimeMillis()+file.getOriginalFilename().substring(index);
+						//String filepath = "/home/hadoop/systempdata/" + filename;
+						String filepath = createDirecroty("E:/newsdas/test", yyyyMMdd) + filename;
+						fileLogDto.setFilename(file.getOriginalFilename());						
+						File targetfile = new File(filepath);
+						if (targetfile.exists()) {
+							targetfile.delete();
+						}
+						file.transferTo(targetfile);
+						return filepath;				
+					}			
+				}
+			}
+		}
+		return null;
+	}
 
 }

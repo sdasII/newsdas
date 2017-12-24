@@ -331,7 +331,7 @@ public class ContinueFTP{
 			double temp = localreadbytes / allbytes;
 			if (temp * 100 != process) {
 				process = (localreadbytes / allbytes) * 100;
-
+				System.out.println(process);
 				// TODO 汇报上传状态
 				
 				setProgress(process);

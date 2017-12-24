@@ -214,8 +214,8 @@ public class DataController{
 		fileLogDto.setFilename(filename);
 		ContinueFTP myFtp = new ContinueFTP();
 		try {
-			//myFtp.connect("49.4.6.47", 21, "ftpadmin", "ftp_qd123");			
-			myFtp.connect("192.168.0.199", 21, "ftpadmin", "ftp_qd123");
+			myFtp.connect("49.4.6.47", 21, "ftpadmin", "ftp_qd123");			
+			//myFtp.connect("192.168.0.199", 21, "ftpadmin", "ftp_qd123");
 			
 			System.out.println("3...连接到ftp");
 			request.getSession().setAttribute(Constraints.SESSION_FTP_STATUS, myFtp);						
@@ -397,7 +397,7 @@ public class DataController{
 		fileLogDto.setStarttime(new Date());
 		String path = null;	
 		try {
-			path = CommonUntils.FileImprot(request, fileLogDto);
+			path = CommonUntils.CsvFileImprot(request, fileLogDto, time);
 			map.addAttribute("success", Constraints.RESULT_SUCCESS + ":上传成功！");
 		} catch (Exception e1) {
 			e1.printStackTrace();
@@ -411,6 +411,53 @@ public class DataController{
 		List<FileLogDto> fileLogDtos = new ArrayList<>();
 		fileLogDtos.add(fileLogDto);
 		fileLogService.insert(fileLogDtos);
+		return map;
+
+	}
+	/**
+	 * 单个csv网管文件分析
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/csvStatistic")
+	@ResponseBody
+	public ModelMap statisticCsvTestFile(HttpServletRequest request) {
+		ModelMap map = new ModelMap();
+		String filetime = request.getParameter("filetime");
+		String modeltime = request.getParameter("modeltime");
+		//TODO junwei
+		
+		return map;
+
+	}
+	/**
+	 * zip网管文件分析
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/zipStatistic")
+	@ResponseBody
+	public ModelMap statisticZipFile(HttpServletRequest request) {
+		ModelMap map = new ModelMap();
+		String filetime = request.getParameter("filetime");
+		String modeltime = request.getParameter("modeltime");
+		//TODO junwei
+		
+		return map;
+
+	}
+	/**
+	 * zip网管文件模式计算
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/modelCalculate")
+	@ResponseBody
+	public ModelMap modelCalculate(HttpServletRequest request) {
+		ModelMap map = new ModelMap();
+		String modeltime = request.getParameter("modeltime");
+		//TODO junwei
+		
 		return map;
 
 	}

@@ -294,25 +294,47 @@ function submit_cal(){
 		month =(month<10 ? "0"+month:month);
 		time=(year.toString()+month.toString());
 	}
-    /*$.ajax({
-      
-    });*/
+    var filetime = $("#nettest_time").val();
+    var data = {};
+    data.modeltime = time;
+    data.filetime = filetime;
+    var strurl  = ctx + "/data/csvStatistic";
+    $("#csv_load").css("display", "line");
+    $.ajax({
+      url : strurl,
+      type : "post",
+      data : data,
+      success : function(data,success){
+           $("#csv_load").css("display", "none");
+           showOnlyMessage(INFO, "计算完成！");
+      }
+    });
 }
 function netzipSumit(element) {
 	var file = $("#originfile").val();
 	var times=$("#origintime").val();
 	if (times != "" &&file != "") {
+        $("#originsubmit").attr("disabled", true);
+           $("#span_progress").css("display", "inline");
+                $("#progress2").attr("value", 0);
+                $("#progressvalue2").text("0%");
 		$(element).ajaxSubmit(function(message) {
-			//$("#complaint_load").css("display", "none");
-			var status = message.success;
-			if (status.indexOf("成功") > 0) {
-				showOnlyMessage(INFO, status);
-			} else {
-				showOnlyMessage(ERROR, status);
-			}
+					var msg = message;
+					var fileStatus = msg.status;
+					$("#originsubmit").attr("disabled", false);
+					if (fileStatus.indexOf("失败") >= 0) {
+						showOnlyMessage(ERROR, fileStatus);
+						$("#originsubmit").val("续传");
+					} else if (fileStatus.indexOf("成功") >= 0) {
+						showOnlyMessage(INFO, fileStatus);
+						// $("#originfile").val("");
+						$("#originsubmit").val("上传");
+					} else {
+						showOnlyMessage("warning", fileStatus);
+					}
 
-		});
-		//$("#complaint_load").css("display", "inline");
+				});
+         ws.send("start");
 	}else if (times == "") {
 		showOnlyMessage(ERROR, "请选择时间！");
 	} else if (file == "") {
@@ -332,18 +354,48 @@ function submit_calzip(){
 		month =(month<10 ? "0"+month:month);
 		time=(year.toString()+month.toString());
 	}
-    /*$.ajax({
-      
-    });*/
+    var filetime = $("#origintime").val();
+    var data = {};
+    data.modeltime = time;
+    data.filetime = filetime;
+    var strurl  = ctx + "/data/zipStatistic";
+    $("#zip_load").css("display", "line");
+    $.ajax({
+      url : strurl,
+      type : "post",
+      data : data,
+      success : function(data,success){
+           $("#zip_load").css("display", "none");
+           showOnlyMessage(INFO, "计算完成！");
+      }
+    });
 }
 
 /*
  * 网管数据模式计算
  */
 function submit_modelzip(){
-    /*$.ajax({
-      
-    });*/
+    var time = $("#net_caltime2").val();
+    if(time==""){//默认为上一个月
+        var date=new Date;
+        var year=date.getFullYear(); 
+        var month=date.getMonth();
+        month =(month<10 ? "0"+month:month);
+        time=(year.toString()+month.toString());
+    }
+    var data = {};
+    data.modeltime = time;
+    var strurl  = ctx + "/data/modelCalculate";
+    $("#zip_load").css("display", "line");
+    $.ajax({
+      url : strurl,
+      type : "post",
+      data : data,
+      success : function(data,success){
+           $("#zip_load").css("display", "none");
+           showOnlyMessage(INFO, "计算完成！");
+      }
+    });
 }
 
 function formatSubmit(){
