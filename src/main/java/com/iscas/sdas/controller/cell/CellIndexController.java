@@ -31,13 +31,48 @@ public class CellIndexController {
 	@Autowired
 	CellIndexService cellIndexService;
 	/**
-	 * 小区模型
+	 * 单个指标
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping("/index")
 	@ResponseBody
 	public ModelMap cellindex(HttpServletRequest request){
+		ModelMap map = new ModelMap();
+		String indexid = request.getParameter("index");
+		String cellname = request.getParameter("cellname");
+		String month = request.getParameter("month");
+		if (!CommonUntils.isempty(indexid)&&!CommonUntils.isempty(cellname)) {
+			try {
+				List<List<Double[]>> hosdata = cellIndexService.generateIndexData(cellname, indexid, month);
+				/*if (CommonUntils.isempty(month)) {
+					hosdata = cellIndexService.generateIndexData(cellname, indexid, cellIndexService.CELL);
+				}else {
+					hosdata = cellIndexService.generateIndexData(cellname, indexid, month);
+				}*/
+				if (hosdata!=null) {
+					map.addAttribute(Constraints.RESULT_ROW,hosdata);	
+					map.addAttribute(Constraints.RESULT_SUCCESS, true);	
+				}else {
+					map.addAttribute(Constraints.RESULT_SUCCESS, false);	
+				}		
+				return map;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		map.addAttribute(Constraints.RESULT_SUCCESS, false);
+		return map;
+	}
+	
+	/**
+	 * 指标模型
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/index/new")
+	@ResponseBody
+	public ModelMap newcellindex(HttpServletRequest request){
 		ModelMap map = new ModelMap();
 		String indexid = request.getParameter("index");
 		String cellname = request.getParameter("cellname");
@@ -58,6 +93,8 @@ public class CellIndexController {
 		map.addAttribute(Constraints.RESULT_SUCCESS, false);
 		return map;
 	}
+	
+	
 	@RequestMapping("/weight")
 	@ResponseBody
 	public ModelMap cellweight(@RequestParam(value = "cellname",required = true)String cellname){

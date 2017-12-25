@@ -327,7 +327,6 @@ input {
 		var ctx = ctx;
 		var cell_code = "${cellname}";
 		var context = "${context}";
-		var chart_mb = echarts.init($("#mb").get(0));
 		// 百度地图API功能
 		var map = new BMap.Map("allmap"); // 创建Map实例
 		map.centerAndZoom(new BMap.Point(113.270856, 23.137463), 15); // 初始化地图,设置中心点坐标和地图级别
@@ -338,6 +337,8 @@ input {
 		map.addOverlay(marker);
 	</script>
 	<script type="text/javascript" src="${context}/js/general/heatMap.js"></script>
+	<!-- 指标模型 -->
+	<script type="text/javascript" src="${context}/js/cell/index_model.js"></script>
 	<script type="text/javascript" src="${context}/js/general/detail.js"></script>
 </body>
 </html>

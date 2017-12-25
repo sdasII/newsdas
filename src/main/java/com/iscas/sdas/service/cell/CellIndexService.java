@@ -14,14 +14,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.iscas.sdas.dao.IndexWeightDao;
-import com.iscas.sdas.dao.cell.CellDao;
 import com.iscas.sdas.dao.cell.CellIndexDao;
 import com.iscas.sdas.dto.cell.Base;
-import com.iscas.sdas.dto.cell.BaseGroupIndex;
 import com.iscas.sdas.dto.cell.BaseGroupWeight;
-import com.iscas.sdas.dto.cell.BaseIndex;
-import com.iscas.sdas.dto.cell.WeightSequence;
 import com.iscas.sdas.dto.cell.BaseWeight;
+import com.iscas.sdas.dto.cell.WeightSequence;
 /**
  *小区的指标和权重；分组的指标和权重
  * @author Administrator
@@ -37,72 +34,12 @@ public class CellIndexService {
 	public static String GROUP = "group";
 	public static String CELL = "cell";
 	
-	/**
-	 * 小区
-	 * @param indexid
-	 * @param cellname
-	 * @return
-	 */
-	/*public List<List<Double[]>> generateIndexData(String indexid,String cellname){
-		List<List<Double[]>> map = new ArrayList<>();
-		try {
-			BaseIndex cellIndex = cellIndexDao.getOriginIndex(indexid,cellname);
-			if (cellIndex!=null) {
-				Method[] methods = cellIndex.getClass().getMethods();
-				for (Method method : methods) {
-					if (method.getName().contains("getRange")) {	
-						String range = (String)method.invoke(cellIndex, null);						
-						String key = method.getName().substring(method.getName().lastIndexOf("_")+1);
-						List<Double[]> value = getconv(key,range);
-						if (value!=null) {
-							map.add(value);
-						}
-					}
-					
-				}
-				int max=0;
-				List<List<Double[]>> result = new ArrayList<>();
-				for (int i = 0; i < map.size(); i++) {
-					List<Double[]> ratios = map.get(i);
-					if (max<ratios.size()) {
-						max=ratios.size();
-					}
-				}
-				for (int i = 0; i < max; i++) {
-					List<Double[]> ratiolist = new ArrayList<>();
-					result.add(ratiolist);
-				}
-				for (int i = 0; i < map.size(); i++) {
-					List<Double[]> ratios = map.get(i);
-					for(int j=0; j<max; j++){
-						if (j<ratios.size()) {
-							result.get(j).add(ratios.get(j));
-						}else {
-							Double[] point = new Double[5];
-							point[0] = ratios.get(0)[0];
-							point[1] = 0.0;
-							point[2] = 0.0;
-							point[3] = 0.0;
-							point[4] = 0.0;
-							result.get(j).add(point);
-						}
-						
-					}
-				}
-				return result;
-			}else {
-				return null;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}*/
 	
 	/**
 	 * 小组he小区
-	 * @param grouptype
-	 * @param indexcode
+	 * @param cellname  小区na
+	 * @param indexcode 指标id
+	 * @param type group或cell或月份
 	 * @return
 	 */
 	public List<List<Double[]>> generateIndexData(String cellname,String indexcode,String type){
@@ -113,8 +50,9 @@ public class CellIndexService {
 				baseindex = cellIndexDao.getGroupIndexContent(cellname, indexcode);
 			}else if (CELL.equals(type)){
 				baseindex = cellIndexDao.getCellIndexContent(cellname, indexcode);
+			}else {
+				baseindex = cellIndexDao.getCellIndexContentByMonth(cellname, indexcode, type);
 			}
-			//BaseGroupIndex groupIndex = cellIndexDao.getgroupindexcontent(grouptype, indexcode);
 			if (baseindex!=null) {
 				Method[] methods = baseindex.getClass().getMethods();
 				for (Method method : methods) {
@@ -229,7 +167,7 @@ public class CellIndexService {
 		return result;
 	}
 	
-	public List<Double[]> generateRealTimeData(Integer index){
+	/*public List<Double[]> generateRealTimeData1(Integer index){
 		List<Double[]> datalist = new ArrayList<>();
 		List<String> datas = cellIndexDao.getRealTimeData(index);
 		if (datas!=null) {
@@ -247,7 +185,7 @@ public class CellIndexService {
 			}
 		}
 		return datalist;
-	}
+	}*/
 	
 	
 	public Map<String, WeightSequence> cellweight(String cellname){
@@ -370,4 +308,5 @@ public class CellIndexService {
 		}
 		return null;
 	}
+
 }
