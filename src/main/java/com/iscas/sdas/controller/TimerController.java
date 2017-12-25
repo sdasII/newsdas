@@ -63,7 +63,7 @@ public class TimerController {
 		ModelMap map = new ModelMap();
 		String  time=request.getParameter("time");
 		if(!CommonUntils.isempty(time)){
-			BGTask task=new OffLineHealthModelOfExpertDBTask();// OffLineNormalStateOfExpertDBTask();//XXX 专家模式计算簇心
+			BGTask task=new OffLineHealthModelOfExpertDBTask();//XXX 专家模式计算簇心
 			task.runTask(new String[]{time});
 			map.addAttribute(Constraints.RESULT_SUCCESS, true);
 		}else{
