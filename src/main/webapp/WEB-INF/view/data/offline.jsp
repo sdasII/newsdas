@@ -94,12 +94,20 @@
 }
 .panel-body .ibox-tools{text-decoration: underline;}
 .panel-body .ibox-tools i{color:#337ab7;font-style: normal;}
-input[name="time"]{width:160px}
+input[name="time"]{
+	width:160px;
+	margin: -10px;
+    height: 39px;
+    display: inline;
+    padding: -10px;
+    margin-right: 10px;
+    margin-left: 0px;
+    }
 input[type="file"]{
 	display: inline;
     opacity: 0;
     position: relative;
-    width: 160px;
+    width: 165px;
     z-index:9
     }
 
@@ -224,26 +232,27 @@ input[type="file"]{
 						<div class="panel panel-success">
 							<div class="panel-heading">投诉工单数据</div>
 							<div class="panel-body">
-								<div>
+								<!-- <div>
 									<span><i>备注：</i> </span> <span>请选择客户投诉情况导出表和客户投诉小区导出表！</span><br><br>
-								</div>
+								</div> -->
 								<form action="${context}/data/uploadcomplain" method="post" enctype="multipart/form-data"
 									onsubmit="return complainSumit(this);">
-									<label>时间选择：</label> <input id="complaintime" name="time"
-										style="display: inline; padding: -10px; margin: -10px; height: 39px; margin-left: 10px;"
+									<label>时间选择：</label> 
+									<input id="complaintime" name="time" style="margin-left: 25px;"
 										class="btn btn-white layer-date starttime"
 										placeholder="请选择文件时间"
-										onclick="laydate({istime: false, format: 'YYYYMMDD'})"><br><br>
-									<label>客户投诉常驻小区:</label> <input class="btn btn-white"
+										onclick="laydate({istime: false, format: 'YYYYMMDD'})"><br>
+									<label style="width: 80px;padding-right: 20px;">客户投诉常驻小区:</label> 
+									<input class="btn btn-white"
 										type="file" id="comlainfile" name="file" accept=".xls,.xlsx" multiple="multiple">
 										<button class="btn btn-white upload_btn">选择上传文件</button>
 										<div class="upload_title">未选择任何文件</div>
-										 <br><br>
+										 <br>
 									<label>客户投诉情况:</label> <input class="btn btn-white" type="file"
 										id="customerfile" name="file" accept=".xls,.xlsx" multiple="multiple">
 										<button class="btn btn-white upload_btn">选择上传文件</button>
 										<div class="upload_title">未选择任何文件</div>
-										 <br><br>
+										 <br>
 									<input class="btn btn-success" type="submit" value="上传">
 									<div class="btn loading" id="complaint_load"
 										style="display: none;">
@@ -255,12 +264,12 @@ input[type="file"]{
 						</div>
 					</div>
 					<div class="col-sm-6">
-						<div class="panel panel-success" style="height:310px">
+						<div class="panel panel-success" style="height:230px">
 							<div class="panel-heading">性能工单数据</div>
 							<div class="panel-body">
-								<div>
+								<!-- <div>
 									<span><i>备注：</i> </span> <span>请选择单个性能工单表格文件</span>
-								</div>
+								</div> -->
 								<form id="form2" action="/newsdas/data/upload/capacitywork"
 									method="post" enctype="multipart/form-data">
 									<div class="ibox-tools" style="margin-top: -30px;">
@@ -269,10 +278,10 @@ input[type="file"]{
 									<label>选择文件:</label> <input class="btn btn-white" type="file" name="file" id="file2" accept=".xls">
 										<button class="btn btn-white upload_btn">选择上传文件</button>
 										<div class="upload_title">未选择任何文件</div>
-										 <br> <input
-										class="btn btn-white" type="reset" value="重选"> <input
+										 <br> <!-- <input
+										class="btn btn-white" type="reset" value="重选"> --> <input
 										id="submit1" class="btn btn-success" type="button" value="上传"
-										onclick="submit_upload('#file2','#form2')">
+										onclick="submit_upload('#file2','#form2')" style="margin-top: 30px;">
 									<div class="btn loading" id="capacity_load"
 										style="display: none;">
 										<img
@@ -294,18 +303,17 @@ input[type="file"]{
 				</div>
 				<div class="ibox-content">
 					<div class="col-sm-6">
-						<div class="panel panel-success" style="height:250px">
+						<div class="panel panel-success" style="height:230px">
 							<div class="panel-heading">中兴指标数据csv测试文件</div>
 							<div class="panel-body">
 								<form action="${context}/data/csvUpload"
 									method="post" onsubmit="return signalCSVSumit(this);">
 									<div class="form-group">
 										<label>时间选择：</label> <input id="nettest_time" name="time"
-											style="display: inline; padding: -10px; margin: -10px; height: 39px; margin-right: 10px;"
 											class="btn btn-white layer-date starttime"
 											placeholder="请选择文件时间"
 											onclick="laydate({istime: false, format: 'YYYYMMDD'})">
-										<span id="nettime_error" class="error_msg">月份不能为空！</span><br><br>
+										<span id="nettime_error" class="error_msg">月份不能为空！</span><br>
 										<label>选择文件:</label>
 										<input class="btn btn-white" type="file" name="file"id="file3" accept=".csv" > 
 										<button class="btn btn-white upload_btn">选择上传文件</button>
@@ -315,7 +323,7 @@ input[type="file"]{
 											style="display: none;">
 											<img src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在上传...</span>
 										</div> 
-										<label for="cal_time">计算日期：</label> 
+										<label>计算日期:</label> 
 										<input size="16" type="text" name="cal_time" id="net_caltime"
 											placeholder="请选择计算模式月份（默认上一个月）" readonly
 											class="form_datetime" style="width:220px;margin-top: -10px"> 
@@ -339,10 +347,9 @@ input[type="file"]{
 									</div>
 									<div class="form-group">
 										<label>时间选择：</label> <input id="origintime" name="time"
-											style="display: inline; padding: -10px; margin: -10px; height: 39px; margin-right: 10px;"
 											class="btn btn-white layer-date starttime"
 											placeholder="请选择文件时间"
-											onclick="laydate({istime: false, format: 'YYYYMMDD'})">
+											onclick="laydate({istime: false, format: 'YYYYMMDD'})"><br>
 										<label>选择文件:</label>
 										<input class="btn btn-white" type="file" name="file"id="originfile"/>
 										<button class="btn btn-white upload_btn">选择上传文件</button>
@@ -351,10 +358,10 @@ input[type="file"]{
 										<span id="span_progress" style="display: none;">
 											<progress id="progress2" max="100" value="0"></progress><em>上传进度：</em>
 											<span id="progressvalue2">0%</span>
-										</span><br> 
+										</span> 
 										<span id="upload_progress" style="display: none;"></span>
 										<br>
-										<br> <label for="cal_time">计算日期：</label> <input size="16"
+										<label>计算日期:</label> <input size="16"
 											type="text" name="cal_time" id="net_caltime2"
 											placeholder="请选择计算模式月份（默认上一个月）" readonly
 											class="form_datetime" style="width:220px;margin-top: -10px">

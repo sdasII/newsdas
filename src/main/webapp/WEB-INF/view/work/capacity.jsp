@@ -62,10 +62,10 @@ input {
 						<h5>工单验证列表</h5>
 						<div class="ibox-tools">
 						<div class="btn-group" id="datePicker">
-								<button class="btn btn-info datePicker" type="button">全部</button>
-								<button class="btn btn-white datePicker" type="button">今日</button>
-								<button class="btn btn-white datePicker" type="button">一周</button>
-								<button class="btn btn-white datePicker" type="button">一月</button>
+								<!-- <button class="btn btn-info datePicker" type="button">全部</button> -->
+								<button class="btn btn-info datePicker" type="button">最近一日</button>
+								<button class="btn btn-white datePicker" type="button">周</button>
+								<button class="btn btn-white datePicker" type="button">月</button>
 								<button class="btn btn-white datePicker" type="button">按时间选择</button>
 								<div id="timeselect" style="display: none;float: left;">
 									<input style="margin-left:5px;margin-top: -7px !important;" id="starttime"

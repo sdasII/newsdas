@@ -59,10 +59,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT app_hour FROM t_cell_result_info WHERE cell_code = #{cellname} and yyyyMMdd = (SELECT yyyyMMdd
 		FROM t_cell_result_info where cell_code = #{cellname} ORDER BY yyyyMMdd DESC LIMIT 1) ORDER BY app_hour DESC LIMIT 1
 	</select>
+	<!-- 最近一天健康预警（只筛选亚健康和事件） -->
 	<select id="alarmLastDay" resultType="com.iscas.sdas.dto.AlarmDto" 
 			parameterType="com.iscas.sdas.dto.AlarmDto">
 		SELECT * FROM t_cell_result_info WHERE yyyyMMdd = (SELECT yyyyMMdd FROM
-		t_cell_result_info where cell_code = #{cell_code} ORDER BY yyyyMMdd DESC LIMIT 1) and cell_code = #{cell_code}
+		t_cell_result_info where cell_code = #{cell_code} ORDER BY yyyyMMdd DESC LIMIT 1) and cell_code = #{cell_code} and (app_result=0||app_result=1)
 	</select>
 	<select id="cellListLastDay" resultType="com.iscas.sdas.dto.cell.CellResultHistoryDto"
 	 	parameterType="java.lang.String">

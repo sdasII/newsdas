@@ -35,6 +35,10 @@ import com.iscas.sdas.util.FTPStatus;
 import com.iscas.sdas.util.FileImport;
 
 import objects.JSON;
+import tasks.BGTask;
+import tasks.cell.CaculateTask;
+import tasks.cell.CaculateTestTask;
+import tasks.cell.model.OffLineHealthModelBDTask;
 import tasks.cell.netupload.CellUploadFileTask;
 import tasks.cell.netupload.PutNetFile2HDFSTask;
 
@@ -425,8 +429,9 @@ public class DataController{
 		ModelMap map = new ModelMap();
 		String filetime = request.getParameter("filetime");
 		String modeltime = request.getParameter("modeltime");
-		//TODO junwei
-		
+		BGTask task = new CaculateTestTask();
+		String[] args = new String[]{modeltime,filetime};
+		JSON ret = task.runTask(args);
 		return map;
 
 	}
@@ -441,8 +446,9 @@ public class DataController{
 		ModelMap map = new ModelMap();
 		String filetime = request.getParameter("filetime");
 		String modeltime = request.getParameter("modeltime");
-		//TODO junwei
-		
+		BGTask task = new CaculateTask();
+		String[] args = new String[]{modeltime,filetime};
+		JSON ret = task.runTask(args);
 		return map;
 
 	}
@@ -456,8 +462,8 @@ public class DataController{
 	public ModelMap modelCalculate(HttpServletRequest request) {
 		ModelMap map = new ModelMap();
 		String modeltime = request.getParameter("modeltime");
-		//TODO junwei
-		
+		BGTask task = new OffLineHealthModelBDTask();
+		JSON ret = task.runTask(modeltime);
 		return map;
 
 	}

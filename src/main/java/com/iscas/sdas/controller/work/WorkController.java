@@ -21,8 +21,9 @@ import com.iscas.sdas.util.CommonUntils;
 import com.iscas.sdas.util.Constraints;
 import com.iscas.sdas.util.FileImport;
 
+import objects.JSON;
 import tasks.BGTask;
-import tasks.sheet.NewGDCheckTask;
+import tasks.sheet.SheetCheckTask;
 
 
 @Controller
@@ -97,13 +98,11 @@ public class WorkController {
 	@ResponseBody
 	public ModelMap workvalidate() throws Exception{
 		ModelMap map = new ModelMap();
-		//TODO junwei
 		try {
-			BGTask task = new NewGDCheckTask();//XXX 调用spark跑工单验证
-			task.doTask();//阻塞
+			BGTask task = new SheetCheckTask();
+			JSON ret = task.runTask(new String[]{});
 			map.addAttribute(Constraints.RESULT_SUCCESS, true);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			map.addAttribute(Constraints.RESULT_SUCCESS, false);
 		}
