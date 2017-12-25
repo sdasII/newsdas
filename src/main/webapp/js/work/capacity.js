@@ -11,7 +11,7 @@ var validateurl = ctx +"/work/validate";
 var updatetimeUrl = ctx + "/alarm/updatetime"
 var starttime="";
 var endtime="";
-var work_date=null;
+var work_date=0;
 $(function(){
 	//最新时间
 	$.ajax({
@@ -69,15 +69,15 @@ $(function(){
 				work_date = null;	
 				$(this).removeClass("btn-white");
 				$(this).addClass("btn-info");
-			}else if ($(this).html() == "今日") {
+			}else if ($(this).html() == "最近一日") {
 				work_date = 0;
 				$(this).removeClass("btn-white");
 				$(this).addClass("btn-info");
-			} else if ($(this).html() == "一周") {
+			} else if ($(this).html() == "周") {
 				work_date = 7;
 				$(this).removeClass("btn-white");
 				$(this).addClass("btn-info");
-			} else if ($(this).html() == "一月") {
+			} else if ($(this).html() == "月") {
 				work_date = 30;
 				$(this).removeClass("btn-white");
 				$(this).addClass("btn-info");

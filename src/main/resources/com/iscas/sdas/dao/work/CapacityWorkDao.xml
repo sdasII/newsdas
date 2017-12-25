@@ -129,13 +129,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				and occurrence_time &gt;=#{starttime} and occurrence_time &lt;=#{endtime}
 			</if>
 			<if test="starttime==null and endtime==null and daynum==7">
-				and TO_DAYS(NOW())-TO_DAYS(occurrence_time) &lt;=#{daynum}
+				and TO_DAYS((SELECT occurrence_time FROM t_performance_work_rt ORDER BY occurrence_time DESC LIMIT 1))-TO_DAYS(occurrence_time)&lt;=7
 			</if>
 			<if test="starttime==null and endtime==null and daynum==30">
-				and TO_DAYS(NOW())-TO_DAYS(occurrence_time) &lt;=#{daynum}
+				and TO_DAYS((SELECT occurrence_time FROM t_performance_work_rt ORDER BY occurrence_time DESC LIMIT 1))-TO_DAYS(occurrence_time)&lt;=30
 			</if>
 			<if test="starttime==null and endtime==null and daynum==0">
-				and TO_DAYS(NOW())-TO_DAYS(occurrence_time) =#{daynum}
+				and TO_DAYS((SELECT occurrence_time FROM t_performance_work_rt ORDER BY occurrence_time DESC LIMIT 1))-TO_DAYS(occurrence_time)&lt;=0
 			</if>
+			order by occurrence_time DESC
 	</select>
 </mapper>
