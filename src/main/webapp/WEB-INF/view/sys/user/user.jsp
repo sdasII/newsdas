@@ -23,13 +23,11 @@
 	%>
 	<div class="wrapper wrapper-content animated fadeInRight">
 		<div class="row">
-			<div class="col-sm-6">
 				<div class="ibox-title">
 					<h5>用户信息</h5>
 				</div>
 				<div class="ibox-content">
 					<div class="row row-lg">
-						<div class="col-sm-12">
 							<!-- Example Card View -->
 							<div class="example-wrap">
 								<div class="example">
@@ -48,7 +46,6 @@
 											<my:btn type="search" onclick="searchUserInfo()"></my:btn>
 										</div>
 									</form>
-									<div class="col-md-12">
 										<div id="toolbar" class="btn-group">
 											<my:btn type="insert"></my:btn>
 											<my:btn type="update"></my:btn>
@@ -57,13 +54,10 @@
 										<br> <br>
 										<table id="userInfoTable">
 										</table>
-									</div>
 								</div>
 							</div>
-						</div>
 					</div>
 				</div>
-			</div>
 			<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 				aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-dialog" style="height: auto;">
