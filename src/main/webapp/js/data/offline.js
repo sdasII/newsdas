@@ -19,6 +19,7 @@ $(function() {
 						$("#netpath_error").hide();
 					});
 			//datapicker
+			
 		    $(".form_datetime").datetimepicker({
 		    	 format: 'yyyymm',  
 		    	 startView: 'year',
@@ -29,11 +30,11 @@ $(function() {
 		  //年月默认值
 		    var date=new Date;
 		    var year=date.getFullYear(); 
-		    var month=date.getMonth()+1;
+		    var month=date.getMonth();//默认上一个月
 		    month =(month<10 ? "0"+month:month); 
 		    var mydate = (year.toString()+month.toString());
 		    $(".form_datetime").val(mydate);
-		    //
+		    
 		    $("input[type='file']").on('change', function(e){
 		        var name = e.currentTarget.files[0].name;
 		        var filediv=$(e.currentTarget).prev('input[type="file"]').prevObject[0];
@@ -457,12 +458,10 @@ function drawTables(type){
 	              title: '状态',
 	              width:500,
 	              formatter:function(value,row,index){
-	                 if(value=="0"){
-	                	 return "失败";
-	                 }else if(value=="1"){
+	                 if(value=="1"){
 	                	 return "成功";
 	                 }else{
-	                	 return "无";
+	                	 return "失败";
 	                 }
 	                 }
 	          }],

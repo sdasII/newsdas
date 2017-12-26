@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <%@ include file="/include/common.jsp"%>
 <%-- <script src="${context}/lib/hplus/js/plugins/layer/laydate/laydate.js"></script> --%>
-<script src="${context}/lib/datapicker/bootstrap-datetimepicker.min.js"></script>
+<script src="${context}/lib/datapicker/bootstrap-datetimepicker.js"></script>
 <script
 	src="${context}/lib/datapicker/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="${context}/lib/hplus/js/plugins/layer/laydate/laydate.js"></script>

@@ -14,7 +14,7 @@
 <script type="text/javascript"
 	src="http://api.map.baidu.com/api?v=2.0&ak=EmXf0NLcNCvBO5hdDliGtvC9D5v6GA5K"></script>
 <script type="text/javascript"src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
-<script src="${context}/lib/datapicker/bootstrap-datetimepicker.min.js"></script>
+<script src="${context}/lib/datapicker/bootstrap-datetimepicker.js"></script>
 <script src="${context}/lib/datapicker/bootstrap-datetimepicker.zh-CN.js"></script>
 <link href="${context}/lib/datapicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
 <script src="${context}/lib/hplus/js/plugins/layer/laydate/laydate.js"></script>

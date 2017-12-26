@@ -9,7 +9,7 @@
 <script src="${context}/lib/hplus/js/plugins/layer/laydate/laydate.js"></script>
 <script type="text/javascript"
 	src="${context}/js/plugin/jQuery.sdas.core.js"></script>
-<script src="${context}/lib/datapicker/bootstrap-datetimepicker.min.js"></script>
+<script src="${context}/lib/datapicker/bootstrap-datetimepicker.js"></script>
 <script
 	src="${context}/lib/datapicker/bootstrap-datetimepicker.zh-CN.js"></script>
 <script type="text/javascript" src="${context}/js/data/offline.js"></script>
@@ -364,7 +364,7 @@ input[type="file"]{
 										<label>计算日期:</label> <input size="16"
 											type="text" name="cal_time" id="net_caltime2"
 											placeholder="请选择计算模式月份（默认上一个月）" readonly
-											class="form_datetime" style="width:220px;margin-top: -10px">
+											class="timepicker form_datetime" style="width:220px;margin-top: -10px">
 										<button class="btn btn-info search" type="button"
 											onclick="submit_calzip()">分析</button><br>
 										<div class="btn loading" id="zip_load"
