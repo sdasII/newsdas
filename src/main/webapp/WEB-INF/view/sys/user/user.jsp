@@ -10,7 +10,7 @@
 <script src="${context}/lib/hplus/js/plugins/layer/laydate/laydate.js"></script>
 <script type="text/javascript" src="${context}/js/sys/user/user.js"></script>
 </head>
-<body>
+<body style="margin:0px 25px;">
 	<script type="text/javascript">
 		var role = $
 		{
@@ -21,7 +21,7 @@
 		UserDto userinfo = (UserDto) session.getAttribute("userInfo");
 		pageContext.setAttribute("role", userinfo.getRolename());
 	%>
-	<div class="wrapper wrapper-content animated fadeInRight">
+	<div>
 		<div class="row">
 				<div class="ibox-title">
 					<h5>用户信息</h5>
@@ -46,7 +46,7 @@
 											<my:btn type="search" onclick="searchUserInfo()"></my:btn>
 										</div>
 									</form>
-										<div id="toolbar" class="btn-group">
+										<div id="toolbar" class="btn-group" style="margin-bottom: 10px">
 											<my:btn type="insert"></my:btn>
 											<my:btn type="update"></my:btn>
 											<my:btn type="delete"></my:btn>
@@ -58,7 +58,8 @@
 							</div>
 					</div>
 				</div>
-			<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		</div>
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 				aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-dialog" style="height: auto;">
 					<div class="modal-content">
@@ -145,6 +146,5 @@
 					</div>
 				</div>
 			</div>
-		</div>
 </body>
 </html>
