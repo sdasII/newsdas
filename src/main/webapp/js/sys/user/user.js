@@ -92,10 +92,10 @@ $(function(){
             { field : "username", title : "用户名", align : "center", valign : "middle" },
             { field : 'rolename', title : '角色', align : "center", valign : "middle" },
             { field : "email", title : "邮箱", align : "center", valign : "middle" },
-            { field : "birthday", title : "生日", align : "center", valign : "middle" },
+            /*{ field : "birthday", title : "生日", align : "center", valign : "middle" },
             { field : "address", title : "地址", align : "center", valign : "middle" },
             { field : "tel", title : "座机", align : "center", valign : "middle" },
-            { field : "mobile", title : "手机", align : "center", valign : "middle" },
+            { field : "mobile", title : "手机", align : "center", valign : "middle" },*/
             { field : 'userLocked', title : '用户账号状态', align : "center", valign : "middle",formatter:function(data,row){
                 if(data==0){
                     return "正常";

@@ -57,11 +57,11 @@
 <body>
 	<div class="wrapper wrapper-content animated fadeInRight">
 		<div class="row" style="margin: 0px; padding: 0px;">
-			<div class="col-sm-12">
+			<!-- <div class="col-sm-12">
 				<div class="title">
 					<h5 class="updatetime">最新发布更新时间：</h5>
 				</div>
-			</div>
+			</div> -->
 			<div class="col-sm-12">
 				<div id="leftmodel" class="col-sm-3">
 					<div class="ibox-content">

@@ -189,11 +189,11 @@
 			<artifactId>kaptcha</artifactId>
 			<version>2.3.2</version>
 		</dependency>
-        <dependency>
+        <!-- <dependency>
             <groupId>june</groupId>
             <artifactId>tele</artifactId>
             <version>1.2.2</version>
-        </dependency>
+        </dependency> -->
 		<!-- ws -->
 		<dependency>
 			<groupId>org.springframework</groupId>

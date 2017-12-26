@@ -21,7 +21,7 @@ $(function(){
 		url:updatetimeUrl,
 		type:"post",
 		success:function(data){
-			$("#updateTime").html("最新发布更新时间： "+data);
+			$("#updateTime").html("最新发布时间： "+data);
 		}
 	});
     $('#table_list_1').bootstrapTable({
@@ -81,6 +81,14 @@ $(function(){
          maxView:'decade',
          language:  'zh-CN' 
     });
+    //年月默认值
+    var date=new Date;
+    var year=date.getFullYear(); 
+    var month=date.getMonth()+1;
+    month =(month<10 ? "0"+month:month); 
+    var mydate = (year.toString()+month.toString());
+    $(".form_datetime").val(mydate);
+    
     searchInfo();
 });
 //全局查询参数

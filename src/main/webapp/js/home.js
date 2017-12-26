@@ -3,13 +3,13 @@ var counts = ctx + "/alarm/lastHourClassCount";
 var currAlarm = ctx + "/alarm/lastHourAlarm";
 $(function(){
 	//最新时间
-	$.ajax({
+	/*$.ajax({
 		url:updatetimeUrl,
 		type:"post",
 		success:function(data){
 			$(".updatetime").html("最新发布时间： "+data);
 		}
-	});
+	});*/
 	//监控小区个数
 	$.ajax({
 		url:counts,

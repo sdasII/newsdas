@@ -26,6 +26,13 @@ $(function() {
 		         maxView:'decade',
 		         language:  'zh-CN' 
 		    });
+		  //年月默认值
+		    var date=new Date;
+		    var year=date.getFullYear(); 
+		    var month=date.getMonth()+1;
+		    month =(month<10 ? "0"+month:month); 
+		    var mydate = (year.toString()+month.toString());
+		    $(".form_datetime").val(mydate);
 		    //
 		    $("input[type='file']").on('change', function(e){
 		        var name = e.currentTarget.files[0].name;
@@ -454,6 +461,8 @@ function drawTables(type){
 	                	 return "失败";
 	                 }else if(value=="1"){
 	                	 return "成功";
+	                 }else{
+	                	 return "无";
 	                 }
 	                 }
 	          }],

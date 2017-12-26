@@ -397,6 +397,13 @@ $(function(){
          maxView:'decade',
          language:  'zh-CN' 
     });
+  //年月默认值
+    var date=new Date;
+    var year=date.getFullYear(); 
+    var month=date.getMonth()+1;
+    month =(month<10 ? "0"+month:month); 
+    var mydate = (year.toString()+month.toString());
+    $(".form_datetime").val(mydate);
     rtRatio();
 });
 //按日期查询按钮

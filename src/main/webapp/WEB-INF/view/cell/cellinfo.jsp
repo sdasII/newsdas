@@ -24,7 +24,7 @@
 </style>
 </head>
 
-<body class="gray-bg">
+<body style="margin-left: 5px;margin-right: 5px;">
 	<div class="wrapper wrapper-content animated fadeInRight">
 		<div class="row" style="text-align: center;">
 			<h3><span id="updateTime"></span>&nbsp;&nbsp;&nbsp;<span id="counts"></span></h3>
