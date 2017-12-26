@@ -57,19 +57,19 @@
 <body>
 	<div class="wrapper wrapper-content animated fadeInRight">
 		<div class="row" style="margin: 0px; padding: 0px;">
-			<!-- <div class="col-sm-12">
+			<div class="col-sm-12">
 				<div class="title">
 					<h5 class="updatetime">最新发布更新时间：</h5>
 				</div>
-			</div> -->
+			</div>
 			<div class="col-sm-12">
 				<div id="leftmodel" class="col-sm-3">
 					<div class="ibox-content">
 						<div class="feed-activity-list"
 							style="width: 100%; height: 100%; float: left; margin: 0px;">
-							<div class="feed-element">
+							<!-- <div class="feed-element">
 								<h5 class="updatetime">最新发布更新时间：</h5>
-							</div>
+							</div> -->
 							<div class="feed-element">
 								<h5 id="all">共有n个小区被监控：</h5>
 								<div class="media-body ">

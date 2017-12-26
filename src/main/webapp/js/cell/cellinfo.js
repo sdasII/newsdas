@@ -49,19 +49,19 @@ $(function() {
 		}, {
 			field : "cell_code",
 			title : "小区ID",
-			align : "center",
+			align : "left",
 			valign : "left",
 			width : '35%'
 		}, {
 			field : "cell_name",
 			title : "小区名称",
-			align : "center",
+			align : "left",
 			valign : "left",
 			width : '35%'
 		}, {
 			field : "station_code",
 			title : "所属基站",
-			align : "center",
+			align : "left",
 			valign : "left",
 			width : '15%'
 		}, {
