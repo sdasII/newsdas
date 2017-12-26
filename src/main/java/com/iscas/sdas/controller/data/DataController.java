@@ -402,6 +402,11 @@ public class DataController{
 		String path = null;	
 		try {
 			path = CommonUntils.CsvFileImprot(request, fileLogDto, time);
+			if (!CommonUntils.isempty(path)) {
+				fileLogDto.setResult(1);
+			}else {
+				fileLogDto.setResult(0);
+			}
 			map.addAttribute("success", Constraints.RESULT_SUCCESS + ":上传成功！");
 		} catch (Exception e1) {
 			e1.printStackTrace();
