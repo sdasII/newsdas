@@ -38,6 +38,7 @@ import objects.JSON;
 import tasks.BGTask;
 import tasks.cell.CaculateTask;
 import tasks.cell.CaculateTestTask;
+import tasks.cell.TransferTask;
 import tasks.cell.model.OffLineHealthModelBDTask;
 import tasks.cell.netupload.CellUploadFileTask;
 import tasks.cell.netupload.PutNetFile2HDFSTask;
@@ -126,6 +127,7 @@ public class DataController{
 		}
 		return modelAndView;
 	}
+	
 	/**
 	 * 性能工单导入
 	 * @param request
@@ -204,10 +206,7 @@ public class DataController{
 		return model;
 	}
 	
-	
-	
 	private FTPStatus originDateUpload(HttpServletRequest request, String yyyyMMdd) {
-		
 		MultipartHttpServletRequest mutiRequest = (MultipartHttpServletRequest) request;
 		MultipartFile sourceFile = mutiRequest.getFiles("file").get(0);
 		String filename = sourceFile.getOriginalFilename();
@@ -235,13 +234,22 @@ public class DataController{
 				fileLogDto.setResult(0);
 			}
 			fileLogService.insertOne(fileLogDto);
-			myFtp.disconnect();			
+			myFtp.disconnect();	
+			// 数据再上传到hdfs上
+			JSON json = upload2HDFS(yyyyMMdd);
 			return status;
 		} catch (Exception e) {
 			request.getSession().setAttribute(Constraints.SESSION_FTP_STATUS, myFtp);
 			return FTPStatus.CONNECT_FAIL;
 		}
 
+	}
+	
+	//zip文件转换上传到hdfs上
+	private JSON upload2HDFS(String yyyyMMdd) {
+		BGTask task = new TransferTask();
+		String[] params = new String[]{yyyyMMdd};
+		return task.runTask(params);
 	}
 	
 	/**
