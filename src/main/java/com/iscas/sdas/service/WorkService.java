@@ -1,24 +1,19 @@
 package com.iscas.sdas.service;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.iscas.datas.ratio.Degree;
-import com.iscas.datas.ratio.HealthDegree;
 import com.iscas.sdas.dao.WorkDao;
 import com.iscas.sdas.dao.work.AllCapacityWorkDao;
-import com.iscas.sdas.dao.work.CapacityWorkDao;
 import com.iscas.sdas.dto.work.AllCapacityWorkDto;
-import com.iscas.sdas.dto.work.CapacityWorkDto;
 
-
+/**
+ * 工单验证
+ * @author dongqun
+ * 2017年12月27日下午2:16:07
+ */
 @Service
 public class WorkService {
 	
@@ -28,8 +23,6 @@ public class WorkService {
 	@Autowired
 	AllCapacityWorkDao performanceWorkMapper;
 	
-	@Autowired
-	CapacityWorkDao capacityWorkDao;
 	/**
 	 * 插入性能工单
 	 * @param performanceWorkDtos
@@ -50,23 +43,23 @@ public class WorkService {
 	 * 所有可疑工单
 	 * @return
 	 */
-	public List<CapacityWorkDto> allvalidatelist(){
+	/*public List<CapacityWorkDto> allvalidatelist(){
 		return capacityWorkDao.getvalidatelist();
-	}
+	}*/
 	/**
 	 * 最近一天的可疑工单
 	 * @return
 	 */
-	public List<CapacityWorkDto> validatelisttheday(){
+	/*public List<CapacityWorkDto> validatelisttheday(){
 		return capacityWorkDao.getListTheDay();
-	}
+	}*/
 	/**
 	 * 
 	 * @param capacityWorkDtos
 	 * @param flag 0为全部；1为最近一天的可疑工单；2为全部的可疑工单
 	 * @return
 	 */
-	public List<CapacityWorkDto> workValidate(List<CapacityWorkDto> capacityWorkDtos,int flag){ 
+	/*public List<CapacityWorkDto> workValidate(List<CapacityWorkDto> capacityWorkDtos,int flag){ 
 		List<CapacityWorkDto> result = new ArrayList<>();
 		List<CapacityWorkDto> faultlist = new ArrayList<>();//
 		List<CapacityWorkDto> normallist = new ArrayList<>();//可疑工单
@@ -131,13 +124,13 @@ public class WorkService {
 			return normallist;
 		}
 		
-	}
+	}*/
 	/**
 	 * 工单验证，即从t_performance_work_rt表中读取questionfalg为0,1,2的值
 	 * questionflag = 0 or questionflag = 1 or questionflag = 2
 	 * @return
 	 */
-	public List<CapacityWorkDto> workValidate2(){ 
+	/*public List<CapacityWorkDto> workValidate2(){ 
 		CapacityWorkDto capacityWorkDto = new CapacityWorkDto();
 		return capacityWorkDao.getAllWorks(capacityWorkDto);
 	}
@@ -157,12 +150,12 @@ public class WorkService {
 		for (CapacityWorkDto capacityWorkDto : works) {
 			capacityWorkDao.updatealarmwork(capacityWorkDto);
 		}
-	}
+	}*/
 	
-	public List<CapacityWorkDto> getAllDoubtWorks(){
+	/*public List<CapacityWorkDto> getAllDoubtWorks(){
 		return capacityWorkDao.getAllDoubtWorks();
-	}
-	public List<CapacityWorkDto> getAllWorks(CapacityWorkDto capacityWorkDto){
+	}*/
+	/*public List<CapacityWorkDto> getAllWorks(CapacityWorkDto capacityWorkDto){
 		return capacityWorkDao.getAllWorks(capacityWorkDto);
-	}
+	}*/
 }

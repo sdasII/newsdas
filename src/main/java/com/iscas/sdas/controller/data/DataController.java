@@ -159,7 +159,7 @@ public class DataController{
 				try {
 					FileImport.importwork(path, performanceWorkDtos, tableInfoDtos);// 将excel映射为对象
 					try {
-						workService.clearPerformanceWork(); // 清空表
+						//workService.clearPerformanceWork(); // 清空表
 						workService.insertPerformanceWork(performanceWorkDtos);// 插入表并将questionflag置为-1
 						modelAndView.addObject("success", Constraints.RESULT_SUCCESS);
 						fileLogDto.setResult(1);
