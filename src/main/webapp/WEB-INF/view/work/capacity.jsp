@@ -117,7 +117,8 @@ input {
 								<option>可疑工单</option>
 								<option>正常工单</option>
 							</select>							
-							<button class="btn btn-success" onclick="javascript:select()">查询</button>																					
+							<!-- <button class="btn btn-success" onclick="javascript:select()">查询</button> -->
+							<my:btn type="search" onclick="select()"></my:btn>																					
 							<button class="btn btn-white" onclick="exportExcel()">导出</button>
 							<div>
 								<%-- <form action="${context}/work/import/capacity" method="post"
