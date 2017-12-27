@@ -296,7 +296,7 @@ input[type="file"]{
 										<img
 											src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在上传...</span>
 									</div>
-									<button class="btn btn-info search" type="button" onclick="workOrderValidate()" style="float: right;margin-top: 90px;">工单验证</button>
+									<button class="btn btn-info search" type="button" onclick="workOrderValidate()" style="float: right;margin-top: 70px;">工单验证</button>
 								</form>
 							</div>
 						</div>

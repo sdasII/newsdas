@@ -36,13 +36,14 @@ $(function() {
 		pageList : [ 5, 10, 20 ],
 		clickToSelect : true,
 		sidePagination : 'server',// 设置为服务器端分页
-		columns : [ {
+		columns : [/* {
 			checkbox : true
-		}, {
+		}, */{
 			field : "",
 			title : "序号",
 			align : "center",
 			valign : "middle",
+			width : '5%',
 			formatter : function(value, row, index) {
 				return index + 1;
 			}
@@ -57,13 +58,13 @@ $(function() {
 			title : "小区名称",
 			align : "left",
 			valign : "left",
-			width : '35%'
+			width : '55%'
 		}, {
 			field : "station_code",
 			title : "所属基站",
 			align : "left",
 			valign : "left",
-			width : '15%'
+			width : '55%'
 		}, {
 			field : "in_used",
 			title : "是否使用",

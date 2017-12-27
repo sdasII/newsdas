@@ -80,7 +80,21 @@
 								</div>
 							</div>
 							<div class="feed-element" style="border-bottom: 0px">
-								<div class="media-body ">
+							<div class="form-group">
+							<label>状态</label> 
+							<select id="status" name="status" class="btn btn-white">
+								<option value="">全部</option>
+								<option value="2">健康</option>
+								<option value="1">亚健康</option>
+								<option value="0">事件</option>
+							</select>
+							<button id="search_btn" type="button" class="btn btn-primary" onclick="search()">确定</button>
+						</div>
+						<div class="ibox-content" style="height:600px;overflow: auto">
+							<ul class="list-group" id="content">
+							</ul>
+						</div>
+								<!-- <div class="media-body ">
 									<div class="tabs-container">
 										<ul class="nav nav-tabs">
 											<li class="" onclick="switchTab(0)"><a data-toggle="tab"
@@ -105,13 +119,12 @@
 											</div>
 											<div id="tab-3" class="tab-pane">
 												<div class="panel-body">
-													<ul class="list-group" id="health_content">
-													</ul>
+													
 												</div>
 											</div>
 										</div>
 									</div>
-								</div>
+								</div> -->
 							</div>
 						</div>
 					</div>

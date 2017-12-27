@@ -632,6 +632,8 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 									markPointData_1.push(point);
 								}else if(e["range_0"+j]==2){
 									dataArr.push(2.5);
+								}else{
+									dataArr.push(0);
 								}
 							}else{
 								if(e["range_"+j]==0){
@@ -652,6 +654,8 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 									markPointData_1.push(point);
 								}else if(e["range_"+j]==2){
 									dataArr.push(2.5);
+								}else{
+									dataArr.push(0);
 								}
 							}
 						}
@@ -685,6 +689,8 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 								markPointData_1.push(point);
 							}else if(data.rows[0]["range_0"+i]==2){
 								dataArr.push(2.5);
+							}else{
+								dataArr.push(0);
 							}
 						}else{
 							if(data.rows[0]["range_"+i]==0){
@@ -705,6 +711,8 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 								markPointData_1.push(point);
 							}else if(data.rows[0]["range_"+i]==2){
 								dataArr.push(2.5);
+							}else{
+								dataArr.push(0);
 							}
 						}
 					}
@@ -827,7 +835,7 @@ function drawEcharts(id, title, times, data,markPointData_0,markPointData_1,colo
                 data :markPointData_0,
                 itemStyle:{
                 	normal:{
-                		color:'#C1232B'
+                		color:'red'//'#C1232B'
                 	}
                 }
             }
@@ -883,7 +891,7 @@ function drawEcharts(id, title, times, data,markPointData_0,markPointData_1,colo
                 data :markPointData_1,
                 itemStyle:{
                 	normal:{
-                		color:'#FF6347'
+                		color:'#F3A43B'
                 	}
                 }
             }
