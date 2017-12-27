@@ -62,7 +62,6 @@ input {
 						<h5>工单验证列表</h5>
 						<div class="ibox-tools">
 						<div class="btn-group" id="datePicker">
-								<!-- <button class="btn btn-info datePicker" type="button">全部</button> -->
 								<button class="btn btn-info datePicker" type="button">最近一日</button>
 								<button class="btn btn-white datePicker" type="button">周</button>
 								<button class="btn btn-white datePicker" type="button">月</button>
@@ -83,59 +82,27 @@ input {
 					</div>
 					<div class="ibox-content">
 						<div>
-							<!-- <label>时间选择</label> <select id="timeselect"
-								style="padding-top: 5px; padding-bottom: 5px; margin-top: 10px; margin-bottom: 10px">
-								<option>全部</option>
-								<option>按时间段</option>
-								<option>按日期</option>
-							</select> <input id="starttime" style="margin-top: -10px !important;"
-								class="layer-date" placeholder="请输入开始时间" disabled="disabled"
-								onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
-							<span id="span" style="display: inline !important;"
-								class="input-group-addon">到</span> <input id="endtime"
-								style="margin-top: -10px !important;" class="layer-date"
-								placeholder="请输入结束时间" disabled="disabled"
-								onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"> -->
-
 							<label>小区名称</label> <input type="text" placeholder="请输入小区名称"
 								id="name" name="name"> 
-								<label>所属区域</label> 
+							<label>所属区域</label> 
 								<select id="area" class="btn btn-white">
-								<option>全部</option>
-							</select> 
+									<option>全部</option>
+								</select> 
 							<label>监控内容</label> 
-							<select id="content"  class="btn btn-white">
-								<option>全部</option>
-								<option>新切换出成功率(4次连续)</option>
-								<option>新PRB利用率(4次连续)</option>
-							</select>
-							</select> 
+								<select id="content"  class="btn btn-white">
+									<option>全部</option>
+									<option>新切换出成功率(4次连续)</option>
+									<option>新PRB利用率(4次连续)</option>
+								</select>
 							<label>判断结果</label> 
-							<select id="result"  class="btn btn-white">
-								<option>全部工单</option>
-								<option>高度可疑</option>
-								<option>可疑工单</option>
-								<option>正常工单</option>
-							</select>							
+								<select id="result"  class="btn btn-white">
+									<option>全部工单</option>
+									<option>高度可疑</option>
+									<option>可疑工单</option>
+									<option>正常工单</option>
+								</select>							
 							<button class="btn btn-success" onclick="javascript:select()">查询</button>																					
-							<!-- <button class="btn btn-white" onclick="">导出</button> -->
-
-							<div>
-								<%-- <form action="${context}/work/import/capacity" method="post"
-									enctype="multipart/form-data"
-									style="display: inline !important;">
-									<input style="display: inline !important;"
-										class="btn btn-white" type="file" name="file"
-										multiple="multiple" accept="application/vnd.ms-excel">
-									<input class="btn btn-white" type="submit" value="导入">
-									<input class="btn btn-white" type="reset" value="重选">
-								</form>
-								<button style="padding-top: 5px; padding-bottom: 5px; margin-top: 10px; margin-bottom: 10px" 
-								class="btn btn-white" onclick="javascript:validate()">工单验证</button> --%>
-							</div>
-
-							<!-- <label for="checkbox6"><input id="doubtwork"
-								type="checkbox" name="doubtwork">可疑工单</label> -->
+							<button class="btn btn-white" onclick="exportExcel()">导出</button>
 						</div>
 
 
@@ -145,13 +112,9 @@ input {
 								<span><i>备注：</i> </span> <span>红色为高度可疑工单;绿色为符合条件工单;黄色为可疑工单;其它为待验证工单</span>
 							</div>
 						</div>
-						<!-- loading -->
-						<div class="loading_bk" id="loadbk"></div>
-						<div class="loading" id="load"><img src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>内容加载中...</span></div>
-						<!-- loading -->
-					<div class="jqGrid_wrapper">
-						<table class="table" id="table_list_1"></table>
-						<div id="pager_list_1"></div>
+					<div>
+						<table id="table_list_1"></table>
+						<div id="toolbar"></div>
 					</div>
 				</div>
 			</div>

@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.iscas.sdas.dto.TableInfoDto;
 import com.iscas.sdas.dto.work.AllCapacityWorkDto;
-import com.iscas.sdas.dto.work.CapacityWorkDto;
 import com.iscas.sdas.service.CommonService;
 import com.iscas.sdas.service.WorkService;
 import com.iscas.sdas.util.CommonUntils;
@@ -106,17 +105,10 @@ public class WorkController {
 			e.printStackTrace();
 			map.addAttribute(Constraints.RESULT_SUCCESS, false);
 		}
-		/*List<CapacityWorkDto> capacityWorks =  workService.workValidate2();
-		if (capacityWorks.size()>0) {
-			//map.addAttribute(Constraints.RESULT_ROW, capacityWorks);
-			map.addAttribute(Constraints.RESULT_SUCCESS, true);
-		}else {
-			map.addAttribute(Constraints.RESULT_SUCCESS, false);
-		}*/
 		return map;
 	}
 	
-	@RequestMapping("/validatetheday")
+	/*@RequestMapping("/validatetheday")
 	@ResponseBody
 	public ModelMap workvalidatetheday(){
 		ModelMap map = new ModelMap();
@@ -129,8 +121,8 @@ public class WorkController {
 			map.addAttribute(Constraints.RESULT_SUCCESS, false);
 		}
 		return map;
-	}
-	@RequestMapping("/validatedoubt")
+	}*/
+	/*@RequestMapping("/validatedoubt")
 	@ResponseBody
 	public ModelMap doubtworkvalidate(){
 		ModelMap map = new ModelMap();
@@ -143,11 +135,11 @@ public class WorkController {
 			map.addAttribute(Constraints.RESULT_SUCCESS, false);
 		}
 		return map;
-	}
+	}*/
 	/**
 	 * 获取rt表中所有可疑工单（演示用）
 	 * @return
-	 */
+	 *//*
 	@RequestMapping("/test")
 	@ResponseBody
 	public ModelMap test(){
@@ -161,12 +153,12 @@ public class WorkController {
 			map.addAttribute(Constraints.RESULT_SUCCESS, false);
 		}
 		return map;
-	}
+	}*/
 	/**
 	 * 获取工单验证表中所有工单
 	 * @return
 	 */
-	@RequestMapping("/allrtworks")
+	/*@RequestMapping("/allrtworks")
 	@ResponseBody
 	public ModelMap workOrderValidate(HttpServletRequest request){
 		ModelMap map = new ModelMap();
@@ -194,5 +186,5 @@ public class WorkController {
 		List<CapacityWorkDto> capacityWorks = workService.getAllWorks(cwdto);
 		map.addAttribute(Constraints.RESULT_ROW, capacityWorks);
 		return map;
-	}
+	}*/
 }

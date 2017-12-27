@@ -360,3 +360,17 @@ function Encrypt(id) {
         $("#" + id).val($.md5($("#" + id).val()));
     }
 }
+/**
+ * 模拟表单提交 
+ * @param url url 
+ * @param type 请求类型
+ * @param data 表单数据
+ * @returns
+ */
+function formSubmit(url,type,data){
+    var form = $("<form></form>").attr("action", url).attr("method", type);
+    for (var i = 0; i < data.length; i++) {
+    	form.append($("<input></input>").attr("type", "hidden").attr("name",data[i].name).attr("value", data[i].value));
+	}    
+    form.appendTo('body').submit().remove();
+}

@@ -2,7 +2,13 @@ package com.iscas.sdas.dto.work;
 
 import java.sql.Timestamp;
 
-public class CapacityWorkDto {
+import com.iscas.sdas.common.BaseDto;
+/**
+ * 验证工单表-t_performancem_work_rt
+ * @author dongqun
+ * 2017年12月27日下午2:00:33
+ */
+public class CapacityWorkDto extends BaseDto{
 	
 	private Timestamp occurrence_time;
 	private Integer alarm_id;
