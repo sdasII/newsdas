@@ -95,11 +95,11 @@ var histroy_trend = {
 		legend : {
 			data : [{
 						'name' : "历史健康度"
-					}, {
+					}/*, {
 						'name' : "投诉"
 					},{
 	                    'name' : "警戒区"
-	                }]
+	                }*/]
 		},
 		dataZoom : [{
 					type : 'slider',
@@ -127,7 +127,7 @@ var histroy_trend = {
 							}
 						}
 					}
-				}, {
+				}, /*{
 					name : '投诉',
 					data : [],
 					type : 'scatter',
@@ -189,7 +189,7 @@ var histroy_trend = {
 	                                        }])
 	                    }
 	                }
-	            },{
+	            },*/{
 
 					name : '',
 					type : 'line',
@@ -407,9 +407,9 @@ function capacity_table(){
 	if(date_value=="day"){
 		url="";
 	}else if(date_value=="week"){
-		url="/capacitywork/oneweek";
+		url=ctx+"/capacitywork/oneweek";
 	}else if(date_value=="month"){
-		url="/capacitywork/onemonth";
+		url=ctx+"/capacitywork/onemonth";
 	}else{
 		url="";
 	}
@@ -958,9 +958,9 @@ function switchwork(url, cellname) {
 		if(date_value=="day"){
 			url="";
 		}else if(date_value=="week"){
-			url="/capacitywork/oneweek";
+			url=ctx+"/capacitywork/oneweek";
 		}else if(date_value=="month"){
-			url="/capacitywork/onemonth";
+			url=ctx+"/capacitywork/onemonth";
 		}else{
 			url="";
 		}
@@ -1033,10 +1033,31 @@ function refresh_complain(list) {
 	                   return UnixTimeToDate;
 	                 }
             },
-            { field : 'phone_number', title : '受理电话', align : 'center', valign : 'middle' },
-            { field : 'live_cellname1', title : '常住小区1', align : 'center', valign : 'middle' },
-            { field : 'live_cellname2', title : '常住小区2', align : 'center', valign : 'middle' },
-            { field : 'live_cellname3', title : '常住小区3', align : 'center', valign : 'middle' }
+            { field : 'phone_number', title : '受理电话', align : 'center', valign : 'middle'},
+            { field : 'live_cellname1', title : '常住小区1', align : 'left', valign : 'left',
+            	formatter:function(value,row,index){
+            		var link = ctx + "/alarm/todetail";
+            		var url='<a href="javascript:iframeconvert('
+             	    	+"'"+link+"','小区信息',"+"[{'key':'cell_code','value':'"+value+"'}]"+')">'
+             	    	+value+'</a>';
+            	}
+             },
+            { field : 'live_cellname2', title : '常住小区2', align : 'left', valign : 'left',
+            	formatter:function(value,row,index){
+            		var link = ctx + "/alarm/todetail";
+            		var url='<a href="javascript:iframeconvert('
+             	    	+"'"+link+"','小区信息',"+"[{'key':'cell_code','value':'"+value+"'}]"+')">'
+             	    	+value+'</a>';
+            	}
+             },
+            { field : 'live_cellname3', title : '常住小区3', align : 'left', valign : 'left',
+            	formatter:function(value,row,index){
+            		var link = ctx + "/alarm/todetail";
+            		var url='<a href="javascript:iframeconvert('
+             	    	+"'"+link+"','小区信息',"+"[{'key':'cell_code','value':'"+value+"'}]"+')">'
+             	    	+value+'</a>';
+            	}
+             }
         ],
         formatNoMatches : function() {
             return "没有数据内容";

@@ -225,7 +225,7 @@ input[type="file"]{
 	<div class="row">
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
-					<h5>数据上传</h5>
+					<h5>投诉工单数据</h5>
 				</div>
 				<div class="ibox-content" id="offline">
 					<div class="col-sm-6">
@@ -263,6 +263,15 @@ input[type="file"]{
 							</div>
 						</div>
 					</div>
+				</div>
+			</div>
+	</div>
+	<div class="row">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>性能工单数据</h5>
+				</div>
+				<div class="ibox-content" id="offline">
 					<div class="col-sm-6">
 						<div class="panel panel-success" style="height:230px">
 							<div class="panel-heading">性能工单数据</div>
@@ -292,14 +301,13 @@ input[type="file"]{
 							</div>
 						</div>
 					</div>
-
 				</div>
 			</div>
 	</div>
 	<div class="row">
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
-					<h5>指标数据</h5>
+					<h5>中兴指标数据csv测试文件</h5>
 				</div>
 				<div class="ibox-content">
 					<div class="col-sm-6">
@@ -326,20 +334,29 @@ input[type="file"]{
 											style="display: none;">
 											<img src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在上传...</span>
 										</div> 
-										<label>计算日期:</label> 
+										<!-- <label>计算日期:</label> 
 										<input size="16" type="text" name="cal_time" id="net_caltime"
 											placeholder="请选择计算模式月份（默认上一个月）" readonly
 											class="form_datetime" style="width:220px;margin-top: -10px"> 
 										<button class="btn btn-info search" type="button"
-											onclick="submit_cal()">分析</button>
+											onclick="submit_cal()">分析</button> -->
 									</div>
 								</form>
 							</div>
 						</div>
 					</div>
+				</div>
+			</div>
+	</div>
+	<div class="row">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>中兴指标全网数据(zip文件)</h5>
+				</div>
+				<div class="ibox-content">
 					<div class="col-sm-6">
 						<div class="panel panel-success">
-							<div class="panel-heading">中兴指标全网数据（zip文件）</div>
+							<div class="panel-heading">中兴指标全网数据(zip文件)</div>
 							<div class="panel-body">
 								<!-- <div>
 									<span><i>备注：</i> </span> <span>请选择小区一天的网管数据</span>

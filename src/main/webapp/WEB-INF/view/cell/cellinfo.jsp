@@ -40,7 +40,7 @@
 						<div class="form-group">
 							<label>小区名称：</label>
 							<input type="text"  placeholder="请输入小区名称" id="name" name="name">
-							<label for="type">状态筛选(是否在用)：</label>
+							<label for="type">是否使用：</label>
 							<select name="type" id="type" class="btn btn-white">
                                     <option value="">全部</option>
                                     <option value="1">是</option>
@@ -49,8 +49,10 @@
 								
 							<button style="margin-left: 5px;" class="btn btn-success"
 								onclick="searchInfo();">查询</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<button id="setUsed"  class="btn btn-success" onclick="setUsed()">设为使用状态</button>
-							<button id="clear" style="margin-left: 5px;" class="btn btn-white" onclick="clearUsed()">取消使用</button>
+							<!-- <button id="setUsed"  class="btn btn-success" onclick="setUsed()">设为使用</button>
+							<button id="clear" style="margin-left: 5px;" class="btn btn-white" onclick="clearUsed()">取消使用</button> -->
+							<button id="setUsed"  class="btn btn-success" onclick="import_Excel()">导入</button>
+							<button id="clear" style="margin-left: 5px;" class="btn btn-white" onclick="export_Excel()">导出</button>
 						</div>
 						<div>
 							<div id="table_list"></div>

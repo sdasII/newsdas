@@ -110,8 +110,9 @@
 							<!-- <button style="margin-left: 5px;" class="btn btn-success"
 								onclick="javascript:select()">查询</button> -->
 							<!-- <button id="clear" type="reset" class="btn btn-white">清空</button> -->
-							<button style="margin-left: 5px;" class="btn btn-success"
-								onclick="javascript:exportExcel()">历史健康度导出</button>
+							<button style="margin-left: 5px;" onclick="javascript:exportExcel()">
+								<img src="${context}/style/export.png" title="历史健康度导出" style="height:20px;float: right"/>
+							</button>
 								<br><br>
 							<!-- <label for="time" style="margin-left: 20px">数据导出 <input
 								size="16" type="text" id="exporttime" placeholder="请选择导出月份"
@@ -132,7 +133,7 @@
 								placeholder="请选择导出月份" readonly class="form_datetime">
 							</label> -->
 							<button style="margin-left: 5px;" class="btn btn-success"
-								onclick="javascript:resultexportExcel()">健康判断结果导出</button>
+								onclick="javascript:resultexportExcel()">导出</button>
 							<div class="btn loading" id="load2" style="display: none">
 								<img
 									src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"
