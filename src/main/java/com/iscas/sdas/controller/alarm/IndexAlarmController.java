@@ -1,4 +1,4 @@
-package com.iscas.sdas.controller;
+package com.iscas.sdas.controller.alarm;
 
 import java.util.List;
 

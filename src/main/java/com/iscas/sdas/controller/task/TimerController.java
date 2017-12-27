@@ -1,4 +1,4 @@
-package com.iscas.sdas.controller;
+package com.iscas.sdas.controller.task;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
