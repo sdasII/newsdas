@@ -272,7 +272,7 @@ input[type="file"]{
 								</div> -->
 								<form id="form2" action="/newsdas/data/upload/capacitywork"
 									method="post" enctype="multipart/form-data">
-									<div class="ibox-tools" style="margin-top: -30px;">
+									<div class="ibox-tools" style="margin-top: -10px;">
 										<a href="javascript:;" onclick="openIframe('${context}/work/capacity','工单验证')"><i>查看详情</i></a>
 									</div>
 									<label>选择文件:</label> <input class="btn btn-white" type="file" name="file" id="file2" accept=".xls">
@@ -308,6 +308,9 @@ input[type="file"]{
 							<div class="panel-body">
 								<form action="${context}/data/csvUpload"
 									method="post" onsubmit="return signalCSVSumit(this);">
+									<div class="ibox-tools" style="margin-top: -10px;">
+										<a  href="javascript:;" onclick="openIframe('${context}/cell/celltable','健康评估')"><i>查看详情</i></a>
+									</div>
 									<div class="form-group">
 										<label>时间选择：</label> <input id="nettest_time" name="time"
 											class="btn btn-white layer-date starttime"

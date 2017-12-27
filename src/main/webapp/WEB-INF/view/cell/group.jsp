@@ -106,9 +106,10 @@
 								<option value="0">事件</option>
 								<option value="3">计算无结果</option>
 							</select>
-							<button style="margin-left: 5px;" class="btn btn-success"
-								onclick="javascript:select()">查询</button>
-							<button id="clear" type="reset" class="btn btn-white">清空</button>
+							<my:btn type="search" onclick="select()"></my:btn>
+							<!-- <button style="margin-left: 5px;" class="btn btn-success"
+								onclick="javascript:select()">查询</button> -->
+							<!-- <button id="clear" type="reset" class="btn btn-white">清空</button> -->
 							<button style="margin-left: 5px;" class="btn btn-success"
 								onclick="javascript:exportExcel()">历史健康度导出</button>
 								<br><br>
