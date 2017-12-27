@@ -78,12 +78,17 @@ public class LoginController {
 		if (!CommonUntils.isempty(capText)) {
 			if (capText.equalsIgnoreCase(kaptcha) || capText.equals(kaptcha) || kaptcha == capText) {
 				if (user!=null) {
-					request.getSession().setAttribute("userInfo", user);
-					modelAndView = new ModelAndView("main/main");
-					List<MenuDto> firstMenu = menuService.getFirstMenus();//获取一级菜单及其子菜单
-					request.getSession().setAttribute("menuInfo", firstMenu);
-					firstMenu = getMenus(firstMenu);
-					modelAndView.addObject("firstMenu", firstMenu);
+					if (user.getUserLocked()==0) {
+						request.getSession().setAttribute("userInfo", user);
+						modelAndView = new ModelAndView("main/main");
+						List<MenuDto> firstMenu = menuService.getFirstMenus();//获取一级菜单及其子菜单
+						request.getSession().setAttribute("menuInfo", firstMenu);
+						firstMenu = getMenus(firstMenu);
+						modelAndView.addObject("firstMenu", firstMenu);
+					}else{
+						modelAndView = new ModelAndView("redirect:/");
+						modelAndView.addObject("loginMsg", "用户已被锁定！");
+					}										
 				} else {
 					modelAndView = new ModelAndView("redirect:/");
 					modelAndView.addObject("loginMsg", "请输入正确的账号或密码！");

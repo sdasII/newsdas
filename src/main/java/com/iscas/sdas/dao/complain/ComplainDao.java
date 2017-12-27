@@ -1,4 +1,4 @@
-package com.iscas.sdas.dao;
+package com.iscas.sdas.dao.complain;
 
 import java.util.List;
 
@@ -16,8 +16,14 @@ public interface ComplainDao {
 	List<CellComplainDto> getPageList();
 	
 	List<CellComplainDto> getfocuslist(String cellname);
-
-	List<CellComplainDto> getcomplist(ComplainDto ComplainDto);
+	/**
+	 * 最近一天的投诉
+	 * @author dongqun
+	 * 2017年12月27日上午10:13:17
+	 * @param ComplainDto
+	 * @return
+	 */
+	List<CellComplainDto> complaintWithinOneDay(String cellname);
 	/**
 	 * 一周内投诉
 	 * @param cellname

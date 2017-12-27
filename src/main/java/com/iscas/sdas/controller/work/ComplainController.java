@@ -1,4 +1,4 @@
-package com.iscas.sdas.controller;
+package com.iscas.sdas.controller.work;
 
 import java.util.List;
 
@@ -14,14 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.iscas.sdas.common.PageDto;
 import com.iscas.sdas.dto.CellComplainDto;
 import com.iscas.sdas.dto.ComplainDto;
 import com.iscas.sdas.service.ComplainService;
-import com.iscas.sdas.util.CommonUntils;
 import com.iscas.sdas.util.Constraints;
 
 @Controller
@@ -130,24 +127,16 @@ public class ComplainController {
 	}
 	@RequestMapping("/getcomplist")
 	@ResponseBody
-	public ModelMap getcomplist(HttpServletRequest request){
+	public ModelMap getcomplist(@RequestParam(defaultValue="day",required=true,value="type")String type,HttpServletRequest request){
 		ModelMap map = new ModelMap();
-		CellComplainDto cellComplainDto=new CellComplainDto();
-		ComplainDto ComplainDto =new ComplainDto();
 		try {
-			String daynum = request.getParameter("daynum");
-			String starttime = request.getParameter("starttime");
-			String endtime = request.getParameter("endtime");
-			if (!CommonUntils.isempty(daynum)) {
-				ComplainDto.setDaynum(daynum);
+			String starttime=null,endtime=null; 
+			String cellname = request.getParameter("cellname");
+			if (Constraints.SELECT.equals(type)) {
+				starttime = request.getParameter("starttime");
+				endtime = request.getParameter("endtime");
 			}
-			if (!CommonUntils.isempty(starttime)) {
-				ComplainDto.setStarttime(starttime);
-			}
-			if (!CommonUntils.isempty(endtime)) {
-				ComplainDto.setEndtime(endtime);
-			}
-			List<CellComplainDto> cellComplainDtos = complainService.getcomplist(ComplainDto);
+			List<CellComplainDto> cellComplainDtos = complainService.getcomplist(cellname,type,starttime,endtime);
 			map.addAttribute(Constraints.RESULT_ROW, cellComplainDtos);
 		} catch (Exception e) {
 			e.printStackTrace();

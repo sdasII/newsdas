@@ -219,7 +219,7 @@ public class DataController{
 		ContinueFTP myFtp = new ContinueFTP();
 		try {
 			//myFtp.connect("49.4.6.47", 21, "ftpadmin", "ftp_qd123");			
-			myFtp.connect("192.168.0.199", 21, "ftpadmin", "ftp_qd123");
+			myFtp.connect("192.168.0.31", 21, "ftpadmin", "ftp_qd123");
 			
 			System.out.println("3...连接到ftp");
 			request.getSession().setAttribute(Constraints.SESSION_FTP_STATUS, myFtp);						
@@ -402,6 +402,11 @@ public class DataController{
 		String path = null;	
 		try {
 			path = CommonUntils.CsvFileImprot(request, fileLogDto, time);
+			if (!CommonUntils.isempty(path)) {
+				fileLogDto.setResult(1);
+			}else {
+				fileLogDto.setResult(0);
+			}
 			map.addAttribute("success", Constraints.RESULT_SUCCESS + ":上传成功！");
 		} catch (Exception e1) {
 			e1.printStackTrace();
