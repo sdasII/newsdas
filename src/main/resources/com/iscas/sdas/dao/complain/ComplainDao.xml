@@ -58,19 +58,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		live_cellname3 LIKE #{cellname})t
 		WHERE record_time LIKE &apos;%2017-08-01%&apos;
 	</select>
+	<sql id="Base_Column_List">
+		t1.recordtime,t1.phonenumber,t1.servicerequesttype,t1.complaintdetailinfo,t2.live_cellname1,t2.live_cellname2,t2.live_cellname3
+		
+	</sql>
 	<select id="complaintWithinOneDay" resultType="com.iscas.sdas.dto.CellComplainDto">
 		SELECT
-		t1.recordtime,t1.phonenumber,t1.servicerequesttype,t1.complaintdetailinfo,t2.live_cellname1,t2.live_cellname2,t2.live_cellname3
+		<include refid="Base_Column_List"/>
 		FROM t_complaint_detail t1,t_complaint_residentarea t2
 		WHERE
-		t1.phonenumber=t2.phone_number AND
+		t1.phonenumber=t2.phone_number AND left(t1.recordtime,10)=left(t2.record_time,10)
+		AND (t2.live_cellname1=#{cellname} OR t2.live_cellname2=#{cellname} OR t2.live_cellname3=#{cellname}) 
+		AND t1.recordtime = (SELECT t1.recordtime FROM t_complaint_detail t1,t_complaint_residentarea t2
+		WHERE t1.phonenumber=t2.phone_number AND
 		left(t1.recordtime,10)=left(t2.record_time,10)
-		AND
-		(t2.live_cellname1=#{cellname} OR t2.live_cellname2=#{cellname}
-		OR
-		t2.live_cellname3=#{cellname} ) AND t1.recordtime = 
-		(SELECT record_time FROM t_complaint_residentarea WHERE cell_code =
-		#{cellname} ORDER BY record_time DESC LIMIT 1) 
+		AND (t2.live_cellname1=#{cellname} OR t2.live_cellname2=#{cellname} OR t2.live_cellname3=#{cellname}) ORDER BY t1.recordtime DESC LIMIT 1) 
 		ORDER BY t1.recordtime	
 	</select>
 	<select id="complaintWithinOneWeek" resultType="com.iscas.sdas.dto.CellComplainDto"
@@ -84,11 +86,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND
 		(t2.live_cellname1=#{cellname} OR t2.live_cellname2=#{cellname}
 		OR
-		t2.live_cellname3=#{cellname} ) AND t1.recordtime
-		BETWEEN DATE_SUB((SELECT yyyyMMdd FROM t_cell_health_info WHERE cell_code =
-		#{cellname} ORDER BY yyyyMMdd DESC LIMIT 1),INTERVAL 7 DAY) AND
-		(SELECT yyyyMMdd FROM t_cell_health_info WHERE cell_code = #{cellname}
-		ORDER BY yyyyMMdd DESC LIMIT 1)
+		t2.live_cellname3=#{cellname} ) AND t1.recordtime 
+		BETWEEN DATE_SUB((SELECT t1.recordtime FROM t_complaint_detail t1,t_complaint_residentarea t2
+		WHERE t1.phonenumber=t2.phone_number AND
+		left(t1.recordtime,10)=left(t2.record_time,10)
+		AND (t2.live_cellname1=#{cellname} OR t2.live_cellname2=#{cellname} OR t2.live_cellname3=#{cellname}) ORDER BY t1.recordtime DESC LIMIT 1),INTERVAL 7 DAY) AND
+		(SELECT t1.recordtime FROM t_complaint_detail t1,t_complaint_residentarea t2
+		WHERE t1.phonenumber=t2.phone_number AND
+		left(t1.recordtime,10)=left(t2.record_time,10)
+		AND (t2.live_cellname1=#{cellname} OR t2.live_cellname2=#{cellname} OR t2.live_cellname3=#{cellname}) ORDER BY t1.recordtime DESC LIMIT 1)
 		ORDER BY t1.recordtime
 	</select>
 	<select id="complaintWithinOneMonth" resultType="com.iscas.sdas.dto.CellComplainDto"
@@ -103,10 +109,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		(t2.live_cellname1=#{cellname} OR t2.live_cellname2=#{cellname}
 		OR
 		t2.live_cellname3=#{cellname} ) AND t1.recordtime
-		BETWEEN DATE_SUB((SELECT yyyyMMdd FROM t_cell_health_info WHERE cell_code =
-		#{cellname} ORDER BY yyyyMMdd DESC LIMIT 1),INTERVAL 30 DAY) AND
-		(SELECT yyyyMMdd FROM t_cell_health_info WHERE cell_code = #{cellname}
-		ORDER BY yyyyMMdd DESC LIMIT 1)
+		BETWEEN DATE_SUB((SELECT t1.recordtime FROM t_complaint_detail t1,t_complaint_residentarea t2
+		WHERE t1.phonenumber=t2.phone_number AND
+		left(t1.recordtime,10)=left(t2.record_time,10)
+		AND (t2.live_cellname1=#{cellname} OR t2.live_cellname2=#{cellname} OR t2.live_cellname3=#{cellname}) ORDER BY t1.recordtime DESC LIMIT 1),INTERVAL 30 DAY) AND
+		(SELECT t1.recordtime FROM t_complaint_detail t1,t_complaint_residentarea t2
+		WHERE t1.phonenumber=t2.phone_number AND
+		left(t1.recordtime,10)=left(t2.record_time,10)
+		AND (t2.live_cellname1=#{cellname} OR t2.live_cellname2=#{cellname} OR t2.live_cellname3=#{cellname}) ORDER BY t1.recordtime DESC LIMIT 1)
 		ORDER BY t1.recordtime
 	</select>
 	<select id="complaintWithinSelect" resultType="com.iscas.sdas.dto.CellComplainDto">

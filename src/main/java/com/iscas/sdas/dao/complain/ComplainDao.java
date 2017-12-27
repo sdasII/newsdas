@@ -23,19 +23,19 @@ public interface ComplainDao {
 	 * @param ComplainDto
 	 * @return
 	 */
-	List<CellComplainDto> complaintWithinOneDay(String cellname);
+	List<CellComplainDto> complaintWithinOneDay(@Param("cellname")String cellname);
 	/**
 	 * 一周内投诉
 	 * @param cellname
 	 * @return
 	 */
-	List<CellComplainDto> complaintWithinOneWeek(String cellname);
+	List<CellComplainDto> complaintWithinOneWeek(@Param("cellname")String cellname);
 	/**
 	 * 一月内投诉
 	 * @param cellname
 	 * @return
 	 */
-	List<CellComplainDto> complaintWithinOneMonth(String cellname);
+	List<CellComplainDto> complaintWithinOneMonth(@Param("cellname")String cellname);
 	/**
 	 * 一定时间段的投诉
 	 * @param cellname
