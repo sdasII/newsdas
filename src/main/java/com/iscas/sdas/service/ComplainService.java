@@ -66,10 +66,10 @@ public class ComplainService{
 	private List<CellComplainDto> encryption(List<CellComplainDto> list){
 		if (list!=null) {
 			for (CellComplainDto cellComplainDto : list) {
-				String phone = cellComplainDto.getPhone_number();
+				String phone = cellComplainDto.getPhonenumber();
 				if (!CommonUntils.isempty(phone)) {
 					phone = CommonUntils.idCardReplaceWithStar(phone);
-					cellComplainDto.setPhone_number(phone);
+					cellComplainDto.setPhonenumber(phone);
 				}
 			}
 		}

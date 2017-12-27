@@ -58,13 +58,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		live_cellname3 LIKE #{cellname})t
 		WHERE record_time LIKE &apos;%2017-08-01%&apos;
 	</select>
-	<sql id="Base_Column_List">
-		t1.recordtime,t1.phonenumber,t1.servicerequesttype,t1.complaintdetailinfo,t2.live_cellname1,t2.live_cellname2,t2.live_cellname3
-		
-	</sql>
 	<select id="complaintWithinOneDay" resultType="com.iscas.sdas.dto.CellComplainDto">
 		SELECT
-		<include refid="Base_Column_List"/>
+		t1.recordtime,t1.phonenumber,t1.servicerequesttype,t1.complaintdetailinfo,t2.live_cellname1,t2.live_cellname2,t2.live_cellname3
 		FROM t_complaint_detail t1,t_complaint_residentarea t2
 		WHERE
 		t1.phonenumber=t2.phone_number AND left(t1.recordtime,10)=left(t2.record_time,10)
