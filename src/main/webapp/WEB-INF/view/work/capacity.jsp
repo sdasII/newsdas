@@ -48,6 +48,7 @@ input {
 .loading img{height:30px}
 #name{margin: -10px; width: 130px; height: 35px; margin-right: 10px; margin-left: 10px;border-radius: 3px;border: 1px solid #e7eaec;}
 .ibox-content select{width: 120px; height: 35px; margin-right: 10px; margin-left: 10px;}
+#table_list_1 a{text-decoration: underline}
 </style>
 </head>
 <body style="margin-left: 5px;margin-right: 5px;">

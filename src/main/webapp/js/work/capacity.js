@@ -89,7 +89,13 @@ $(function(){
         clickToSelect : true,
         sidePagination : 'server',// 设置为服务器端分页
         columns : [
-            { field : "occurrence_time", title : "发生时间", align : "center", valign : "middle"},
+            { field : "occurrence_time", title : "发生时间", align : "center", valign : "middle",
+            	formatter:function(value,row,index){
+	                  var jsDate = new Date(value);
+	                  var UnixTimeToDate = jsDate.getFullYear() + '/' + (jsDate.getMonth() + 1) + '/'+jsDate.getDate()+ ' ' + jsDate.getHours() + ':' + jsDate.getMinutes() + ':' + jsDate.getSeconds();
+	                   return UnixTimeToDate;
+	                 }
+            },
             { field : "cellid", title : "小区名称", align : "center", valign : "middle",
                 formatter:function(value,row,index){
                     var url = ctx + "/general/cellhome/";
@@ -105,8 +111,34 @@ $(function(){
             { field : 'boutique_level', title : '精品级别', align : 'left', valign : 'middle' },
             { field : "limit_times", title : "越限次数", align : "center", valign : "middle"},
             { field : 'complete_time', title : '完成时间', align : 'left', valign : 'middle' },
-            { field : 'questionflag', title : '状态', align : 'left', valign : 'middle' }
+            { field : 'questionflag', title : '状态', align : 'left', valign : 'middle' ,
+            	formatter:function(value,row,index){
+	                  if(value==0){
+	                	  return "高度可疑";
+	                  }else if(value==1){
+	                	  return "可疑工单";
+	                  }else if(value==2){
+	                	  return "正常";
+	                  }else{
+	                	  return "待验证";
+	                  }
+	                 }
+            }
         ],
+        rowStyle: function (row, index) {
+        	
+        	 var style = {};
+        	 if(row.questionflag==0){
+        		 style={css:{'color':'red'}};
+             }else if(row.questionflag==1){
+            	 style={css:{'color':'yellow'}};
+             }else if(row.questionflag==2){
+            	 style={css:{'color':'green'}};
+             }else{
+            	 //style={css:{'color':'black'}};
+             }
+             return style;
+        },
         onPageChange : function(size, number) {
             searchInfo();
         },

@@ -92,27 +92,44 @@
 	border: 1px solid #e7eaec;
 	font-weight: normal;
 }
-.panel-body .ibox-tools{text-decoration: underline;}
-.panel-body .ibox-tools i{color:#337ab7;font-style: normal;}
-input[name="time"]{
-	width:160px;
-	margin: -10px;
-    height: 39px;
-    display: inline;
-    padding: -10px;
-    margin-right: 10px;
-    margin-left: 0px;
-    }
-input[type="file"]{
-	display: inline;
-    opacity: 0;
-    position: relative;
-    width: 165px;
-    z-index:9
-    }
 
-.upload_btn{width: 160px;margin-left: -160px;display: inline;}
-.upload_title{display: inline;margin-top: 10px;}
+.panel-body .ibox-tools {
+	text-decoration: underline;
+}
+
+.panel-body .ibox-tools i {
+	color: #337ab7;
+	font-style: normal;
+}
+
+input[name="time"] {
+	width: 160px;
+	margin: -10px;
+	height: 39px;
+	display: inline;
+	padding: -10px;
+	margin-right: 10px;
+	margin-left: 0px;
+}
+
+input[type="file"] {
+	display: inline;
+	opacity: 0;
+	position: relative;
+	width: 165px;
+	z-index: 9
+}
+
+.upload_btn {
+	width: 160px;
+	margin-left: -160px;
+	display: inline;
+}
+
+.upload_title {
+	display: inline;
+	margin-top: 10px;
+}
 </style>
 </head>
 <body>
@@ -222,7 +239,7 @@ input[type="file"]{
 		});
 	</script>
 	<div class="wrapper wrapper-content animated fadeInRight">
-	<div class="row">
+		<div class="row">
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>投诉工单数据</h5>
@@ -235,25 +252,26 @@ input[type="file"]{
 								<!-- <div>
 									<span><i>备注：</i> </span> <span>请选择客户投诉情况导出表和客户投诉小区导出表！</span><br><br>
 								</div> -->
-								<form action="${context}/data/uploadcomplain" method="post" enctype="multipart/form-data"
+								<form action="${context}/data/uploadcomplain" method="post"
+									enctype="multipart/form-data"
 									onsubmit="return complainSumit(this);">
-									<label>时间选择：</label> 
-									<input id="complaintime" name="time" style="margin-left: 25px;"
+									<label>时间选择：</label> <input id="complaintime" name="time"
+										style="margin-left: 25px;"
 										class="btn btn-white layer-date starttime"
 										placeholder="请选择文件时间"
 										onclick="laydate({istime: false, format: 'YYYYMMDD'})"><br>
-									<label style="width: 80px;padding-right: 20px;">客户投诉常驻小区:</label> 
-									<input class="btn btn-white"
-										type="file" id="comlainfile" name="file" accept=".xls,.xlsx" multiple="multiple">
-										<button class="btn btn-white upload_btn">选择上传文件</button>
-										<div class="upload_title">未选择任何文件</div>
-										 <br>
-									<label>客户投诉情况:</label> <input class="btn btn-white" type="file"
-										id="customerfile" name="file" accept=".xls,.xlsx" multiple="multiple">
-										<button class="btn btn-white upload_btn">选择上传文件</button>
-										<div class="upload_title">未选择任何文件</div>
-										 <br>
-									<input class="btn btn-success" type="submit" value="上传">
+									<label style="width: 80px; padding-right: 20px;">客户投诉常驻小区:</label>
+									<input class="btn btn-white" type="file" id="comlainfile"
+										name="file" accept=".xls,.xlsx" multiple="multiple">
+									<button class="btn btn-white upload_btn">选择上传文件</button>
+									<div class="upload_title">未选择任何文件</div>
+									<br> <label>客户投诉情况:</label> <input class="btn btn-white"
+										type="file" id="customerfile" name="file" accept=".xls,.xlsx"
+										multiple="multiple">
+									<button class="btn btn-white upload_btn">选择上传文件</button>
+									<div class="upload_title">未选择任何文件</div>
+									<br> <input class="btn btn-success" type="submit"
+										value="上传">
 									<div class="btn loading" id="complaint_load"
 										style="display: none;">
 										<img
@@ -265,15 +283,15 @@ input[type="file"]{
 					</div>
 				</div>
 			</div>
-	</div>
-	<div class="row">
+		</div>
+		<div class="row">
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>性能工单数据</h5>
 				</div>
 				<div class="ibox-content" id="offline">
 					<div class="col-sm-6">
-						<div class="panel panel-success" style="height:230px">
+						<div class="panel panel-success" style="height: 230px">
 							<div class="panel-heading">性能工单数据</div>
 							<div class="panel-body">
 								<!-- <div>
@@ -282,42 +300,56 @@ input[type="file"]{
 								<form id="form2" action="/newsdas/data/upload/capacitywork"
 									method="post" enctype="multipart/form-data">
 									<div class="ibox-tools" style="margin-top: -10px;">
-										<a href="javascript:;" onclick="openIframe('${context}/work/capacity','工单验证')"><i>查看详情</i></a>
+										<a href="javascript:;"
+											onclick="openIframe('${context}/work/capacity','工单验证')"><i>查看详情</i></a>
 									</div>
-									<label>选择文件:</label> <input class="btn btn-white" type="file" name="file" id="file2" accept=".xls">
-										<button class="btn btn-white upload_btn">选择上传文件</button>
-										<div class="upload_title">未选择任何文件</div>
-										 <br> <!-- <input
-										class="btn btn-white" type="reset" value="重选"> --> <input
-										id="submit1" class="btn btn-success" type="button" value="上传"
-										onclick="submit_upload('#file2','#form2')" style="margin-top: 30px;">
+									<label>选择文件:</label> <input class="btn btn-white" type="file"
+										name="file" id="file2" accept=".xls">
+									<button class="btn btn-white upload_btn">选择上传文件</button>
+									<div class="upload_title">未选择任何文件</div>
+									<br>
+									<!-- <input
+										class="btn btn-white" type="reset" value="重选"> -->
+									<input id="submit1" class="btn btn-success" type="button"
+										value="上传" onclick="submit_upload('#file2','#form2')"
+										style="margin-top: 30px;">
 									<div class="btn loading" id="capacity_load"
 										style="display: none;">
 										<img
 											src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在上传...</span>
 									</div>
-									<button class="btn btn-info search" type="button" onclick="workOrderValidate()" style="float: right;margin-top: 70px;">工单验证</button>
+
+									<button class="btn btn-info search" type="button"
+										onclick="workOrderValidate()"
+										style="float: right; margin-top: 60px;">工单验证</button>
+									<div class="btn loading" id="Validate_load"
+										style="display: none; float: right; margin-top: 60px;">
+										<img
+											src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在验证...</span>
+									</div>
+
 								</form>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-	</div>
-	<div class="row">
+		</div>
+		<div class="row">
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>中兴指标数据csv测试文件</h5>
 				</div>
 				<div class="ibox-content">
 					<div class="col-sm-6">
-						<div class="panel panel-success" style="height:230px">
+						<div class="panel panel-success" style="height: 230px">
 							<div class="panel-heading">中兴指标数据csv测试文件</div>
 							<div class="panel-body">
-								<form action="${context}/data/csvUpload"
-									method="post" onsubmit="return signalCSVSumit(this);">
+								<form action="${context}/data/csvUpload" method="post"
+									onsubmit="return signalCSVSumit(this);">
 									<div class="ibox-tools" style="margin-top: -10px;">
-										<a  href="javascript:;" onclick="openIframe('${context}/cell/celltable','健康评估')"><i>查看详情</i></a>
+										<a href="javascript:;"
+											onclick="openIframe('${context}/cell/celltable','健康评估')"><i>查看详情</i></a>
 									</div>
 									<div class="form-group">
 										<label>时间选择：</label> <input id="nettest_time" name="time"
@@ -325,21 +357,26 @@ input[type="file"]{
 											placeholder="请选择文件时间"
 											onclick="laydate({istime: false, format: 'YYYYMMDD'})">
 										<span id="nettime_error" class="error_msg">月份不能为空！</span><br>
-										<label>选择文件:</label>
-										<input class="btn btn-white" type="file" name="file"id="file3" accept=".csv" > 
+										<label>选择文件:</label> <input class="btn btn-white" type="file"
+											name="file" id="file3" accept=".csv">
 										<button class="btn btn-white upload_btn">选择上传文件</button>
 										<div class="upload_title">未选择任何文件</div>
-										<input class="btn btn-success" type="submit" value="上传" style="margin-left: 10px;"><br>
-										<div class="btn loading" id="csv_load"
-											style="display: none;">
-											<img src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在上传...</span>
-										</div> 
-										<label>计算日期:</label> 
-										<input size="16" type="text" name="cal_time" id="net_caltime"
+										<input class="btn btn-success" type="submit" value="上传"
+											style="margin-left: 10px;"><br>
+										<div class="btn loading" id="csv_load" style="display: none;">
+											<img
+												src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在上传...</span>
+										</div>
+										<label>计算日期:</label> <input size="16" type="text"
+											name="cal_time" id="net_caltime"
 											placeholder="请选择计算模式月份（默认上一个月）" readonly
-											class="form_datetime" style="width:220px;margin-top: -10px"> 
+											class="form_datetime" style="width: 220px; margin-top: -10px">
 										<button class="btn btn-info search" type="button"
 											onclick="submit_cal()">分析</button>
+										<div class="btn loading" id="cal_load" style="display: none;">
+											<img
+												src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在分析...</span>
+										</div>
 									</div>
 								</form>
 							</div>
@@ -347,8 +384,8 @@ input[type="file"]{
 					</div>
 				</div>
 			</div>
-	</div>
-	<div class="row">
+		</div>
+		<div class="row">
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>中兴指标全网数据(zip文件)</h5>
@@ -361,37 +398,47 @@ input[type="file"]{
 								<!-- <div>
 									<span><i>备注：</i> </span> <span>请选择小区一天的网管数据</span>
 								</div> -->
-								<form id="soucefile" action="${context}/data/uploadfile" method="post"onsubmit="return netzipSumit(this);">
+								<form id="soucefile" action="${context}/data/uploadfile"
+									method="post" onsubmit="return netzipSumit(this);">
 									<div class="ibox-tools" style="margin-top: -10px;">
-										<a  href="javascript:;" onclick="openIframe('${context}/cell/celltable','健康评估')"><i>查看详情</i></a>
+										<a href="javascript:;"
+											onclick="openIframe('${context}/cell/celltable','健康评估')"><i>查看详情</i></a>
 									</div>
 									<div class="form-group">
 										<label>时间选择：</label> <input id="origintime" name="time"
 											class="btn btn-white layer-date starttime"
 											placeholder="请选择文件时间"
 											onclick="laydate({istime: false, format: 'YYYYMMDD'})"><br>
-										<label>选择文件:</label>
-										<input class="btn btn-white" type="file" name="file"id="originfile"/>
+										<label>选择文件:</label> <input class="btn btn-white" type="file"
+											name="file" id="originfile" />
 										<button class="btn btn-white upload_btn">选择上传文件</button>
 										<div class="upload_title">未选择任何文件</div>
-										<button id="originsubmit" class="btn btn-success" type="submit" style="margin-left: 10px;">上传</button>
-										<span id="span_progress" style="display: none;">
-											<progress id="progress2" max="100" value="0"></progress><em>上传进度：</em>
+										<button id="originsubmit" class="btn btn-success"
+											type="submit" style="margin-left: 10px;">上传</button>
+										<span id="span_progress" style="display: none;"> <progress
+												id="progress2" max="100" value="0"></progress><em>上传进度：</em>
 											<span id="progressvalue2">0%</span>
-										</span> 
-										<span id="upload_progress" style="display: none;"></span>
-										<br>
-										<label>计算日期:</label> <input size="16"
-											type="text" name="cal_time" id="net_caltime2"
+										</span> <span id="upload_progress" style="display: none;"></span> <br>
+										<label>计算日期:</label> <input size="16" type="text"
+											name="cal_time" id="net_caltime2"
 											placeholder="请选择计算模式月份（默认上一个月）" readonly
-											class="timepicker form_datetime" style="width:220px;margin-top: -10px">
+											class="timepicker form_datetime"
+											style="width: 220px; margin-top: -10px">
 										<button class="btn btn-info search" type="button"
-											onclick="submit_calzip()">分析</button><br>
-										<div class="btn loading" id="zip_load"
+											onclick="submit_calzip()">分析</button>
+										<div class="btn loading" id="calzip_load"
 											style="display: none;">
-											<img src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在上传...</span>
-										</div> 
-										<button class="btn btn-info search" type="button" onclick="submit_modelzip()" style="float: right">模式计算</button>
+											<img
+												src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在分析...</span>
+										</div>
+										<br>
+										<button class="btn btn-info search" type="button"
+											onclick="submit_modelzip()" style="float: right">模式计算</button>
+										<div class="btn loading" id="modelzip_load"
+											style="display: none; float: right;">
+											<img
+												src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在计算...</span>
+										</div>
 									</div>
 								</form>
 							</div>
@@ -399,8 +446,8 @@ input[type="file"]{
 					</div>
 				</div>
 			</div>
-	</div>
-	<div class="row">
+		</div>
+		<div class="row">
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>操作日志</h5>
@@ -409,16 +456,15 @@ input[type="file"]{
 					</div>
 					<div class="ibox-content">
 						<div class="form-group">
-							<label for="type" style="margin-left: 20px">数据类型</label>
-							<select id="type" name="type" class="btn btn-white">
+							<label for="type" style="margin-left: 20px">数据类型</label> <select
+								id="type" name="type" class="btn btn-white">
 								<option value="">全部</option>
 								<option value="性能工单数据">性能工单数据</option>
 								<option value="投诉工单数据">投诉工单数据</option>
 								<option value="单个中兴网管指标数据">单个中兴网管指标数据</option>
 								<option value="中兴网管指标原始数据">中兴网管指标原始数据</option>
-							</select>
-							<label for="status" style="margin-left: 20px">状态</label>
-							<select id="status" name="status" class="btn btn-white">
+							</select> <label for="status" style="margin-left: 20px">状态</label> <select
+								id="status" name="status" class="btn btn-white">
 								<option value="">全部</option>
 								<option value="success">成功</option>
 								<option value="fail">失败</option>
@@ -426,12 +472,12 @@ input[type="file"]{
 							<my:btn type="search" onclick="search_log()"></my:btn>
 							<!-- <button class="btn btn-info search" type="button" onclick="search_log()">查询</button> -->
 						</div>
-							<div id="historyTable"></div>
-							<div id="pager_Table"></div>
+						<div id="historyTable"></div>
+						<div id="pager_Table"></div>
 					</div>
 				</div>
 			</div>
+		</div>
 	</div>
-</div>
 </body>
 </html>
