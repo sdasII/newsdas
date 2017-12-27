@@ -135,10 +135,13 @@ public class AlarmController {
 	@RequestMapping("/lastHourAlarm")
 	@ResponseBody
 	public ModelMap lastHourAlarm(HttpServletRequest request){
-		int app_result = Integer.valueOf(request.getParameter("type"));
+		String type=request.getParameter("type");
 		ModelMap map = new ModelMap();
 		AlarmDto dto = new AlarmDto();
-		dto.setApp_result(app_result);
+		if (!CommonUntils.isempty(type)) {
+			int app_result = Integer.valueOf(request.getParameter("type"));
+			dto.setApp_result(app_result);
+		}
 		List<AlarmDto> dtos = alarmService.lastHourAlarm(dto);
 		map.addAttribute(Constraints.RESULT_ROW, dtos);
 		return map;

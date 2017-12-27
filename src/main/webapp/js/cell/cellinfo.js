@@ -36,37 +36,38 @@ $(function() {
 		pageList : [ 5, 10, 20 ],
 		clickToSelect : true,
 		sidePagination : 'server',// 设置为服务器端分页
-		columns : [ {
+		columns : [/* {
 			checkbox : true
-		}, {
+		}, */{
 			field : "",
 			title : "序号",
 			align : "center",
 			valign : "middle",
+			width : '5%',
 			formatter : function(value, row, index) {
 				return index + 1;
 			}
-		}, {
+		},/* {
 			field : "cell_code",
 			title : "小区ID",
 			align : "left",
 			valign : "left",
 			width : '35%'
-		}, {
+		}, */{
 			field : "cell_name",
 			title : "小区名称",
 			align : "left",
 			valign : "left",
-			width : '35%'
+			width : '55%'
 		}, {
 			field : "station_code",
 			title : "所属基站",
 			align : "left",
 			valign : "left",
-			width : '15%'
+			width : '55%'
 		}, {
 			field : "in_used",
-			title : "是否在用",
+			title : "是否使用",
 			align : "center",
 			valign : "middle",
 			width : '5%',
@@ -95,6 +96,15 @@ function searchInfo() {
 	bsdata.cell_name = $("#name").val();
 	commonRowDatas("table_list", bsdata, cellListUrl, "commonCallback", true);
 }
+//导入
+function import_Excel(){
+	
+}
+//导出
+function export_Excel(){
+	
+}
+
 function setUsed() {
 	// 获取选中状态的总数,若大于350，提示客户，不能继续增加。
 	/*

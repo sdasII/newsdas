@@ -48,7 +48,7 @@
 									<i class="fa fa-edit"></i><span class="nav-label">${menu.MENU_NAME}</span>
 							</a></li>
 						</c:if>
-						<c:if test="${menu.MENU_NAME=='数据存储'}">
+						<c:if test="${menu.MENU_NAME=='存储分析'}">
 							<li><a class="J_menuItem" href="${context}${menu.MENU_URL}">
 									<i class="fa fa-table"></i><span class="nav-label">${menu.MENU_NAME}</span>
 							</a></li>

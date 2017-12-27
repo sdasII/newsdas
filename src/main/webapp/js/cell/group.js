@@ -103,9 +103,9 @@ function searchInfo() {
 
 function select(){
 	var name = $("#name").val();
-	var scene = $("#scene").val();
+	var status = $("#status").val();
     bsdata.name = name;
-    bsdata.scene = scene;             
+    bsdata.status = status;             
     commonRowDatas("table_list_1", bsdata, cellListUrl, "commonCallback", true);
    
 }

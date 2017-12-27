@@ -441,11 +441,11 @@ function drawTables(type){
 	                  var UnixTimeToDate = jsDate.getFullYear() + '/' + (jsDate.getMonth() + 1) + '/'+jsDate.getDate()+ ' ' + jsDate.getHours() + ':' + jsDate.getMinutes() + ':' + jsDate.getSeconds();
 	                   return UnixTimeToDate;
 	                 }
-	          },{
+	          },/*{
                   field: 'alltime',
                   title: '总消耗时间(ms)',
                   width:500
-              },{
+              },*/{
 	              field: 'filename',
 	              title: '信息',
 	              width:500

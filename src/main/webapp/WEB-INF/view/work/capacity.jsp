@@ -104,8 +104,6 @@ input {
 							<button class="btn btn-success" onclick="javascript:select()">查询</button>																					
 							<button class="btn btn-white" onclick="exportExcel()">导出</button>
 						</div>
-
-
 					</div>
 					<div class="footer" style="height: 60px;">
 							<div>

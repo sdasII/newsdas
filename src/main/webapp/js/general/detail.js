@@ -22,6 +22,7 @@ var historyurl = ctx + "/cell/healthtrend";
 var updateTimeUrl = ctx + "/alarm/cellupdatetime";
 //工单
 var capacityweekurl = ctx + "/capacitywork/oneweek";
+var compliainurl = ctx + "/complain/getcomplist";
 
 var top_split = [];
 var bottom_spli = [];
@@ -94,11 +95,11 @@ var histroy_trend = {
 		legend : {
 			data : [{
 						'name' : "历史健康度"
-					}, {
+					}/*, {
 						'name' : "投诉"
 					},{
 	                    'name' : "警戒区"
-	                }]
+	                }*/]
 		},
 		dataZoom : [{
 					type : 'slider',
@@ -126,7 +127,7 @@ var histroy_trend = {
 							}
 						}
 					}
-				}, {
+				}, /*{
 					name : '投诉',
 					data : [],
 					type : 'scatter',
@@ -188,7 +189,7 @@ var histroy_trend = {
 	                                        }])
 	                    }
 	                }
-	            },{
+	            },*/{
 
 					name : '',
 					type : 'line',
@@ -254,7 +255,7 @@ var histroy_trend = {
 
 $(function(){
 	historyCharts = echarts.init($("#historyCharts").get(0));
-	//曲线时间选择
+	//时间选择窗口
 	$(".datePicker").click(function() {
 				starttime="";
 				endtime="";
@@ -264,7 +265,7 @@ $(function(){
 					$(".search").removeClass("btn-white");
 					$(".search").addClass("btn-info");
 					$(this).parent().children(":last").css("display", "none");
-						if ($(this).html() == "日") {
+						if ($(this).html() == "最近一日") {
 							date_value = "day";
 							$(this).removeClass("btn-white");
 							$(this).addClass("btn-info");
@@ -293,11 +294,54 @@ $(function(){
 							}
 						}
 					});
-	//预警
+	//初始化
+	alarm_table();
+	capacity_table();
+	complain_table();
+	getcharts("#rtratio", "健康诊断结果","rgb(46,199,201)",date_value);
+	historyTrendQuery(date_value,"","");
+	
+	
+	//更新时间
+	$.ajax({
+		url : updateTimeUrl,
+		type : "post",
+		data : {
+			'cellname' : cell_code
+		},
+		success : function(data, status) {
+			$("#updateTime").html("最新发布时间 : "+data);
+			updateTime=data;
+		}
+	});
+	//datapicker
+    $(".form_datetime").datetimepicker({
+    	 format: 'yyyymm',  
+    	 startView: 'year',
+         minView:'year',
+         maxView:'decade',
+         language:  'zh-CN' 
+    });
+  //年月默认值(默认上个月)
+    var date=new Date;
+    var year=date.getFullYear(); 
+    var month=date.getMonth();
+    month =(month<10 ? "0"+month:month); 
+    var mydate = (year.toString()+month.toString());
+    $(".form_datetime").val(mydate);
+    rtRatio();
+});
+//健康预警列表
+function alarm_table(){
 	$.ajax({
 		url:tableUrl,
 		type:"post",
-		data:{"cellname":cell_code},
+		data:{
+			"cellname":cell_code,
+			"type":date_value,
+			"starttime":starttime,
+			"endtime":endtime
+			},
 		success:function(data){
 			$('#alarm_table').bootstrapTable({
 		        cache : false,
@@ -354,58 +398,59 @@ $(function(){
 		    });
 		}
 	});
-	getcharts("#rtratio", "健康诊断结果","rgb(46,199,201)",date_value);
-	///
-	historyTrendQuery(date_value,"","");
-	
-	
-	//更新时间
+}
+/*
+ * 性能工单
+ */
+function capacity_table(){
+	var url="";
+	if(date_value=="day"){
+		url="";
+	}else if(date_value=="week"){
+		url=ctx+"/capacitywork/oneweek";
+	}else if(date_value=="month"){
+		url=ctx+"/capacitywork/onemonth";
+	}else{
+		url="";
+	}
 	$.ajax({
-		url : updateTimeUrl,
-		type : "post",
+		url : url,
 		data : {
-			'cellname' : cell_code
+			'cellname' : cell_code,
+			"type":date_value,
+			"starttime":starttime,
+			"endtime":endtime
 		},
+		type : "POST",
 		success : function(data, status) {
-			$("#updateTime").html("最新发布时间 : "+data);
-			updateTime=data;
-			/*
-			 * 性能工单
-			 */
-			$.ajax({
-				url : capacityweekurl,
-				data : {
-					'cellname' : cell_code,
-					'updatetime':updateTime
-				},
-				type : "POST",
-				success : function(data, status) {
-		            //var temp = eval('(' + data + ')'); 
-		            var list = data.rows;
-					//var list = data.rows;
-					refresh_capacity(list);
-					//iscapacitywork = true;
-				}
-			});
+            //var temp = eval('(' + data + ')'); 
+            var list = data.rows;
+			//var list = data.rows;
+			refresh_capacity(list);
 		}
 	});
-	//datapicker
-    $(".form_datetime").datetimepicker({
-    	 format: 'yyyymm',  
-    	 startView: 'year',
-         minView:'year',
-         maxView:'decade',
-         language:  'zh-CN' 
-    });
-  //年月默认值
-    var date=new Date;
-    var year=date.getFullYear(); 
-    var month=date.getMonth()+1;
-    month =(month<10 ? "0"+month:month); 
-    var mydate = (year.toString()+month.toString());
-    $(".form_datetime").val(mydate);
-    rtRatio();
-});
+}
+/*
+ * 投诉工单
+ */
+function complain_table(){
+	$.ajax({
+		url : compliainurl,
+		data : {
+			'cellname' : cell_code,
+			"type":date_value,
+			"starttime":starttime,
+			"endtime":endtime
+		},
+		type : "POST",
+		success : function(data, status) {
+            //var temp = eval('(' + data + ')'); 
+            var list = data.rows;
+			//var list = data.rows;
+			refresh_capacity(list);
+		}
+	});
+}
 //按日期查询按钮
 function query(){
 	starttime=$("#starttime").val();
@@ -413,6 +458,9 @@ function query(){
 	date_value="select";
 	var title=$("#topTabs").find(".active").find("a").html()
 	if (title == "健康诊断结果") {
+		alarm_table();
+		capacity_table();
+		complain_table();
 		getcharts("#rtratio", "健康诊断结果","rgb(46,199,201)","select",starttime,endtime);
 		historyTrendQuery("select",starttime,endtime);
 	} else {
@@ -584,6 +632,8 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 									markPointData_1.push(point);
 								}else if(e["range_0"+j]==2){
 									dataArr.push(2.5);
+								}else{
+									dataArr.push(0);
 								}
 							}else{
 								if(e["range_"+j]==0){
@@ -604,6 +654,8 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 									markPointData_1.push(point);
 								}else if(e["range_"+j]==2){
 									dataArr.push(2.5);
+								}else{
+									dataArr.push(0);
 								}
 							}
 						}
@@ -637,6 +689,8 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 								markPointData_1.push(point);
 							}else if(data.rows[0]["range_0"+i]==2){
 								dataArr.push(2.5);
+							}else{
+								dataArr.push(0);
 							}
 						}else{
 							if(data.rows[0]["range_"+i]==0){
@@ -657,6 +711,8 @@ function getcharts(id, title,color,date_value,starttime,endtime){
 								markPointData_1.push(point);
 							}else if(data.rows[0]["range_"+i]==2){
 								dataArr.push(2.5);
+							}else{
+								dataArr.push(0);
 							}
 						}
 					}
@@ -779,7 +835,7 @@ function drawEcharts(id, title, times, data,markPointData_0,markPointData_1,colo
                 data :markPointData_0,
                 itemStyle:{
                 	normal:{
-                		color:'#C1232B'
+                		color:'red'//'#C1232B'
                 	}
                 }
             }
@@ -835,7 +891,7 @@ function drawEcharts(id, title, times, data,markPointData_0,markPointData_1,colo
                 data :markPointData_1,
                 itemStyle:{
                 	normal:{
-                		color:'#FF6347'
+                		color:'#F3A43B'
                 	}
                 }
             }
@@ -903,8 +959,19 @@ function exportExcel_real(title){
 function switchwork(url, cellname) {
 	var param={};
 	param.cellname=cellname;
-	if(updateTime!=''){
-		param.updatetime=updateTime;
+	param.type=date_value;
+	param.starttime=starttime;
+	param.endtime=endtime;
+	if (url.indexOf("capacity")>-1){
+		if(date_value=="day"){
+			url="";
+		}else if(date_value=="week"){
+			url=ctx+"/capacitywork/oneweek";
+		}else if(date_value=="month"){
+			url=ctx+"/capacitywork/onemonth";
+		}else{
+			url="";
+		}
 	}
 	$.ajax({
 				url : url,
@@ -913,9 +980,9 @@ function switchwork(url, cellname) {
 				success : function(data, status) {
                     //var data = eval('(' + data + ')');
 					var list = data.rows;
-					if (url == "/newsdas/capacitywork/oneweek") {
+					if (url.indexOf("capacity")>-1) {
 							refresh_capacity(list);
-					} else if (url == "/newsdas/complain/getcomplist") {
+					} else if (url.indexOf("complain")>-1) {
 							var list = data.rows;
 							refresh_complain(list)
 					}
@@ -952,6 +1019,7 @@ function refresh_capacity(list) {
     });
 }
 function refresh_complain(list) {
+	console.info(list);
 	$("#complain_loadbk").show();
 	$("#complain_load").show();
 	$('#table_list_work2').bootstrapTable({
@@ -973,10 +1041,31 @@ function refresh_complain(list) {
 	                   return UnixTimeToDate;
 	                 }
             },
-            { field : 'phone_number', title : '受理电话', align : 'center', valign : 'middle' },
-            { field : 'live_cellname1', title : '常住小区1', align : 'center', valign : 'middle' },
-            { field : 'live_cellname2', title : '常住小区2', align : 'center', valign : 'middle' },
-            { field : 'live_cellname3', title : '常住小区3', align : 'center', valign : 'middle' }
+            { field : 'phone_number', title : '受理电话', align : 'center', valign : 'middle'},
+            { field : 'live_cellname1', title : '常住小区1', align : 'left', valign : 'left',
+            	formatter:function(value,row,index){
+            		var link = ctx + "/alarm/todetail";
+            		var url='<a href="javascript:iframeconvert('
+             	    	+"'"+link+"','小区信息',"+"[{'key':'cell_code','value':'"+value+"'}]"+')">'
+             	    	+value+'</a>';
+            	}
+             },
+            { field : 'live_cellname2', title : '常住小区2', align : 'left', valign : 'left',
+            	formatter:function(value,row,index){
+            		var link = ctx + "/alarm/todetail";
+            		var url='<a href="javascript:iframeconvert('
+             	    	+"'"+link+"','小区信息',"+"[{'key':'cell_code','value':'"+value+"'}]"+')">'
+             	    	+value+'</a>';
+            	}
+             },
+            { field : 'live_cellname3', title : '常住小区3', align : 'left', valign : 'left',
+            	formatter:function(value,row,index){
+            		var link = ctx + "/alarm/todetail";
+            		var url='<a href="javascript:iframeconvert('
+             	    	+"'"+link+"','小区信息',"+"[{'key':'cell_code','value':'"+value+"'}]"+')">'
+             	    	+value+'</a>';
+            	}
+             }
         ],
         formatNoMatches : function() {
             return "没有数据内容";
