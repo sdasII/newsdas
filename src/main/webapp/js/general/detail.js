@@ -1019,7 +1019,6 @@ function refresh_capacity(list) {
     });
 }
 function refresh_complain(list) {
-	console.info(list);
 	$("#complain_loadbk").show();
 	$("#complain_load").show();
 	$('#table_list_work2').bootstrapTable({
@@ -1036,18 +1035,23 @@ function refresh_complain(list) {
         columns : [
             { field : "record_time", title : "受理时间", align : "center", valign : "middle",
             	formatter:function(value,row,index){
-	                  var jsDate = new Date(value);
-	                  var UnixTimeToDate = jsDate.getFullYear() + '/' + (jsDate.getMonth() + 1) + '/'+jsDate.getDate()+ ' ' + jsDate.getHours() + ':' + jsDate.getMinutes() + ':' + jsDate.getSeconds();
-	                   return UnixTimeToDate;
-	                 }
+            		if(value!=""||value!=null){
+            			 var jsDate = new Date(value);
+   	                  var UnixTimeToDate = jsDate.getFullYear() + '/' + (jsDate.getMonth() + 1) + '/'+jsDate.getDate()+ ' ' + jsDate.getHours() + ':' + jsDate.getMinutes() + ':' + jsDate.getSeconds();
+   	                   return UnixTimeToDate;
+            		}
+	           }
             },
             { field : 'phone_number', title : '受理电话', align : 'center', valign : 'middle'},
+            { field : 'servicerequesttype', title : '服务请求类别', align : 'center', valign : 'middle'},
+            { field : 'complaint_detailinfo', title : '问题细项', align : 'center', valign : 'middle'},
             { field : 'live_cellname1', title : '常住小区1', align : 'left', valign : 'left',
             	formatter:function(value,row,index){
             		var link = ctx + "/alarm/todetail";
             		var url='<a href="javascript:iframeconvert('
              	    	+"'"+link+"','小区信息',"+"[{'key':'cell_code','value':'"+value+"'}]"+')">'
              	    	+value+'</a>';
+            		return url;
             	}
              },
             { field : 'live_cellname2', title : '常住小区2', align : 'left', valign : 'left',
@@ -1056,6 +1060,7 @@ function refresh_complain(list) {
             		var url='<a href="javascript:iframeconvert('
              	    	+"'"+link+"','小区信息',"+"[{'key':'cell_code','value':'"+value+"'}]"+')">'
              	    	+value+'</a>';
+            		return url;
             	}
              },
             { field : 'live_cellname3', title : '常住小区3', align : 'left', valign : 'left',
@@ -1064,6 +1069,7 @@ function refresh_complain(list) {
             		var url='<a href="javascript:iframeconvert('
              	    	+"'"+link+"','小区信息',"+"[{'key':'cell_code','value':'"+value+"'}]"+')">'
              	    	+value+'</a>';
+            		return url;
             	}
              }
         ],
