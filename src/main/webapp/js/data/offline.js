@@ -294,6 +294,7 @@ function signalCSVSumit(element) {
  * 单个网管csv文件分析
  */
 function submit_cal(){
+	$("#cal_load").show();
 	var time = $("#net_caltime").val();
 	if(time==""){//默认为上一个月
 		var date=new Date;
@@ -307,14 +308,19 @@ function submit_cal(){
     data.modeltime = time;
     data.filetime = filetime;
     var strurl  = ctx + "/data/csvStatistic";
-    $("#csv_load").css("display", "line");
+    //$("#csv_load").css("display", "line");
     $.ajax({
       url : strurl,
       type : "post",
       data : data,
       success : function(data,success){
-           $("#csv_load").css("display", "none");
-           showOnlyMessage(INFO, "计算完成！");
+           //$("#csv_load").css("display", "none");
+           $("#cal_load").hide();
+           if(success=="success"){
+           	showOnlyMessage(INFO, "分析完成");
+           }else{
+           	showOnlyMessage(ERROR, "分析失败");
+           }
       }
     });
 }
@@ -354,6 +360,7 @@ function netzipSumit(element) {
  * 网关数据分析 
  */
 function submit_calzip(){
+	$("#calzip_load").show();
 	var time = $("#net_caltime2").val();
 	if(time==""){//默认为上一个月
 		var date=new Date;
@@ -367,14 +374,18 @@ function submit_calzip(){
     data.modeltime = time;
     data.filetime = filetime;
     var strurl  = ctx + "/data/zipStatistic";
-    $("#zip_load").css("display", "line");
     $.ajax({
       url : strurl,
       type : "post",
       data : data,
       success : function(data,success){
-           $("#zip_load").css("display", "none");
-           showOnlyMessage(INFO, "计算完成！");
+           $("#calzip_load").hide();
+           var state = data.success;
+           if(success=="success"){
+           	showOnlyMessage(INFO, "分析完成");
+           }else{
+           	showOnlyMessage(ERROR, "分析失败");
+           }
       }
     });
 }
@@ -383,6 +394,7 @@ function submit_calzip(){
  * 网管数据模式计算
  */
 function submit_modelzip(){
+	$("#modelzip_load").show();
     var time = $("#net_caltime2").val();
     if(time==""){//默认为上一个月
         var date=new Date;
@@ -394,14 +406,17 @@ function submit_modelzip(){
     var data = {};
     data.modeltime = time;
     var strurl  = ctx + "/data/modelCalculate";
-    $("#zip_load").css("display", "line");
     $.ajax({
       url : strurl,
       type : "post",
       data : data,
       success : function(data,success){
-           $("#zip_load").css("display", "none");
-           showOnlyMessage(INFO, "计算完成！");
+           $("#modelzip_load").hide();
+           if(success=="success"){
+           	showOnlyMessage(INFO, "计算完成");
+           }else{
+           	showOnlyMessage(ERROR, "计算失败");
+           }
       }
     });
 }
@@ -489,11 +504,18 @@ function search_log(){
  */
 var validate_url = ctx + "/work/validate"
 function workOrderValidate(){
+	$("#Validate_load").show();
     $.ajax({
         url : validate_url,
         type : "get",
         success:function(data,status){
             var state = data.success;
+            $("#Validate_load").hide();
+            if(state){
+            	showOnlyMessage(INFO, "验证完成");
+            }else{
+            	showOnlyMessage(ERROR, "验证失败");
+            }
             //TODO state = true
             
             //TODO state = false

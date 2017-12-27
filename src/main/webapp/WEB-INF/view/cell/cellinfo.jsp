@@ -46,9 +46,9 @@
                                     <option value="1">是</option>
                                     <option value="0">否</option>
                              </select>
-								
-							<button style="margin-left: 5px;" class="btn btn-success"
-								onclick="searchInfo();">查询</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<my:btn type="search" onclick="searchInfo()"></my:btn>
+							<!-- <button style="margin-left: 5px;" class="btn btn-success"
+								onclick="searchInfo();">查询</button> -->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<!-- <button id="setUsed"  class="btn btn-success" onclick="setUsed()">设为使用</button>
 							<button id="clear" style="margin-left: 5px;" class="btn btn-white" onclick="clearUsed()">取消使用</button> -->
 							<button id="setUsed"  class="btn btn-success" onclick="import_Excel()">导入</button>

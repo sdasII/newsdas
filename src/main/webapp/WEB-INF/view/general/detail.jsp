@@ -314,9 +314,10 @@ input {
 					<label for="time" style="margin-left: 20px">指标查询 <input
 						size="16" type="text" id="time" placeholder="请选择月份" readonly
 						class="form_datetime">
-						<button style="margin-left: 5px;" class="btn btn-success"
-							onclick="cellindex_search()">查询</button>
 					</label>
+					<my:btn type="search" onclick="cellindex_search()"></my:btn>
+						<!-- <button style="margin-left: 5px;" class="btn btn-success"
+							onclick="cellindex_search()">查询</button> -->
 				</div>
 			</div>
 			<div class="ibox-content">
