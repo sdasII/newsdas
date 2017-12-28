@@ -118,6 +118,7 @@ input {
 	border: 1px solid #e7eaec;
 	font-weight: normal;
 }
+#alarm .pull-left{display: none}
 </style>
 </head>
 <body>
@@ -169,7 +170,7 @@ input {
 					<h5>健康预警</h5>
 				</div>
 				<div class="ibox-content">
-					<div class="jqGrid_wrapper"
+					<div class="jqGrid_wrapper" id="alarm"
 						style="margin: 0; padding: 0; width: 100%; overflow: auto;">
 						<table class="table" id="alarm_table"></table>
 						<div id="pager_alarm_table"></div>
