@@ -104,7 +104,7 @@ input {
 							</select>							
 							<!-- <button class="btn btn-success" onclick="javascript:select()">查询</button> -->
 							<my:btn type="search" onclick="select()"></my:btn>																					
-							<button class="btn btn-white" onclick="exportExcel()">导出</button>
+							<button class="btn btn-success" onclick="exportExcel()">导出</button>
 						</div>
 					</div>
 					<div class="footer" style="height: 60px;">

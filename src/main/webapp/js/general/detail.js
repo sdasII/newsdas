@@ -1033,7 +1033,7 @@ function refresh_complain(list) {
         clickToSelect : true,
         //sidePagination : 'server',// 设置为服务器端分页
         columns : [
-            { field : "record_time", title : "受理时间", align : "center", valign : "middle",
+            { field : "recordtime", title : "受理时间", align : "center", valign : "middle",
             	formatter:function(value,row,index){
             		if(value!=""||value!=null){
             			 var jsDate = new Date(value);
@@ -1042,9 +1042,9 @@ function refresh_complain(list) {
             		}
 	           }
             },
-            { field : 'phone_number', title : '受理电话', align : 'center', valign : 'middle'},
+            { field : 'phonenumber', title : '受理电话', align : 'center', valign : 'middle'},
             { field : 'servicerequesttype', title : '服务请求类别', align : 'center', valign : 'middle'},
-            { field : 'complaint_detailinfo', title : '问题细项', align : 'center', valign : 'middle'},
+            { field : 'complaintdetailinfo', title : '问题细项', align : 'center', valign : 'middle'},
             { field : 'live_cellname1', title : '常住小区1', align : 'left', valign : 'left',
             	formatter:function(value,row,index){
             		var link = ctx + "/alarm/todetail";

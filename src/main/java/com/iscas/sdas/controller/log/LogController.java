@@ -51,7 +51,7 @@ public class LogController {
 				dto.setType(type);
 			}
 			if (!CommonUntils.isempty(result)) {
-				dto.setType(result);
+				dto.setResult(Integer.parseInt(result));
 			}
 		}
 		PageDto<FileLogDto> pageDto = fileLogService.getPageList(dto, num, size);

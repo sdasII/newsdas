@@ -22,6 +22,9 @@ $(function(){
 		}
 	});
 	search();
+	$('#status').change(function(){ 
+		search();
+	});
 });
 function search(type){
 	type=$("#status").val();

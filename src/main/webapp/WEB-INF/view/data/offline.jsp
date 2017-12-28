@@ -371,7 +371,7 @@ input[type="file"] {
 											name="cal_time" id="net_caltime"
 											placeholder="请选择计算模式月份（默认上一个月）" readonly
 											class="form_datetime" style="width: 220px; margin-top: -10px">
-										<button class="btn btn-info search" type="button"
+										<button class="btn btn-info search" type="button" style="margin-left: 35px;"
 											onclick="submit_cal()">分析</button>
 										<div class="btn loading" id="cal_load" style="display: none;">
 											<img
@@ -424,7 +424,7 @@ input[type="file"] {
 											placeholder="请选择计算模式月份（默认上一个月）" readonly
 											class="timepicker form_datetime"
 											style="width: 220px; margin-top: -10px">
-										<button class="btn btn-info search" type="button"
+										<button class="btn btn-info search" type="button" style="margin-left: 35px;"
 											onclick="submit_calzip()">分析</button>
 										<div class="btn loading" id="calzip_load"
 											style="display: none;">
@@ -466,8 +466,8 @@ input[type="file"] {
 							</select> <label for="status" style="margin-left: 20px">状态</label> <select
 								id="status" name="status" class="btn btn-white">
 								<option value="">全部</option>
-								<option value="success">成功</option>
-								<option value="fail">失败</option>
+								<option value="1">成功</option>
+								<option value="0">失败</option>
 							</select>
 							<my:btn type="search" onclick="search_log()"></my:btn>
 							<!-- <button class="btn btn-info search" type="button" onclick="search_log()">查询</button> -->

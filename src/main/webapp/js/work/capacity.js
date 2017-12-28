@@ -96,11 +96,11 @@ $(function(){
 	                   return UnixTimeToDate;
 	                 }
             },
-            { field : "cellid", title : "小区名称", align : "center", valign : "middle",
+            { field : "cellid", title : "小区名称", align : "left", valign : "left",
                 formatter:function(value,row,index){
-                    var url = ctx + "/general/cellhome/";
+                    var url = ctx + "/alarm/todetail/";
                     var params = "[{\"key\":\"name\",\"value\":\""+value+"\"}]";
-                    var url = '<a href=javascript:iframeconvert("' + url + '","日常监控",' + params + ')>' + value + '</a>';
+                    var url = '<a href=javascript:iframeconvert("' + url + '","小区信息",' + params + ')>' + value + '</a>';
                      return url;
                 }},
             { field : "belong_area", title : "所属区域", align : "center", valign : "middle"},

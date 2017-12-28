@@ -52,6 +52,11 @@
 	margin: 0px;
 	border: 1px solid #ccc;
 }
+small{
+	font-weight: bold;
+    font-size: 21px;
+    padding: 0px 5px;
+}
 </style>
 </head>
 <body>
@@ -72,23 +77,22 @@
 							</div> -->
 							<div class="feed-element">
 								<h5 id="all">共有n个小区被监控：</h5>
-								<div class="media-body ">
-									<small>其中处于事件状态<small id="event"></small>个
-									</small><br> <small>其中处于亚健康状态<small id="critical"></small>个
-									</small><br> <small>其中处于健康状态<small id="health"></small>个
-									</small><br>
+								<div class="media-body" style="margin-left: 20px;font-size: 20px;margin-bottom: 10px;">
+									<span>事件状态<small id="event"></small>个</span><br> 
+									<span>亚健康状态<small id="critical"></small>个</span><br> 
+									<span>健康状态<small id="health"></small>个</span><br>
 								</div>
 							</div>
 							<div class="feed-element" style="border-bottom: 0px">
 							<div class="form-group">
-							<label>状态</label> 
-							<select id="status" name="status" class="btn btn-white">
+							<label>状态:</label> 
+							<select id="status" name="status" class="btn btn-white" style="width: 180px;margin-left: 20px">
 								<option value="">全部</option>
 								<option value="2">健康</option>
 								<option value="1">亚健康</option>
 								<option value="0">事件</option>
 							</select>
-							<button id="search_btn" type="button" class="btn btn-primary" onclick="search()">确定</button>
+							<!-- <button id="search_btn" type="button" class="btn btn-primary" onclick="search()">确定</button> -->
 						</div>
 						<div class="ibox-content" style="height:600px;overflow: auto">
 							<ul class="list-group" id="content">

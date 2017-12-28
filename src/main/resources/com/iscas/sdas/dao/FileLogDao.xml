@@ -21,8 +21,14 @@
     <include refid="Base_Column_List" />
     from log_upload_file
     <where>
-    	<if test="type != null">
+    	<if test="type != null and result == null">
     		type = #{type} 
+    	</if>
+    	<if test="result != null and type == null">
+    		result = #{result} 
+    	</if>
+    	<if test="result != null and type != null">
+    		type = #{type} and result = #{result} 
     	</if>
     </where>
     order by starttime  DESC

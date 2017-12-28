@@ -52,7 +52,7 @@
 							<!-- <button id="setUsed"  class="btn btn-success" onclick="setUsed()">设为使用</button>
 							<button id="clear" style="margin-left: 5px;" class="btn btn-white" onclick="clearUsed()">取消使用</button> -->
 							<button id="setUsed"  class="btn btn-success" onclick="import_Excel()">导入</button>
-							<button id="clear" style="margin-left: 5px;" class="btn btn-white" onclick="export_Excel()">导出</button>
+							<button id="clear" style="margin-left: 5px;" class="btn btn-success" onclick="export_Excel()">导出</button>
 						</div>
 						<div>
 							<div id="table_list"></div>
