@@ -445,6 +445,7 @@ public class DataController{
 		BGTask task = new CaculateTestTask();
 		String[] args = new String[]{modeltime,filetime};
 		JSON ret = task.runTask(args);
+		map.addAttribute("rows",ret);
 		return map;
 
 	}
@@ -462,6 +463,7 @@ public class DataController{
 		BGTask task = new CaculateTask();
 		String[] args = new String[]{modeltime,filetime};
 		JSON ret = task.runTask(args);
+		map.addAttribute("rows",ret);
 		return map;
 
 	}
@@ -477,7 +479,7 @@ public class DataController{
 		String modeltime = request.getParameter("modeltime");
 		BGTask task = new OffLineHealthModelBDTask();
 		JSON ret = task.runTask(modeltime);
-		
+		map.addAttribute("rows",ret);
 		return map;
 
 	}

@@ -316,10 +316,10 @@ function submit_cal(){
       success : function(data,success){
            //$("#csv_load").css("display", "none");
            $("#cal_load").hide();
-           if(success=="success"){
+           if(data.rows.type==" SUCCESS"){
            	showOnlyMessage(INFO, "分析完成");
            }else{
-           	showOnlyMessage(ERROR, "分析失败");
+           	showOnlyMessage(ERROR, data.rows.message);
            }
       }
     });
@@ -380,12 +380,11 @@ function submit_calzip(){
       data : data,
       success : function(data,success){
            $("#calzip_load").hide();
-           var state = data.success;
-           if(success=="success"){
-           	showOnlyMessage(INFO, "分析完成");
-           }else{
-           	showOnlyMessage(ERROR, "分析失败");
-           }
+           if(data.rows.type==" SUCCESS"){
+              	showOnlyMessage(INFO, "分析完成");
+              }else{
+              	showOnlyMessage(ERROR, data.rows.message);
+              }
       }
     });
 }
@@ -411,13 +410,12 @@ function submit_modelzip(){
       type : "post",
       data : data,
       success : function(data,success){
-    	  console.info(data);
            $("#modelzip_load").hide();
-           if(success=="success"){
-           	showOnlyMessage(INFO, "计算完成");
-           }else{
-           	showOnlyMessage(ERROR, "计算失败");
-           }
+           if(data.rows.type==" SUCCESS"){
+              	showOnlyMessage(INFO, "计算完成");
+              }else{
+              	showOnlyMessage(ERROR, data.rows.message);
+              }
       }
     });
 }
@@ -510,16 +508,12 @@ function workOrderValidate(){
         url : validate_url,
         type : "get",
         success:function(data,status){
-            var state = data.success;
             $("#Validate_load").hide();
-            if(state){
+            if(data.rows.type==" SUCCESS"){
             	showOnlyMessage(INFO, "验证完成");
             }else{
-            	showOnlyMessage(ERROR, "验证失败");
+            	showOnlyMessage(ERROR, data.rows.message);
             }
-            //TODO state = true
-            
-            //TODO state = false
         }
     })
 }
