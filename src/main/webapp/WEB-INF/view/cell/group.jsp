@@ -113,6 +113,11 @@
 							<button style="margin-left: 5px;float: right" onclick="javascript:exportExcel()">
 								<img src="${context}/style/export.png" title="历史健康度导出" style="height:20px;"/>
 							</button>
+							<div class="btn loading" id="load1" style="display: none;float: right">
+								<img 
+									src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"
+									style="height: 20px;"><span>正在导出...</span>
+							</div>
 								<br><br>
 							<!-- <label for="time" style="margin-left: 20px">数据导出 <input
 								size="16" type="text" id="exporttime" placeholder="请选择导出月份"
@@ -123,16 +128,11 @@
 								<option value="hour">按小时</option>
 								<option value="days">按天</option>
 							</select>
-							<div class="btn loading" id="load1" style="display: none">
-								<img
-									src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"
-									style="height: 20px;"><span>正在导出...</span>
-							</div>
 							<!-- <label for="time" style="margin-left: 20px"> <input
 								size="16" type="text" id="resultexporttime"
 								placeholder="请选择导出月份" readonly class="form_datetime">
 							</label> -->
-							<button style="margin-left: 5px;" class="btn btn-success"
+							<button style="margin-left: 5px;" class="btn btn-success" title="健康判断结果导出"
 								onclick="javascript:resultexportExcel()">导出</button>
 							<div class="btn loading" id="load2" style="display: none">
 								<img

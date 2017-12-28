@@ -19,6 +19,13 @@
 	font-size: 13px;
 	text-decoration: underline;
 }
+.help-block{
+	color: red;
+    font-weight: bold;
+    font-size: 13px;
+}
+.form-group,.alert{margin-bottom: 0px !important}
+.alert{margin-top: 5px !important;padding:10px !important}
 </style>
 </head>
 
