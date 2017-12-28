@@ -73,6 +73,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<bind name="cellname" value="'%'+ cellname +'%'" />
 			and cell_code like #{cellname}
 		</if>
+		<!-- <if test="result!=null">
+			and range_00 = #{result} or range_01 = #{result} or range_02 = #{result} or range_03 = #{result}
+			or range_04 = #{result} or range_05 = #{result} or range_06 = #{result} or range_07 = #{result} 
+			or range_08 = #{result} or range_09 = #{result} or range_10 = #{result} or range_11 = #{result} 
+			or range_12 = #{result} or range_13 = #{result} or range_14 = #{result} or range_15 = #{result}
+			or range_16 = #{result} or range_17 = #{result} or range_18 = #{result} or range_19 = #{result}
+			or range_20 = #{result} or range_21 = #{result} or range_22 = #{result} or range_23 = #{result}
+			or range_24 = #{result}
+		</if> -->
 	</select>
 	<select id="cellListLastWeek" parameterType="java.lang.String"
 		resultType="com.iscas.sdas.dto.cell.CellResultHistoryDto">
@@ -80,11 +89,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		STR_TO_DATE(yyyyMMdd,'%Y%m%d') > DATE_SUB((SELECT yyyyMMdd FROM
 		t_cell_result_history WHERE 1=1  
 		<if test="cellname!=null">
+			<bind name="cellname" value="'%'+ cellname +'%'" />
 			and cell_code like #{cellname}
 		</if>
 		ORDER BY yyyyMMdd
 		DESC LIMIT 1),INTERVAL 7 DAY) 
 		<if test="cellname!=null">
+			<bind name="cellname" value="'%'+ cellname +'%'" />
 			and cell_code like #{cellname}
 		</if>
 	</select>
@@ -94,11 +105,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		STR_TO_DATE(yyyyMMdd,'%Y%m%d') > DATE_SUB((SELECT yyyyMMdd FROM
 		t_cell_result_history WHERE 1=1  
 		<if test="cellname!=null">
+			<bind name="cellname" value="'%'+ cellname +'%'" />
 			and cell_code like #{cellname}
 		</if>
 		ORDER BY yyyyMMdd
 		DESC LIMIT 1),INTERVAL 30 DAY) 
 		<if test="cellname!=null">
+			<bind name="cellname" value="'%'+ cellname +'%'" />
 			and cell_code like #{cellname}
 		</if>
 	</select>
@@ -107,6 +120,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM t_cell_result_history WHERE
 		STR_TO_DATE(yyyyMMdd,'%Y%m%d') BETWEEN #{start} AND #{end}
 		<if test="cellname!=null">
+			<bind name="cellname" value="'%'+ cellname +'%'" />
 			and cell_code like #{cellname}
 		</if>
 	</select>

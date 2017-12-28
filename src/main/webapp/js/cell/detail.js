@@ -101,7 +101,7 @@ function switchTab(id, title,color){
 }
 //————————————————————————————————————小区健康判别结果————————————————————————————————-\\
 //小区健康判别结果
-var tableUrl=ctx+"/alarm/celllist";
+var tableUrl=ctx+"/alarm/celllist/incell";
 $(function(){
     $('#alarm_table').bootstrapTable({
                 cache : false,

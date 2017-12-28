@@ -169,7 +169,7 @@ public class AlarmController {
 	 */
 	@RequestMapping("/celllist")
 	@ResponseBody
-	public ModelMap celllist(@RequestParam(value = "currpage", required = true, defaultValue = "1") String num,
+	public ModelMap allcelllist(@RequestParam(value = "currpage", required = true, defaultValue = "1") String num,
 			@RequestParam(value = "pageSize", required = true, defaultValue = "10") String size,
 			@RequestParam(value = "type", required = true, defaultValue = "day") String type,HttpServletRequest request){
 		ModelMap map = new ModelMap();
@@ -233,6 +233,44 @@ public class AlarmController {
 			}
 		}
 		return result;
+	}
+	@RequestMapping("/celllist/incell")
+	@ResponseBody
+	public ModelMap celllist(@RequestParam(value = "currpage", required = true, defaultValue = "1") String num,
+			@RequestParam(value = "pageSize", required = true, defaultValue = "10") String size,
+			@RequestParam(value = "type", required = true, defaultValue = "day") String type,HttpServletRequest request){
+		ModelMap map = new ModelMap();
+		String cellname = request.getParameter("name");
+		String starttime= null,endtime = null;
+		if (Constraints.SELECT.equals(type)) {
+			starttime = request.getParameter("starttime");
+			endtime = request.getParameter("endtime");
+		}
+		int pageNum = Integer.parseInt(num);
+		int pageSize = Integer.parseInt(size);
+		PageHelper.startPage(pageNum, pageSize);
+		PageDto<CellResultHistoryDto> tempdto = alarmService.getCellList(cellname,type,starttime,endtime);
+		long allsize = tempdto.getTotal();
+		List<CellResultHistory> cells = generateData(tempdto);
+		
+		List<CellResultHistory> rows = new ArrayList<>();
+		for (int i = 0; i < cells.size(); i++) {
+			if (cells.get(i).getResult()!=null) {
+				if (cells.get(i).getResult()==0) {
+					CellResultHistory dto = cells.get(i);
+					rows.add(dto);
+				}else if (cells.get(i).getResult()==1) {
+					CellResultHistory dto = cells.get(i);
+					rows.add(dto);
+				}
+			}			
+		}
+		PageDto<CellResultHistory> pageDto = new PageDto<>();
+		pageDto.setTotal(allsize);
+		pageDto.setRows(rows);
+		map.addAttribute(Constraints.RESULT_ROW, pageDto);
+	
+		return map;
 	}
 
 }
