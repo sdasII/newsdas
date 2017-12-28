@@ -60,17 +60,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM t_cell_result_info where cell_code = #{cellname} ORDER BY yyyyMMdd DESC LIMIT 1) ORDER BY app_hour DESC LIMIT 1
 	</select>
 	<!-- 最近一天健康预警（只筛选亚健康和事件） -->
-	<select id="alarmLastDay" resultType="com.iscas.sdas.dto.AlarmDto" 
+	<!-- <select id="alarmLastDay" resultType="com.iscas.sdas.dto.AlarmDto" 
 			parameterType="com.iscas.sdas.dto.AlarmDto">
 		SELECT * FROM t_cell_result_info WHERE yyyyMMdd = (SELECT yyyyMMdd FROM
 		t_cell_result_info where cell_code = #{cell_code} ORDER BY yyyyMMdd DESC LIMIT 1) and cell_code = #{cell_code} and (app_result=0||app_result=1)
-	</select>
+	</select> -->
 	<select id="cellListLastDay" resultType="com.iscas.sdas.dto.cell.CellResultHistoryDto"
 	 	parameterType="java.lang.String">
 		select * from t_cell_result_history where yyyyMMdd = (SELECT yyyyMMdd
 		FROM t_cell_result_info ORDER BY yyyyMMdd DESC LIMIT 1)
 		<if test="cellname!=null">
-			and cell_code = #{cellname}
+			<bind name="cellname" value="'%'+ cellname +'%'" />
+			and cell_code like #{cellname}
 		</if>
 	</select>
 	<select id="cellListLastWeek" parameterType="java.lang.String"
@@ -79,12 +80,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		STR_TO_DATE(yyyyMMdd,'%Y%m%d') > DATE_SUB((SELECT yyyyMMdd FROM
 		t_cell_result_history WHERE 1=1  
 		<if test="cellname!=null">
-			and cell_code = #{cellname}
+			and cell_code like #{cellname}
 		</if>
 		ORDER BY yyyyMMdd
 		DESC LIMIT 1),INTERVAL 7 DAY) 
 		<if test="cellname!=null">
-			and cell_code = #{cellname}
+			and cell_code like #{cellname}
 		</if>
 	</select>
 	<select id="cellListLastMonth" parameterType="java.lang.String"
@@ -93,12 +94,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		STR_TO_DATE(yyyyMMdd,'%Y%m%d') > DATE_SUB((SELECT yyyyMMdd FROM
 		t_cell_result_history WHERE 1=1  
 		<if test="cellname!=null">
-			and cell_code = #{cellname}
+			and cell_code like #{cellname}
 		</if>
 		ORDER BY yyyyMMdd
 		DESC LIMIT 1),INTERVAL 30 DAY) 
 		<if test="cellname!=null">
-			and cell_code = #{cellname}
+			and cell_code like #{cellname}
 		</if>
 	</select>
 	<select id="cellListBySelect" parameterType="java.lang.String"
@@ -106,7 +107,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM t_cell_result_history WHERE
 		STR_TO_DATE(yyyyMMdd,'%Y%m%d') BETWEEN #{start} AND #{end}
 		<if test="cellname!=null">
-			and cell_code = #{cellname}
+			and cell_code like #{cellname}
 		</if>
 	</select>
 </mapper>

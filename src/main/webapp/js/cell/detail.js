@@ -2,10 +2,9 @@ var times=[];
 var global_type = "day";// 全局日期选择
 var starttime;
 var endtime;
-var data=[];//testData
+//var data=[];//testData
 var updateTime='';//最新更新时间
 
-var tableUrl=ctx+"/alarm/celllastday";
 var updateTimeUrl = ctx + "/alarm/cellupdatetime";
 var imgUrl='image://../style/export.png';
 
@@ -42,10 +41,7 @@ $(function(){
 						if(global_type != "select"){
                             global_page_query();
 						}
-					});
-	//初始化
-	alarm_table();
-			
+					});			
 	//更新时间
 	$.ajax({
 		url : updateTimeUrl,
@@ -75,74 +71,7 @@ $(function(){
     $(".form_datetime").val(mydate);
     rtRatio();
 });
-//健康预警列表
-function alarm_table(){
-	$.ajax({
-		url:tableUrl,
-		type:"post",
-		data:{
-			"cellname":cell_code,
-			"type":global_type,
-			"starttime":starttime,
-			"endtime":endtime
-			},
-		success:function(data){
-			$('#alarm_table').bootstrapTable({
-		        cache : false,
-		        striped : true,
-		        pagination : true,
-		        data:data.rows,
-		        toolbar : '#pager_alarm_table',
-		        pageSize : 10,
-		        pageNumber : 1,
-		        pageList : [ 5, 10, 20 ],
-		        clickToSelect : true,
-		        //sidePagination : 'server',// 设置为服务器端分页
-		        columns : [
-		            {  
-                        title: '序号',align : "center", valign : "middle",
-                        formatter: function (value, row, index) {  
-                            return index+1;  
-                        }  
-                    },
-		            { field : "yyyyMMdd", title : "时间", align : "center", valign : "middle",
-		            	formatter:function(value,row,index){
-			                   return value+" "+row.app_hour+":00";
-			                 }
-		            },
-		            { field : 'app_result', title : '风险提示', align : 'center', valign : 'middle',
-		            	formatter:function(value,row,index){
-			                  var str="";
-			                  if(value==0){
-			                	  str="事件"
-			                  }else if(value==1){
-			                	  str="亚健康"
-			                  }else if(value==2){
-			                	  str="健康"
-			                  }
-			                  return str;
-			                 }
-		            },
-		            { field : 'create_time', title : '发布时间', align : 'center', valign : 'middle',
-		            	formatter:function(value,row,index){
-			                  var jsDate = new Date(value);
-			                  var UnixTimeToDate = jsDate.getFullYear() + '/' + (jsDate.getMonth() + 1) + '/'+jsDate.getDate()+ ' ' + jsDate.getHours() + ':' + jsDate.getMinutes() + ':' + jsDate.getSeconds();
-			                   return UnixTimeToDate;
-			                 }
-		            }
-		        ],
-		       /* onPageChange : function(size, number) {
-		        	 	var data = {};
-		        	    data.cell_code = cell_code;
-		        	    commonRowDatas("alarm_table", data, tableUrl, "commonCallback", true);
-		        },*/
-		        formatNoMatches : function() {
-		            return "没有数据内容";
-		        }
-		    });
-		}
-	});
-}
+
 
 /*
  * 全页面查询
@@ -151,13 +80,13 @@ function global_page_query(){
 	starttime=$("#starttime").val();
 	endtime=$("#endtime").val();
 	var title=$("#topTabs").find(".active").find("a").html()
+    searchReultInfo();
 	if (title == "健康诊断结果") {
-		alarm_table();
 		getcharts("#rtratio", "健康诊断结果","rgb(46,199,201)",global_type,starttime,endtime);
 		historyTrendQuery(global_type,starttime,endtime);
 	} else {
 		getcharts("#ratiotrend", "专家指标集","#1c84c6",global_type,starttime,endtime);
-	}
+	}   
     searchCapacityInfo();
     searchComplaintInfo()
 }
@@ -170,9 +99,71 @@ function switchTab(id, title,color){
 	$(".datePicker").parent().find("button:first").addClass("btn-info");
 	getcharts(id, title,color,"day","","");
 }
-
-
-
+//————————————————————————————————————小区健康判别结果————————————————————————————————-\\
+//小区健康判别结果
+var tableUrl=ctx+"/alarm/celllist";
+$(function(){
+    $('#alarm_table').bootstrapTable({
+                cache : false,
+                striped : true,
+                pagination : true,
+                toolbar : '#pager_alarm_table',
+                pageSize : 10,
+                pageNumber : 1,
+                pageList : [ 5, 10, 20 ],
+                clickToSelect : true,
+                sidePagination : 'server',// 设置为服务器端分页
+                columns : [
+                    {  
+                        title: '序号',align : "center", valign : "middle",
+                        formatter: function (value, row, index) {  
+                            return index+1;  
+                        }  
+                    },
+                    { field : "yyyymmdd", title : "时间", align : "center", valign : "middle",
+                        formatter:function(value,row,index){
+                               return value+" "+row.hour+":00";
+                             }
+                    },
+                    { field : 'result', title : '风险提示', align : 'center', valign : 'middle',
+                        formatter:function(value,row,index){
+                              var str="";
+                              if(value==0){
+                                  str="事件"
+                              }else if(value==1){
+                                  str="亚健康"
+                              }else if(value==2){
+                                  str="健康"
+                              }
+                              return str;
+                             }
+                    },
+                    { field : 'calcultime', title : '发布时间', align : 'center', valign : 'middle',
+                        formatter:function(value,row,index){
+                              var jsDate = new Date(value);
+                              var UnixTimeToDate = jsDate.getFullYear() + '/' + (jsDate.getMonth() + 1) + '/'+jsDate.getDate()+ ' ' + jsDate.getHours() + ':' + jsDate.getMinutes() + ':' + jsDate.getSeconds();
+                               return UnixTimeToDate;
+                             }
+                    }
+                ],
+                onPageChange : function(size, number) {
+                        searchReultInfo();
+                },
+                formatNoMatches : function() {
+                    return NOT_FOUND_DATAS;
+                }
+            });
+      searchReultInfo()
+})
+function searchReultInfo(){
+    var data = {};
+    data.name = cell_code;
+    data.type = global_type;
+    data.starttime = starttime;
+    data.endtime = endtime;    
+    commonRowDatas("alarm_table", data, tableUrl, "commonCallback", true);
+}
+//————————————————————————————————————小区健康判别结果end————————————————————————————————-\\
 //————————————————————————————————————导出————————————————————————————————-\\
 var history_export_url = ctx + "/cell/healthtrend/export";
 var real_export_url = ctx + "/cell/result/export";

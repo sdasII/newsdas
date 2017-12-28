@@ -1,5 +1,6 @@
 package com.iscas.sdas.controller.alarm;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.iscas.sdas.common.PageDto;
 import com.iscas.sdas.dto.AlarmDto;
+import com.iscas.sdas.dto.cell.CellResultHistoryDto;
 import com.iscas.sdas.dto.result.CellResultHistory;
 import com.iscas.sdas.service.AlarmService;
 import com.iscas.sdas.util.CommonUntils;
@@ -110,21 +112,6 @@ public class AlarmController {
 	public String cellupdate(@RequestParam(required=true,value="cellname")String cellname){
 		return alarmService.getCellUpdateTime(cellname);
 	}
-	/**
-	 * 指定小区最近一天数据
-	 * @param cellname
-	 * @return
-	 */
-	@RequestMapping("/celllastday")
-	@ResponseBody
-	public ModelMap cellLastDay(@RequestParam(required=true,value="cellname")String cellname){
-		ModelMap map = new ModelMap();
-		AlarmDto alarmDto = new AlarmDto();
-		alarmDto.setCell_code(cellname);
-		List<AlarmDto> alarmDtos = alarmService.getCellByLastDay(alarmDto);
-		map.addAttribute(Constraints.RESULT_ROW, alarmDtos);
-		return map;
-	}
 	
 	
 	/**
@@ -170,7 +157,16 @@ public class AlarmController {
 		modelAndView.addObject("cellname", cellname);
 		return modelAndView;
 	}
-	
+	/**
+	 * 所有t_cell_result_history的查询
+	 * @author dongqun
+	 * 2017年12月28日下午3:29:54
+	 * @param num
+	 * @param size
+	 * @param type
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/celllist")
 	@ResponseBody
 	public ModelMap celllist(@RequestParam(value = "currpage", required = true, defaultValue = "1") String num,
@@ -178,6 +174,7 @@ public class AlarmController {
 			@RequestParam(value = "type", required = true, defaultValue = "day") String type,HttpServletRequest request){
 		ModelMap map = new ModelMap();
 		String cellname = request.getParameter("name");
+		String result = request.getParameter("status");
 		String starttime= null,endtime = null;
 		if (Constraints.SELECT.equals(type)) {
 			starttime = request.getParameter("starttime");
@@ -185,19 +182,57 @@ public class AlarmController {
 		}
 		int pageNum = Integer.parseInt(num);
 		int pageSize = Integer.parseInt(size);
-		PageHelper.startPage(pageNum, pageSize);	
-		List<CellResultHistory> cells = alarmService.getCellList(cellname,type,starttime,endtime);
-		PageInfo<CellResultHistory> pageInfo = new PageInfo<>(cells);
+		PageHelper.startPage(pageNum, pageSize);
+		PageDto<CellResultHistoryDto> tempdto = alarmService.getCellList(cellname,type,starttime,endtime);
+		long allsize = tempdto.getTotal();
+		List<CellResultHistory> cells = generateData(tempdto);
+		
 		List<CellResultHistory> rows = new ArrayList<>();
 		for (int i = 0; i < cells.size(); i++) {
-			CellResultHistory dto = cells.get(i);
-			rows.add(dto);
+			if (!CommonUntils.isempty(result) && !"-1".equals(result) && cells.get(i).getResult()!=null) {
+				
+				if (cells.get(i).getResult().equals(Integer.valueOf(result))) {
+					CellResultHistory dto = cells.get(i);
+					rows.add(dto);
+				}
+			}
+			if (CommonUntils.isempty(result) || "-1".equals(result)) {
+				CellResultHistory dto = cells.get(i);
+				rows.add(dto);
+			}			
 		}
 		PageDto<CellResultHistory> pageDto = new PageDto<>();
-		pageDto.setTotal(pageInfo.getTotal());
+		pageDto.setTotal(allsize);
 		pageDto.setRows(rows);
 		map.addAttribute(Constraints.RESULT_ROW, pageDto);
 	
 		return map;
 	}
+	
+	private List<CellResultHistory> generateData(PageDto<CellResultHistoryDto> pageDto){
+		List<CellResultHistory> result = new ArrayList<>();
+		for (CellResultHistoryDto dto : pageDto.getRows()) {
+			Method[] methods = dto.getClass().getMethods();
+			for (Method method : methods) {
+				String methodName = method.getName();
+				if (methodName.startsWith("getRange")) {
+					CellResultHistory crh = new CellResultHistory();
+					crh.setCalcultime(dto.getCreate_time());
+					crh.setCellname(dto.getCell_code());
+					crh.setYyyymmdd(dto.getYyyyMMdd());
+					String strhour = methodName.substring(9);
+					crh.setHour(Integer.valueOf(strhour));
+					try {
+						Integer r = (Integer)method.invoke(dto, null);
+						crh.setResult(r);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					result.add(crh);
+				}
+			}
+		}
+		return result;
+	}
+
 }

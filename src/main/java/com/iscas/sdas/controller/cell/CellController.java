@@ -58,14 +58,14 @@ public class CellController {
 	@Autowired
 	CellService cellService;
 	/**
-	 * 分组首页
+	 * 小区列表页面
 	 * @param request
 	 * @param response
 	 * @return
 	 */
 	@RequestMapping("/celltable")
 	public ModelAndView celllist(HttpServletRequest request,HttpServletResponse response){
-		ModelAndView view = new ModelAndView("cell/group");
+		ModelAndView view = new ModelAndView("group/list");
 		return view;
 		
 	}

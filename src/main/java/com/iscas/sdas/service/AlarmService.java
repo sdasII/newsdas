@@ -1,6 +1,5 @@
 package com.iscas.sdas.service;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,10 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
+import com.iscas.sdas.common.PageDto;
 import com.iscas.sdas.dao.AlarmDao;
 import com.iscas.sdas.dto.AlarmDto;
 import com.iscas.sdas.dto.cell.CellResultHistoryDto;
-import com.iscas.sdas.dto.result.CellResultHistory;
 import com.iscas.sdas.util.CommonUntils;
 import com.iscas.sdas.util.Constraints;
 
@@ -99,54 +99,40 @@ public class AlarmService {
 			return null;
 		}
 	}
-	/**
-	 * 小区最近一天数据
-	 * @param alarmDto
-	 * @return
-	 */
-	public List<AlarmDto> getCellByLastDay(AlarmDto alarmDto){
-		return alarmDao.alarmLastDay(alarmDto);
-	}
+
 	/**
 	 * 小区历史列表
 	 * @param cellResultHistory
 	 * @return
 	 */
-	public List<CellResultHistory> getCellList(String cellname,String type,String starttime,String endtime){
+	public PageDto<CellResultHistoryDto> getCellList(String cellname,String type,String starttime,String endtime){
 		
 		List<CellResultHistoryDto> sources;
 		
+		
 		if (Constraints.DAY.equals(type)) {
+			//PageHelper.startPage(pageNum, pageSize);
 			sources = alarmDao.cellListLastDay(cellname);
 		}else if (Constraints.WEEK.equals(type)) {
+			//PageHelper.startPage(pageNum, pageSize);
 			sources = alarmDao.cellListLastWeek(cellname);
 		}else if (Constraints.MONTH.equals(type)) {
+			//PageHelper.startPage(pageNum, pageSize);
 			sources = alarmDao.cellListLastMonth(cellname);
 		}else {
+			//PageHelper.startPage(pageNum, pageSize);
 			sources = alarmDao.cellListBySelect(cellname,starttime,endtime);
 		}
-		List<CellResultHistory> result = new ArrayList<>();
-		for (CellResultHistoryDto dto : sources) {
-			Method[] methods = dto.getClass().getMethods();
-			for (Method method : methods) {
-				String methodName = method.getName();
-				if (methodName.startsWith("getRange")) {
-					CellResultHistory crh = new CellResultHistory();
-					crh.setCalcultime(dto.getCreate_time());
-					crh.setCellname(dto.getCell_code());
-					crh.setYyyymmdd(dto.getYyyyMMdd());
-					String strhour = methodName.substring(9);
-					crh.setHour(Integer.valueOf(strhour));
-					try {
-						Integer r = (Integer)method.invoke(dto, null);
-						crh.setResult(r);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					result.add(crh);
-				}
-			}
+		PageInfo<CellResultHistoryDto> pageInfo = new PageInfo<>(sources);
+		List<CellResultHistoryDto> rows = new ArrayList<>();
+		for (int i = 0; i < sources.size(); i++) {
+			CellResultHistoryDto dto = sources.get(i);
+			rows.add(dto);
 		}
-		return result;
+		PageDto<CellResultHistoryDto> pageDto = new PageDto<>();
+		pageDto.setTotal(pageInfo.getTotal());
+		pageDto.setRows(rows);
+		return pageDto;
+			
 	}
 }

@@ -107,9 +107,6 @@
 								<option value="3">计算无结果</option>
 							</select>
 							<my:btn type="search" onclick="select()"></my:btn>
-							<!-- <button style="margin-left: 5px;" class="btn btn-success"
-								onclick="javascript:select()">查询</button> -->
-							<!-- <button id="clear" type="reset" class="btn btn-white">清空</button> -->
 							<button style="margin-left: 5px;float: right" onclick="javascript:exportExcel()">
 								<img src="${context}/style/export.png" title="历史健康度导出" style="height:20px;"/>
 							</button>
@@ -150,6 +147,6 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript" src="${context}/js/cell/group.js"></script>
+	<script type="text/javascript" src="${context}/js/group/list.js"></script>
 </body>
 </html>
