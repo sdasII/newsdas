@@ -287,6 +287,9 @@ $(function(){
 						if(date_value != "select"){
 							var title=$("#topTabs").find(".active").find("a").html()
 							if (title == "健康诊断结果") {
+								alarm_table();
+								capacity_table();
+								complain_table();
 								getcharts("#rtratio", "健康诊断结果","rgb(46,199,201)",date_value,"","");
 								historyTrendQuery(date_value,"","");
 							} else {
