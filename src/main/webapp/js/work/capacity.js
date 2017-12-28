@@ -99,7 +99,7 @@ $(function(){
             { field : "cellid", title : "小区名称", align : "left", valign : "left",
                 formatter:function(value,row,index){
                     var url = ctx + "/alarm/todetail/";
-                    var params = "[{\"key\":\"name\",\"value\":\""+value+"\"}]";
+                    var params = "[{\"key\":\"cell_code\",\"value\":\""+value+"\"}]";
                     var url = '<a href=javascript:iframeconvert("' + url + '","小区信息",' + params + ')>' + value + '</a>';
                      return url;
                 }},

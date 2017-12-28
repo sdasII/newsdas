@@ -13,7 +13,13 @@
         if(window.top!==window.self){window.top.location=window.location};
     </script>
 <script type="text/javascript" src="${context}/js/login/login.js"></script>
-
+<style type="text/css">
+#change_btn{
+	color: white;
+	font-size: 13px;
+	text-decoration: underline;
+}
+</style>
 </head>
 
 <body class="signin">
@@ -74,8 +80,8 @@
 						<!-- <div class="col-xs-5" align="left">
 							<a href="#" style="color:#fff">忘记密码?</a>
 						</div> -->
-						<div class="col-xs-6" align="left">
-							<a href="#" onclick="changeCode()" class="text-right">看不清?换一张</a>
+						<div class="col-xs-6" align="left" style="margin-top: 5px">
+							<a href="#" onclick="changeCode()" class="text-right" id="change_btn">看不清?换一张</a>
 						</div>
 					</div>
 					<button type="submit" class="btn btn-success btn-block">登录</button>
