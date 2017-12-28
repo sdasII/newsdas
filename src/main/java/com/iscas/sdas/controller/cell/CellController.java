@@ -492,23 +492,33 @@ public class CellController {
 				Method[] methods = cellResultHistoryDto.getClass().getMethods();
 				for (Method method : methods) {
 					if (method.getName().startsWith("getRange_")) {
-						Integer value =  (Integer)method.invoke(cellResultHistoryDto, null);
-						if (value==0||value==1||value==3) {
-							SignalCellResult result = new SignalCellResult();
-							result.setDate(cellResultHistoryDto.getYyyyMMdd());
-							if (value==0) {
-								result.setStatus("不健康");
-							}
-							if (value==1) {
-								result.setStatus("亚健康");
-							}
-							if (value==3) {
-								result.setStatus("计算无结果");
-							}
-							result.setCellname(cellResultHistoryDto.getCell_code());
-							result.setTime(method.getName().substring(9));
-							results.add(result);
+						if (cellResultHistoryDto!=null) {
+							Integer value =  (Integer)method.invoke(cellResultHistoryDto, null);
+							if (value!=null) {
+								if (value==0||value==1||value==3) {
+									
+									if (value==0) {
+										SignalCellResult result = new SignalCellResult();
+										result.setDate(cellResultHistoryDto.getYyyyMMdd());
+										result.setStatus("不健康");
+										result.setCellname(cellResultHistoryDto.getCell_code());
+										result.setTime(method.getName().substring(9));
+										results.add(result);
+									}else if (value==1) {
+										SignalCellResult result = new SignalCellResult();
+										result.setDate(cellResultHistoryDto.getYyyyMMdd());
+										result.setStatus("亚健康");
+										result.setCellname(cellResultHistoryDto.getCell_code());
+										result.setTime(method.getName().substring(9));
+										results.add(result);
+									}/*else if (value==3) {
+										result.setStatus("计算无结果");
+									}*/
+									
+								}
+							}			
 						}
+						
 					}
 				}
 			}
@@ -529,17 +539,19 @@ public class CellController {
 					for (Method method : methods) {
 						if (method.getName().startsWith("getRange_")) {
 							Integer value =  (Integer)method.invoke(cellResultHistoryDto, null);
-							if (value==0||value==1||value==3) {
-								if (value==0) {
-									unhealths++;
+							if (value!=null) {
+								if (value==0||value==1||value==3) {
+									if (value==0) {
+										unhealths++;
+									}
+									if (value==1) {
+										lowhealths++;
+									}
+									if (value==3) {
+										noresult++;
+									}																					
 								}
-								if (value==1) {
-									lowhealths++;
-								}
-								if (value==3) {
-									noresult++;
-								}																					
-							}
+							}						
 						}
 					}
 					if (unhealths>0) {
@@ -548,10 +560,10 @@ public class CellController {
 					}else if (lowhealths>0) {
 						results.add(result);
 						result.setStatus("亚健康");
-					}else if (noresult>0) {
+					}/*else if (noresult>0) {
 						result.setStatus("计算无结果");
 						results.add(result);
-					}
+					}*/
 					
 				}
 			}

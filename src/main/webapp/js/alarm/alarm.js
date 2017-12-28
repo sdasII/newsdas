@@ -34,7 +34,7 @@ $(function(){
             searchInfo();
         },
         formatNoMatches : function() {
-            return "NOT_FOUND_DATAS";
+            return NOT_FOUND_DATAS;
         }
     });
     

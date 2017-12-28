@@ -139,44 +139,36 @@ input {
 					id="h_ratio"></span>
 			</h3>
 			<div class="ibox-tools" style="margin-bottom: 10px">
-			<div class="btn-group">
-				<button class="btn btn-info datePicker" id="workday" type="button">最近一日</button>
-				<button class="btn btn-white datePicker" id="workinweek"
-					type="button">周</button>
-				<button class="btn btn-white datePicker" id="workinmonth"
-					type="button">月</button>
-				<button class="btn btn-white datePicker" type="button">按时间选择</button>
-				<div id="timeselect" style="display: none; float: left;">
-					<input style="margin-left: 5px; margin-top: -7px !important;"
-						id="starttime" class="layer-date starttime" placeholder="请输入开始时间"
-						onclick="laydate({istime: false, format: 'YYYYMMDD'})"> <span
-						id="span" style="margin-top: -10px; display: inline !important;"
-						class="input-group-addon">到</span> <input
-						style="margin-top: -7px !important;" class="layer-date endtime"
-						id="endtime" placeholder="请输入结束时间"
-						onclick="laydate({istime: false, format: 'YYYYMMDD'})">
+				<div class="btn-group">
+					<button class="btn btn-info datePicker" id="workday" type="button">最近一日</button>
+					<button class="btn btn-white datePicker" id="workinweek"
+						type="button">周</button>
+					<button class="btn btn-white datePicker" id="workinmonth"
+						type="button">月</button>
+					<button class="btn btn-white datePicker" type="button">按时间选择</button>
+					<div id="timeselect" style="display: none; float: left;">
+						<input style="margin-left: 5px; margin-top: -7px !important;"
+							id="starttime" class="layer-date starttime" placeholder="请输入开始时间"
+							onclick="laydate({istime: false, format: 'YYYYMMDD'})"> <span
+							id="span" style="margin-top: -10px; display: inline !important;"
+							class="input-group-addon">到</span> <input
+							style="margin-top: -7px !important;" class="layer-date endtime"
+							id="endtime" placeholder="请输入结束时间"
+							onclick="laydate({istime: false, format: 'YYYYMMDD'})">
 
-					<button class="btn btn-info search" type="button" onclick="query()">确定</button>
+						<button class="btn btn-info search" type="button"
+							onclick="global_page_query()">确定</button>
+					</div>
 				</div>
 			</div>
 		</div>
-		</div>
-		
+
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="ibox-title">
 					<h5>健康预警</h5>
-					<%-- <a href="javascript:;" onclick="toTableData('${cellname}')"
-						style="float: right; margin-right: 20px"><h5>查看详情</h5></a> --%>
 				</div>
 				<div class="ibox-content">
-					<!-- loading -->
-					<%-- <div class="loading_bk" id="alarm_loadbk"></div>
-					<div class="loading" style="margin-top: 20%" id="alarm_load">
-						<img
-							src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>内容加载中...</span>
-					</div> --%>
-					<!-- loading -->
 					<div class="jqGrid_wrapper"
 						style="margin: 0; padding: 0; width: 100%; overflow: auto;">
 						<table class="table" id="alarm_table"></table>
@@ -241,41 +233,17 @@ input {
 		<div class="row">
 			<div class="ibox-title">
 				<h5>工单信息</h5>
-				<!-- <div class="ibox-tools">
-					<div class="btn-group">
-						<button class="btn btn-info" id="workinweek" type="button"
-							onclick="javascript:workoneweek()">一周</button>
-						<button class="btn btn-white" id="workinmonth" type="button"
-							onclick="javascript:workonemonth()">一月</button>
-						<button class="btn btn-white" id="workinselect" type="button"
-							onclick="javascript:worktimeselect()">按时间选择</button>
-						<div id="worktimeselect" style="display: none;">
-							<input id="start"
-								style="margin-left: 5px; margin-top: -7px !important;"
-								class="layer-date" placeholder="请输入开始时间"
-								onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
-							<span id="span"
-								style="margin-top: -10px; display: inline !important;"
-								class="input-group-addon">到</span> <input id="end"
-								style="margin-top: -7px !important;" class="layer-date"
-								placeholder="请输入结束时间"
-								onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
-							<button class="btn btn-info" type="button"
-								onclick="javascript:query2()">确定</button>
-						</div>
-					</div>
-				</div> -->
 			</div>
 			<div class="ibox-content">
 				<div class="col-sm-12">
 					<div class="tabs-container">
 						<ul class="nav nav-tabs">
 							<li
-								onclick="switchwork('/newsdas/capacitywork/oneweek','${cellname}')"
+								onclick="searchCapacityInfo()"
 								class="active"><a data-toggle="tab" href="#tab-3"
 								aria-expanded="true">性能工单</a></li>
 							<li
-								onclick="switchwork('/newsdas/complain/getcomplist','${cellname}')"
+								onclick="searchComplaintInfo()"
 								class=""><a data-toggle="tab" href="#tab-4"
 								aria-expanded="false">投诉信息</a></li>
 						</ul>
@@ -290,14 +258,6 @@ input {
 							</div>
 							<div id="tab-4" class="tab-pane">
 								<div class="panel-body" style="min-height: 450px;">
-									<!-- loading -->
-									<div class="loading_bk" id="complain_loadbk"
-										style="height: 60%"></div>
-									<div class="loading" id="complain_load">
-										<img
-											src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>内容加载中...</span>
-									</div>
-									<!-- loading -->
 									<table class="table" id="table_list_work2"></table>
 									<div id="pager_list_work2"></div>
 								</div>
@@ -316,7 +276,7 @@ input {
 						class="form_datetime">
 					</label>
 					<my:btn type="search" onclick="cellindex_search()"></my:btn>
-						<!-- <button style="margin-left: 5px;" class="btn btn-success"
+					<!-- <button style="margin-left: 5px;" class="btn btn-success"
 							onclick="cellindex_search()">查询</button> -->
 				</div>
 			</div>
@@ -341,6 +301,7 @@ input {
 		var ctx = ctx;
 		var cell_code = "${cellname}";
 		var context = "${context}";
+		var historyCharts = echarts.init($("#historyCharts").get(0));
 		// 百度地图API功能
 		var map = new BMap.Map("allmap"); // 创建Map实例
 		map.centerAndZoom(new BMap.Point(113.270856, 23.137463), 15); // 初始化地图,设置中心点坐标和地图级别
@@ -353,6 +314,6 @@ input {
 	<script type="text/javascript" src="${context}/js/general/heatMap.js"></script>
 	<!-- 指标模型 -->
 	<script type="text/javascript" src="${context}/js/cell/index_model.js"></script>
-	<script type="text/javascript" src="${context}/js/general/detail.js"></script>
+	<script type="text/javascript" src="${context}/js/cell/detail.js"></script>
 </body>
 </html>

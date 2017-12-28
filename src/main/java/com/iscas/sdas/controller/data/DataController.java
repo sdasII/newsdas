@@ -477,6 +477,7 @@ public class DataController{
 		String modeltime = request.getParameter("modeltime");
 		BGTask task = new OffLineHealthModelBDTask();
 		JSON ret = task.runTask(modeltime);
+		
 		return map;
 
 	}
