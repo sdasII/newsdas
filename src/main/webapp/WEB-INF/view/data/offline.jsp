@@ -367,7 +367,7 @@ input[type="file"] {
 											<img
 												src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在上传...</span>
 										</div>
-										<label>计算日期:</label> <input size="16" type="text"
+										<label>模式月份:</label> <input size="16" type="text"
 											name="cal_time" id="net_caltime"
 											placeholder="请选择计算模式月份（默认上一个月）" readonly
 											class="form_datetime" style="width: 220px; margin-top: -10px">
@@ -419,7 +419,7 @@ input[type="file"] {
 												id="progress2" max="100" value="0"></progress><em>上传进度：</em>
 											<span id="progressvalue2">0%</span>
 										</span> <span id="upload_progress" style="display: none;"></span> <br>
-										<label>计算日期:</label> <input size="16" type="text"
+										<label>模式月份:</label> <input size="16" type="text"
 											name="cal_time" id="net_caltime2"
 											placeholder="请选择计算模式月份（默认上一个月）" readonly
 											class="timepicker form_datetime"
