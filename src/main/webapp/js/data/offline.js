@@ -411,6 +411,7 @@ function submit_modelzip(){
       type : "post",
       data : data,
       success : function(data,success){
+    	  console.info(data);
            $("#modelzip_load").hide();
            if(success=="success"){
            	showOnlyMessage(INFO, "计算完成");
