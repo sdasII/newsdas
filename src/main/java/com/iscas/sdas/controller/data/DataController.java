@@ -220,8 +220,8 @@ public class DataController{
 		fileLogDto.setFilename(filename);
 		ContinueFTP myFtp = new ContinueFTP();
 		try {
-			//myFtp.connect("49.4.6.146", 21, "ftpadmin", "ftp_qd123");			
-			myFtp.connect("192.168.0.31", 21, "ftpadmin", "ftp_qd123");
+			//myFtp.connect("49.4.6.146", 21, "hadoop", "nfs_qd123");			
+			myFtp.connect("192.168.0.31", 21, "hadoop", "nfs_qd123");
 			
 			System.out.println("3...连接到ftp");
 			request.getSession().setAttribute(Constraints.SESSION_FTP_STATUS, myFtp);						
@@ -399,7 +399,7 @@ public class DataController{
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("/csvUpload")
+	/*@RequestMapping("/csvUpload")
 	@ResponseBody
 	public ModelMap uploadCsvTestFile(HttpServletRequest request) {
 		ModelMap map = new ModelMap();
@@ -432,7 +432,7 @@ public class DataController{
 		fileLogService.insert(fileLogDtos);
 		return map;
 
-	}
+	}*/
 	/**
 	 * 单个csv网管文件分析
 	 * @param request
