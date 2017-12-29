@@ -23,7 +23,14 @@
 }
 </style>
 </head>
-
+<script type="text/javascript">
+		var status = '${success}';
+		if (status.indexOf("success") >= 0) {
+			showOnlyMessage(INFO, "上传成功");
+		} else if (status.indexOf("fail") >= 0) {
+			showOnlyMessage(ERROR, status);
+		}
+	</script>
 <body style="margin-left: 5px;margin-right: 5px;">
 	<div class="wrapper wrapper-content animated fadeInRight">
 		<div class="row" style="text-align: center;">
@@ -51,7 +58,14 @@
 								onclick="searchInfo();">查询</button> -->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<!-- <button id="setUsed"  class="btn btn-success" onclick="setUsed()">设为使用</button>
 							<button id="clear" style="margin-left: 5px;" class="btn btn-white" onclick="clearUsed()">取消使用</button> -->
-							<button id="setUsed"  class="btn btn-success" onclick="import_Excel()">导入</button>
+							
+							<form action="${context}/cellinfo/import" method="post" style="display: inline;"
+									enctype="multipart/form-data">
+								<input style="display: inline;" class="btn btn-white" type="file" id="comlainfile" name="file" accept=".xls,.xlsx" multiple="multiple">
+								<!-- <input style="display: inline;" class="btn btn-success type="reset" value="重选"> -->
+								<input style="display: inline;" class="btn btn-success" type="submit" value="导入">
+							</form>
+							<!-- <button id="setUsed"  class="btn btn-success" onclick="import_Excel()">导入</button> -->
 							<button id="clear" style="margin-left: 5px;" class="btn btn-success" onclick="export_Excel()">导出</button>
 						</div>
 						<div>

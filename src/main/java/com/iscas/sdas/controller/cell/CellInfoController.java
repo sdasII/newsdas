@@ -5,6 +5,8 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,16 +27,21 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.iscas.sdas.common.BaseController;
 import com.iscas.sdas.common.PageDto;
+import com.iscas.sdas.dto.FileLogDto;
 import com.iscas.sdas.dto.cell.CellInfoDto;
 import com.iscas.sdas.service.cell.CellInfoService;
+import com.iscas.sdas.service.log.FileLogService;
 import com.iscas.sdas.util.CommonUntils;
 import com.iscas.sdas.util.Constraints;
 import com.iscas.sdas.util.FileExport;
+import com.iscas.sdas.util.FileImport;
 @Controller
 @RequestMapping("/cellinfo")
 public class CellInfoController extends BaseController<CellInfoDto> {
 	@Autowired
 	CellInfoService cellInfoService;
+	@Autowired
+	FileLogService fileLogService;
 	/**
 	 * 页面跳转
 	 * @param request
@@ -120,9 +127,15 @@ public class CellInfoController extends BaseController<CellInfoDto> {
     		List<CellInfoDto> list = cellInfoService.getalllist(cellInfoDto);
     		Map<String,String> headMap = new LinkedHashMap<>();
     		JSONArray sourcesJson = null;
-    		headMap.put("cell_name", "小区名称");
-    		headMap.put("station_code", "所属基站");
-    		headMap.put("in_used", "是否使用");	
+    		headMap.put("cell_code", "cell_code");
+    		headMap.put("station_code", "station_code");
+    		headMap.put("in_used", "in_used");	
+    		headMap.put("cell_name", "cell_name");	
+    		headMap.put("cell_coordinate", "cell_coordinate");	
+    		headMap.put("cell_info", "cell_info");	
+    		headMap.put("state_type_1", "state_type_1");	
+    		headMap.put("state_type_2", "state_type_2");	
+    		headMap.put("normal_model", "normal_model");	
         	if (list!=null) {
         		sourcesJson = JSONArray.parseArray(JSON.toJSONString(list));
 			} 
@@ -154,4 +167,56 @@ public class CellInfoController extends BaseController<CellInfoDto> {
             e.printStackTrace();
         }
     }
+	
+	@RequestMapping("/import")
+	public ModelAndView importSet(HttpServletRequest request) {
+		ModelAndView modelMap = new ModelAndView("cell/cellinfo");		
+		List<CellInfoDto> result = new ArrayList<>();
+		String path = null;
+		FileLogDto fileLogDto = new FileLogDto();
+		long starttime = System.currentTimeMillis();
+		fileLogDto.setStarttime(new Date());
+		fileLogDto.setType("配置文件");
+		try {
+			path = CommonUntils.SignalFileImprot(request, fileLogDto);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			fileLogDto.setResult(0);
+			modelMap.addObject("success", Constraints.RESULT_FAIL + ":导入失败！");
+		}
+		if (path != null) {
+				int rows = FileImport.tablerows(path);
+				for (int i = 0; i < rows; i++) {
+					CellInfoDto dto = new CellInfoDto();
+					result.add(dto);
+				}
+				try {
+					FileImport.settingFileImportWork(path, result);// 将excel映射为对象
+					try {
+						cellInfoService.insert(result);
+						modelMap.addObject("success", Constraints.RESULT_SUCCESS+"导入成功！");
+						fileLogDto.setResult(1);
+					} catch (Exception e) {
+						e.printStackTrace();
+						fileLogDto.setResult(0);
+						modelMap.addObject("success", Constraints.RESULT_FAIL + ":配置文件导入失败！");
+					}
+				} catch (Exception e1) {
+					e1.printStackTrace();
+					fileLogDto.setResult(0);
+					modelMap.addObject("success", Constraints.RESULT_FAIL + ":导入失败或配置文件损坏！");
+				}
+			
+		} else {
+			fileLogDto.setResult(0);
+		}
+		long endtime = System.currentTimeMillis();
+		fileLogDto.setEndtime(new Date());
+		long alltime = endtime - starttime;
+		fileLogDto.setAlltime(alltime);
+		List<FileLogDto> fileLogDtos = new ArrayList<>();
+		fileLogDtos.add(fileLogDto);
+		fileLogService.insert(fileLogDtos);
+		return modelMap;
+	}
 }

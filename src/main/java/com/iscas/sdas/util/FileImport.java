@@ -233,5 +233,64 @@ public class FileImport {
 		}
 		return result;
 	}
-
+	
+	/**
+	 * 配置文件导入
+	 * @author dongqun
+	 * 2017年12月29日下午2:10:50
+	 * @param path
+	 * @param list
+	 * @throws Exception 
+	 */
+	@SuppressWarnings("resource")
+	public static <T> void settingFileImportWork(String path, List<T> list) throws Exception{
+		File file = new File(path);
+		Workbook workbook;
+		InputStream is = new FileInputStream(file);
+		String filetype = path.substring(path.lastIndexOf(".") + 1);
+		if ("xls".equals(filetype)) {
+			workbook = new HSSFWorkbook(is);
+		} else if ("xlsx".equals(filetype)) {
+			workbook = new XSSFWorkbook(is);
+		} else {
+			throw new Exception("上传文件不是EXCEL文件");
+		}
+		for (int page = 0; page < 1; page++) {// 取第一页的数据
+			Sheet sheet = workbook.getSheetAt(page);
+			if (sheet == null) {
+				continue;
+			}
+			int rowNum = sheet.getLastRowNum();
+			for (int i = 1; i <= rowNum; i++) {//遍历每行
+				T t = list.get(i-1);
+				Row titlerow = sheet.getRow(0);
+				Row row = sheet.getRow(i);
+				int minCol = row.getFirstCellNum();
+				int maxCol = row.getLastCellNum();
+				for (int col = minCol; col < maxCol; col++) {//遍历每列
+					Cell cell = row.getCell(col);
+					Cell cellname = titlerow.getCell(col);
+					String field = cellname.getStringCellValue();// excel中表头的字段值
+					String methodname = field.substring(0, 1).toUpperCase() + field.substring(1);
+					methodname = "set" + methodname;
+					Class[] classes = new Class[1];
+					if ("in_used".equals(field)) {
+						classes[0] = Integer.class;
+						Method method = t.getClass().getMethod(methodname, classes);
+						Double value = (Double) getTypeValue("int", cell);
+						if (value!=null) {
+							Integer v = Integer.valueOf(value.intValue());
+							method.invoke(t, v);
+						}
+						
+					}else{
+						classes[0] = String.class;
+						Method method = t.getClass().getMethod(methodname, classes);
+						String value = (String) getTypeValue("varchar", cell);
+						method.invoke(t, value);
+					}										
+				}
+			}
+		}
+	}
 }

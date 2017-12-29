@@ -64,7 +64,7 @@ public class WorkController {
 		String tablename = "t_performance_work";
 		List<TableInfoDto> tableInfoDtos = commonService.tableindex(tablename);		
 		List<AllCapacityWorkDto> performanceWorkDtos = new ArrayList<>();
-		List<String> paths = CommonUntils.MultipleFilesUpload(request);
+		List<String> paths = CommonUntils.MultipleFilesImport(request);
 		if (paths!=null && paths.size()>0) {
 			if (tableInfoDtos!=null && tableInfoDtos.size()>0) {
 				int rows = FileImport.tablerows(paths.get(0));

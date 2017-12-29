@@ -26,6 +26,9 @@ import com.iscas.sdas.service.log.FileLogService;
  */
 public class CommonUntils {
 	
+	private static final String root_dir = "/home/hadoop/systempdata/";
+	private static final String root__temp_dir = "/home/hadoop/newsdastempfile/";
+	
 	static Logger logger = Logger.getLogger(CommonUntils.class);
 	/**
 	 * 判断字符串是否为null或者""
@@ -200,7 +203,7 @@ public class CommonUntils {
      * @param request
      * @return
      */
-	public static List<String> MultipleFilesUpload(HttpServletRequest request) {
+	public static List<String> MultipleFilesImport(HttpServletRequest request) {
 		List<String> filepaths = new ArrayList<>();
 		// 将当前上下文初始化给 CommonsMutipartResolver （多部分解析器）
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
@@ -235,7 +238,7 @@ public class CommonUntils {
 		return filepaths;
 	}
 	/**
-	 * 文件导入
+	 * 单个文件导入---带日志
 	 * @param service
 	 * @param request
 	 * @param fileLogDto
@@ -244,20 +247,21 @@ public class CommonUntils {
 	 * @throws IOException 
 	 * @throws IllegalStatException 
 	 */
-	public static String FileImprot(HttpServletRequest request,FileLogDto fileLogDto) throws IllegalStateException, IOException  {
+	public static String SignalFileImprot(HttpServletRequest request,FileLogDto fileLogDto) throws IllegalStateException, IOException  {
 		// 将当前上下文初始化给 CommonsMutipartResolver （多部分解析器）
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
 				request.getSession().getServletContext());
 		if (multipartResolver.isMultipart(request)) {
 			MultipartHttpServletRequest mutiRequest = (MultipartHttpServletRequest) request;
 			List<MultipartFile> files = mutiRequest.getFiles("file");
-			for (MultipartFile file : files) {
+			if (files.size()>0) {
+				MultipartFile file = files.get(0);
 				if (file != null) {
 					int index = file.getOriginalFilename().lastIndexOf(".");
 					if (index>0) {
 						String filename = file.getOriginalFilename().substring(0, index) +"-"+ System.currentTimeMillis()+file.getOriginalFilename().substring(index);
-						String filepath = "/home/hadoop/newsdastempfile/" + filename;
-						//String filepath = "E:/newsdas/" + filename;
+						//String filepath = "/home/hadoop/newsdastempfile/" + filename;
+						String filepath = "E:/newsdas/" + filename;
 						fileLogDto.setFilename(file.getOriginalFilename());						
 						File targetfile = new File(filepath);
 						if (targetfile.exists()) {
@@ -266,13 +270,13 @@ public class CommonUntils {
 						file.transferTo(targetfile);
 						return filepath;				
 					}			
-				}
+				}			
 			}
 		}
 		return null;
 	}
 	/**
-	 * 将多文件上传到/home/hadoop/systempdata/目录(数据导入专用)
+	 * 多个文件导入---自动存储日志
 	 * @param request
 	 * @param filepath
 	 * @param filename
@@ -281,7 +285,7 @@ public class CommonUntils {
 	 * @throws IOException 
 	 * @throws IllegalStateException 
 	 */
-	public static void MultipleFileImport(FileLogService service,HttpServletRequest request,String type) throws Exception {
+	public static void MultipleFilesImportWithLog(FileLogService service,HttpServletRequest request,String type) throws Exception {
 		// 将当前上下文初始化给 CommonsMutipartResolver （多部分解析器）
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
 				request.getSession().getServletContext());

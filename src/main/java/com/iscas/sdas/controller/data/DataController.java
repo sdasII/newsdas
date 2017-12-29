@@ -145,7 +145,7 @@ public class DataController{
 		fileLogDto.setStarttime(new Date());
 		fileLogDto.setType("性能工单数据");
 		try {
-			path = CommonUntils.FileImprot(request, fileLogDto);
+			path = CommonUntils.SignalFileImprot(request, fileLogDto);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 			fileLogDto.setResult(0);
@@ -273,7 +273,7 @@ public class DataController{
 		}
 		List<String> paths = null;
 		try {
-			paths = CommonUntils.MultipleFilesUpload(request);		
+			paths = CommonUntils.MultipleFilesImport(request);		
 		} catch (Exception e1) {
 			e1.printStackTrace();
 			map.addAttribute(Constraints.RESULT_SUCCESS, "文件上传失败！");

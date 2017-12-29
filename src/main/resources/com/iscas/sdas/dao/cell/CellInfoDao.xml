@@ -16,5 +16,9 @@
 	</select>
 	<select id="update" parameterType="com.iscas.sdas.dto.cell.CellInfoDto" resultType="Integer">
 		UPDATE t_cell_info SET in_used=#{in_used} where cell_code=#{cell_code}; 
-	</select>	
+	</select>
+	<insert id="insert" parameterType="com.iscas.sdas.dto.cell.CellInfoDto">
+		insert into t_cell_info_set (cell_code,station_code,cell_name,in_used,cell_coordinate,cell_info,state_type_1, state_type_2,normal_model) 
+		values (#{cell_code},#{station_code},#{cell_name},#{in_used},#{cell_coordinate},#{cell_info},#{state_type_1},#{state_type_2},#{normal_model})
+	</insert>	
 </mapper>

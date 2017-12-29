@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -49,19 +50,22 @@ public abstract class BaseService<Dao extends BaseDao<Dto>,Dto extends BaseDto> 
 		return dao.getPageList(dto);
 	}
 	/**
-	 * 插入多项数据
+	 * 插入多项数据--采用事务管理，当一条插入失败时回滚
 	 * @param dtos
 	 */
-	public boolean insert(List<Dto> dtos){
-		try {
-			for (Dto dto : dtos) {
+	@Transactional
+	public boolean insert(List<Dto> dtos) {
+		boolean result = true;
+		for (Dto dto : dtos) {
+			try {
 				dao.insert(dto);
+			} catch (Exception e) {
+				e.printStackTrace();
+				result = false;
+				continue;
 			}
-		} catch (Exception e) {		
-			e.printStackTrace();
-			return false;
 		}
-		return true;
+		return result;
 	}
 	/**
 	 * 插入一条数据

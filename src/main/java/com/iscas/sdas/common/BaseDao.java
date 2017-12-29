@@ -24,11 +24,11 @@ public interface BaseDao<T> {
 	 * @param t
 	 * @return
 	 */
-	public abstract int delete(T t);
+	public abstract Integer delete(T t);
 	/**
 	 * 插入
 	 * @param t
 	 * @return
 	 */
-	public abstract int insert(T t);
+	public abstract Integer insert(T t);
 }
