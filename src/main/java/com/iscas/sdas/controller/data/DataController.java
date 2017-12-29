@@ -205,7 +205,7 @@ public class DataController{
 		model.addAttribute("status",status.toString());
 		// XXXX 数据过滤部分
 		// 数据再上传到hdfs上
-		//JSON json = upload2HDFS(yyyyMMdd);
+		JSON json = upload2HDFS(yyyyMMdd);
 		return model;
 	}
 	

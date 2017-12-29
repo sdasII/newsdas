@@ -551,7 +551,7 @@ input[type="file"] {
 								<option value="">全部</option>
 								<option value="性能工单数据">性能工单数据</option>
 								<option value="投诉工单数据">投诉工单数据</option>
-								<option value="单个中兴网管指标数据">单个中兴网管指标数据</option>
+								<!-- <option value="单个中兴网管指标数据">单个中兴网管指标数据</option> -->
 								<option value="中兴网管指标原始数据">中兴网管指标原始数据</option>
 							</select> <label for="status" style="margin-left: 20px">状态</label> <select
 								id="status" name="status" class="btn btn-white">
