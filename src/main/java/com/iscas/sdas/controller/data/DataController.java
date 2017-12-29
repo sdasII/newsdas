@@ -200,9 +200,12 @@ public class DataController{
 	public ModelMap uploadFile(HttpServletRequest request) {
 		System.out.println("1...controller 获取请求！");
 		ModelMap model = new ModelMap();
-		String time = request.getParameter("time");				
-		FTPStatus status = originDateUpload(request,time);
+		String yyyyMMdd = request.getParameter("time");				
+		FTPStatus status = originDateUpload(request,yyyyMMdd);
 		model.addAttribute("status",status.toString());
+		// XXXX 数据过滤部分
+		// 数据再上传到hdfs上
+		//JSON json = upload2HDFS(yyyyMMdd);
 		return model;
 	}
 	
@@ -217,7 +220,7 @@ public class DataController{
 		fileLogDto.setFilename(filename);
 		ContinueFTP myFtp = new ContinueFTP();
 		try {
-			//myFtp.connect("49.4.6.47", 21, "ftpadmin", "ftp_qd123");			
+			//myFtp.connect("49.4.6.146", 21, "ftpadmin", "ftp_qd123");			
 			myFtp.connect("192.168.0.31", 21, "ftpadmin", "ftp_qd123");
 			
 			System.out.println("3...连接到ftp");
@@ -235,8 +238,7 @@ public class DataController{
 			}
 			fileLogService.insertOne(fileLogDto);
 			myFtp.disconnect();	
-			// 数据再上传到hdfs上
-			JSON json = upload2HDFS(yyyyMMdd);
+			
 			return status;
 		} catch (Exception e) {
 			request.getSession().setAttribute(Constraints.SESSION_FTP_STATUS, myFtp);

@@ -1,7 +1,15 @@
 package com.iscas.sdas.controller.cell;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,14 +21,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.iscas.sdas.common.BaseController;
 import com.iscas.sdas.common.PageDto;
 import com.iscas.sdas.dto.cell.CellInfoDto;
 import com.iscas.sdas.service.cell.CellInfoService;
 import com.iscas.sdas.util.CommonUntils;
 import com.iscas.sdas.util.Constraints;
+import com.iscas.sdas.util.FileExport;
 @Controller
 @RequestMapping("/cellinfo")
 public class CellInfoController extends BaseController<CellInfoDto> {
@@ -103,4 +112,46 @@ public class CellInfoController extends BaseController<CellInfoDto> {
 		 }
 		return map;
 	}
+	
+	@RequestMapping("/export")
+	public  void resultExport(HttpServletRequest request,HttpServletResponse response){
+        try {
+        	CellInfoDto cellInfoDto = new CellInfoDto();       	
+    		List<CellInfoDto> list = cellInfoService.getalllist(cellInfoDto);
+    		Map<String,String> headMap = new LinkedHashMap<>();
+    		JSONArray sourcesJson = null;
+    		headMap.put("cell_name", "小区名称");
+    		headMap.put("station_code", "所属基站");
+    		headMap.put("in_used", "是否使用");	
+        	if (list!=null) {
+        		sourcesJson = JSONArray.parseArray(JSON.toJSONString(list));
+			} 
+        	String title= "小区配置表导出";
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            FileExport.exportExcelX(title, headMap, sourcesJson, null, 0, os);
+            byte[] content = os.toByteArray();
+            InputStream is = new ByteArrayInputStream(content);
+            // 设置response参数，可以打开下载页面
+            response.reset();
+
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"); 
+            response.setHeader("Content-Disposition", "attachment;filename="+ new String((title + ".xlsx").getBytes(), "iso-8859-1"));
+            response.setContentLength(content.length);
+            ServletOutputStream outputStream = response.getOutputStream();
+            BufferedInputStream bis = new BufferedInputStream(is);
+            BufferedOutputStream bos = new BufferedOutputStream(outputStream);
+            byte[] buff = new byte[8192];
+            int bytesRead;
+            while (-1 != (bytesRead = bis.read(buff, 0, buff.length))) {
+                bos.write(buff, 0, bytesRead);
+
+            }
+            bis.close();
+            bos.close();
+            outputStream.flush();
+            outputStream.close();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

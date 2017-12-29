@@ -6,6 +6,7 @@ var setUsedUrl = ctx + '/cellinfo/setUsed';
 var clearUsedUrl = ctx + '/cellinfo/clearUsed';
 var updatetimeUrl = ctx + "/alarm/updatetime"
 var counts = ctx + "/alarm/lastHourClassCount";
+var export_url = ctx + "/cellinfo/export"; 
 $(function() {
 	// 最新时间
 	$.ajax({
@@ -102,7 +103,7 @@ function import_Excel(){
 }
 //导出
 function export_Excel(){
-	
+	formSubmit(export_url,"post",[]);
 }
 
 function setUsed() {

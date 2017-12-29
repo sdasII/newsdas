@@ -266,30 +266,7 @@ function complainSumit(element) {
 	}
 	return false;
 }
-/*
- * 单个csv网管文件导入
- */
-function signalCSVSumit(element) {
-	var file = $("#file3").val();
-	var times=$("#nettest_time").val();
-	if (times != "" &&file != "") {
-		$(element).ajaxSubmit(function(message) {
-            $("#csv_load").css("display", "none");
-			var status = message.success;
-			if (status.indexOf("成功") > 0) {
-				showOnlyMessage(INFO, status);
-			} else {
-				showOnlyMessage(ERROR, status);
-			}
-		});
-		$("#csv_load").css("display", "inline");
-	}else if (times == "") {
-		showOnlyMessage(ERROR, "请选择时间！");
-	} else if (file == "") {
-		showOnlyMessage(ERROR, "请选择文件！");
-	}
-	return false;
-}
+
 /*
  * 单个网管csv文件分析
  */
@@ -323,38 +300,6 @@ function submit_cal(){
            }
       }
     });
-}
-function netzipSumit(element) {
-	var file = $("#originfile").val();
-	var times=$("#origintime").val();
-	if (times != "" &&file != "") {
-        $("#originsubmit").attr("disabled", true);
-           $("#span_progress").css("display", "inline");
-                $("#progress2").attr("value", 0);
-                $("#progressvalue2").text("0%");
-		$(element).ajaxSubmit(function(message) {
-					var msg = message;
-					var fileStatus = msg.status;
-					$("#originsubmit").attr("disabled", false);
-					if (fileStatus.indexOf("失败") >= 0) {
-						showOnlyMessage(ERROR, fileStatus);
-						$("#originsubmit").val("续传");
-					} else if (fileStatus.indexOf("成功") >= 0) {
-						showOnlyMessage(INFO, fileStatus);
-						// $("#originfile").val("");
-						$("#originsubmit").val("上传");
-					} else {
-						showOnlyMessage("warning", fileStatus);
-					}
-
-				});
-         ws.send("start");
-	}else if (times == "") {
-		showOnlyMessage(ERROR, "请选择时间！");
-	} else if (file == "") {
-		showOnlyMessage(ERROR, "请选择文件！");
-	}
-	return false;
 }
 /*
  * 网关数据分析 

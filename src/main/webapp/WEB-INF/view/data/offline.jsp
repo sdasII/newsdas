@@ -12,7 +12,6 @@
 <script src="${context}/lib/datapicker/bootstrap-datetimepicker.js"></script>
 <script
 	src="${context}/lib/datapicker/bootstrap-datetimepicker.zh-CN.js"></script>
-<script type="text/javascript" src="${context}/js/data/offline.js"></script>
 <link href="${context}/lib/datapicker/bootstrap-datetimepicker.min.css"
 	rel="stylesheet">
 <style type="text/css">
@@ -158,7 +157,7 @@ input[type="file"] {
 		//连接成功建立的回调方法
 		ws.onopen = function() {
 			//alert("WebSocket连接成功");
-			//showOnlyMessage(INFO, "WebSocket连接成功");
+			showOnlyMessage(INFO, "WebSocket连接成功");
 		}
 
 		//接收到消息的回调方法
@@ -181,15 +180,16 @@ input[type="file"] {
 		}
 	</script>
 	<script type="text/javascript">
+		var select = $("#originfile").val();
+		var time = $("#origintime").val();			
+		
 		function closews() {
 			ws.close();
 		}
-
-		$('#soucefile').ajaxForm({
+		
+		$("#soucefile").ajaxForm({
 			beforeSend : function(formData, jqForm, options) {
 				var percentVal = '0%';
-				var select = $("#originfile").val();
-				var time = $("#origintime").val();
 				if (select != "" && time != "") {
 					$("#originsubmit").attr("disabled", true);
 					$("#progress2").attr("value", 0);
@@ -232,11 +232,88 @@ input[type="file"] {
 				} else {
 					showOnlyMessage("warning", fileStatus);
 				}
+				$("#span_progress").css("display", "none");
 			},
 			error : function(data) {
 				showOnlyMessage(ERROR, data.message);
 			}
 		});
+		
+		
+		$("#signalCSVFile").ajaxForm({
+			beforeSend : function(formData, jqForm, options) {
+				var percentVal = '0%';
+				var select = $("#signalfile").val();
+				var time = $("#nettest_time").val();
+				if (select != "" && time != "") {
+					$("#signalSubmit").attr("disabled", true);
+					var progress = "正在上传" + percentVal + "...";
+					$("#signal_upload_progress").text(progress);
+				} else if (select == "") {
+					showOnlyMessage(ERROR, "请选择文件！");
+					return false;
+				} else if (time == "") {
+					showOnlyMessage(ERROR, "请选择时间！");
+					return false;
+				}
+			},
+			uploadProgress : function(event, position, total, percentComplete) {
+				var percentVal = percentComplete + '%';
+				var progress = "正在上传" + percentVal + "...";
+				if (percentComplete != 100) {
+					$("#signal_upload_progress").text(progress);
+				} else {
+					$("#csv_load").css("display", "inline");
+					$("#signal_upload_progress").css("display", "none");
+				}
+			},
+			success : function(data, statusText) {
+				var percentVal = '100%';
+
+			},
+			complete : function(xhr, b, c) {
+				var fileStatus = xhr.responseText;
+				$("#signalSubmit").attr("disabled", false);
+				if (fileStatus.indexOf("失败") >= 0) {
+					showOnlyMessage(ERROR, fileStatus);
+					$("#signalSubmit").val("续传");
+				} else if (fileStatus.indexOf("成功") >= 0) {
+					showOnlyMessage(INFO, fileStatus);
+					$("#signalSubmit").val("上传");
+				} else {
+					showOnlyMessage("warning", fileStatus);
+				}
+				$("#csv_load").css("display", "none");
+			},
+			error : function(data) {
+				showOnlyMessage(ERROR, data.message);
+			}
+		});
+		
+		/*
+		 * 单个csv网管文件导入
+		 */
+		/* function signalCSVSumit(element) {
+			var file = $("#file3").val();
+			var times=$("#nettest_time").val();
+			if (times != "" &&file != "") {
+				$(element).ajaxSubmit(function(message) {
+		            $("#csv_load").css("display", "none");
+					var status = message.success;
+					if (status.indexOf("成功") > 0) {
+						showOnlyMessage(INFO, status);
+					} else {
+						showOnlyMessage(ERROR, status);
+					}
+				});
+				$("#csv_load").css("display", "inline");
+			}else if (times == "") {
+				showOnlyMessage(ERROR, "请选择时间！");
+			} else if (file == "") {
+				showOnlyMessage(ERROR, "请选择文件！");
+			}
+			return false;
+		} */
 	</script>
 	<div class="wrapper wrapper-content animated fadeInRight">
 		<div class="row">
@@ -345,28 +422,39 @@ input[type="file"] {
 						<div class="panel panel-success" style="height: 230px">
 							<div class="panel-heading">中兴指标数据csv测试文件</div>
 							<div class="panel-body">
-								<form action="${context}/data/csvUpload" method="post"
-									onsubmit="return signalCSVSumit(this);">
+								<form id="signalCSVFile" action="${context}/data/uploadfile" method="post" enctype='multipart/form-data'>
 									<div class="ibox-tools" style="margin-top: -10px;">
 										<a href="javascript:;"
 											onclick="openIframe('${context}/cell/celltable','健康评估')"><i>查看详情</i></a>
 									</div>
 									<div class="form-group">
-										<label>时间选择：</label> <input id="nettest_time" name="time"
-											class="btn btn-white layer-date starttime"
-											placeholder="请选择文件时间"
-											onclick="laydate({istime: false, format: 'YYYYMMDD'})">
+										<!-- 待提交表单 -->
+										<label>时间选择：</label> 
+										<input id="nettest_time" name="time" class="btn btn-white layer-date starttime"
+											placeholder="请选择文件时间" onclick="laydate({istime: false, format: 'YYYYMMDD'})">
 										<span id="nettime_error" class="error_msg">月份不能为空！</span><br>
-										<label>选择文件:</label> <input class="btn btn-white" type="file"
-											name="file" id="file3" accept=".csv">
+										<label>选择文件:</label> 
+										<input class="btn btn-white" type="file" name="file" id="signalfile" accept=".csv">
 										<button class="btn btn-white upload_btn">选择上传文件</button>
 										<div class="upload_title">未选择任何文件</div>
-										<input class="btn btn-success" type="submit" value="上传"
-											style="margin-left: 10px;"><br>
+										<input id="signalSubmit" class="btn btn-success" type="submit" value="上传" style="margin-left: 10px;"><br>
+										<!-- 待提交表单 -->
+										
+										
+										<!-- 复合loadding -->
 										<div class="btn loading" id="csv_load" style="display: none;">
 											<img
 												src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在上传...</span>
-										</div>
+										</div>									
+										<span id="signal_upload_progress"></span> <br>
+										<!-- 复合loading -->
+										
+										
+										
+										
+										
+										
+										<!-- 分析部分 -->
 										<label>计算日期:</label> <input size="16" type="text"
 											name="cal_time" id="net_caltime"
 											placeholder="请选择计算模式月份（默认上一个月）" readonly
@@ -377,6 +465,7 @@ input[type="file"] {
 											<img
 												src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在分析...</span>
 										</div>
+										<!-- 分析部分结束 -->
 									</div>
 								</form>
 							</div>
@@ -398,8 +487,9 @@ input[type="file"] {
 								<!-- <div>
 									<span><i>备注：</i> </span> <span>请选择小区一天的网管数据</span>
 								</div> -->
-								<form id="soucefile" action="${context}/data/uploadfile"
-									method="post" onsubmit="return netzipSumit(this);">
+								<!-- onsubmit="return netzipSumit(this);" -->
+								<form id="soucefile" action="${context}/data/uploadfile" enctype='multipart/form-data'
+									method="post">
 									<div class="ibox-tools" style="margin-top: -10px;">
 										<a href="javascript:;"
 											onclick="openIframe('${context}/cell/celltable','健康评估')"><i>查看详情</i></a>
@@ -416,9 +506,9 @@ input[type="file"] {
 										<button id="originsubmit" class="btn btn-success"
 											type="submit" style="margin-left: 10px;">上传</button>
 										<span id="span_progress" style="display: none;"> <progress
-												id="progress2" max="100" value="0"></progress><em>上传进度：</em>
-											<span id="progressvalue2">0%</span>
-										</span> <span id="upload_progress" style="display: none;"></span> <br>
+												id="progress2" max="100" value="0"></progress><em>上传进度：</em><span id="progressvalue2">0%</span>											
+										</span> 										
+										<span id="upload_progress"></span> <br>
 										<label>计算日期:</label> <input size="16" type="text"
 											name="cal_time" id="net_caltime2"
 											placeholder="请选择计算模式月份（默认上一个月）" readonly
@@ -479,5 +569,6 @@ input[type="file"] {
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript" src="${context}/js/data/offline.js"></script>
 </body>
 </html>
