@@ -42,5 +42,6 @@ public class CellInfoService extends BaseService<CellInfoDao, CellInfoDto> {
 		cellInfoDao.clearHealthInfo();
 		cellInfoDao.clearHealthModel();
 		cellInfoDao.clearResultHistory();
+		cellInfoDao.cleatResultRt();
 	}
 }

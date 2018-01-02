@@ -42,4 +42,7 @@
 	<delete id="clearCapacityTable">
 		delete from t_performance_work_rt 
 	</delete>
+	<delete id="cleatResultRt">
+		delete from t_cell_result_info 
+	</delete>
 </mapper>
