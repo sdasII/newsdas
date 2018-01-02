@@ -15,12 +15,17 @@
 </style>
 </head>
 <script type="text/javascript">
-		var status = '${success}';
-		if (status.indexOf("success") >= 0) {
-			showOnlyMessage(INFO, "上传成功");
-		} else if (status.indexOf("fail") >= 0) {
-			showOnlyMessage(ERROR, status);
-		}
+$(function(){
+	var status = '${success}';//var status = 'success';
+	if (status.indexOf("success")>-1) {
+		console.info(status);
+		showOnlyMessage(INFO, "上传成功");
+		iframeconvert( "/newsdas/data/offline", "存储分析");
+	} else if (status.indexOf("fail") >= 0) {
+		showOnlyMessage(ERROR, status);
+	}
+})
+		
 	</script>
 <body style="margin-left: 5px;margin-right: 5px;">
 	<div class="wrapper wrapper-content animated fadeInRight">
