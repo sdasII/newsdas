@@ -127,8 +127,12 @@ $(function(){
 	                	  return "可疑工单";
 	                  }else if(value==2){
 	                	  return "正常";
-	                  }else{
+	                  }else if(value==-1){
 	                	  return "待验证";
+	                  }else if(value==3){
+	                	  return "未知";
+	                  }else{
+	                	  return "验证失败";
 	                  }
 	                 }
             }

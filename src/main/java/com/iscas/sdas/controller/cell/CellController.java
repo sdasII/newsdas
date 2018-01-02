@@ -353,7 +353,7 @@ public class CellController {
 				String range = "range_";
 				String count = i<10?"0"+i:i+"";
 				String head = range + count;
-				headMap.put(head, i+"时");
+				headMap.put(head, i+":00");
 			}
     		JSONArray ja = null;
         	if (list!=null) {

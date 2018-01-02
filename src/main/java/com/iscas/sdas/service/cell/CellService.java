@@ -107,7 +107,6 @@ public class CellService{
 									TotalHealthInfoDto infoDto  = result.get(i);
 									String range = (String)method.invoke(cellHealth, null);						
 									int  moment = Integer.parseInt(method.getName().substring(method.getName().lastIndexOf("_")+1));
-									
 									Double ratio = parseRatio(range);
 									String time = formattime(cellHealth.getYyyyMMdd(), moment);
 									if (result.get(i).getTime().equals(time)) {
@@ -331,7 +330,7 @@ public class CellService{
 		String year  = time.substring(0, 4);
 		String month  = time.substring(4, 6);
 		String day  = time.substring(6);
-		String result = year+"-"+month+"-"+day+" "+moment+"时";
+		String result = year+month+day+" "+moment+":00";
 		return result;
 	}
 	/**
@@ -373,7 +372,7 @@ public class CellService{
 				TotalHealthInfoDto infoDto  = new TotalHealthInfoDto();
 				String str_tempmonth  = tempmonth >=10?tempmonth+"":"0"+tempmonth;
 				String str_tempday = tempday >=10?tempday+"":"0"+tempday;
-				String time = tempyear+"-"+str_tempmonth+"-"+str_tempday+" "+j+"时";
+				String time = tempyear+str_tempmonth+str_tempday+" "+j+":00";
 				infoDto.setTime(time);
 				list.add(infoDto);
 			}
@@ -410,7 +409,7 @@ public class CellService{
 				TotalHealthInfoDto infoDto  = new TotalHealthInfoDto();
 				String str_tempmonth  = tempmonth >=10?tempmonth+"":"0"+tempmonth;
 				String str_tempday = tempday >=10?tempday+"":"0"+tempday;
-				String time = tempyear+"-"+str_tempmonth+"-"+str_tempday+" "+j+"时";
+				String time = tempyear+"-"+str_tempmonth+"-"+str_tempday+" "+j+":00";
 				infoDto.setTime(time);
 				list.add(infoDto);
 			}
@@ -456,7 +455,7 @@ public class CellService{
 							String year  = cellHealth.getYyyyMMdd().substring(0, 4);
 							String month  = cellHealth.getYyyyMMdd().substring(4, 6);
 							String day  = cellHealth.getYyyyMMdd().substring(6);
-							String time = year+"-"+month+"-"+day+" "+moment+"时";
+							String time = year+"-"+month+"-"+day+" "+moment+":00";
 							infoDto.setTime(time);
 							infoDto.setRatio(ratio);
 							infoDto.setDeviceworks(0);
@@ -541,7 +540,7 @@ public class CellService{
 						int day = work.getRecordtime().getDate();
 						String daystr = day>=10?""+day:"0"+day;
 						int hour = work.getRecordtime().getHours();
-						String occurtime = year +"-"+ monthstr+"-"+daystr+" "+hour+"时";
+						String occurtime = year +"-"+ monthstr+"-"+daystr+" "+hour+":00";
 						list.add(occurtime);
 					}
 				}							

@@ -7,7 +7,9 @@ var updateTime='';//最新更新时间
 
 var updateTimeUrl = ctx + "/alarm/cellupdatetime";
 var imgUrl='image://../style/export.png';
-
+var rtratioCharts = echarts.init($("#rtratio").get(0));
+var rtratioOption;
+var historyCharts = echarts.init($("#historyCharts").get(0));
 
 $(function(){
 	//时间选择窗口
@@ -139,7 +141,8 @@ $(function(){
                               }else if(value==2){
                                   str="健康"
                               }
-                              return str;
+                              var time=row.yyyymmdd+" "+row.hour+":00";
+                              return '<a href="#rtratio" onclick="changeZoom('+"'"+time+"'"+')">'+str+"</a>";
                              }
                     },
                     { field : 'calcultime', title : '发布时间', align : 'center', valign : 'middle',
@@ -159,6 +162,7 @@ $(function(){
             });
       searchReultInfo()
 })
+
 function searchReultInfo(){
     var data = {};
     data.name = cell_code;
@@ -355,6 +359,7 @@ var top_split = [];
 var bottom_spli = [];
 var middle_split = [];
 var bottom_bott=[];
+var nodata_split=[];
 for (var i = 0; i < 1000; i++) {
     var b_arr = [];
     b_arr.push(i);
@@ -369,10 +374,6 @@ for (var i = 0; i < 1000; i++) {
     t_arr.push(20);
     top_split.push(t_arr);
     //
-    var b_arr = [];
-    b_arr.push(i);
-    b_arr.push(0);
-    bottom_bott.push(b_arr);
 }
 var histroy_trend = {
         tooltip : { // 提示框
@@ -425,11 +426,10 @@ var histroy_trend = {
                         'name' : "历史健康度"
                     }]
         },
-        dataZoom : [{
-                    type : 'slider',
-                    startValue : 0,
-                    endValue : 60
-                }],
+        dataZoom : {
+                    start : 0,
+                    end : 100
+                },
         series : [{
                     name : '历史健康度',
                     type : 'line',
@@ -566,9 +566,8 @@ function historyTrendQuery(type,starttime,endtime) {
                             t_arr.push(20);
                             top_split.push(t_arr);
                         }
-                        histroy_trend.xAxis.data = axis;
-                        histroy_trend.series[0].data = data2;
-
+                         histroy_trend.xAxis.data = axis;
+                         histroy_trend.series[0].data = data2;
                          histroy_trend.series[1].data = bottom_spli;
                          histroy_trend.series[2].data = middle_split;
                          histroy_trend.series[3].data = top_split;
@@ -577,7 +576,6 @@ function historyTrendQuery(type,starttime,endtime) {
                         var lasttime=starttime;
                         for (var i = 0; i < 24; i++) {
                             axis.push(lasttime+" "+i+":00");
-                            
                             var b_arr = [];
                             b_arr.push(lasttime);
                             b_arr.push(25);
@@ -590,7 +588,6 @@ function historyTrendQuery(type,starttime,endtime) {
                             t_arr.push(lasttime);
                             t_arr.push(20);
                             top_split.push(t_arr);
-                            
                             data2.push("");
                         }
                         histroy_trend.xAxis.data = axis;
@@ -600,6 +597,8 @@ function historyTrendQuery(type,starttime,endtime) {
                          histroy_trend.series[2].data = middle_split;
                          histroy_trend.series[3].data = top_split;
                     }
+                    //histroy_trend.dataZoom.startValue=axis[0];
+                    //histroy_trend.dataZoom.endValue=axis[parseInt(axis.length/2)];
                     historyCharts.setOption(histroy_trend);
                     historyCharts.resize();
                     $("#ratiotrend_loadbk").hide();
@@ -633,6 +632,8 @@ function getcharts(id, title,color,date_value,starttime,endtime){
             bottom_spli=[];
             middle_split=[];
             top_split=[];
+            bottom_bott=[];
+            nodata_split=[];
             dataArr=[];
             var markPointData_0=[];//事件
             var markPointData_1=[];//亚健康
@@ -649,6 +650,14 @@ function getcharts(id, title,color,date_value,starttime,endtime){
                             bottom_spli.push(arr);
                             middle_split.push(arr);
                             top_split.push(arr);
+                            var b_arr = [];
+                            b_arr.push(lasttime+" "+j+":00");
+                            b_arr.push(1.5);
+                            bottom_bott.push(b_arr);
+                            var no_arr = [];
+                            no_arr.push(lasttime+" "+j+":00");
+                            no_arr.push(2);
+                            nodata_split.push(no_arr);
                             times.push(lasttime+" "+j+":00");
                             if(j<10){
                                 if(e["range_0"+j]==0){
@@ -670,12 +679,12 @@ function getcharts(id, title,color,date_value,starttime,endtime){
                                 }else if(e["range_0"+j]==2){
                                     dataArr.push(2.5);
                                 }else{
-                                    dataArr.push(0);
+                                    dataArr.push(2);
                                     var point={};
                                     point.name="无结果";
                                     point.value="无结果";
                                     point.xAxis=lasttime+" "+j+":00";
-                                    point.yAxis=0;
+                                    point.yAxis=2;
                                     markPointData_3.push(point);
                                 }
                             }else{
@@ -698,12 +707,12 @@ function getcharts(id, title,color,date_value,starttime,endtime){
                                 }else if(e["range_"+j]==2){
                                     dataArr.push(2.5);
                                 }else{
-                                    dataArr.push(0);
+                                    dataArr.push(2);
                                     var point={};
                                     point.name="无结果";
                                     point.value="无结果";
                                     point.xAxis=lasttime+" "+j+":00";
-                                    point.yAxis=0;
+                                    point.yAxis=2;
                                     markPointData_3.push(point);
                                 }
                             }
@@ -718,6 +727,15 @@ function getcharts(id, title,color,date_value,starttime,endtime){
                         bottom_spli.push(arr);
                         middle_split.push(arr);
                         top_split.push(arr);
+                        //
+                        var b_arr = [];
+                        b_arr.push(lasttime+" "+i+":00");
+                        b_arr.push(1.5);
+                        bottom_bott.push(b_arr);
+                        var no_arr = [];
+                        no_arr.push(lasttime+" "+i+":00");
+                        no_arr.push(2);
+                        nodata_split.push(no_arr);
                         times.push(lasttime+" "+i+":00");
                         if(i<10){
                             if(data.rows[0]["range_0"+i]==0){
@@ -739,12 +757,12 @@ function getcharts(id, title,color,date_value,starttime,endtime){
                             }else if(data.rows[0]["range_0"+i]==2){
                                 dataArr.push(2.5);
                             }else{
-                                dataArr.push(0);
+                                dataArr.push(2);
                                 var point={};
                                 point.name="无结果";
                                 point.value="无结果";
                                 point.xAxis=lasttime+" "+i+":00";
-                                point.yAxis=0;
+                                point.yAxis=2;
                                 markPointData_3.push(point);
                             }
                         }else{
@@ -767,12 +785,12 @@ function getcharts(id, title,color,date_value,starttime,endtime){
                             }else if(data.rows[0]["range_"+i]==2){
                                 dataArr.push(2.5);
                             }else{
-                                dataArr.push(0);
+                                dataArr.push(2);
                                 var point={};
                                 point.name="无结果";
                                 point.value="无结果";
                                 point.xAxis=lasttime+" "+i+":00";
-                                point.yAxis=0;
+                                point.yAxis=2;
                                 markPointData_3.push(point);
                             }
                         }
@@ -800,8 +818,8 @@ function drawEcharts(id, title, times, data,markPointData_0,markPointData_1,mark
     if(data.length>100){
         dataZoom=30;
     }
-    var mycharts = echarts.init($(id).get(0));
-    var option = {
+    rtratioCharts = echarts.init($(id).get(0));
+    rtratioOption = {
         legend : {
             data : [title]
         },
@@ -847,8 +865,8 @@ function drawEcharts(id, title, times, data,markPointData_0,markPointData_1,mark
             }  
         },
         dataZoom : {
-            start : 0,
-            end : dataZoom
+        	start : 0,
+            end : 100
         },
         xAxis : {
             type : 'category',
@@ -939,22 +957,7 @@ function drawEcharts(id, title, times, data,markPointData_0,markPointData_1,mark
                     }
                 }
             },
-            data : middle_split,
-            markPoint : {
-                symbol:'pin',
-                symbolSize:30,
-                label:{
-                    normal:{
-                        show:false
-                    }
-                },
-                data :markPointData_1,
-                itemStyle:{
-                    normal:{
-                        color:'#F3A43B'
-                    }
-                }
-            }
+            data : middle_split
         }, {
             name : '',
             type : 'line',
@@ -975,7 +978,7 @@ function drawEcharts(id, title, times, data,markPointData_0,markPointData_1,mark
                 }
             },
             data : top_split
-        }, {//无结果标记所用曲线
+        },{//亚健康标记所用曲线
             name : '',
             type : 'line',
             smooth : true,
@@ -983,14 +986,46 @@ function drawEcharts(id, title, times, data,markPointData_0,markPointData_1,mark
             itemStyle : {
                 normal : {
                     opacity : 0.2,
-                    color : 'rgba(172,231,131,0.4)',
+                    color : 'rgba(231,233,131,0.4)',
                     lineStyle : {
                         opacity : 0.2,
-                        color : 'rgba(172,231,131,0.4)'
+                        color : 'rgba(231,233,131,0.4)'
                     }
                 }
             },
             data : bottom_bott,
+            markPoint : {
+                symbol:'pin',
+                symbolSize:30,
+                label:{
+                    normal:{
+                        show:false
+                    }
+                },
+                data :markPointData_1,
+                itemStyle:{
+                    normal:{
+                        color:'#F3A43B'
+                    }
+                }
+            }
+            
+        }/*, {//无结果标记所用曲线
+            name : '',
+            type : 'line',
+            smooth : true,
+            symbol : "none",
+            itemStyle : {
+            	normal : {
+                    opacity : 0.2,
+                    color : 'rgba(231,233,131,0.4)',
+                    lineStyle : {
+                        opacity : 0.2,
+                        color : 'rgba(231,233,131,0.4)'
+                    }
+                }
+            },
+            data : nodata_split,
             markPoint : {
                 symbol:'pin',
                 symbolSize:30,
@@ -1006,12 +1041,55 @@ function drawEcharts(id, title, times, data,markPointData_0,markPointData_1,mark
                     }
                 }
             }
-        } ]
+        }*/]
     };
-    mycharts.setOption(option);
-    mycharts.resize();
+    rtratioCharts.setOption(rtratioOption);
+    rtratioCharts.resize();
 }
 function toTableData(code){
     top.$("#iframe_detail").attr('src',ctx +"/cell/toTableData?cell_code="+code);
+}
+//修改图表dataZoom起始位置
+function changeZoom(time){
+	if(global_type == "day"){
+		histroy_trend.dataZoom.start=0;
+		rtratioOption.dataZoom.start=0;
+		histroy_trend.dataZoom.end=100;
+		rtratioOption.dataZoom.end=100;
+		rtratioCharts.setOption(rtratioOption);
+		historyCharts.setOption(histroy_trend);
+	}else{
+		 var rtratio_index=isHasElementTwo(rtratioOption.xAxis.data,time);
+		 var rtratio_perc=parseInt((rtratio_index/rtratioOption.xAxis.data.length)*100);
+		 var histroy_index=isHasElementTwo(histroy_trend.xAxis.data,time);
+		 var histroy_perc=parseInt((histroy_index/histroy_trend.xAxis.data.length)*100);
+		 if(rtratio_perc>50){
+				rtratioOption.dataZoom.start=rtratio_perc;
+				rtratioOption.dataZoom.end=100;
+		 }else{
+				rtratioOption.dataZoom.start=rtratio_perc;
+				rtratioOption.dataZoom.end=rtratio_perc+10;
+		 }
+		 if(histroy_perc>50){
+			 histroy_trend.dataZoom.start=histroy_perc;
+			 histroy_trend.dataZoom.end=100;
+		 }else{
+			 histroy_trend.dataZoom.start=histroy_perc;
+			 histroy_trend.dataZoom.end=histroy_perc+10;
+		 }
+		 rtratioCharts.setOption(rtratioOption);
+		 historyCharts.setOption(histroy_trend);
+	}
+}
+function isHasElementTwo(arr,value){ 
+	var str = arr.toString(); 
+	var index = str.indexOf(value); 
+	if(index >= 0){ 
+	//存在返回索引 
+	var reg1 = new RegExp("((^|,)"+value+"(,|$))","gi"); 
+	return str.replace(reg1,"$2@$3").replace(/[^,@]/g,"").indexOf("@"); 
+	}else{
+	return -1;//不存在此项 
+} 
 }
 //————————————————————————————————————历史判别结果end————————————————————————————————-\\
