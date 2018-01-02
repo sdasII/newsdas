@@ -456,7 +456,7 @@ input[type="file"] {
 										<label>模式月份:</label> <input size="16" type="text"
 											name="cal_time" id="net_caltime"
 											placeholder="请选择计算模式月份（默认上一个月）" readonly
-											class="form_datetime" style="width: 220px; margin-top: -10px">
+											class="form_datetime" style="width: 165px; margin-top: -10px">
 										<!-- <button class="btn btn-info search" type="button" style="margin-left: 35px;"
 											onclick="submit_cal()">分析</button> -->
 										<my:btn type="edit" onclick="submit_cal()" title="分析" id="cal_btn"></my:btn>
@@ -513,7 +513,7 @@ input[type="file"] {
 											name="cal_time" id="net_caltime2"
 											placeholder="请选择计算模式月份（默认上一个月）" readonly
 											class="timepicker form_datetime"
-											style="width: 220px; margin-top: -10px">
+											style="width: 165px; margin-top: -10px">
 										<!-- <button class="btn btn-info search" type="button" style="margin-left: 35px;"
 											onclick="submit_calzip()">分析</button> -->
 											<my:btn type="edit" onclick="submit_calzip()" title="分析"></my:btn>
