@@ -31,6 +31,10 @@ $(function() {
 		    var date=new Date;
 		    var year=date.getFullYear(); 
 		    var month=date.getMonth();//默认上一个月
+		    if(month==0){
+		    	year=year-1;
+		    	month=month+12;
+		    }
 		    month =(month<10 ? "0"+month:month); 
 		    var mydate = (year.toString()+month.toString());
 		    $(".form_datetime").val(mydate);

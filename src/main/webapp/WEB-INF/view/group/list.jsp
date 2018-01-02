@@ -106,7 +106,7 @@
 								<option value="3">计算无结果</option>
 							</select>
 							<my:btn type="search" onclick="select()"></my:btn>
-							<button style="margin-left: 5px;float: right" onclick="javascript:exportExcel()">
+							<button style="margin-left: 5px;float: right;background: transparent;" onclick="javascript:exportExcel()">
 								<img src="${context}/style/export.png" title="历史健康度导出" style="height:20px;"/>
 							</button>
 							<div class="btn loading" id="load1" style="display: none;float: right">
@@ -114,7 +114,6 @@
 									src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"
 									style="height: 20px;"><span>正在导出...</span>
 							</div>
-								<br><br>
 							<!-- <label for="time" style="margin-left: 20px">数据导出 <input
 								size="16" type="text" id="exporttime" placeholder="请选择导出月份"
 								readonly class="form_datetime"> 

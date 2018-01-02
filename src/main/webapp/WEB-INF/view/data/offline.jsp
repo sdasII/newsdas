@@ -439,10 +439,9 @@ input[type="file"] {
 										<label>选择文件:</label> 
 										<input class="btn btn-white" type="file" name="file" id="signalfile" accept=".csv">
 										<button class="btn btn-white upload_btn">选择上传文件</button>
-										<div class="upload_title">未选择任何文件</div>
+										<div class="upload_title">未选择任何文件</div><br>
 										<!-- <input id="signalSubmit" class="btn btn-success" type="submit" value="上传" style="margin-left: 10px;"> -->
 										<my:btn type="save" title="上传" onclick="upload_file('#signalCSVFile')"></my:btn>
-										<br>
 										<!-- 待提交表单 -->
 										
 										<!-- 复合loadding -->
@@ -502,7 +501,7 @@ input[type="file"] {
 										<label>选择文件:</label> <input class="btn btn-white" type="file"
 											name="file" id="originfile" />
 										<button class="btn btn-white upload_btn">选择上传文件</button>
-										<div class="upload_title">未选择任何文件</div>
+										<div class="upload_title">未选择任何文件</div><br>
 										<!-- <button id="originsubmit" class="btn btn-success"
 											type="submit" style="margin-left: 10px;">上传</button> -->
 										<my:btn type="save" title="上传" onclick="upload_file('#soucefile')"></my:btn>

@@ -110,7 +110,15 @@ $(function(){
             { field : 'reasions', title : '原因', align : 'left', valign : 'middle' },
             { field : 'boutique_level', title : '精品级别', align : 'left', valign : 'middle' },
             { field : "limit_times", title : "越限次数", align : "center", valign : "middle"},
-            { field : 'complete_time', title : '完成时间', align : 'left', valign : 'middle' },
+            { field : 'complete_time', title : '完成时间', align : 'left', valign : 'middle',
+            	formatter:function(value,row,index){
+            		if(value!=""&&value!=null){
+            			var jsDate = new Date(value);
+  	                  var UnixTimeToDate = jsDate.getFullYear() + '/' + (jsDate.getMonth() + 1) + '/'+jsDate.getDate()+ ' ' + jsDate.getHours() + ':' + jsDate.getMinutes() + ':' + jsDate.getSeconds();
+  	                   return UnixTimeToDate;
+            		}
+	              } 
+            },
             { field : 'questionflag', title : '状态', align : 'left', valign : 'middle' ,
             	formatter:function(value,row,index){
 	                  if(value==0){

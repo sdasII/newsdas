@@ -26,7 +26,18 @@ $(function() {
 			$("#counts").html("共有" + data.rows.all + "个小区被监控");
 		}
 	});
-
+	$("input[type='file']").on('change', function(e){
+		var name="";
+		if(e.currentTarget.files.length==1){
+			name = e.currentTarget.files[0].name;
+	        $(".upload_title").html(name);
+		}else{
+			$.each(e.currentTarget.files,function(i,e){
+				name = name+e.name+";";
+			});
+		}
+		 $(".upload_title").html(name);
+    });
 	$('#table_list').bootstrapTable({
 		cache : false,
 		striped : true,
@@ -99,7 +110,25 @@ function searchInfo() {
 }
 //导入
 function import_Excel(){
-	$("#cell_form").submit();
+	if($("#comlainfile").val()==""){
+		showOnlyMessage(ERROR, "请选择文件");
+	}else{
+		swal({
+			title : "上传提示",
+			text : "小区状态进行修改后，需要重新计算小区的月度模式。上传完成后将自动跳转到“存储分析”页面，请在“中兴指标全网数据（zip文件）”模块，按照月份重新进行模式计算！",
+			type : "warning",
+			showCancelButton : true,
+			//confirmButtonColor : "#1a7bb9",
+			confirmButtonText : "确定",
+			cancelButtonText : "取消",
+			closeOnConfirm : false
+		}, function(isConfirm) {
+			if (isConfirm) {// 进行上传
+				$("#cell_form").submit();
+			}
+		});
+	}
+	
 }
 //导出
 function export_Excel(){
