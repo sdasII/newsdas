@@ -24,6 +24,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.iscas.sdas.common.PageDto;
 import com.iscas.sdas.dto.work.CapacityWorkDto;
+import com.iscas.sdas.service.log.FileLogService;
 import com.iscas.sdas.service.work.CapacityWorkService;
 import com.iscas.sdas.util.CommonUntils;
 import com.iscas.sdas.util.Constraints;
@@ -39,7 +40,8 @@ public class CapacityWorkController {
 
 	@Autowired
 	CapacityWorkService capacityWorkService;
-	
+	@Autowired
+	FileLogService fileLogService;
 	/**
 	 * 获取验证工单
 	 * @author dongqun
@@ -190,4 +192,20 @@ public class CapacityWorkController {
             e.printStackTrace();
         }
     }
+	/**
+	 * 工单验证最新发布时间
+	 * @author dongqun
+	 * 2018年1月2日下午4:58:56
+	 * @return
+	 */
+	@RequestMapping("updatetime")
+	@ResponseBody
+	public ModelMap updatetime(){
+		ModelMap map = new ModelMap();
+		map.addAttribute("updatetime", fileLogService.lastUpdateTime("性能工单验证"));
+		return map;
+	}
+	
+	
+	
 }

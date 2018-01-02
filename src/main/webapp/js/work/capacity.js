@@ -55,13 +55,13 @@ $(function(){
             }
         });
 	//最新时间
-	/*$.ajax({
+	$.ajax({
 		url:updatetimeUrl,
 		type:"post",
 		success:function(data){
-			$("#updateTime").html("最新发布时间： "+data);
+			$("#updateTime").html("最新发布时间： "+data.updatetime);
 		}
-	});*/
+	});
     //地区列表
     $.ajax({
         url: aeraurl,
@@ -143,7 +143,7 @@ $(function(){
             searchInfo();
         },
         formatNoMatches : function() {
-            return "NOT_FOUND_DATAS";
+            return NOT_FOUND_DATAS;
         }
     });
     
