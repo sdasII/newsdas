@@ -43,7 +43,7 @@ input[type='textarea'] {
 .error_msg{display: none; color:red}
 </style>
 <script type="text/javascript" src="${context}/lib/hplus/js/plugins/layer/laydate/laydate.js"></script>
-<script type="text/javascript" src="${context}/js/task.js"></script>
+<script type="text/javascript" src="${context}/js/task/task.js"></script>
 </head>
 <body>
 	<div class="ibox-content">

@@ -35,6 +35,11 @@ import com.iscas.sdas.util.CommonUntils;
 import com.iscas.sdas.util.Constraints;
 import com.iscas.sdas.util.FileExport;
 import com.iscas.sdas.util.FileImport;
+/**
+ * 小区配置
+ * @author dongqun
+ * 2018年1月2日下午1:41:37
+ */
 @Controller
 @RequestMapping("/cellinfo")
 public class CellInfoController extends BaseController<CellInfoDto> {
@@ -193,6 +198,7 @@ public class CellInfoController extends BaseController<CellInfoDto> {
 				try {
 					FileImport.settingFileImportWork(path, result);// 将excel映射为对象
 					try {
+						cellInfoService.clearTable();
 						cellInfoService.insert(result);
 						modelMap.addObject("success", Constraints.RESULT_SUCCESS+"导入成功！");
 						fileLogDto.setResult(1);
