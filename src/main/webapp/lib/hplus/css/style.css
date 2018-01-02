@@ -7890,3 +7890,13 @@ body.skin-3 {
         font-size: 12px
     }
 }
+/*自增*/
+input[name='name'],input[name='userId'],input[name='userName']{
+	width:200px;
+	margin: -10px;
+	height: 35px; 
+	margin-right: 10px; 
+	margin-left: 10px;
+	border-radius: 3px;
+	border: 1px solid #e7eaec;
+	}

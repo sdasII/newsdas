@@ -99,7 +99,7 @@ function searchInfo() {
 }
 //导入
 function import_Excel(){
-	
+	$("#cell_form").submit();
 }
 //导出
 function export_Excel(){

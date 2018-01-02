@@ -12,15 +12,6 @@
 <script type="text/javascript" src="${context}/lib/sweetAlert/sweetalert.min.js"></script>
 <link href="${context}/lib/sweetAlert/sweetalert.css" rel="stylesheet">
 <style type="text/css">
-#name {
-    margin: -10px;
-    width: 180px;
-    height: 35px;
-    margin-right: 10px;
-    margin-left: 10px;
-    border-radius: 3px;
-    border: 1px solid #e7eaec;
-}
 </style>
 </head>
 <script type="text/javascript">
@@ -59,14 +50,15 @@
 							<!-- <button id="setUsed"  class="btn btn-success" onclick="setUsed()">设为使用</button>
 							<button id="clear" style="margin-left: 5px;" class="btn btn-white" onclick="clearUsed()">取消使用</button> -->
 							
-							<form action="${context}/cellinfo/import" method="post" style="display: inline;"
+							<form action="${context}/cellinfo/import" method="post" style="display: inline;" id="cell_form"
 									enctype="multipart/form-data">
 								<input style="display: inline;" class="btn btn-white" type="file" id="comlainfile" name="file" accept=".xls,.xlsx" multiple="multiple">
 								<!-- <input style="display: inline;" class="btn btn-success type="reset" value="重选"> -->
-								<input style="display: inline;" class="btn btn-success" type="submit" value="导入">
+								<my:btn type="import" onclick="import_Excel()"></my:btn>
+								<!-- <input style="display: inline;" class="btn btn-success" type="submit" value="导入"> -->
 							</form>
 							<!-- <button id="setUsed"  class="btn btn-success" onclick="import_Excel()">导入</button> -->
-							<button id="clear" style="margin-left: 5px;" class="btn btn-success" onclick="export_Excel()">导出</button>
+							<my:btn type="export" onclick="export_Excel()"></my:btn>
 						</div>
 						<div>
 							<div id="table_list"></div>
