@@ -50,7 +50,6 @@
 	border: 1px solid #e7eaec;
 	font-weight: normal;
 }
-#name{margin: -10px; width: 130px; height: 35px; margin-right: 10px; margin-left: 10px;border-radius: 3px;border: 1px solid #e7eaec;}
 .form-group select{width: 130px; height: 35px; margin-right: 10px; margin-left: 10px;}
 .pull-left{display: none}
 </style>
@@ -129,8 +128,7 @@
 								size="16" type="text" id="resultexporttime"
 								placeholder="请选择导出月份" readonly class="form_datetime">
 							</label> -->
-							<button style="margin-left: 5px;" class="btn btn-success" title="健康判断结果导出"
-								onclick="javascript:resultexportExcel()">导出</button>
+							<my:btn type="export" onclick="javascript:resultexportExcel()"></my:btn>
 							<div class="btn loading" id="load2" style="display: none">
 								<img
 									src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"

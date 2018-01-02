@@ -364,9 +364,34 @@ function submit_modelzip(){
       }
     });
 }
-
-function formatSubmit(){
-    $("#formatFile").submit();
+/*
+ * 工单验证
+ */
+var validate_url = ctx + "/work/validate"
+function workOrderValidate(){
+	$("#Validate_load").show();
+    $.ajax({
+        url : validate_url,
+        type : "get",
+        success:function(data,status){
+            $("#Validate_load").hide();
+            if(data.rows.type==" SUCCESS"){
+            	showOnlyMessage(INFO, "验证完成");
+            }else{
+            	showOnlyMessage(ERROR, data.rows.message);
+            }
+        }
+    })
+}
+//上传按钮触发，提交表单
+function upload_file(formId){
+	if($(formId).find("input[name='time']").val()==""){
+		showOnlyMessage(ERROR, "请选择时间");
+	}else if($(formId).find("input[type='file']").val()==""){
+		showOnlyMessage(ERROR, "请选择文件");
+	}else{
+		$(formId).submit();
+	}
 }
 /**
  * 历史数据列表
@@ -442,23 +467,4 @@ function search_log(){
  	data.type=$("#type").val();
  	data.result=$("#status").val();
     commonRowDatas("historyTable", data, "/newsdas/log/file/list", "commonCallback", true);
-}
-/*
- * 工单验证
- */
-var validate_url = ctx + "/work/validate"
-function workOrderValidate(){
-	$("#Validate_load").show();
-    $.ajax({
-        url : validate_url,
-        type : "get",
-        success:function(data,status){
-            $("#Validate_load").hide();
-            if(data.rows.type==" SUCCESS"){
-            	showOnlyMessage(INFO, "验证完成");
-            }else{
-            	showOnlyMessage(ERROR, data.rows.message);
-            }
-        }
-    })
 }

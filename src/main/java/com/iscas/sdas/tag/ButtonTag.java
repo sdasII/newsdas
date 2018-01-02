@@ -71,7 +71,7 @@ public class ButtonTag extends SimpleTagSupport implements ButtonAuthority{
 				name = CommonUntils.isempty(name) ? "btn_delete_name" : name;
 				title = CommonUntils.isempty(title) ? Constraints.BTN_DELETE : title;
 				onclick = CommonUntils.isempty(onclick) ? "deleteRow()" : onclick;
-				css = CommonUntils.isempty(css) ? "btn btn-outline btn-default" : css;
+				css = CommonUntils.isempty(css) ? "btn btn-primary" : css;
 				icon = (new StringBuilder(String.valueOf(iconClass)))
 						.append(CommonUntils.isempty(icon) ? "remove" : icon).toString();
 				button = "button";
@@ -86,7 +86,7 @@ public class ButtonTag extends SimpleTagSupport implements ButtonAuthority{
 				name = CommonUntils.isempty(name) ? "btn_export_name" : name;
 				title = CommonUntils.isempty(title) ? Constraints.BTN_EXPORT : title;
 				onclick = CommonUntils.isempty(onclick) ? "export()" : onclick;
-				css = CommonUntils.isempty(css) ? "btn btn-outline btn-default" : css;
+				css = CommonUntils.isempty(css) ? "btn btn-primary" : css;
 				icon = (new StringBuilder(String.valueOf(iconClass)))
 						.append(CommonUntils.isempty(icon) ? "export" : icon).toString();
 				button = "button";
@@ -101,7 +101,7 @@ public class ButtonTag extends SimpleTagSupport implements ButtonAuthority{
 				name = CommonUntils.isempty(name) ? "btn_import_name" : name;
 				title = CommonUntils.isempty(title) ? Constraints.BTN_IMPORT : title;
 				onclick = CommonUntils.isempty(onclick) ? "import()" : onclick;
-				css = CommonUntils.isempty(css) ? "btn btn-outline btn-default" : css;
+				css = CommonUntils.isempty(css) ? "btn btn-primary" : css;
 				icon = (new StringBuilder(String.valueOf(iconClass)))
 						.append(CommonUntils.isempty(icon) ? "import" : icon).toString();
 				button = "button";
@@ -116,7 +116,7 @@ public class ButtonTag extends SimpleTagSupport implements ButtonAuthority{
 				name = CommonUntils.isempty(name) ? "btn_insert_name" : name;
 				title = CommonUntils.isempty(title) ? Constraints.BTN_INSERT : title;
 				onclick = CommonUntils.isempty(onclick) ? "addNew()" : onclick;
-				css = CommonUntils.isempty(css) ? "btn btn-outline btn-default" : css;
+				css = CommonUntils.isempty(css) ? "btn btn-primary" : css; //"btn btn-outline btn-default"
 				icon = (new StringBuilder(String.valueOf(iconClass))).append(CommonUntils.isempty(icon) ? "plus" : icon)
 						.toString();
 				button = "button";
@@ -146,7 +146,7 @@ public class ButtonTag extends SimpleTagSupport implements ButtonAuthority{
 				name = CommonUntils.isempty(name) ? "btn_update_name" : name;
 				title = CommonUntils.isempty(title) ? Constraints.BTN_UPDATE : title;
 				onclick = CommonUntils.isempty(onclick) ? "editRow()" : onclick;
-				css = CommonUntils.isempty(css) ? "btn btn-outline btn-default" : css;
+				css = CommonUntils.isempty(css) ? "btn btn-primary" : css;//"btn btn-outline btn-default"
 				icon = (new StringBuilder(String.valueOf(iconClass)))
 						.append(CommonUntils.isempty(icon) ? "pencil" : icon).toString();
 				button = "button";
@@ -179,7 +179,11 @@ public class ButtonTag extends SimpleTagSupport implements ButtonAuthority{
 				css = CommonUntils.isempty(css) ? "btn btn-primary" : css;
 				icon = (new StringBuilder(String.valueOf(iconClass))).append(CommonUntils.isempty(icon) ? "save" : icon)
 						.toString();
-				button = "submit";
+				if(title.equals("上传")){
+					button = "button";
+				}else{
+					button = "submit";
+				}
 				break label0;
 			}
 			auth = CommonUntils.isempty(auth) ? "btnCustom" : auth;
@@ -187,7 +191,7 @@ public class ButtonTag extends SimpleTagSupport implements ButtonAuthority{
 			name = CommonUntils.isempty(name) ? "btn_custom_name" : name;
 			title = CommonUntils.isempty(title) ? Constraints.BTN_CUSTOM : title;
 			onclick = CommonUntils.isempty(onclick) ? "custom()" : onclick;
-			css = CommonUntils.isempty(css) ? "btn btn-outline btn-default" : css;
+			css = CommonUntils.isempty(css) ? "btn btn-primary" : css;//"btn btn-outline btn-default"
 			icon = CommonUntils.isempty(icon) ? "glyphicon glyphicon-cog"
 					: icon.contains("glyphicon glyphicon-") ? icon
 							: (new StringBuilder(String.valueOf(iconClass))).append(icon).toString();

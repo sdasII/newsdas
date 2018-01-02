@@ -136,6 +136,7 @@ function addNew(){
     $('#title').append("添加用户");//设置modal的标题
     //$('#userBirthday').val('');
     $("#isNew").val('1');
+    $("#btn_save").show();
     $('#myModal').modal({show:true,backdrop: 'static', keyboard: false});
 }
 // 关闭modal画面
@@ -148,6 +149,9 @@ function closemodal() {
     $("#roleId").val('');
     $('#title').html('');//设置modal的标题
     $("#modalForm #userId").removeAttr("readonly");
+    $("#modalForm").resetForm();
+    $("#modalForm input").removeAttr("readonly");
+    $("#modalForm select").removeAttr("disabled");
     $('#myModal').modal('hide');
 }
 //插入数据
@@ -173,17 +177,46 @@ function editRow() {
     else{
         var row = selectedRows("userInfoTable");
         $("#isNew").val('0');
-        checkDetail(row[0].userId);
+        $("#btn_save").show();
+        editDetail(row[0].userId);
     }
+}
+//编辑用户详细信息
+function editDetail(userId) {
+    var data={
+        userId:userId
+    };
+    doAjax(POST, api_detail, data, checkDetailSuccess)
 }
 //查看用户详细信息
 function checkDetail(userId) {
     var data={
         userId:userId
     };
-    doAjax(POST, api_detail, data, checkDetailSuccess)
+    doAjax(POST, api_detail, data, show_Detail)
 }
-
+//查看数据
+function show_Detail(response){
+	  if(response != null && response != undefined)    {
+	        $("#modalForm input").attr("readonly","readonly");
+	        $("#modalForm select").attr("disabled","disabled");
+	        $("#modalForm #userId").val(response.userId);
+	        $("#modalForm #password").val(response.password);
+	        $("#modalForm #address").val(response.address);
+	        $("#modalForm #tel").val(response.tel);
+	        $("#modalForm #birthday").val(response.birthday);
+	        $("#modalForm #username").val(response.username);
+	        $("#modalForm #email").val(response.email);
+	        $("#modalForm #mobile").val(response.mobile);
+	        $("#modalForm #rolename").val(response.rolename);
+	        $("#modalForm #userLocked").val(response.userLocked);
+	        $('#title').html('');
+	        $('#title').append("查看用户信息");//设置modal的标题
+	        $("#btn_save").hide();
+	        $('#myModal').modal({show:true,backdrop: 'static', keyboard: false});
+	    }
+}
+//编辑数据
 function checkDetailSuccess(response){
     if(response != null && response != undefined)    {
         $("#modalForm #userId").attr("readonly","readonly");
@@ -200,6 +233,7 @@ function checkDetailSuccess(response){
 //        $('#modalForm #userLocked').selectpicker('refresh');
         $('#title').html('');
         $('#title').append("编辑用户信息");//设置modal的标题
+        $("#btn_save").show();
         //$('#myModal').modal('show');
         $('#myModal').modal({show:true,backdrop: 'static', keyboard: false});
     }

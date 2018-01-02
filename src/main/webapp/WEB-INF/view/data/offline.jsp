@@ -129,6 +129,8 @@ input[type="file"] {
 	display: inline;
 	margin-top: 10px;
 }
+#Order_btn{float: right; margin-top: 60px;}
+#modelzip{float: right;}
 </style>
 </head>
 <body>
@@ -329,8 +331,7 @@ input[type="file"] {
 								<!-- <div>
 									<span><i>备注：</i> </span> <span>请选择客户投诉情况导出表和客户投诉小区导出表！</span><br><br>
 								</div> -->
-								<form action="${context}/data/uploadcomplain" method="post"
-									enctype="multipart/form-data"
+								<form action="${context}/data/uploadcomplain" method="post" id="complain_form" enctype="multipart/form-data"
 									onsubmit="return complainSumit(this);">
 									<label>时间选择：</label> <input id="complaintime" name="time"
 										style="margin-left: 25px;"
@@ -347,8 +348,9 @@ input[type="file"] {
 										multiple="multiple">
 									<button class="btn btn-white upload_btn">选择上传文件</button>
 									<div class="upload_title">未选择任何文件</div>
-									<br> <input class="btn btn-success" type="submit"
-										value="上传">
+									<br>
+									<my:btn type="save" title="上传" onclick="upload_file('#complain_form')"></my:btn>
+									<!--  <input class="btn btn-success" type="submit"value="上传"> -->
 									<div class="btn loading" id="complaint_load"
 										style="display: none;">
 										<img
@@ -387,18 +389,19 @@ input[type="file"] {
 									<br>
 									<!-- <input
 										class="btn btn-white" type="reset" value="重选"> -->
-									<input id="submit1" class="btn btn-success" type="button"
-										value="上传" onclick="submit_upload('#file2','#form2')"
-										style="margin-top: 30px;">
+										<my:btn type="save" title="上传" onclick="submit_upload('#file2','#form2')"></my:btn>
+									<!-- <input id="submit1" class="btn btn-success" type="button"
+										value="上传" 
+										style="margin-top: 30px;"> -->
 									<div class="btn loading" id="capacity_load"
 										style="display: none;">
-										<img
-											src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在上传...</span>
+										<img src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在上传...</span>
 									</div>
 
-									<button class="btn btn-info search" type="button"
+									<!-- <button class="btn btn-info search" type="button"
 										onclick="workOrderValidate()"
-										style="float: right; margin-top: 60px;">工单验证</button>
+										style="float: right; margin-top: 60px;">工单验证</button> -->
+									<my:btn type="custom" onclick="workOrderValidate()" title="工单验证" id="Order_btn"></my:btn>
 									<div class="btn loading" id="Validate_load"
 										style="display: none; float: right; margin-top: 60px;">
 										<img
@@ -437,9 +440,10 @@ input[type="file"] {
 										<input class="btn btn-white" type="file" name="file" id="signalfile" accept=".csv">
 										<button class="btn btn-white upload_btn">选择上传文件</button>
 										<div class="upload_title">未选择任何文件</div>
-										<input id="signalSubmit" class="btn btn-success" type="submit" value="上传" style="margin-left: 10px;"><br>
+										<!-- <input id="signalSubmit" class="btn btn-success" type="submit" value="上传" style="margin-left: 10px;"> -->
+										<my:btn type="save" title="上传" onclick="upload_file('#signalCSVFile')"></my:btn>
+										<br>
 										<!-- 待提交表单 -->
-										
 										
 										<!-- 复合loadding -->
 										<div class="btn loading" id="csv_load" style="display: none;">
@@ -449,18 +453,14 @@ input[type="file"] {
 										<span id="signal_upload_progress"></span> <br>
 										<!-- 复合loading -->
 										
-										
-										
-										
-										
-										
 										<!-- 分析部分 -->
 										<label>模式月份:</label> <input size="16" type="text"
 											name="cal_time" id="net_caltime"
 											placeholder="请选择计算模式月份（默认上一个月）" readonly
 											class="form_datetime" style="width: 220px; margin-top: -10px">
-										<button class="btn btn-info search" type="button" style="margin-left: 35px;"
-											onclick="submit_cal()">分析</button>
+										<!-- <button class="btn btn-info search" type="button" style="margin-left: 35px;"
+											onclick="submit_cal()">分析</button> -->
+										<my:btn type="edit" onclick="submit_cal()" title="分析" id="cal_btn"></my:btn>
 										<div class="btn loading" id="cal_load" style="display: none;">
 											<img
 												src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在分析...</span>
@@ -503,8 +503,9 @@ input[type="file"] {
 											name="file" id="originfile" />
 										<button class="btn btn-white upload_btn">选择上传文件</button>
 										<div class="upload_title">未选择任何文件</div>
-										<button id="originsubmit" class="btn btn-success"
-											type="submit" style="margin-left: 10px;">上传</button>
+										<!-- <button id="originsubmit" class="btn btn-success"
+											type="submit" style="margin-left: 10px;">上传</button> -->
+										<my:btn type="save" title="上传" onclick="upload_file('#soucefile')"></my:btn>
 										<span id="span_progress" style="display: none;"> <progress
 												id="progress2" max="100" value="0"></progress><em>上传进度：</em><span id="progressvalue2">0%</span>											
 										</span> 										
@@ -514,16 +515,18 @@ input[type="file"] {
 											placeholder="请选择计算模式月份（默认上一个月）" readonly
 											class="timepicker form_datetime"
 											style="width: 220px; margin-top: -10px">
-										<button class="btn btn-info search" type="button" style="margin-left: 35px;"
-											onclick="submit_calzip()">分析</button>
+										<!-- <button class="btn btn-info search" type="button" style="margin-left: 35px;"
+											onclick="submit_calzip()">分析</button> -->
+											<my:btn type="edit" onclick="submit_calzip()" title="分析"></my:btn>
 										<div class="btn loading" id="calzip_load"
 											style="display: none;">
 											<img
 												src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在分析...</span>
 										</div>
 										<br>
-										<button class="btn btn-info search" type="button"
-											onclick="submit_modelzip()" style="float: right">模式计算</button>
+										<my:btn type="custom" onclick="submit_modelzip()" title="模式计算" id="modelzip"></my:btn>
+										<!-- <button class="btn btn-info search" type="button"
+											onclick="submit_modelzip()" style="float: right">模式计算</button> -->
 										<div class="btn loading" id="modelzip_load"
 											style="display: none; float: right;">
 											<img

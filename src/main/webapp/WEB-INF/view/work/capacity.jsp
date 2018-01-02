@@ -46,7 +46,6 @@ input {
     }
 .loading span{font-size: 16px; margin-left: 10px;}
 .loading img{height:30px}
-#name{margin: -10px; width: 130px; height: 35px; margin-right: 10px; margin-left: 10px;border-radius: 3px;border: 1px solid #e7eaec;}
 .ibox-content select{width: 120px; height: 35px; margin-right: 10px; margin-left: 10px;}
 #table_list_1 a{text-decoration: underline}
 </style>
@@ -103,8 +102,9 @@ input {
 								<option>正常工单</option>
 							</select>							
 							<!-- <button class="btn btn-success" onclick="javascript:select()">查询</button> -->
-							<my:btn type="search" onclick="select()"></my:btn>																					
-							<button class="btn btn-success" onclick="exportExcel()">导出</button>
+							<my:btn type="search" onclick="select()"></my:btn>	
+							<my:btn type="export" onclick="exportExcel()"></my:btn>																				
+							<!-- <button class="btn btn-success" onclick="exportExcel()">导出</button> -->
 						</div>
 					</div>
 					<div class="footer" style="height: 60px;">
