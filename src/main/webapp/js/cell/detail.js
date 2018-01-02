@@ -350,6 +350,7 @@ function searchComplaintInfo(){
 var top_split = [];
 var bottom_spli = [];
 var middle_split = [];
+var bottom_bott=[];
 for (var i = 0; i < 1000; i++) {
     var b_arr = [];
     b_arr.push(i);
@@ -363,6 +364,11 @@ for (var i = 0; i < 1000; i++) {
     t_arr.push(i);
     t_arr.push(20);
     top_split.push(t_arr);
+    //
+    var b_arr = [];
+    b_arr.push(i);
+    b_arr.push(0);
+    bottom_bott.push(b_arr);
 }
 var histroy_trend = {
         tooltip : { // 提示框
@@ -373,8 +379,6 @@ var histroy_trend = {
             formatter : function(params) {
                 if (params.length > 3) {
                     var res = params[0].seriesName + ': ' + (params[0].value[1])
-                            + '<br/>';
-                    res += params[1].seriesName + '数量 : ' + (params[1].value[2])
                             + '<br/>';
                     return res;
                 }
@@ -626,8 +630,9 @@ function getcharts(id, title,color,date_value,starttime,endtime){
             middle_split=[];
             top_split=[];
             dataArr=[];
-            var markPointData_0=[];
-            var markPointData_1=[];
+            var markPointData_0=[];//事件
+            var markPointData_1=[];//亚健康
+            var markPointData_3=[];//无结果
             if(data.rows.length>0){
                 if(data.rows.length>1){
                     $.each(data.rows,function(i,e){
@@ -662,6 +667,12 @@ function getcharts(id, title,color,date_value,starttime,endtime){
                                     dataArr.push(2.5);
                                 }else{
                                     dataArr.push(0);
+                                    var point={};
+                                    point.name="无结果";
+                                    point.value="无结果";
+                                    point.xAxis=lasttime+" "+j+":00";
+                                    point.yAxis=0;
+                                    markPointData_3.push(point);
                                 }
                             }else{
                                 if(e["range_"+j]==0){
@@ -684,6 +695,12 @@ function getcharts(id, title,color,date_value,starttime,endtime){
                                     dataArr.push(2.5);
                                 }else{
                                     dataArr.push(0);
+                                    var point={};
+                                    point.name="无结果";
+                                    point.value="无结果";
+                                    point.xAxis=lasttime+" "+j+":00";
+                                    point.yAxis=0;
+                                    markPointData_3.push(point);
                                 }
                             }
                         }
@@ -719,6 +736,12 @@ function getcharts(id, title,color,date_value,starttime,endtime){
                                 dataArr.push(2.5);
                             }else{
                                 dataArr.push(0);
+                                var point={};
+                                point.name="无结果";
+                                point.value="无结果";
+                                point.xAxis=lasttime+" "+i+":00";
+                                point.yAxis=0;
+                                markPointData_3.push(point);
                             }
                         }else{
                             if(data.rows[0]["range_"+i]==0){
@@ -741,6 +764,12 @@ function getcharts(id, title,color,date_value,starttime,endtime){
                                 dataArr.push(2.5);
                             }else{
                                 dataArr.push(0);
+                                var point={};
+                                point.name="无结果";
+                                point.value="无结果";
+                                point.xAxis=lasttime+" "+i+":00";
+                                point.yAxis=0;
+                                markPointData_3.push(point);
                             }
                         }
                     }
@@ -758,11 +787,11 @@ function getcharts(id, title,color,date_value,starttime,endtime){
                     dataArr.push("");
                 }
             }
-            drawEcharts(id, title, times, dataArr,markPointData_0,markPointData_1,color);
+            drawEcharts(id, title, times, dataArr,markPointData_0,markPointData_1,markPointData_3,color);
         }
     });
 }
-function drawEcharts(id, title, times, data,markPointData_0,markPointData_1,color) {
+function drawEcharts(id, title, times, data,markPointData_0,markPointData_1,markPointData_3,color) {
     var dataZoom=100;
     if(data.length>100){
         dataZoom=30;
@@ -868,7 +897,6 @@ function drawEcharts(id, title, times, data,markPointData_0,markPointData_1,colo
                 }
             }
         },{
-
             name : '',
             type : 'line',
             smooth : true,
@@ -943,6 +971,37 @@ function drawEcharts(id, title, times, data,markPointData_0,markPointData_1,colo
                 }
             },
             data : top_split
+        }, {//无结果标记所用曲线
+            name : '',
+            type : 'line',
+            smooth : true,
+            symbol : "none",
+            itemStyle : {
+                normal : {
+                    opacity : 0.2,
+                    color : 'rgba(172,231,131,0.4)',
+                    lineStyle : {
+                        opacity : 0.2,
+                        color : 'rgba(172,231,131,0.4)'
+                    }
+                }
+            },
+            data : bottom_bott,
+            markPoint : {
+                symbol:'pin',
+                symbolSize:30,
+                label:{
+                    normal:{
+                        show:false
+                    }
+                },
+                data :markPointData_3,
+                itemStyle:{
+                    normal:{
+                        color:'gray'
+                    }
+                }
+            }
         } ]
     };
     mycharts.setOption(option);
