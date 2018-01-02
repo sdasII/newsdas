@@ -325,7 +325,7 @@ input[type="file"] {
 				</div>
 				<div class="ibox-content" id="offline">
 					<div class="col-sm-6">
-						<div class="panel panel-success">
+						<div class="panel panel-success" style="min-width:490px">
 							<div class="panel-heading">投诉工单数据</div>
 							<div class="panel-body">
 								<!-- <div>
@@ -370,7 +370,7 @@ input[type="file"] {
 				</div>
 				<div class="ibox-content" id="offline">
 					<div class="col-sm-6">
-						<div class="panel panel-success" style="height: 230px">
+						<div class="panel panel-success" style="height: 230px;min-width:490px">
 							<div class="panel-heading">性能工单数据</div>
 							<div class="panel-body">
 								<!-- <div>
@@ -422,7 +422,7 @@ input[type="file"] {
 				</div>
 				<div class="ibox-content">
 					<div class="col-sm-6">
-						<div class="panel panel-success" style="height: 230px">
+						<div class="panel panel-success" style="height: 230px;min-width:490px">
 							<div class="panel-heading">中兴指标数据csv测试文件</div>
 							<div class="panel-body">
 								<form id="signalCSVFile" action="${context}/data/uploadfile" method="post" enctype='multipart/form-data'>
@@ -480,7 +480,7 @@ input[type="file"] {
 				</div>
 				<div class="ibox-content">
 					<div class="col-sm-6">
-						<div class="panel panel-success">
+						<div class="panel panel-success" style="min-width:490px">
 							<div class="panel-heading">中兴指标全网数据(zip文件)</div>
 							<div class="panel-body">
 								<!-- <div>
