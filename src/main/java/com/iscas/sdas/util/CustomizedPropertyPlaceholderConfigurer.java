@@ -16,7 +16,7 @@ import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 
 public class CustomizedPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer {
 
-	private static Map ctxPropertiesMap = new HashMap();
+	private static Map<String, String> ctxPropertiesMap = new HashMap<String, String>();
 
 	public CustomizedPropertyPlaceholderConfigurer() {
 	}
@@ -25,7 +25,7 @@ public class CustomizedPropertyPlaceholderConfigurer extends PropertyPlaceholder
 		super.processProperties(beanFactoryToProcess, props);
 		String keyStr;
 		String value;
-		for (Iterator iterator = props.keySet().iterator(); iterator.hasNext(); ctxPropertiesMap.put(keyStr, value)) {
+		for (Iterator<?> iterator = props.keySet().iterator(); iterator.hasNext(); ctxPropertiesMap.put(keyStr, value)) {
 			Object key = iterator.next();
 			keyStr = key.toString();
 			value = props.getProperty(keyStr);

@@ -121,7 +121,7 @@ public class WorkController {
 				logDto.setType("性能工单验证");
 				logDto.setStarttime(startdate);
 				logDto.setEndtime(enddate);
-				if (ret.getType().equals(objects.JSON.TYPE.SUCCESS)) {
+				if (ret.getType() == (objects.JSON.TYPE.SUCCESS)) {
 					logDto.setResult(1);
 				}else{
 					logDto.setResult(0);
