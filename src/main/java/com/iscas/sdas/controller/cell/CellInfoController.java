@@ -199,7 +199,10 @@ public class CellInfoController extends BaseController<CellInfoDto> {
 					FileImport.settingFileImportWork(path, result);// 将excel映射为对象
 					try {
 						cellInfoService.clearTable();
-						cellInfoService.insert(result);
+						boolean result2 = cellInfoService.insert(result);
+						if (result2) {
+							cellInfoService.restartData();
+						}
 						modelMap.addObject("success", Constraints.RESULT_SUCCESS+"导入成功！");
 						fileLogDto.setResult(1);
 					} catch (Exception e) {

@@ -32,4 +32,15 @@ public class CellInfoService extends BaseService<CellInfoDao, CellInfoDto> {
 	public int clearTable(){
 		return cellInfoDao.clear();
 	}
+	/**
+	 * 重新配置后，清空数据重新计算
+	 * @author dongqun
+	 * 2018年1月2日下午7:42:02
+	 */
+	public void restartData(){
+		cellInfoDao.clearCapacityTable();
+		cellInfoDao.clearHealthInfo();
+		cellInfoDao.clearHealthModel();
+		cellInfoDao.clearResultHistory();
+	}
 }

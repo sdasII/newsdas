@@ -30,4 +30,16 @@
 	<select id="getAllMonitorCounts" resultType="java.lang.Integer">
 		SELECT COUNT(*) FROM t_cell_info WHERE in_used =1
 	</select>
+	<delete id="clearHealthInfo">
+		delete from t_cell_health_info 
+	</delete>
+	<delete id="clearHealthModel">
+		delete from t_cell_health_model_info 
+	</delete>
+	<delete id="clearResultHistory">
+		delete from t_cell_result_history 
+	</delete>
+	<delete id="clearCapacityTable">
+		delete from t_performance_work_rt 
+	</delete>
 </mapper>
