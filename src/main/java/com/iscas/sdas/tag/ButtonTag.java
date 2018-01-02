@@ -164,7 +164,11 @@ public class ButtonTag extends SimpleTagSupport implements ButtonAuthority{
 				css = CommonUntils.isempty(css) ? "btn btn-primary" : css;
 				icon = (new StringBuilder(String.valueOf(iconClass))).append(CommonUntils.isempty(icon) ? "edit" : icon)
 						.toString();
-				button = "submit";
+				if(title.equals("分析")){
+					button = "button";
+				}else{
+					button = "submit";
+				}
 				break label0;
 
 			case 3522941:
