@@ -106,26 +106,28 @@ public class WorkController {
 		try {
 			BGTask task = new SheetCheckTask();
 			JSON ret = task.runTask(new String[]{});
-			long start = ret.getStart();
-			long end = ret.getEnd();
-			long alltime = end-start;
-			SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
-		    String s = format.format(start);  
-		    Date startdate = format.parse(s);
-			String e = format.format(end);
-			Date enddate = format.parse(e);
-			FileLogDto logDto = new FileLogDto();
-			logDto.setAlltime(alltime);
-			logDto.setFilename("性能工单验证");
-			logDto.setType("性能工单验证");
-			logDto.setStarttime(startdate);
-			logDto.setEndtime(enddate);
-			if (ret.getType().equals(objects.JSON.TYPE.SUCCESS)) {
-				logDto.setResult(1);
-			}else{
-				logDto.setResult(0);
-			}
-			fileLogService.insertOne(logDto);
+			if (ret!=null) {
+				long start = ret.getStart();
+				long end = ret.getEnd();
+				long alltime = end-start;
+				SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+			    String s = format.format(start);  
+			    Date startdate = format.parse(s);
+				String e = format.format(end);
+				Date enddate = format.parse(e);
+				FileLogDto logDto = new FileLogDto();
+				logDto.setAlltime(alltime);
+				logDto.setFilename("性能工单验证");
+				logDto.setType("性能工单验证");
+				logDto.setStarttime(startdate);
+				logDto.setEndtime(enddate);
+				if (ret.getType().equals(objects.JSON.TYPE.SUCCESS)) {
+					logDto.setResult(1);
+				}else{
+					logDto.setResult(0);
+				}
+				fileLogService.insertOne(logDto);
+			}			
 			map.addAttribute(Constraints.RESULT_SUCCESS, true);
 		} catch (Exception e) {
 			e.printStackTrace();
