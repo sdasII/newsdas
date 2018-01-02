@@ -26,7 +26,18 @@ $(function() {
 			$("#counts").html("共有" + data.rows.all + "个小区被监控");
 		}
 	});
-
+	$("input[type='file']").on('change', function(e){
+		var name="";
+		if(e.currentTarget.files.length==1){
+			name = e.currentTarget.files[0].name;
+	        $(".upload_title").html(name);
+		}else{
+			$.each(e.currentTarget.files,function(i,e){
+				name = name+e.name+";";
+			});
+		}
+		 $(".upload_title").html(name);
+    });
 	$('#table_list').bootstrapTable({
 		cache : false,
 		striped : true,
