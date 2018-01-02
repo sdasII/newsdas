@@ -23,4 +23,13 @@ public class CellInfoService extends BaseService<CellInfoDao, CellInfoDto> {
 	public int allMonitorCounts(){
 		return cellInfoDao.getAllMonitorCounts();
 	}
+	/**
+	 * 清空表
+	 * @author dongqun
+	 * 2018年1月2日下午2:33:25
+	 * @return
+	 */
+	public int clearTable(){
+		return cellInfoDao.clear();
+	}
 }
