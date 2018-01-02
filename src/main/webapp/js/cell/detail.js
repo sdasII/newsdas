@@ -1064,18 +1064,18 @@ function changeZoom(time){
 		 var histroy_index=isHasElementTwo(histroy_trend.xAxis.data,time);
 		 var histroy_perc=parseInt((histroy_index/histroy_trend.xAxis.data.length)*100);
 		 if(rtratio_perc>50){
-				rtratioOption.dataZoom.start=rtratio_perc;
-				rtratioOption.dataZoom.end=100;
+				rtratioOption.dataZoom.start=rtratio_perc-5;
+				rtratioOption.dataZoom.end=rtratio_perc+5;
 		 }else{
 				rtratioOption.dataZoom.start=rtratio_perc;
-				rtratioOption.dataZoom.end=rtratio_perc+10;
+				rtratioOption.dataZoom.end=rtratio_perc+5;
 		 }
 		 if(histroy_perc>50){
-			 histroy_trend.dataZoom.start=histroy_perc;
-			 histroy_trend.dataZoom.end=100;
+			 histroy_trend.dataZoom.start=histroy_perc-5;
+			 histroy_trend.dataZoom.end=rtratio_perc+5;
 		 }else{
 			 histroy_trend.dataZoom.start=histroy_perc;
-			 histroy_trend.dataZoom.end=histroy_perc+10;
+			 histroy_trend.dataZoom.end=histroy_perc+5;
 		 }
 		 rtratioCharts.setOption(rtratioOption);
 		 historyCharts.setOption(histroy_trend);
