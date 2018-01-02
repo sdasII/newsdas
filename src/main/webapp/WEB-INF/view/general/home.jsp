@@ -81,6 +81,7 @@ small{
 									<span>事件状态<small id="event"></small>个</span><br> 
 									<span>亚健康状态<small id="critical"></small>个</span><br> 
 									<span>健康状态<small id="health"></small>个</span><br>
+									<span>无计算数据<small id="other"></small>个</span><br>
 								</div>
 							</div>
 							<div class="feed-element" style="border-bottom: 0px">
@@ -152,6 +153,6 @@ small{
 		map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
 	</script>
 	<script type="text/javascript" src="${context}/js/general/heatMap.js"></script>
-	<script type="text/javascript" src="${context}/js/home.js"></script>
+	<script type="text/javascript" src="${context}/js/general/home.js"></script>
 </body>
 </html>

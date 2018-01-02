@@ -14,4 +14,13 @@ public class CellInfoService extends BaseService<CellInfoDao, CellInfoDto> {
 	public CellInfoDto getCellinfo(CellInfoDto dto){
 		return cellInfoDao.getCellinfo(dto);
 	}
+	/**
+	 * 配置文件中监控小区的数量
+	 * @author dongqun
+	 * 2018年1月2日下午1:52:45
+	 * @return
+	 */
+	public int allMonitorCounts(){
+		return cellInfoDao.getAllMonitorCounts();
+	}
 }

@@ -6,4 +6,8 @@ import com.iscas.sdas.dto.cell.CellInfoDto;
 public interface CellInfoDao extends BaseDao<CellInfoDto> {
 	
 	 CellInfoDto getCellinfo(CellInfoDto dto);
+	 
+	 Integer clear();
+	 
+	 Integer getAllMonitorCounts();
 }

@@ -19,6 +19,7 @@ $(function(){
 			$("#event").html(data.rows.event);
 			$("#critical").html(data.rows.critical);
 			$("#health").html(data.rows.health);
+            $("#other").html(data.rows.others);
 		}
 	});
 	search();

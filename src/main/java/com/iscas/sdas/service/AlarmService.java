@@ -12,6 +12,7 @@ import com.iscas.sdas.common.PageDto;
 import com.iscas.sdas.dao.AlarmDao;
 import com.iscas.sdas.dto.AlarmDto;
 import com.iscas.sdas.dto.cell.CellResultHistoryDto;
+import com.iscas.sdas.service.cell.CellInfoService;
 import com.iscas.sdas.util.CommonUntils;
 import com.iscas.sdas.util.Constraints;
 
@@ -20,6 +21,8 @@ public class AlarmService {
 
 	@Autowired
 	AlarmDao alarmDao;
+	@Autowired
+	CellInfoService cellInfoService;
 	
 	public List<AlarmDto> currentDayAlarm(){
 		List<AlarmDto> alarmDtos = alarmDao.currentDayAlarm();
@@ -48,24 +51,31 @@ public class AlarmService {
 	 * @return
 	 */
 	public JSONObject lastHourClassCount(){
+		int all,events,criticals,healths,others;
 		try {
+			JSONObject object = new JSONObject();
+			all = cellInfoService.allMonitorCounts();
+			object.put("all", all);						
 			AlarmDto dto = new AlarmDto();
 			dto.setApp_result(null);
-			List<AlarmDto> list = alarmDao.alarmLastHour(null);
-			JSONObject object = new JSONObject();
-			object.put("all", list.size());
+			List<AlarmDto> list = alarmDao.alarmLastHour(null);						
 			dto.setApp_result(0);
 			list.clear();
 			list = alarmDao.alarmLastHour(dto);
-			object.put("event", list.size());
+			events = list.size();
+			object.put("event", events);
 			dto.setApp_result(1);
 			list.clear();
 			list = alarmDao.alarmLastHour(dto);
-			object.put("critical", list.size());
+			criticals = list.size();
+			object.put("critical", criticals);
 			dto.setApp_result(2);
 			list.clear();
 			list = alarmDao.alarmLastHour(dto);
-			object.put("health", list.size());
+			healths = list.size();
+			object.put("health", healths);
+			others = all-events-criticals-healths;
+			object.put("others", others);
 			return object;
 		} catch (Exception e) {
 			e.printStackTrace();
