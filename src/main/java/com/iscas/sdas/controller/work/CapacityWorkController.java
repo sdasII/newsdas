@@ -5,6 +5,8 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,8 +24,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.iscas.sdas.common.PageDto;
 import com.iscas.sdas.dto.work.CapacityWorkDto;
+import com.iscas.sdas.service.log.FileLogService;
 import com.iscas.sdas.service.work.CapacityWorkService;
 import com.iscas.sdas.util.CommonUntils;
 import com.iscas.sdas.util.Constraints;
@@ -39,7 +43,8 @@ public class CapacityWorkController {
 
 	@Autowired
 	CapacityWorkService capacityWorkService;
-	
+	@Autowired
+	FileLogService fileLogService;
 	/**
 	 * 获取验证工单
 	 * @author dongqun
@@ -160,7 +165,30 @@ public class CapacityWorkController {
 			headMap.put("questionflag", "工单验证状态");
 			JSONArray sourcesJson = null;
 			if (list != null) {
+
 				sourcesJson = JSONArray.parseArray(JSON.toJSONString(list));
+
+				for(int z=0;z<sourcesJson.size();z++){
+					JSONObject obj = sourcesJson.getJSONObject(z);
+					Timestamp startstamp = obj.getTimestamp("occurrence_time");
+					Date startdate = new Date();
+					startdate = startstamp;
+					obj.put("occurrence_time", startdate);
+					Timestamp endstamp = obj.getTimestamp("complete_time");
+					Date enddate = new Date();
+					enddate = endstamp;
+					obj.put("complete_time", enddate);
+					Integer questionflag = obj.getInteger("questionflag");
+					if (questionflag==0) {
+						obj.put("questionflag", "高度可疑");
+					}else if (questionflag==1) {
+						obj.put("questionflag", "可疑工单");
+					}else if (questionflag==2) {
+						obj.put("questionflag", "正常工单");
+					}else {
+						obj.put("questionflag", "未知或错误");
+					}
+				}
 			}
 
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -190,4 +218,20 @@ public class CapacityWorkController {
             e.printStackTrace();
         }
     }
+	/**
+	 * 工单验证最新发布时间
+	 * @author dongqun
+	 * 2018年1月2日下午4:58:56
+	 * @return
+	 */
+	@RequestMapping("updatetime")
+	@ResponseBody
+	public ModelMap updatetime(){
+		ModelMap map = new ModelMap();
+		map.addAttribute("updatetime", fileLogService.lastUpdateTime("性能工单验证"));
+		return map;
+	}
+	
+	
+	
 }

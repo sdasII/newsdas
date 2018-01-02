@@ -98,6 +98,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<bind name="cellname" value="'%'+ cellname +'%'" />
 			and cell_code like #{cellname}
 		</if>
+		ORDER BY yyyyMMdd
 	</select>
 	<select id="cellListLastMonth" parameterType="java.lang.String"
 		resultType="com.iscas.sdas.dto.cell.CellResultHistoryDto">
@@ -114,6 +115,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<bind name="cellname" value="'%'+ cellname +'%'" />
 			and cell_code like #{cellname}
 		</if>
+		ORDER BY yyyyMMdd
 	</select>
 	<select id="cellListBySelect" parameterType="java.lang.String"
 		resultType="com.iscas.sdas.dto.cell.CellResultHistoryDto">
@@ -123,5 +125,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<bind name="cellname" value="'%'+ cellname +'%'" />
 			and cell_code like #{cellname}
 		</if>
+		ORDER BY yyyyMMdd
 	</select>
 </mapper>

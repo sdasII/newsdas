@@ -77,4 +77,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="ovupdatetime" parameterType="java.lang.String" resultType="java.util.Date">
+  	select endtime from log_upload_file where type = #{type} order by endtime desc limit 1
+  </select>
 </mapper>

@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		occurrence_time,alarm_id,cellid,boutique_level,limit_times,belong_area,reasons,
 		monitor_content,monitor_value,alerm_level,complete_time,questionflag
 	</sql>
-	<select id="getListWhithinSelect" resultType="com.iscas.sdas.dto.work.CapacityWorkDto"
+	<!-- <select id="getListWhithinSelect" resultType="com.iscas.sdas.dto.work.CapacityWorkDto"
 		parameterType="com.iscas.sdas.dto.work.CapacityWorkDto">
 		select
 		<include refid="Base_Column_List" />
@@ -27,12 +27,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="work.questionflag != null">
 			and questionflag = #{work.questionflag}
 		</if>
-	</select>
+	</select> -->
 	<select id="getbelongaera" resultType="java.lang.String">
 		SELECT belong_area FROM
 		t_performance_work GROUP BY belong_area
 	</select>
-	<select id="getListWhithinLastWeek" resultType="com.iscas.sdas.dto.work.CapacityWorkDto"
+	<!-- <select id="getListWhithinLastWeek" resultType="com.iscas.sdas.dto.work.CapacityWorkDto"
 		parameterType="com.iscas.sdas.dto.work.CapacityWorkDto">
 		SELECT
 		<include refid="Base_Column_List" />
@@ -68,8 +68,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="work.questionflag != null">
 			and questionflag = #{work.questionflag}
 		</if>
-	</select>
-	<select id="getListWhithinLastMonth" resultType="com.iscas.sdas.dto.work.CapacityWorkDto"
+	</select> -->
+	<!-- <select id="getListWhithinLastMonth" resultType="com.iscas.sdas.dto.work.CapacityWorkDto"
 		parameterType="com.iscas.sdas.dto.work.CapacityWorkDto">
 		SELECT
 		<include refid="Base_Column_List" />
@@ -106,8 +106,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="work.questionflag != null">
 			and questionflag = #{work.questionflag}
 		</if>
-	</select>
-	<select id="getListWhithinLastDay" resultType="com.iscas.sdas.dto.work.CapacityWorkDto"
+	</select> -->
+	<!-- <select id="getListWhithinLastDay" resultType="com.iscas.sdas.dto.work.CapacityWorkDto"
 		parameterType="com.iscas.sdas.dto.work.CapacityWorkDto">
 		select
 		<include refid="Base_Column_List" />
@@ -144,5 +144,152 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="work.questionflag != null">
 			and questionflag = #{work.questionflag}
 		</if>
+	</select> -->
+	
+	<select id="getListWhithinLastDay" resultType="com.iscas.sdas.dto.work.CapacityWorkDto"
+		parameterType="com.iscas.sdas.dto.work.CapacityWorkDto">
+		SELECT a.occurrence_time,a.alarm_id,a.cellid,a.boutique_level,a.limit_times,a.belong_area,a.reasons,
+		a.monitor_content,a.monitor_value,a.alerm_level,a.complete_time,a.questionflag FROM (
+		SELECT alarm_id, occurrence_time,REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(cellid,'】',''),'【',''),']',''),'[',''),')',''),'）',''),'（',''),'(',''),' ','') AS cellid,
+   		monitor_content, boutique_level,limit_times,belong_area,reasons,monitor_value,alerm_level,complete_time,questionflag FROM t_performance_work_rt t WHERE 
+		monitor_content = '新切换出成功率(4次连续)' OR monitor_content = '新PRB利用率(4次连续)') a, t_cell_info b
+		WHERE a.cellid = REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(b.cell_code,'】',''),'【',''),']',''),'[',''),')',''),'）',''),'（',''),'(',''),' ','') AND b.in_used=1
+		and a.occurrence_time = (SELECT occurrence_time FROM t_performance_work_rt 
+		<where>
+			<if test="work.cellid != null">
+				<bind name="cellid" value="'%' + work.getCellid() + '%'" />
+				and cellid like #{cellid}
+			</if>
+			<if test="work.belong_area != null">
+				and belong_area like #{work.belong_area}
+			</if>
+			<if test="work.monitor_content != null">
+				and monitor_content like #{work.monitor_content}
+			</if>
+			<if test="work.questionflag != null">
+				and questionflag = #{work.questionflag}
+			</if>
+		</where>
+		ORDER BY occurrence_time DESC LIMIT 1)
+		<if test="work.cellid != null">
+			<bind name="cellid" value="'%' + work.getCellid() + '%'" />
+			and cellid like #{cellid}
+		</if>
+		<if test="work.belong_area != null">
+			and belong_area like #{work.belong_area}
+		</if>
+		<if test="work.monitor_content != null">
+			and monitor_content like #{work.monitor_content}
+		</if>
+		<if test="work.questionflag != null">
+			and questionflag = #{work.questionflag}
+		</if>
 	</select>
+	<select id="getListWhithinLastWeek" resultType="com.iscas.sdas.dto.work.CapacityWorkDto"
+		parameterType="com.iscas.sdas.dto.work.CapacityWorkDto">
+		SELECT a.occurrence_time,a.alarm_id,a.cellid,a.boutique_level,a.limit_times,a.belong_area,a.reasons,
+		a.monitor_content,a.monitor_value,a.alerm_level,a.complete_time,a.questionflag FROM (
+		SELECT alarm_id, occurrence_time,REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(cellid,'】',''),'【',''),']',''),'[',''),')',''),'）',''),'（',''),'(',''),' ','') AS cellid,
+   		monitor_content, boutique_level,limit_times,belong_area,reasons,monitor_value,alerm_level,complete_time,questionflag FROM t_performance_work_rt t WHERE
+		monitor_content = '新切换出成功率(4次连续)' OR monitor_content = '新PRB利用率(4次连续)') a, t_cell_info b
+		WHERE a.cellid = REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(b.cell_code,'】',''),'【',''),']',''),'[',''),')',''),'）',''),'（',''),'(',''),' ','') AND b.in_used=1
+		and occurrence_time > DATE_SUB((SELECT
+		occurrence_time FROM t_performance_work_rt 
+		<where>
+			<if test="work.cellid != null">
+				<bind name="cellid" value="'%' + work.getCellid() + '%'" />
+				and cellid like #{cellid}
+			</if>
+			<if test="work.belong_area != null">
+				and belong_area like #{work.belong_area}
+			</if>
+			<if test="work.monitor_content != null">
+				and monitor_content like #{work.monitor_content}
+			</if>
+			<if test="work.questionflag != null">
+				and questionflag = #{work.questionflag}
+			</if>
+		</where>
+		ORDER BY occurrence_time DESC LIMIT 1),INTERVAL 7 DAY) 			
+		<if test="work.cellid != null">
+			<bind name="cellid" value="'%' + work.getCellid() + '%'" />
+			and cellid like #{cellid}
+		</if>
+		<if test="work.belong_area != null">
+			and belong_area like #{work.belong_area}
+		</if>
+		<if test="work.monitor_content != null">
+			and monitor_content like #{work.monitor_content}
+		</if>
+		<if test="work.questionflag != null">
+			and questionflag = #{work.questionflag}
+		</if>
+	</select>
+	<select id="getListWhithinLastMonth" resultType="com.iscas.sdas.dto.work.CapacityWorkDto"
+		parameterType="com.iscas.sdas.dto.work.CapacityWorkDto">
+		SELECT a.occurrence_time,a.alarm_id,a.cellid,a.boutique_level,a.limit_times,a.belong_area,a.reasons,
+		a.monitor_content,a.monitor_value,a.alerm_level,a.complete_time,a.questionflag FROM (
+		SELECT alarm_id, occurrence_time,REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(cellid,'】',''),'【',''),']',''),'[',''),')',''),'）',''),'（',''),'(',''),' ','') AS cellid,
+   		monitor_content, boutique_level,limit_times,belong_area,reasons,monitor_value,alerm_level,complete_time,questionflag FROM t_performance_work_rt t WHERE 
+   		monitor_content = '新切换出成功率(4次连续)' OR monitor_content = '新PRB利用率(4次连续)') a, t_cell_info b
+		WHERE a.cellid = REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(b.cell_code,'】',''),'【',''),']',''),'[',''),')',''),'）',''),'（',''),'(',''),' ','') AND b.in_used=1
+		and occurrence_time > DATE_SUB((SELECT
+		occurrence_time FROM t_performance_work_rt 
+		<where>
+			<if test="work.cellid != null">
+				<bind name="cellid" value="'%' + work.getCellid() + '%'" />
+				and cellid like #{cellid}
+			</if>
+			<if test="work.belong_area != null">
+				and belong_area like #{work.belong_area}
+			</if>
+			<if test="work.monitor_content != null">
+				and monitor_content like #{work.monitor_content}
+			</if>
+			<if test="work.questionflag != null">
+				and questionflag = #{work.questionflag}
+			</if>
+		</where>
+		ORDER BY occurrence_time DESC LIMIT 1),INTERVAL 30 DAY) 			
+		<if test="work.cellid != null">
+			<bind name="cellid" value="'%' + work.getCellid() + '%'" />
+			and cellid like #{cellid}
+		</if>
+		<if test="work.belong_area != null">
+			and belong_area like #{work.belong_area}
+		</if>
+		<if test="work.monitor_content != null">
+			and monitor_content like #{work.monitor_content}
+		</if>
+		<if test="work.questionflag != null">
+			and questionflag = #{work.questionflag}
+		</if>
+	</select>	
+	<select id="getListWhithinSelect" resultType="com.iscas.sdas.dto.work.CapacityWorkDto">
+		SELECT a.occurrence_time,a.alarm_id,a.cellid,a.boutique_level,a.limit_times,a.belong_area,a.reasons,
+		a.monitor_content,a.monitor_value,a.alerm_level,a.complete_time,a.questionflag FROM (
+		SELECT alarm_id, occurrence_time,REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(cellid,'】',''),'【',''),']',''),'[',''),')',''),'）',''),'（',''),'(',''),' ','') AS cellid,
+   		monitor_content, boutique_level,limit_times,belong_area,reasons,monitor_value,alerm_level,complete_time,questionflag FROM t_performance_work_rt t WHERE 
+		monitor_content = '新切换出成功率(4次连续)' OR monitor_content = '新PRB利用率(4次连续)') a, t_cell_info b
+		WHERE a.cellid = REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(b.cell_code,'】',''),'【',''),']',''),'[',''),')',''),'）',''),'（',''),'(',''),' ','') AND b.in_used=1
+		and occurrence_time between #{starttime} and #{endtime} 			
+		<if test="work.cellid != null">
+			<bind name="cellid" value="'%' + work.getCellid() + '%'" />
+			and cellid like #{cellid}
+		</if>
+		<if test="work.belong_area != null">
+			and belong_area like #{work.belong_area}
+		</if>
+		<if test="work.monitor_content != null">
+			and monitor_content like #{work.monitor_content}
+		</if>
+		<if test="work.questionflag != null">
+			and questionflag = #{work.questionflag}
+		</if>
+	</select>
+	
+	
+	
+
+	
 </mapper>
