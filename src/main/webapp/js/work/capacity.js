@@ -157,7 +157,7 @@ function searchInfo() {
     var data = {};
     data.type = global_type;
     data.starttime = global_starttime;
-    data.endttime = global_endtime;
+    data.endtime = global_endtime;
     data.cellname = global_cellname;
     data.area = global_area;
     data.content = global_content;
@@ -169,17 +169,17 @@ function select(type){
 	global_cellname = $("#name").val();
 	global_area = $("#area").val();
 	global_content = $("#content").val();
-	if(type=="select"&&!$("#timeselect").is(":hidden")){
+	if(global_type=="select"&&!$("#timeselect").is(":hidden")){
     	global_starttime = $("#starttime").val();
         global_endtime = $("#endtime").val();
     }
     global_result = $("#result").val();
     if(global_result=="正常工单"){
-        global_result = 1;
+        global_result = 2;
     }else if(global_result=="高度可疑"){
         global_result = 0;
     }else if(global_result=="可疑工单"){
-        global_result = 2;
+        global_result = 1;
     }
 	searchInfo();
 	
