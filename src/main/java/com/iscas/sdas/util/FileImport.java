@@ -276,13 +276,12 @@ public class FileImport {
 					Class[] classes = new Class[1];
 					if ("in_used".equals(field)) {
 						classes[0] = Integer.class;
-						Method method = t.getClass().getMethod(methodname, classes);
-						Double value = (Double) getTypeValue("int", cell);
-						if (value!=null) {
-							Integer v = Integer.valueOf(value.intValue());
-							method.invoke(t, v);
-						}
-						
+						Method method = t.getClass().getMethod(methodname, classes);						
+						String temp = (String) getTypeValue("varchar", cell);
+						if (temp!=null) {
+							Integer value = Integer.valueOf(temp);
+							method.invoke(t, value);
+						}																	
 					}else{
 						classes[0] = String.class;
 						Method method = t.getClass().getMethod(methodname, classes);
