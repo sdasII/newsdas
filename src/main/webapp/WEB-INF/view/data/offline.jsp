@@ -425,7 +425,7 @@ input[type="file"] {
 						<div class="panel panel-success" style="height: 230px;min-width:490px">
 							<div class="panel-heading">中兴指标数据csv测试文件</div>
 							<div class="panel-body">
-								<form id="signalCSVFile" action="${context}/data/uploadfile" method="post" enctype='multipart/form-data'>
+								<form id="signalCSVFile" action="${context}/data/csvUpload" method="post" enctype='multipart/form-data'>
 									<div class="ibox-tools" style="margin-top: -10px;">
 										<a href="javascript:;"
 											onclick="openIframe('${context}/cell/celltable','健康评估')"><i>查看详情</i></a>

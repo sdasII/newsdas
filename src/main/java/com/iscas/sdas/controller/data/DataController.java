@@ -399,7 +399,8 @@ public class DataController{
 	 * @param request
 	 * @return
 	 */
-	/*@RequestMapping("/csvUpload")
+	//
+	@RequestMapping("/csvUpload")
 	@ResponseBody
 	public ModelMap uploadCsvTestFile(HttpServletRequest request) {
 		ModelMap map = new ModelMap();
@@ -431,8 +432,8 @@ public class DataController{
 		fileLogDtos.add(fileLogDto);
 		fileLogService.insert(fileLogDtos);
 		return map;
-
-	}*/
+	}//*/
+	
 	/**
 	 * 单个csv网管文件分析
 	 * @param request
