@@ -135,7 +135,7 @@ input[type="file"] {
 </head>
 <body>
 	<script type="text/javascript">
-		var status = 'unkown';
+		var status = '${success}';
 		if (status == 'success') {
 			showOnlyMessage(INFO, "上传成功");
 		} else if (status.indexOf("fail") >= 0) {
@@ -159,7 +159,7 @@ input[type="file"] {
 		//连接成功建立的回调方法
 		ws.onopen = function() {
 			//alert("WebSocket连接成功");
-			showOnlyMessage(INFO, "WebSocket连接成功");
+			//showOnlyMessage(INFO, "WebSocket连接成功");
 		}
 
 		//接收到消息的回调方法
@@ -383,7 +383,7 @@ input[type="file"] {
 											onclick="openIframe('${context}/work/capacity','工单验证')"><i>查看详情</i></a>
 									</div>
 									<label>选择文件:</label> <input class="btn btn-white" type="file"
-										name="file" id="file2" accept=".xls">
+										name="file" id="file2" accept=".xls,.xlsx">
 									<button class="btn btn-white upload_btn">选择上传文件</button>
 									<div class="upload_title">未选择任何文件</div>
 									<br>

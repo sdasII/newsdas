@@ -1,5 +1,7 @@
 package com.iscas.sdas.dao.work;
 
+import java.util.List;
+
 import com.iscas.sdas.dto.work.AllCapacityWorkDto;
 
 public interface AllCapacityWorkDao {
@@ -17,4 +19,6 @@ public interface AllCapacityWorkDao {
     int updateByPrimaryKeySelective(AllCapacityWorkDto record);
 
     int updateByPrimaryKey(AllCapacityWorkDto record);
+    
+    List<AllCapacityWorkDto> isexist(Integer alarm_id);
 }

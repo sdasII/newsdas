@@ -29,8 +29,12 @@ public class WorkService {
 	 */
 	public void insertPerformanceWork(List<AllCapacityWorkDto> performanceWorkDtos){
 		for (AllCapacityWorkDto performanceWorkDto : performanceWorkDtos) {
-			if (performanceWorkDto.getAlarm_id()!=null) {
-				performanceWorkMapper.insert(performanceWorkDto);
+			Integer alarm_id = performanceWorkDto.getAlarm_id();
+			if (alarm_id!=null) {
+				AllCapacityWorkDto dto =  performanceWorkMapper.selectByPrimaryKey(alarm_id);
+				if (dto!=null) {
+					performanceWorkMapper.insert(performanceWorkDto);
+				}								
 			}		
 		}		
 	}

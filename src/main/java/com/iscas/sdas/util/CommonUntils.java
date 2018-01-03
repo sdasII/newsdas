@@ -217,8 +217,8 @@ public class CommonUntils {
 					int index = file.getOriginalFilename().lastIndexOf(".");
 					if (index>0) {
 						String filename = file.getOriginalFilename().substring(0, index) +"-"+ System.currentTimeMillis()+file.getOriginalFilename().substring(index);
-						String filepath = "/home/hadoop/newsdastempfile/" + filename;
-						//String filepath = "E:/newsdas/" + filename;
+						//String filepath = "/home/hadoop/newsdastempfile/" + filename;
+						String filepath = "E:/newsdas/" + filename;
 						logger.error(filename);
 						logger.error(file.getOriginalFilename());
 						File targetfile = new File(filepath);
@@ -260,8 +260,8 @@ public class CommonUntils {
 					int index = file.getOriginalFilename().lastIndexOf(".");
 					if (index>0) {
 						String filename = file.getOriginalFilename().substring(0, index) +"-"+ System.currentTimeMillis()+file.getOriginalFilename().substring(index);
-						//String filepath = "/home/hadoop/newsdastempfile/" + filename;
-						String filepath = "E:/newsdas/" + filename;
+						String filepath = "/home/hadoop/newsdastempfile/" + filename;
+						//String filepath = "E:/newsdas/" + filename;
 						fileLogDto.setFilename(file.getOriginalFilename());						
 						File targetfile = new File(filepath);
 						if (targetfile.exists()) {
