@@ -438,17 +438,42 @@ public class DataController{
 	 * 单个csv网管文件分析
 	 * @param request
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping("/csvStatistic")
 	@ResponseBody
-	public ModelMap statisticCsvTestFile(HttpServletRequest request) {
+	public ModelMap statisticCsvTestFile(HttpServletRequest request) throws Exception {
 		ModelMap map = new ModelMap();
 		String filetime = request.getParameter("filetime");
 		String modeltime = request.getParameter("modeltime");
 		BGTask task = new CaculateTestTask();
 		String[] args = new String[]{modeltime,filetime};
 		JSON ret = task.runTask(args);
+		String filename = task.getAppName();
 		map.addAttribute("rows",ret);
+		System.out.println(ret);
+		if (ret!=null) {
+			long start = ret.getStart();
+			long end = ret.getEnd();
+			long alltime = end-start;
+			SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		    String s = format.format(start);  
+		    Date startdate = format.parse(s);
+			String e = format.format(end);
+			Date enddate = format.parse(e);
+			FileLogDto logDto = new FileLogDto();
+			logDto.setAlltime(alltime);
+			logDto.setFilename(filename);
+			logDto.setType("单个csv网管文件分析");
+			logDto.setStarttime(startdate);
+			logDto.setEndtime(enddate);
+			if (ret.getType() == (objects.JSON.TYPE.SUCCESS)) {
+				logDto.setResult(1);
+			}else{
+				logDto.setResult(0);
+			}
+			fileLogService.insertOne(logDto);
+		}
 		return map;
 
 	}
@@ -456,17 +481,41 @@ public class DataController{
 	 * zip网管文件分析
 	 * @param request
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping("/zipStatistic")
 	@ResponseBody
-	public ModelMap statisticZipFile(HttpServletRequest request) {
+	public ModelMap statisticZipFile(HttpServletRequest request) throws Exception {
 		ModelMap map = new ModelMap();
 		String filetime = request.getParameter("filetime");
 		String modeltime = request.getParameter("modeltime");
 		BGTask task = new CaculateTask();
 		String[] args = new String[]{modeltime,filetime};
 		JSON ret = task.runTask(args);
+		String filename = task.getAppName();
 		map.addAttribute("rows",ret);
+		if (ret!=null) {
+			long start = ret.getStart();
+			long end = ret.getEnd();
+			long alltime = end-start;
+			SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		    String s = format.format(start);  
+		    Date startdate = format.parse(s);
+			String e = format.format(end);
+			Date enddate = format.parse(e);
+			FileLogDto logDto = new FileLogDto();
+			logDto.setAlltime(alltime);
+			logDto.setFilename(filename);
+			logDto.setType("zip网管文件分析");
+			logDto.setStarttime(startdate);
+			logDto.setEndtime(enddate);
+			if (ret.getType() == (objects.JSON.TYPE.SUCCESS)) {
+				logDto.setResult(1);
+			}else{
+				logDto.setResult(0);
+			}
+			fileLogService.insertOne(logDto);
+		}
 		return map;
 
 	}
@@ -474,15 +523,39 @@ public class DataController{
 	 * zip网管文件模式计算
 	 * @param request
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping("/modelCalculate")
 	@ResponseBody
-	public ModelMap modelCalculate(HttpServletRequest request) {
+	public ModelMap modelCalculate(HttpServletRequest request) throws Exception {
 		ModelMap map = new ModelMap();
 		String modeltime = request.getParameter("modeltime");
 		BGTask task = new OffLineHealthModelBDTask();
 		JSON ret = task.runTask(modeltime);
 		map.addAttribute("rows",ret);
+		String filename = task.getAppName();
+		if (ret!=null) {
+			long start = ret.getStart();
+			long end = ret.getEnd();
+			long alltime = end-start;
+			SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		    String s = format.format(start);  
+		    Date startdate = format.parse(s);
+			String e = format.format(end);
+			Date enddate = format.parse(e);
+			FileLogDto logDto = new FileLogDto();
+			logDto.setAlltime(alltime);
+			logDto.setFilename(filename);
+			logDto.setType("zip网管文件模式计算");
+			logDto.setStarttime(startdate);
+			logDto.setEndtime(enddate);
+			if (ret.getType() == (objects.JSON.TYPE.SUCCESS)) {
+				logDto.setResult(1);
+			}else{
+				logDto.setResult(0);
+			}
+			fileLogService.insertOne(logDto);
+		}
 		return map;
 
 	}

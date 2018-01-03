@@ -297,7 +297,7 @@ function submit_cal(){
       success : function(data,success){
            //$("#csv_load").css("display", "none");
            $("#cal_load").hide();
-           if(data.rows.type==" SUCCESS"){
+           if(data.rows.type=="SUCCESS"){
            	showOnlyMessage(INFO, "分析完成");
            }else{
            	showOnlyMessage(ERROR, data.rows.message);
@@ -329,7 +329,7 @@ function submit_calzip(){
       data : data,
       success : function(data,success){
            $("#calzip_load").hide();
-           if(data.rows.type==" SUCCESS"){
+           if(data.rows.type=="SUCCESS"){
               	showOnlyMessage(INFO, "分析完成");
               }else{
               	showOnlyMessage(ERROR, data.rows.message);
@@ -360,7 +360,7 @@ function submit_modelzip(){
       data : data,
       success : function(data,success){
            $("#modelzip_load").hide();
-           if(data.rows.type==" SUCCESS"){
+           if(data.rows.type=="SUCCESS"){
               	showOnlyMessage(INFO, "计算完成");
               }else{
               	showOnlyMessage(ERROR, data.rows.message);
@@ -379,7 +379,7 @@ function workOrderValidate(){
         type : "get",
         success:function(data,status){
             $("#Validate_load").hide();
-            if(data.rows.type==" SUCCESS"){
+            if(data.rows.type=="SUCCESS"){
             	showOnlyMessage(INFO, "验证完成");
             }else{
             	showOnlyMessage(ERROR, data.rows.message);
