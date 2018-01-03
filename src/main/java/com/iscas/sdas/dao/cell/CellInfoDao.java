@@ -17,7 +17,7 @@ public interface CellInfoDao extends BaseDao<CellInfoDto> {
 	 
 	 Integer clearResultHistory();
 	 
-	 Integer clearCapacityTable();
+	 Integer resetCapacityTable();
 	 
 	 Integer cleatResultRt();
 }
