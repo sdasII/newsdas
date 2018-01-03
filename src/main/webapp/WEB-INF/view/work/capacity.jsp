@@ -89,7 +89,7 @@ input {
 									<option>全部</option>
 								</select> 
 							<label>监控内容</label> 
-								<select id="content"  class="btn btn-white">
+								<select id="content"  class="btn btn-white" style="width: 175px">
 									<option>全部</option>
 									<option>新切换出成功率(4次连续)</option>
 									<option>新PRB利用率(4次连续)</option>

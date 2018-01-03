@@ -138,6 +138,12 @@ input[type="file"] {
 		var status = '${success}';
 		if (status == 'success') {
 			showOnlyMessage(INFO, "上传成功");
+			//清空
+			$("#comlainfile").val("");
+			$("#customerfile").val("");
+			$("#comlainfile").siblings(".upload_title").html("未选择任何文件");
+			$("#file2").val("");
+			$("#file2").siblings(".upload_title").html("未选择任何文件");
 		} else if (status.indexOf("fail") >= 0) {
 			showOnlyMessage(ERROR, status);
 		}
@@ -235,6 +241,8 @@ input[type="file"] {
 					showOnlyMessage("warning", fileStatus);
 				}
 				$("#span_progress").css("display", "none");
+				$("#originfile").val("");
+				$("#originfile").siblings(".upload_title").html("未选择任何文件");
 			},
 			error : function(data) {
 				showOnlyMessage(ERROR, data.message);
@@ -286,6 +294,8 @@ input[type="file"] {
 					showOnlyMessage("warning", fileStatus);
 				}
 				$("#csv_load").css("display", "none");
+				$("#signalfile").val("");
+				$("#signalfile").siblings(".upload_title").html("未选择任何文件");
 			},
 			error : function(data) {
 				showOnlyMessage(ERROR, data.message);
