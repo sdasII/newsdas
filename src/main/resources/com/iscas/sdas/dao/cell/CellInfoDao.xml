@@ -39,9 +39,9 @@
 	<delete id="clearResultHistory">
 		delete from t_cell_result_history 
 	</delete>
-	<delete id="clearCapacityTable">
-		delete from t_performance_work_rt 
-	</delete>
+	<update id="resetCapacityTable">
+		update t_performance_work_rt set questionflag = -1
+	</update>
 	<delete id="cleatResultRt">
 		delete from t_cell_result_info 
 	</delete>
