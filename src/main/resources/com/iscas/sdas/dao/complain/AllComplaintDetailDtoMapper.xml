@@ -172,6 +172,9 @@
   </insert>
 	
   <select id="select" resultMap="ResultMapWithBLOBs">
-  	 select * from t_complaint_detail
+  	 select * from t_complaint_detail where 1=1
+  	 <if test="number!=null">
+  	 	and number = #{number}
+  	 </if>
   </select>  
 </mapper>

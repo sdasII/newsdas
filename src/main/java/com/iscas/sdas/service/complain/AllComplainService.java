@@ -29,56 +29,33 @@ public class AllComplainService extends BaseService<AllComplaintDao, AllComplain
 	 * @param dtos
 	 * @return
 	 */
-	public boolean insertDetails(List<AllComplaintDetailDtoWithBLOBs> dtos){
-		boolean result = true;
+	public void insertDetails(List<AllComplaintDetailDtoWithBLOBs> dtos){
+
 		
 		for (AllComplaintDetailDtoWithBLOBs dto : dtos) {
-			try {
-				allComplaintDetailDtoMapper.insert(dto);				
-			} catch (Exception e) {
-				//e.printStackTrace();
-				result = false;
-				continue;
-			}
+			 	String number = dto.getNumber();
+			 	List<AllComplaintDetailDtoWithBLOBs> list = allComplaintDetailDtoMapper.select(number);
+				if (list==null) {
+					allComplaintDetailDtoMapper.insert(dto);
+				}else if (list!=null && list.size()==0) {
+					allComplaintDetailDtoMapper.insert(dto);
+				}										 
 		}
-		return result;
+
 	}
 	/**
 	 * 插入投诉常驻小区
 	 * @param dtos
 	 * @return
 	 */
-	public boolean insertCell(List<AllComplaintDto> dtos) {
-		boolean result = true;
-		int pageSize = 1000;
-		for (int i = 0; i < dtos.size(); i++) {
-			
-			
-			//long size = dao.allCounts();
+	public void insertCell(List<AllComplaintDto> dtos) {
+		for (int i = 0; i < dtos.size(); i++) {									
 			try {
 				AllComplaintDto insertDto = dtos.get(i);
 				allComplaintDao.insert(insertDto);
 			} catch (Exception e) {
-				result = false;
 				continue;
-			}
-			/*int compareCount = 0;// 比较次数
-			for (int page = 0; page * 1000 < size; page++) {
-				AllComplaintDto dto = new AllComplaintDto();
-				PageHelper.startPage(page, pageSize);
-				List<AllComplaintDto> pagedata = dao.getPageList(dto);
-				for (int j = 0; j < pagedata.size(); j++) {
-					if (!insertDto.equals(pagedata.get(j))) {
-						compareCount++;
-					}
-				}
-			}
-			if (compareCount == size) {
-				allComplaintDao.insert(insertDto);
-			}*/
-
+			}			
 		}
-		return result;
-
 	}
 }

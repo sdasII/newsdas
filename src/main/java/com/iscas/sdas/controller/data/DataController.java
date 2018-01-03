@@ -363,14 +363,9 @@ public class DataController{
 				try {
 					FileImport.importwork(path, allDetails, fields);// 将excel映射为对象
 					try {
-						boolean flag = allComplainService.insertDetails(allDetails);
-						if (flag) {
-							result = "导入成功! ";
-							fileLogDto.setResult(1);
-						}else {
-							result = "导入失败! ";
-							fileLogDto.setResult(0);
-						}			
+						allComplainService.insertDetails(allDetails);
+						result = "导入成功! ";
+						fileLogDto.setResult(1);									
 					} catch (Exception e) {
 						e.printStackTrace();
 						fileLogDto.setResult(0);
