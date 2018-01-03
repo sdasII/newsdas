@@ -37,11 +37,21 @@ input[type="file"] {
 </head>
 <script type="text/javascript">
 	$(function() {
-		var status = '${success}';//var status = 'success';
+		//var status = '${success}';//var status = 'success';
 		if (status.indexOf("success") > -1) {
-			console.info(status);
 			showOnlyMessage(INFO, "上传成功");
-			iframeconvert("/newsdas/data/offline", "存储分析");
+			swal({
+				title : "上传提示",
+				text : "小区状态进行修改后，需要重新计算小区的月度模式。上传完成后将自动跳转到“存储分析”页面，请在“中兴指标全网数据（zip文件）”模块，按照月份重新进行模式计算！",
+				type : "warning",
+				showCancelButton : true,
+				confirmButtonColor : "#1c84c6",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消",
+				closeOnConfirm : false
+			}, function(isConfirm) {
+				iframeconvert("/newsdas/data/offline", "存储分析");
+			});
 		} else if (status.indexOf("fail") >= 0) {
 			showOnlyMessage(ERROR, status);
 		}
