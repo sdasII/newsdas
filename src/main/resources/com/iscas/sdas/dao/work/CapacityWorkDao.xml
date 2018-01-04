@@ -154,22 +154,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    		monitor_content, boutique_level,limit_times,belong_area,reasons,monitor_value,alerm_level,complete_time,questionflag FROM t_performance_work_rt t WHERE 
 		monitor_content = '新切换出成功率(4次连续)' OR monitor_content = '新PRB利用率(4次连续)') a, t_cell_info b
 		WHERE a.cellid = REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(b.cell_code,'】',''),'【',''),']',''),'[',''),')',''),'）',''),'（',''),'(',''),' ','') AND b.in_used=1
-		and a.occurrence_time = (SELECT occurrence_time FROM t_performance_work_rt 
-		<where>
-			<if test="work.cellid != null">
-				<bind name="cellid" value="'%' + work.getCellid() + '%'" />
-				and cellid like #{cellid}
-			</if>
-			<if test="work.belong_area != null">
-				and belong_area like #{work.belong_area}
-			</if>
-			<if test="work.monitor_content != null">
-				and monitor_content like #{work.monitor_content}
-			</if>
-			<if test="work.questionflag != null">
-				and questionflag = #{work.questionflag}
-			</if>
-		</where>
+		and a.occurrence_time = (SELECT occurrence_time FROM t_performance_work_rt 		
 		ORDER BY occurrence_time DESC LIMIT 1)
 		<if test="work.cellid != null">
 			<bind name="cellid" value="'%' + work.getCellid() + '%'" />
