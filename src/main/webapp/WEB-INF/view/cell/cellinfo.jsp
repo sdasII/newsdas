@@ -37,7 +37,7 @@ input[type="file"] {
 </head>
 <script type="text/javascript">
 	$(function() {
-		//var status = '${success}';//var status = 'success';
+		var status = '${success}';//var status = 'success';
 		if (status.indexOf("success") > -1) {
 			showOnlyMessage(INFO, "上传成功");
 			swal({
@@ -50,7 +50,9 @@ input[type="file"] {
 				cancelButtonText : "取消",
 				closeOnConfirm : false
 			}, function(isConfirm) {
-				iframeconvert("/newsdas/data/offline", "存储分析");
+				if (isConfirm) {
+					iframeconvert("/newsdas/data/offline", "存储分析");
+				}
 			});
 		} else if (status.indexOf("fail") >= 0) {
 			showOnlyMessage(ERROR, status);

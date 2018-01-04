@@ -52,6 +52,19 @@
 }
 .form-group select{width: 130px; height: 35px; margin-right: 10px; margin-left: 10px;}
 .pull-left{display: none}
+
+input::-webkit-input-placeholder { /* WebKit browsers */ 
+margin-left: 10px;
+} 
+input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */ 
+margin-left: 10px;
+} 
+input::-moz-placeholder { /* Mozilla Firefox 19+ */ 
+margin-left: 10px;
+} 
+input:-ms-input-placeholder { /* Internet Explorer 10+ */ 
+margin-left: 10px;
+} 
 </style>
 </head>
 
