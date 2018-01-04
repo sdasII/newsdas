@@ -52,9 +52,10 @@
 	margin: 0px;
 	border: 1px solid #ccc;
 }
-small{
+.media-body h5{font-weight: normal;}
+.media-body small{
 	font-weight: bold;
-    font-size: 21px;
+    font-size: 16px;
     padding: 0px 5px;
 }
 </style>
@@ -77,11 +78,11 @@ small{
 							</div> -->
 							<div class="feed-element">
 								<h5 id="all">共有n个小区被监控：</h5>
-								<div class="media-body" style="margin-left: 20px;font-size: 20px;margin-bottom: 10px;">
-									<span>事件状态<small id="event"></small>个</span><br> 
-									<span>亚健康状态<small id="critical"></small>个</span><br> 
-									<span>健康状态<small id="health"></small>个</span><br>
-									<span>无计算数据<small id="other"></small>个</span><br>
+								<div class="media-body" style="margin-left: 20px;margin-bottom: 10px;">
+									<h5>事件状态<small id="event" style="color: red"></small>个</h5>
+									<h5>亚健康状态<small id="critical" style="color: orange"></small>个</h5>
+									<h5>健康状态<small id="health" style="color: #25CB73"></small>个</h5>
+									<h5>无计算数据<small id="other"></small>个</h5>
 								</div>
 							</div>
 							<div class="feed-element" style="border-bottom: 0px">
