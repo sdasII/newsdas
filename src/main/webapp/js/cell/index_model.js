@@ -8,7 +8,7 @@ var name2 = '实时数据';
 var belongGroupUrl = ctx + "/cell/belonggroup";
 var groupIndexUrl = ctx + "/cell/groupindexs";
 var indexUrl = ctx + "/cell/index";
-var global_month;
+var global_month='';
 var nullchart = [];
 for (var i = 0; i < 24; i++) {
     nullchart.push(i);
