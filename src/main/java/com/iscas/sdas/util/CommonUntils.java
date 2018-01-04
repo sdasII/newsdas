@@ -27,7 +27,11 @@ import com.iscas.sdas.service.log.FileLogService;
 public class CommonUntils {
 	
 	private static final String root_dir = "/home/hadoop/systempdata/";
-	private static final String root__temp_dir = "/home/hadoop/newsdastempfile/";
+	//存放工单，小区配置等临时文件夹
+	private static final String root_temp_dir = "/home/hadoop/systempdata/tempdata/";
+	//private static final String root_temp_dir = "E:/newsdas/";
+	//测试csv文件存储路径
+	private static final String path_csv_dir = "/home/hadoop/systempdata/test";
 	
 	static Logger logger = Logger.getLogger(CommonUntils.class);
 	/**
@@ -116,7 +120,21 @@ public class CommonUntils {
 		}
 	    return ts;
 	}
-	
+	/**
+	 * 先判断是否存在指定路径，如果不存在，生成指定路径
+	 * @author dongqun
+	 * 2018年1月4日上午10:33:17
+	 * @param path
+	 * @return
+	 */
+	private static boolean generateDir(String path){
+		boolean state = true;
+		File file = new File(path);
+		if (!file.exists()) {
+			state = file.mkdirs();
+		}
+		return state;
+	}
 	/**
      * 根据用户名的不同长度，来进行替换 ，达到保密效果
      *
@@ -217,20 +235,19 @@ public class CommonUntils {
 					int index = file.getOriginalFilename().lastIndexOf(".");
 					if (index>0) {
 						String filename = file.getOriginalFilename().substring(0, index) +"-"+ System.currentTimeMillis()+file.getOriginalFilename().substring(index);
-						String filepath = "/home/hadoop/newsdastempfile/" + filename;
-						//String filepath = "E:/newsdas/" + filename;
-						logger.error(filename);
-						logger.error(file.getOriginalFilename());
-						File targetfile = new File(filepath);
-						if (targetfile.exists()) {
-							targetfile.delete();
-						}
-						try {
-							file.transferTo(targetfile);
-							filepaths.add(filepath);
-						} catch (IllegalStateException | IOException e) {
-							e.printStackTrace();
-						}
+						if (generateDir(root_temp_dir)) {
+							String filepath = root_temp_dir + filename;						
+							File targetfile = new File(filepath);
+							if (targetfile.exists()) {
+								targetfile.delete();
+							}
+							try {
+								file.transferTo(targetfile);
+								filepaths.add(filepath);
+							} catch (IllegalStateException | IOException e) {
+								e.printStackTrace();
+							}
+						}											
 					}			
 				}
 			}
@@ -260,15 +277,16 @@ public class CommonUntils {
 					int index = file.getOriginalFilename().lastIndexOf(".");
 					if (index>0) {
 						String filename = file.getOriginalFilename().substring(0, index) +"-"+ System.currentTimeMillis()+file.getOriginalFilename().substring(index);
-						String filepath = "/home/hadoop/newsdastempfile/" + filename;
-						//String filepath = "E:/newsdas/" + filename;
-						fileLogDto.setFilename(file.getOriginalFilename());						
-						File targetfile = new File(filepath);
-						if (targetfile.exists()) {
-							targetfile.delete();
-						}
-						file.transferTo(targetfile);
-						return filepath;				
+						if (generateDir(root_temp_dir)) {
+							String filepath = root_temp_dir + filename;
+							fileLogDto.setFilename(file.getOriginalFilename());						
+							File targetfile = new File(filepath);
+							if (targetfile.exists()) {
+								targetfile.delete();
+							}
+							file.transferTo(targetfile);
+							return filepath;
+						}								
 					}			
 				}			
 			}
@@ -295,7 +313,7 @@ public class CommonUntils {
 			for (MultipartFile file : files) {			
 				if (file != null) {					
 					FileLogDto fileLogDto = new FileLogDto();
-					String str_filename = "/home/hadoop/systempdata/" + file.getOriginalFilename();	
+					String str_filename = root_dir + file.getOriginalFilename();	
 					fileLogDto.setFilename(file.getOriginalFilename());
 					fileLogDto.setType(type);
 					fileLogDto.setStarttime(new Date());
@@ -412,8 +430,7 @@ public class CommonUntils {
 					int index = file.getOriginalFilename().lastIndexOf(".");
 					if (index>0) {
 						String filename = file.getOriginalFilename().substring(0, index) +"-"+ System.currentTimeMillis()+file.getOriginalFilename().substring(index);
-						//String filepath = "/home/hadoop/systempdata/" + filename;
-						String filepath = createDirecroty("/home/hadoop/systempdata/test", yyyyMMdd) + filename;
+						String filepath = createDirecroty(path_csv_dir, yyyyMMdd) + filename;
 						fileLogDto.setFilename(file.getOriginalFilename());						
 						File targetfile = new File(filepath);
 						if (targetfile.exists()) {
