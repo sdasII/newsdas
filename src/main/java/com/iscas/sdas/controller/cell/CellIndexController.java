@@ -42,6 +42,9 @@ public class CellIndexController {
 		String indexid = request.getParameter("index");
 		String cellname = request.getParameter("cellname");
 		String month = request.getParameter("month");
+		if (CommonUntils.isempty(month)) {
+			month=null;
+		}
 		if (!CommonUntils.isempty(indexid)&&!CommonUntils.isempty(cellname)) {
 			try {
 				List<List<Double[]>> hosdata = cellIndexService.generateIndexData(cellname, indexid, month);
