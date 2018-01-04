@@ -143,7 +143,7 @@ $(function(){
         	 if(row.questionflag==0){
         		 style={css:{'color':'red'}};
              }else if(row.questionflag==1){
-            	 style={css:{'color':'yellow'}};
+            	 style={css:{'color':'orange'}};
              }else if(row.questionflag==2){
             	 style={css:{'color':'green'}};
              }else{

@@ -30,9 +30,12 @@ var echart_option = {
 						+ params[i].value[1] + '<br/>' + params[i].seriesName
 						+ '  后值 : ' + params[i].value[2];
 				res += '<br/>' + params[i].seriesName + '  最小 : '
-						+ params[i].value[3] + '<br/>' + params[i].seriesName
-						+ '  最大 : ' + params[i].value[4];
-
+						+ params[i].value[3];
+				
+				if(params[i].value[4]!=undefined){
+					res += '<br/>' + params[i].seriesName;
+					+ '  最大 : ' + params[i].value[4];
+				}
 			}
 			return res;
 		}

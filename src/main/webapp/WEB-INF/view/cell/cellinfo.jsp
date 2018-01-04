@@ -33,11 +33,17 @@ input[type="file"] {
 	display: inline;
 	margin-top: 10px;
 }
+.loading img {
+	height: 20px;
+	margin-right: 5px
+}
+.btn-primary{margin-left: 15px}
 </style>
 </head>
 <script type="text/javascript">
 	$(function() {
 		var status = '${success}';//var status = 'success';
+		$("#import_load").hide();
 		if (status.indexOf("success") > -1) {
 			showOnlyMessage(INFO, "上传成功");
 			swal({
@@ -102,6 +108,11 @@ input[type="file"] {
 							</form>
 							<!-- <button id="setUsed"  class="btn btn-success" onclick="import_Excel()">导入</button> -->
 							<my:btn type="export" onclick="export_Excel()"></my:btn>
+							<!-- loading -->
+							<div class="btn loading" id="import_load" style="display: none;">
+								<img src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在导入...</span>
+							</div>
+							<!-- loading -->
 						</div>
 						<div>
 							<div id="table_list"></div>

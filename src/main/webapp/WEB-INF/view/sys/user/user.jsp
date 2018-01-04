@@ -67,25 +67,14 @@
 						<input type="hidden" name="isNew" class="form-control" id="isNew">
 						<div class="modal-body">
 							<div class="row">
-								<div class="col-md-6">
+								<div class="col-md-12">
 									<div class="form-group">
 										<label for="userId">用户ID</label> <input type="text"
 											name="userId" class="form-control" id="userId">
 									</div>
 									<div class="form-group">
-										<label for="address">地址</label> <input type="text"
-											name="address" class="form-control" id="address">
-									</div>
-									<div class="form-group">
-										<label for="tel">座机</label> <input type="text" name="tel"
-											class="form-control" id="tel">
-									</div>
-									<div class="form-group">
-										<label for="birthday">用户生日</label> <input class="form-control"
-											id="birthday" name="birthday" type="text"
-											placeholder="YYYY-MM-DD hh:mm:ss" class="form-control"
-											onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
-										<!-- <input type="text" name="birthday" class="form-control" id="birthday" data-date-format="yyyy-mm-dd" readonly placeholder="YYYY-MM-DD"> -->
+										<label for="username">用户名</label> <input type="text"
+											name="username" class="form-control" id="username">
 									</div>
 									<div class="form-group" id="passWord">
 										<label for="password">密码</label>
@@ -93,23 +82,16 @@
 										<input type="password" name="password" class="form-control"
 											id="password" onblur="EncryptPassword()">
 									</div>
-								</div>
-								<div class="col-md-6">
-
 									<div class="form-group">
-										<label for="username">用户名</label> <input type="text"
-											name="username" class="form-control" id="username">
+										<label for="mobile">手机号码</label> <input type="text"
+											name="mobile" class="form-control" id="mobile">
 									</div>
-
 									<div class="form-group">
 										<label for="email">邮箱</label> <input type="text" name="email"
 											class="form-control" id="email">
 									</div>
 									<div class="form-group">
-										<label for="mobile">手机</label> <input type="text"
-											name="mobile" class="form-control" id="mobile">
-									</div>
-									<div class="form-group">
+										<label for="rolename">用户角色</label>
 										<!-- <label for="roleName">用户角色</label> <input type="text"
 										name="roleName" class="form-control" id="roleName" onfocus="initRole()">  -->
 										<!-- <label for="rolename">用户角色</label> <input type="text"
@@ -128,12 +110,27 @@
 											<option value="1">锁定</option>
 										</select>
 									</div>
-								</div>
+									<!-- <div class="form-group">
+										<label for="address">地址</label> <input type="text"
+											name="address" class="form-control" id="address">
+									</div>
+									<div class="form-group">
+										<label for="tel">座机</label> <input type="text" name="tel"
+											class="form-control" id="tel">
+									</div>
+									<div class="form-group">
+										<label for="birthday">用户生日</label> <input class="form-control"
+											id="birthday" name="birthday" type="text"
+											placeholder="YYYY-MM-DD hh:mm:ss" class="form-control"
+											onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+										<input type="text" name="birthday" class="form-control" id="birthday" data-date-format="yyyy-mm-dd" readonly placeholder="YYYY-MM-DD">
+									</div> -->
+									</div>
 							</div>
 						</div>
 						<div class="modal-footer">
 							<my:btn type="cancle"></my:btn>
-							<my:btn type="save" onclick="insert()"></my:btn>
+							<my:btn type="save"></my:btn>
 						</div>
 					</form>
 				</div>

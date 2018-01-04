@@ -113,6 +113,7 @@ function import_Excel(){
 	if($("#comlainfile").val()==""){
 		showOnlyMessage(ERROR, "请选择文件");
 	}else{
+		$("#import_load").show();
 		$("#cell_form").submit();
 	}
 }
