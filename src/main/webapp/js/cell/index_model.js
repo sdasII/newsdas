@@ -8,7 +8,7 @@ var name2 = '实时数据';
 var belongGroupUrl = ctx + "/cell/belonggroup";
 var groupIndexUrl = ctx + "/cell/groupindexs";
 var indexUrl = ctx + "/cell/index";
-
+var global_month;
 var nullchart = [];
 for (var i = 0; i < 24; i++) {
     nullchart.push(i);
@@ -22,16 +22,22 @@ var echart_option = {
 			type : 'cross'
 		},
 		formatter : function(params) {
-			var res = params[0].seriesName + ' ' + params[0].name + ': '
-					+ params[0].value;
+			var res="";
+			if(params[0].value!=undefined){
+				res = params[0].seriesName + ' ' + params[0].name + ': '
+				+ params[0].value;
+			}
 			for (var i = 1; i < params.length; i++) {
-
-				res += '<br/>' + params[i].seriesName + '  前值 : '
-						+ params[i].value[1] + '<br/>' + params[i].seriesName
-						+ '  后值 : ' + params[i].value[2];
-				res += '<br/>' + params[i].seriesName + '  最小 : '
-						+ params[i].value[3];
-				
+				if(params[i].value[2]!=undefined){
+					res += '<br/>' + params[i].seriesName + '  前值 : '
+					+ params[i].value[1] + '<br/>' + params[i].seriesName
+					+ '  后值 : ' + params[i].value[2];
+				}
+				if(params[i].value[3]!=undefined){
+					res += '<br/>' + params[i].seriesName + '  前值 : '
+					+ params[i].value[1] + '<br/>' + params[i].seriesName
+					+ '  后值 : ' + params[i].value[3];
+				}
 				if(params[i].value[4]!=undefined){
 					res += '<br/>' + params[i].seriesName;
 					+ '  最大 : ' + params[i].value[4];
@@ -213,6 +219,8 @@ $.ajax({
  * @returns
  */
 function cellindex(cellcode, indexcode) {
+	$("#tab2_loadbk").show();
+	$("#tab2_load").show();
     global_cellname = cellcode;
     global_indexid = indexcode;
     $.ajax({
@@ -220,7 +228,8 @@ function cellindex(cellcode, indexcode) {
         type : "post",
         data : {
             'cellname' : cellcode,
-            'index' : indexcode
+            'index' : indexcode,
+            'month':global_month
         },
         success : function(data, status) {
             updateEchart(data);
@@ -332,20 +341,27 @@ function updateEchart(data){
 
                     echart_option.series[i + 1] = serie1;
                 }
+                echart_option.xAxis.data=nullchart;
                 chart_mb.setOption(echart_option);
             } else {
+            	echart_option.series=[];
+            	echart_option.xAxis.data=[];
                 echart_option.series.push(line);
                 echart_option.series.push(serie);
                 chart_mb.setOption(echart_option);
             }
+    $("#tab2_loadbk").hide();
+    $("#tab2_load").hide();
 }
 /**
  * 按月份查询指标
  */
 function cellindex_search(){
-    var month = $("#time").val();
+	$("#tab2_loadbk").show();
+	 $("#tab2_load").show();
+	global_month = $("#time").val();
     var data = {};
-    data.month = month;
+    data.month = global_month;
     data.index = global_indexid;
     data.cellname = global_cellname;
     $.ajax({

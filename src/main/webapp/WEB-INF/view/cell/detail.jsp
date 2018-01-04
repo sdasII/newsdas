@@ -118,7 +118,10 @@ input {
 	border: 1px solid #e7eaec;
 	font-weight: normal;
 }
-#alarm .pull-left{display: none}
+
+#alarm .pull-left {
+	display: none
+}
 </style>
 </head>
 <body>
@@ -239,14 +242,10 @@ input {
 				<div class="col-sm-12">
 					<div class="tabs-container">
 						<ul class="nav nav-tabs">
-							<li
-								onclick="searchCapacityInfo()"
-								class="active"><a data-toggle="tab" href="#tab-3"
-								aria-expanded="true">性能工单</a></li>
-							<li
-								onclick="searchComplaintInfo()"
-								class=""><a data-toggle="tab" href="#tab-4"
-								aria-expanded="false">投诉信息</a></li>
+							<li onclick="searchCapacityInfo()" class="active"><a
+								data-toggle="tab" href="#tab-3" aria-expanded="true">性能工单</a></li>
+							<li onclick="searchComplaintInfo()" class=""><a
+								data-toggle="tab" href="#tab-4" aria-expanded="false">投诉信息</a></li>
 						</ul>
 						<div class="tab-content">
 							<div id="tab-3" class="tab-pane active">
@@ -286,6 +285,13 @@ input {
 					<div class="tabs-container">
 						<ul id="group_index" class="nav nav-tabs">
 						</ul>
+						<!-- loading -->
+						<div class="loading_bk" id="tab2_loadbk"></div>
+						<div class="loading" id="tab2_load">
+							<img
+								src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>内容加载中...</span>
+						</div>
+						<!-- loading -->
 						<div class="tab-content">
 							<div class="tab-pane active">
 								<div class="panel-body">
