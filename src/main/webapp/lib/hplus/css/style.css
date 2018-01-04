@@ -7891,7 +7891,7 @@ body.skin-3 {
     }
 }
 /*自增*/
-input[name='name'],input[name='userId'],input[name='userName']{
+input[name='name'],#searchForm input[name='userId'],input[name='userName']{
 	width:200px;
 	margin: -10px;
 	height: 35px; 

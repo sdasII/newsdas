@@ -133,7 +133,7 @@ input {
 		<div class="row" style="text-align: center;">
 			<!-- <button class="btn btn-info search" type="button" onclick="back()" style="float: left;margin-left: 20px;">返回</button> -->
 			<h1 style="margin: 0 auto; margin-bottom: 10px">
-				<b>${cellname}</b>小区健康详情查看
+				<b>${cellname}</b>小区健康详情
 			</h1>
 			<h3>
 				<span id="updateTime">最新发布时间</span>&nbsp;&nbsp;&nbsp;<span

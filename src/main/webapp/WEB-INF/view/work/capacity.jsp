@@ -48,6 +48,7 @@ input {
 .loading img{height:30px}
 .ibox-content select{width: 120px; height: 35px; margin-right: 10px; margin-left: 10px;}
 #table_list_1 a{text-decoration: underline}
+.btn-primary{margin-left: 10px}
 </style>
 </head>
 <body style="margin-left: 5px;margin-right: 5px;">
@@ -107,9 +108,9 @@ input {
 							<!-- <button class="btn btn-success" onclick="exportExcel()">导出</button> -->
 						</div>
 					</div>
-					<div class="footer" style="height: 60px;">
+					<div class="footer" style="height: 60px;color:red">
 							<div>
-								<span><i>备注：</i> </span> <span>红色为高度可疑工单;绿色为符合条件工单;黄色为可疑工单;其它为待验证工单</span>
+								<span>备注：红色为高度可疑工单;绿色为符合条件工单;黄色为可疑工单;其它为待验证工单。</span>
 							</div>
 						</div>
 					<div>

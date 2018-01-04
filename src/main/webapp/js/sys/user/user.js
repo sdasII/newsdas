@@ -6,76 +6,14 @@ var api_insertUrl = ctx + '/system/user/insert';
 var api_detail = ctx + '/system/user/one';
 var api_deleteSelected = ctx + '/system/user/delete';
 $(function(){
-    /*$('#modalForm').bootstrapValidator({
-        feedbackIcons : {
-            valid : 'glyphicon glyphicon-ok',
-            invalid : 'glyphicon glyphicon-remove',
-            validating : 'glyphicon glyphicon-refresh'
-        },
-        fields : {
-            userId : {
-                validators : {
-                    notEmpty : { message : $message("ErrorMustInput",[ '用户ID' ]) },
-                    stringLength: { min: 5,  max: 16,
-                        message: $message("ErrorLength2",['用户ID','5','16']) }
-                } 
-            },
-            password : {
-                validators : { notEmpty : { message : $message("ErrorMustInput",[ '密码' ]) } }
-            },
-            username : {
-                validators : {
-                    notEmpty : { message : $message("ErrorMustInput",[ '用户名' ]) },
-                    stringLength: { min: 2,  max: 16, message: $message("ErrorLength2",['用户名','2','16']) } 
-                } 
-            },
-            email : {
-                validators : {
-                    emailAddress: { message: $message("ErrorFormat",['邮箱']) },
-                    stringLength: { min: 0, max: 50, message: $message("ErrorLength",['邮箱','50'])  }
-                }
-            },
-            address : {
-                validators : {
-                    stringLength: {  min: 0, max: 255, message: $message("ErrorLength",['地址','255']) }
-                }
-            },
-            mobile : {
-                validators : {
-                    stringLength: {  min: 0, max: 11, message: $message("ErrorLength",['手机','11']) },
-                    regexp: { regexp: /^(1[0-9])\d{9}$/, message: $message("ErrorFormat",['手机号码']) } 
-                }
-            },
-            tel : {
-                validators : {
-                    stringLength: { min: 0, max: 13, message: $message("ErrorLength",['电话号码','13']) },
-                    regexp: { regexp: /^(0[0-9]{2,3}-)?([2-9][0-9]{6,7})$/, message: $message("ErrorFormat",['电话号码']) } 
-                }
-            },
-            rolename : {
-                validators : { notEmpty : { message : $message("ErrorMustInput",[ '角色' ]) } }
-            },
-            birthday : {
-                validators : {
-                        notEmpty : { message : $message("ErrorMustInput",[ '生日' ]) },
-                        date: { format: 'YYYY-MM-DD hh:mm:ss', message: $message("ErrorFormat",[ '生日' ]) }
-                }
-            }
-        }
-    }).on('success.form.bv', function(e) {
-        e.preventDefault();
-        var $form = $(e.target);
-        var bv = $form.data('bootstrapValidator');
-        if($("#isNew").val()== 0) {
-            //编辑保存
-            doAjax(POST,api_saveEdit,$form.serialize(),saveSuccess);
-        }
-        else if($("#isNew").val() == 1) {
-            //新增保存
-            doAjax(POST,api_newSave,$form.serialize(),saveSuccess);
-        }
-    });*/
-    
+	//
+	$('#myModal').on('hidden.bs.modal', function() {
+        $("#modalForm").data('bootstrapValidator').destroy();
+        $('#modalForm').data('bootstrapValidator', null);
+        formValidator();
+    });
+	formValidator();
+	//
     $('#userInfoTable').bootstrapTable({
         cache : false,
         striped : true,
@@ -119,6 +57,86 @@ $(function(){
     
     searchUserInfo();
 });
+//
+function formValidator(){
+	$('#modalForm').bootstrapValidator({
+		feedbackIcons : {
+			valid : 'glyphicon glyphicon-ok',
+			invalid : 'glyphicon glyphicon-remove',
+			validating : 'glyphicon glyphicon-refresh'
+		},
+		fields : {
+			userId : {
+				validators : {
+					notEmpty : {
+						message : '请输入用户ID'
+					}
+				}
+			},
+			username : {
+				validators : {
+					notEmpty : {
+						message : '请输入用户名'
+					}
+				}
+			},
+			password : {
+				validators : {
+					notEmpty : {
+						message : '请输入密码'
+					},
+					stringLength: {
+                        min: 6,
+                        max: 18,
+                        message: '密码长度必须在6到18位之间'
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9_]+$/,
+                        message: '密码只能包含大写、小写、数字和下划线'
+                    }
+				}
+			},
+			mobile : {
+				validators : {
+					notEmpty : {
+						message : '请输入手机号码'
+					},
+					regexp: {
+                        regexp: /^1[3|4|5|8][0-9]\d{4,8}$/,
+                        message: '请输入正确的手机号码'
+                    }
+				}
+			},
+			email : {
+                validators : {
+                    notEmpty : {
+                        message : '请输入邮箱'
+                    },
+                    emailAddress: {
+                        message: '请输入正确格式的邮箱'
+                    }
+                }
+            },
+            rolename : {
+				validators : {
+					notEmpty : {
+						message : '请选择用户角色'
+					}
+				}
+			},
+			userLocked : {
+				validators : {
+					notEmpty : {
+						message : '请选择帐号状态'
+					}
+				}
+			}
+		}
+	}).on('success.form.bv', function(e) {
+		e.preventDefault();
+        insert();
+	});
+}
 function searchUserInfo() {
     var data = getFormJson("searchForm");//获取查询条件
     commonRowDatas("userInfoTable", data, api_getPagedList, "commonCallback", true);
@@ -163,6 +181,12 @@ function insert(){
         data : data,
         success : function(data,status){
             searchUserInfo();
+            if($("#isNew").val()=="1"){
+            	showOnlyMessage(INFO, "添加成功");
+            }else{
+            	showOnlyMessage(INFO, "修改成功");
+            }
+            closemodal();
         }
      })
 }
@@ -202,9 +226,9 @@ function show_Detail(response){
 	        $("#modalForm select").attr("disabled","disabled");
 	        $("#modalForm #userId").val(response.userId);
 	        $("#modalForm #password").val(response.password);
-	        $("#modalForm #address").val(response.address);
+	       /* $("#modalForm #address").val(response.address);
 	        $("#modalForm #tel").val(response.tel);
-	        $("#modalForm #birthday").val(response.birthday);
+	        $("#modalForm #birthday").val(response.birthday);*/
 	        $("#modalForm #username").val(response.username);
 	        $("#modalForm #email").val(response.email);
 	        $("#modalForm #mobile").val(response.mobile);
@@ -222,9 +246,9 @@ function checkDetailSuccess(response){
         $("#modalForm #userId").attr("readonly","readonly");
         $("#modalForm #userId").val(response.userId);
         $("#modalForm #password").val(response.password);
-        $("#modalForm #address").val(response.address);
+       /* $("#modalForm #address").val(response.address);
         $("#modalForm #tel").val(response.tel);
-        $("#modalForm #birthday").val(response.birthday);
+        $("#modalForm #birthday").val(response.birthday);*/
         $("#modalForm #username").val(response.username);
         $("#modalForm #email").val(response.email);
         $("#modalForm #mobile").val(response.mobile);
@@ -252,6 +276,7 @@ function deleteRow() {
             userId:rowIds       
         }
         showConfirm(sureDelete, IF_DELETE_INFO, POST, api_deleteSelected, data, searchUserInfo);
+        showOnlyMessage(INFO, "删除成功");
     } else {
         showOnlyMessage(ERROR, $message("ErrorSelectNoDelete", null));
     }
