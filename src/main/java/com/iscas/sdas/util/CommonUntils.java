@@ -231,7 +231,6 @@ public class CommonUntils {
 			List<MultipartFile> files = mutiRequest.getFiles("file");
 			for (MultipartFile file : files) {
 				if (file != null) {
-					System.out.println(file.getOriginalFilename());
 					int index = file.getOriginalFilename().lastIndexOf(".");
 					if (index>0) {
 						String filename = file.getOriginalFilename().substring(0, index) +"-"+ System.currentTimeMillis()+file.getOriginalFilename().substring(index);
