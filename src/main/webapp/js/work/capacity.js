@@ -22,6 +22,8 @@ var global_cellname,global_area,global_content,global_result;
 $(function(){
     //列表时间选择
     $(".datePicker").click(function() {
+    	$("#table_loadbk").show();
+    	$("#table_load").show();
         $("#starttime").val("");
         $("#endtime").val("");
         $(this).parent().find(".btn-info").removeClass("btn-info");
@@ -174,10 +176,12 @@ function searchInfo() {
     data.area = global_area;
     data.content = global_content;
     data.result = global_result; 
-    commonRowDatas("table_list_1", data, capacityworkurl, "commonCallback", true);
+    commonRowDatas("table_list_1", data, capacityworkurl, "commonCallback", "hide");
 }
 
 function select(type){
+	$("#table_loadbk").show();
+	$("#table_load").show();
 	global_cellname = $("#name").val();
 	global_area = $("#area").val();
 	global_content = $("#content").val();
