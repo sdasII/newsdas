@@ -129,13 +129,13 @@ public class CapacityWorkController {
     		if (!CommonUntils.isempty(cellname)) {
     			capacityWorkDto.setCellid(cellname);
     		}
-    		if (!CommonUntils.isempty(area)) {
+    		if (!CommonUntils.isempty(area)&&!"全部".equals(area)) {
     			capacityWorkDto.setBelong_area(area);
     		}
     		if (!CommonUntils.isempty(monitor)&&!"全部".equals(monitor)) {
     			capacityWorkDto.setMonitor_content(monitor);
     		}
-    		if (!"全部".equals(result)) {
+    		if (!"全部工单".equals(result)) {
     			if (!CommonUntils.isempty(result)) {
         			capacityWorkDto.setQuestionflag(Integer.valueOf(result));
         		}
