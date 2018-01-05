@@ -106,14 +106,14 @@ function  detail_table(index, row, $detail){
         method: 'get',
         queryParams: {
         	"name": row.cell_code,
-        	"yyyymmdd": row.yyyymmdd,
+        	"yyyymmdd": row.yyyyMMdd,
         	"type":$("#status").val()
         },
         pagination : false,
        /* pageSize: 10,
         pageList: [10, 25],*/
         columns : [
-                   { field : "cell_code", title : "小区名称", align : "center", valign : "middle",
+                   { field : "cellname", title : "小区名称", align : "center", valign : "middle",
                    	formatter:function(value,row,index){
                            var url = ctx + "/alarm/todetail";
                            var params = "[{\"key\":\"cell_code\",\"value\":\""+value+"\"}]";
@@ -136,14 +136,14 @@ function  detail_table(index, row, $detail){
                           }
                            return str;
                      }},
-                   { field : "create_time", title : "发布时间", align : "center", valign : "middle",
+                   { field : "calcultime", title : "发布时间", align : "center", valign : "middle",
                    	  formatter:function(value,row,index){
        	                  var jsDate = new Date(value);
        	                  var UnixTimeToDate = jsDate.getFullYear() + '/' + (jsDate.getMonth() + 1) + '/'+jsDate.getDate()+ ' ' + jsDate.getHours() + ':' + jsDate.getMinutes() + ':' + jsDate.getSeconds();
        	                   return UnixTimeToDate;
        	                 }
                      }            
-               ],
+               ]
     });
 }
 // 查询表格信息

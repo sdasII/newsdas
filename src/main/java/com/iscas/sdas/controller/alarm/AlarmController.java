@@ -236,7 +236,7 @@ public class AlarmController {
 	public ModelMap celllist(HttpServletRequest request){
 		ModelMap map = new ModelMap();
 		String cellname = request.getParameter("name");
-		String yyyyMMdd = request.getParameter("yyyyymmdd");
+		String yyyyMMdd = request.getParameter("yyyymmdd");
 		String result = request.getParameter("type");
 		CellResultHistoryDto cellResultHistoryDto = alarmService.getOneAlarm(cellname, yyyyMMdd);
 		List<CellResultHistory> cells = generateData(cellResultHistoryDto);
