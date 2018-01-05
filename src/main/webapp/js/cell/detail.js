@@ -107,7 +107,8 @@ function switchTab(id, title,color){
 }
 //————————————————————————————————————小区健康判别结果————————————————————————————————-\\
 //小区健康判别结果
-var tableUrl=ctx+"/alarm/celllist/incell";
+var tableUrl=ctx+"/alarm/celllist";
+var tableDetail=ctx+"/alarm/celllist/incell";
 $(function(){
     $('#alarm_table').bootstrapTable({
                 cache : false,
@@ -127,7 +128,7 @@ $(function(){
                             return index+1;  
                         }  
                     },
-                    { field : "yyyymmdd", title : "时间", align : "center", valign : "middle"},
+                    { field : "yyyyMMdd", title : "时间", align : "center", valign : "middle"},
                     /*{ field : 'result', title : '风险提示', align : 'center', valign : 'middle',
                         formatter:function(value,row,index){
                               var str="";
@@ -142,7 +143,7 @@ $(function(){
                               return '<a href="#rtratio" onclick="changeZoom('+"'"+time+"'"+')">'+str+"</a>";
                              }
                     },*/
-                    { field : 'calcultime', title : '发布时间', align : 'center', valign : 'middle',
+                    { field : 'create_time', title : '发布时间', align : 'center', valign : 'middle',
                         formatter:function(value,row,index){
                               var jsDate = new Date(value);
                               var UnixTimeToDate = jsDate.getFullYear() + '/' + (jsDate.getMonth() + 1) + '/'+jsDate.getDate()+ ' ' + jsDate.getHours() + ':' + jsDate.getMinutes() + ':' + jsDate.getSeconds();
@@ -167,7 +168,7 @@ $(function(){
 function  detail_table(index, row, $detail){
     var cur_table = $detail.html('<table></table>').find('table');
     $(cur_table).bootstrapTable({
-        url: tableUrl,
+        url: tableDetail,
         method: 'get',
         queryParams: {
         	"name": cell_code,
@@ -186,11 +187,7 @@ function  detail_table(index, row, $detail){
                     return index+1;  
                 }  
             },
-            { field : "yyyymmdd", title : "时间", align : "center", valign : "middle",
-                formatter:function(value,row,index){
-                       return value+" "+row.hour+":00";
-                     }
-            },
+            { field : "hour", title : "时间", align : "center", valign : "middle"},
             { field : 'result', title : '风险提示', align : 'center', valign : 'middle',
                 formatter:function(value,row,index){
                       var str="";
@@ -212,7 +209,11 @@ function  detail_table(index, row, $detail){
                        return UnixTimeToDate;
                      }
             }
-        ]
+        ],
+        onLoadSuccess: function(data){ //加载成功时执行 
+    	    data= eval(data); 
+    	    $(cur_table).bootstrapTable('load', data.rows);
+    	   }
     });
 }
 

@@ -51,7 +51,7 @@
 	font-weight: normal;
 }
 .form-group select{width: 130px; height: 35px; margin-right: 10px; margin-left: 10px;}
-.pull-left{display: none}
+/* .pull-left{display: none} */
 
 input::-webkit-input-placeholder { /* WebKit browsers */ 
 margin-left: 10px;

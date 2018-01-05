@@ -43,6 +43,7 @@ var echart_option = {
 					+ '  最大 : ' + params[i].value[4];
 				}
 			}
+			console.info(params[1]);
 			return res;
 		}
 	},
