@@ -127,4 +127,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</if>
 		ORDER BY yyyyMMdd
 	</select>
+	<select id="getOneAlarm" resultType="com.iscas.sdas.dto.cell.CellResultHistoryDto">
+		SELECT * FROM t_cell_result_history WHERE cell_code = #{cellname} and yyyyMMdd = #{time} limit 1
+	</select>
 </mapper>

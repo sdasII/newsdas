@@ -145,4 +145,9 @@ public class AlarmService {
 		return pageDto;
 			
 	}
+	
+	public CellResultHistoryDto getOneAlarm(String cellname,String yyyyMMdd){
+		return alarmDao.getOneAlarm(cellname, yyyyMMdd);
+	}
+
 }

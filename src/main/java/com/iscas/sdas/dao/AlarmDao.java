@@ -31,4 +31,6 @@ public interface AlarmDao {
 	List<CellResultHistoryDto> cellListLastMonth(@Param("cellname")String cellname);
 	//t_cell_result_history中的小区信息
 	List<CellResultHistoryDto> cellListBySelect(@Param("cellname")String cellname,@Param("start")String starttime,@Param("end")String endtime);
+
+	CellResultHistoryDto getOneAlarm(@Param("cellname")String cellname,@Param("time")String yyyyMMdd);
 }
