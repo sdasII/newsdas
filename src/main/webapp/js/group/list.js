@@ -60,7 +60,7 @@ $(function(){
                    }
                     return str;
               }},*/
-            { field : "create_time", title : "计算时间", align : "center", valign : "middle",
+            { field : "create_time", title : "发布时间", align : "center", valign : "middle",
             	  formatter:function(value,row,index){
 	                  var jsDate = new Date(value);
 	                  var UnixTimeToDate = jsDate.getFullYear() + '/' + (jsDate.getMonth() + 1) + '/'+jsDate.getDate()+ ' ' + jsDate.getHours() + ':' + jsDate.getMinutes() + ':' + jsDate.getSeconds();
@@ -112,7 +112,12 @@ function  detail_table(index, row, $detail){
         pagination : false,
        /* pageSize: 10,
         pageList: [10, 25],*/
-        columns : [
+        columns : [{  
+					    title: '序号',align : "center", valign : "middle",
+					    formatter: function (value, row, index) {  
+					        return index+1;  
+					    }  
+					},
                    { field : "cellname", title : "小区名称", align : "center", valign : "middle",
                    	formatter:function(value,row,index){
                            var url = ctx + "/alarm/todetail";
@@ -143,7 +148,11 @@ function  detail_table(index, row, $detail){
        	                   return UnixTimeToDate;
        	                 }
                      }            
-               ]
+               ],
+               onLoadSuccess: function(data){ //加载成功时执行 
+            	    data= eval(data); 
+            	    $(cur_table).bootstrapTable('load', data.rows);
+            	   }
     });
 }
 // 查询表格信息

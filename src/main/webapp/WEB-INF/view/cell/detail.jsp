@@ -119,9 +119,9 @@ input {
 	font-weight: normal;
 }
 
-#alarm .pull-left {
+/* #alarm .pull-left {
 	display: none
-}
+} */
 </style>
 </head>
 <body>
