@@ -219,7 +219,7 @@ public class AlarmController {
 		}
 		PageDto<CellResultHistory> pageDto = new PageDto<>();
 		pageDto.setTotal(allsize);
-		pageDto.setRows(rows);*/
+		pageDto.setRows(rows);
 		map.addAttribute(Constraints.RESULT_ROW, pageDto);
 	
 		return map;
