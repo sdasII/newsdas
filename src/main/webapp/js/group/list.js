@@ -109,10 +109,9 @@ function  detail_table(index, row, $detail){
         	"yyyymmdd": row.yyyymmdd,
         	"type":$("#status").val()
         },
-        clickToSelect: true,
-        detailView: true,//父子表
-        pageSize: 10,
-        pageList: [10, 25],
+        pagination : false,
+       /* pageSize: 10,
+        pageList: [10, 25],*/
         columns : [
                    { field : "cell_code", title : "小区名称", align : "center", valign : "middle",
                    	formatter:function(value,row,index){

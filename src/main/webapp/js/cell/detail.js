@@ -175,11 +175,10 @@ function  detail_table(index, row, $detail){
         	"type":10
         },
         //ajaxOptions: {"yyyymmdd": parentid},
-        clickToSelect: true,
-        detailView: true,//父子表
         //uniqueId: "yyyymmdd",
-        pageSize: 10,
-        pageList: [10, 25],
+       /* pageSize: 10,
+        pageList: [10, 25],*/
+        pagination : false,
         columns : [
             {  
                 title: '序号',align : "center", valign : "middle",
