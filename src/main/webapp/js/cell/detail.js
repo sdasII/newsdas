@@ -118,6 +118,7 @@ $(function(){
                 pageNumber : 1,
                 pageList : [ 5, 10, 20 ],
                 clickToSelect : true,
+                detailView: true,//父子表
                 sidePagination : 'server',// 设置为服务器端分页
                 columns : [
                     {  
@@ -126,12 +127,8 @@ $(function(){
                             return index+1;  
                         }  
                     },
-                    { field : "yyyymmdd", title : "时间", align : "center", valign : "middle",
-                        formatter:function(value,row,index){
-                               return value+" "+row.hour+":00";
-                             }
-                    },
-                    { field : 'result', title : '风险提示', align : 'center', valign : 'middle',
+                    { field : "yyyymmdd", title : "时间", align : "center", valign : "middle"},
+                    /*{ field : 'result', title : '风险提示', align : 'center', valign : 'middle',
                         formatter:function(value,row,index){
                               var str="";
                               if(value==0){
@@ -144,7 +141,7 @@ $(function(){
                               var time=row.yyyymmdd+" "+row.hour+":00";
                               return '<a href="#rtratio" onclick="changeZoom('+"'"+time+"'"+')">'+str+"</a>";
                              }
-                    },
+                    },*/
                     { field : 'calcultime', title : '发布时间', align : 'center', valign : 'middle',
                         formatter:function(value,row,index){
                               var jsDate = new Date(value);
@@ -153,6 +150,9 @@ $(function(){
                              }
                     }
                 ],
+                onExpandRow: function (index, row, $detail) {
+                	detail_table(index, row, $detail);
+                },
                 onPageChange : function(size, number) {
                         searchReultInfo();
                 },
@@ -160,8 +160,61 @@ $(function(){
                     return NOT_FOUND_DATAS;
                 }
             });
-      searchReultInfo()
+  
+      searchReultInfo();
 })
+//初始化子表格
+function  detail_table(index, row, $detail){
+    var cur_table = $detail.html('<table></table>').find('table');
+    $(cur_table).bootstrapTable({
+        url: tableUrl,
+        method: 'get',
+        queryParams: {
+        	"name": cell_code,
+        	"yyyymmdd": row.yyyymmdd,
+        	"type":10
+        },
+        //ajaxOptions: {"yyyymmdd": parentid},
+        //uniqueId: "yyyymmdd",
+       /* pageSize: 10,
+        pageList: [10, 25],*/
+        pagination : false,
+        columns : [
+            {  
+                title: '序号',align : "center", valign : "middle",
+                formatter: function (value, row, index) {  
+                    return index+1;  
+                }  
+            },
+            { field : "yyyymmdd", title : "时间", align : "center", valign : "middle",
+                formatter:function(value,row,index){
+                       return value+" "+row.hour+":00";
+                     }
+            },
+            { field : 'result', title : '风险提示', align : 'center', valign : 'middle',
+                formatter:function(value,row,index){
+                      var str="";
+                      if(value==0){
+                          str="事件"
+                      }else if(value==1){
+                          str="亚健康"
+                      }else if(value==2){
+                          str="健康"
+                      }
+                      var time=row.yyyymmdd+" "+row.hour+":00";
+                      return '<a href="#rtratio" onclick="changeZoom('+"'"+time+"'"+')">'+str+"</a>";
+                     }
+            },
+            { field : 'calcultime', title : '发布时间', align : 'center', valign : 'middle',
+                formatter:function(value,row,index){
+                      var jsDate = new Date(value);
+                      var UnixTimeToDate = jsDate.getFullYear() + '/' + (jsDate.getMonth() + 1) + '/'+jsDate.getDate()+ ' ' + jsDate.getHours() + ':' + jsDate.getMinutes() + ':' + jsDate.getSeconds();
+                       return UnixTimeToDate;
+                     }
+            }
+        ]
+    });
+}
 
 function searchReultInfo(){
     var data = {};

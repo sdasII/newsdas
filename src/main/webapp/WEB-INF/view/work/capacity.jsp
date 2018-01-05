@@ -114,6 +114,13 @@ input {
 							</div>
 						</div>
 					<div>
+						<!-- loading -->
+						<div class="loading_bk" id="table_loadbk"></div>
+						<div class="loading" id="table_load">
+							<img
+								src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>内容加载中...</span>
+						</div>
+						<!-- loading -->
 						<table id="table_list_1"></table>
 						<div id="toolbar"></div>
 					</div>

@@ -187,6 +187,10 @@ function commonGridAjax(type, url, data, success, gridid, boolean) {
 function commonCallback(response, gridid, url, data, boolean) {
     if (gridid != null && gridid != "") {
         $("#" + gridid).bootstrapTable('load', response);
+        if(boolean=="hide"){
+        	 $(".loading_bk").hide();
+        	 $(".loading").hide();
+        }
         // db中数据被删除了，检索的后一页没有数据，页面显示前一页的数据
         /*if(boolean){
             if (response.rows.length == 0 && response.total > 0) {

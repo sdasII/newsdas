@@ -201,8 +201,8 @@ public class AlarmController {
 		int pageNum = Integer.parseInt(num);
 		int pageSize = Integer.parseInt(size);
 		PageHelper.startPage(pageNum, pageSize);
-		PageDto<CellResultHistoryDto> tempdto = alarmService.getCellList(cellname,type,starttime,endtime);
-		long allsize = tempdto.getTotal();
+		PageDto<CellResultHistoryDto> pageDto = alarmService.getCellList(cellname,type,starttime,endtime);
+		/*long allsize = tempdto.getTotal();
 		List<CellResultHistory> cells = generateData(tempdto);
 		
 		List<CellResultHistory> rows = new ArrayList<>();
@@ -219,7 +219,7 @@ public class AlarmController {
 		}
 		PageDto<CellResultHistory> pageDto = new PageDto<>();
 		pageDto.setTotal(allsize);
-		pageDto.setRows(rows);
+		pageDto.setRows(rows);*/
 		map.addAttribute(Constraints.RESULT_ROW, pageDto);
 	
 		return map;
