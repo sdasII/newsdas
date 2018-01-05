@@ -204,7 +204,7 @@ public class AlarmController {
 		List<CellResultHistory> cells = generateData(cellResultHistoryDto);
 		List<CellResultHistory> rows = new ArrayList<>();
 		for (int i = 0; i < cells.size(); i++) {
-			if (!CommonUntils.isempty(result) && !"-1".equals(result) && cells.get(i).getResult()!=null) {			
+			if (!CommonUntils.isempty(result) && !"-1".equals(result) && cells.get(i).getResult()!=null&&!"10".equals(result)) {			
 				if (cells.get(i).getResult().equals(Integer.valueOf(result))) {
 					CellResultHistory dto = cells.get(i);
 					rows.add(dto);
@@ -213,7 +213,17 @@ public class AlarmController {
 			if (CommonUntils.isempty(result) || "-1".equals(result)) {
 				CellResultHistory dto = cells.get(i);
 				rows.add(dto);
-			}			
+			}	
+			if ("10".equals(result)) {
+				Integer value = cells.get(i).getResult();
+				if (value!=null) {
+					if (value==0||value==1) {
+						CellResultHistory dto = cells.get(i);
+						rows.add(dto);
+					}
+				}
+				
+			}
 		}		
 		map.addAttribute(Constraints.RESULT_ROW, rows);
 	

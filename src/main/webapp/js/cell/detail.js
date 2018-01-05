@@ -172,7 +172,7 @@ function  detail_table(index, row, $detail){
         method: 'get',
         queryParams: {
         	"name": cell_code,
-        	"yyyymmdd": row.yyyymmdd,
+        	"yyyymmdd": row.yyyyMMdd,
         	"type":10
         },
         //ajaxOptions: {"yyyymmdd": parentid},
