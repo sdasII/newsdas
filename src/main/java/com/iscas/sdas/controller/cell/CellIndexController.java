@@ -20,7 +20,7 @@ import com.iscas.sdas.service.cell.CellIndexService;
 import com.iscas.sdas.util.CommonUntils;
 import com.iscas.sdas.util.Constraints;
 /**
- * 小组小区健康模型相关
+ * 小区健康模型
  * @author dongqun
  * 2017年10月12日上午9:43:23
  */
@@ -48,11 +48,6 @@ public class CellIndexController {
 		if (!CommonUntils.isempty(indexid)&&!CommonUntils.isempty(cellname)) {
 			try {
 				List<List<Double[]>> hosdata = cellIndexService.generateIndexData(cellname, indexid, month);
-				/*if (CommonUntils.isempty(month)) {
-					hosdata = cellIndexService.generateIndexData(cellname, indexid, cellIndexService.CELL);
-				}else {
-					hosdata = cellIndexService.generateIndexData(cellname, indexid, month);
-				}*/
 				if (hosdata!=null) {
 					map.addAttribute(Constraints.RESULT_ROW,hosdata);	
 					map.addAttribute(Constraints.RESULT_SUCCESS, true);	
@@ -67,7 +62,6 @@ public class CellIndexController {
 		map.addAttribute(Constraints.RESULT_SUCCESS, false);
 		return map;
 	}
-	
 	/**
 	 * 指标模型
 	 * @param request
@@ -97,7 +91,13 @@ public class CellIndexController {
 		return map;
 	}
 	
-	
+	/**
+	 * 指标权重
+	 * @author dongqun
+	 * 2018年1月5日下午1:33:31
+	 * @param cellname
+	 * @return
+	 */
 	@RequestMapping("/weight")
 	@ResponseBody
 	public ModelMap cellweight(@RequestParam(value = "cellname",required = true)String cellname){

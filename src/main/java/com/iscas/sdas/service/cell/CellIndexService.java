@@ -119,7 +119,7 @@ public class CellIndexService {
 				for (int i = 0; i < array.size(); i++) {
 					JSONObject obj = array.getJSONObject(i);					
 					if (obj.containsKey("is_valid")) {
-						boolean is_valid = obj.getBoolean("is_valid");
+						boolean is_valid = obj.getBoolean("is_valid");//判断是否为有效簇心
 						if (is_valid) {
 							Double[] point = new Double[5];
 							point[0] =  temp;
