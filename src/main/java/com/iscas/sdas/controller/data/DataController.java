@@ -221,7 +221,8 @@ public class DataController{
 		ContinueFTP myFtp = new ContinueFTP();
 		try {
 			//myFtp.connect("49.4.6.146", 21, "hadoop", "nfs_qd123");			
-			myFtp.connect("192.168.0.31", 21, "hadoop", "nfs_qd123");
+			//myFtp.connect("192.168.0.31", 21, "hadoop", "nfs_qd123");
+			myFtp.connect("172.16.0.151", 21, "hadoop", "nfs_qd123");
 			
 			System.out.println("3...连接到ftp");
 			request.getSession().setAttribute(Constraints.SESSION_FTP_STATUS, myFtp);						
