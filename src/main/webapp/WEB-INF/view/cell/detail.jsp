@@ -249,7 +249,7 @@ input {
 						</ul>
 						<div class="tab-content">
 							<div id="tab-3" class="tab-pane active">
-								<div class="panel-body" style="min-height: 450px;">
+								<div class="panel-body" style="min-height: 150px;">
 									<div class="jqGrid_wrapper">
 										<table class="table" id="table_list_work"></table>
 										<div id="pager_list_work"></div>
@@ -257,7 +257,7 @@ input {
 								</div>
 							</div>
 							<div id="tab-4" class="tab-pane">
-								<div class="panel-body" style="min-height: 450px;">
+								<div class="panel-body" style="min-height: 150px;">
 									<table class="table" id="table_list_work2"></table>
 									<div id="pager_list_work2"></div>
 								</div>

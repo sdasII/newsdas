@@ -65,6 +65,15 @@ margin-left: 10px;
 input:-ms-input-placeholder { /* Internet Explorer 10+ */ 
 margin-left: 10px;
 } 
+.layer-date,#span{
+	width: 200px;
+    margin: -10px;
+    height: 35px;
+    border-radius: 3px;
+    border: 1px solid #e7eaec;
+    margin-left: 0px;
+    margin-right: 0px;
+}
 </style>
 </head>
 
@@ -90,17 +99,14 @@ margin-left: 10px;
 									onclick="javascript:searchtimeselect(this)">按时间选择</button>
 								<div id="searchimeselect" style="display: none;">
 									<input id="start"
-										style="margin-left: 5px; margin-top: -7px !important;"
-										class="layer-date" placeholder="请输入开始时间"
+										style="margin-left: 5px;" class="layer-date" placeholder="请输入开始时间"
 										onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
-									<span id="span"
-										style="margin-top: -10px; display: inline !important;"
-										class="input-group-addon">到</span> <input id="end"
-										style="margin-top: -7px !important;" class="layer-date"
+									<input id="span" type="text" style="width:35px; display: inline !important;padding: 8px" value="到"
+										class="btn-white"/> <input id="end" class="layer-date"
 										placeholder="请输入结束时间"
 										onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
-									<button class="btn btn-info" type="button"
-										onclick="javascript:query()">确定</button>
+									<!-- <button class="btn btn-info" type="button"
+										onclick="javascript:query()">确定</button> -->
 								</div>
 							</div>
 						</div>
