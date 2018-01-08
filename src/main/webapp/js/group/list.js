@@ -75,7 +75,7 @@ $(function(){
             searchInfo();
         },
         formatNoMatches : function() {
-            return NOT_FOUND_DATAS;
+            return "查询无结果";
         }
     });
     //datapicker
@@ -167,7 +167,12 @@ function select(){
 	var name = $("#name").val();
 	var status = $("#status").val();
     bsdata.name = name;
-    bsdata.status = status;             
+    bsdata.status = status; 
+    bsdata.type=date_Type;
+    if(date_Type=="select"){
+    	bsdata.start = $("#start").val();
+    	bsdata.end = $("#end").val();
+    }
     commonRowDatas("table_list_1", bsdata, cellListUrl, "commonCallback", true);
    
 }
@@ -228,6 +233,7 @@ function searchtimeselect(obj) {
 	$("#searchinselect").removeClass("btn-white");
 	$("#searchinselect").addClass("btn-info");
 	$("#searchimeselect").css("display", "inline");
+	date_Type="select";
 }
 function searchoneday(obj) {
 	$(obj).parent().find(".btn").removeClass("btn-info");

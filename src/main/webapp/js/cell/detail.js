@@ -128,7 +128,7 @@ $(function(){
                             return index+1;  
                         }  
                     },
-                    { field : "yyyyMMdd", title : "时间", align : "center", valign : "middle"},
+                    { field : "yyyyMMdd", title : "日期", align : "center", valign : "middle"},
                     /*{ field : 'result', title : '风险提示', align : 'center', valign : 'middle',
                         formatter:function(value,row,index){
                               var str="";
@@ -158,7 +158,7 @@ $(function(){
                         searchReultInfo();
                 },
                 formatNoMatches : function() {
-                    return NOT_FOUND_DATAS;
+                    return "无查询结果";
                 }
             });
   
@@ -327,7 +327,7 @@ $(function(){
             searchCapacityInfo();
         },
         formatNoMatches : function() {
-            return NOT_FOUND_DATAS;
+            return "无查询结果";
         }
     });
     $('#table_list_work2').bootstrapTable({
@@ -385,7 +385,7 @@ $(function(){
             searchComplaintInfo();
         },
         formatNoMatches : function() {
-            return NOT_FOUND_DATAS;
+            return "无查询结果";
         }
     });
     searchCapacityInfo();
