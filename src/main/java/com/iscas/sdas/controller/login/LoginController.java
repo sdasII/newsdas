@@ -68,15 +68,15 @@ public class LoginController {
 			@RequestParam(value = "username", defaultValue = "admin", required = true) String userId,
 			@RequestParam(value = "password", defaultValue = "admin", required = true) String password) {
 		ModelAndView modelAndView = null;
-		String kaptcha = (String) request.getParameter("kaptcha");
+		//String kaptcha = (String) request.getParameter("kaptcha");
 		//从session中取出servlet生成的验证码text值  
-		String capText = (String)request.getSession().getAttribute(com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
+		//String capText = (String)request.getSession().getAttribute(com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
 		UserDto dto = new UserDto();
 		dto.setUserId(userId);
 		dto.setPassword(password);
 		UserDto user = UserService.getUser(dto);
-		if (!CommonUntils.isempty(capText)) {
-			if (capText.equalsIgnoreCase(kaptcha) || capText.equals(kaptcha) || kaptcha == capText) {
+		//if (!CommonUntils.isempty(capText)) {
+			//if (capText.equalsIgnoreCase(kaptcha) || capText.equals(kaptcha) || kaptcha == capText) {
 				if (user!=null) {
 					if (user.getUserLocked()==0) {
 						request.getSession().setAttribute("userInfo", user);
@@ -93,14 +93,14 @@ public class LoginController {
 					modelAndView = new ModelAndView("redirect:/");
 					modelAndView.addObject("loginMsg", "请输入正确的账号或密码！");
 				}
-			}else {
+			/*}else {
 				modelAndView = new ModelAndView("redirect:/");
 				modelAndView.addObject("loginMsg", "请输入正确的验证码！");
-			}
-		}else {
+			}*/
+		/*}else {
 			modelAndView = new ModelAndView("redirect:/");
 			modelAndView.addObject("loginMsg", "请输入正确的验证码！");
-		}
+		}*/
 		
 		
 		return modelAndView;

@@ -122,6 +122,29 @@ input {
 /* #alarm .pull-left {
 	display: none
 } */
+
+.loading_bk{
+	/* display:none; */
+    height: 80%;
+    width: 100%;
+    min-height:310px;
+    background-color: #777;
+    position: absolute;
+    z-index: 999;
+    opacity: 0.6;
+    text-align: center;
+    }
+.loading{
+	/* display:none; */
+	color:#fff;
+    margin-left: 40%;
+    margin-top: 10%;
+    position: absolute;
+    z-index: 9999;
+    text-align: center;
+    }
+.loading span{font-size: 16px; margin-left: 10px;}
+.loading img{height:30px}
 </style>
 </head>
 <body>
@@ -175,6 +198,12 @@ input {
 				<div class="ibox-content">
 					<div class="jqGrid_wrapper" id="alarm"
 						style="margin: 0; padding: 0; width: 100%; overflow: auto;">
+						<!-- loading -->
+							<div class="loading_bk" id="table_loadbk"></div>
+							<div class="loading" id="table_load">
+								<img src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>内容加载中...</span>
+							</div>
+						<!-- loading -->
 						<table class="table" id="alarm_table"></table>
 						<div id="pager_alarm_table"></div>
 					</div>

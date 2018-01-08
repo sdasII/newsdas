@@ -59,12 +59,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT app_hour FROM t_cell_result_info WHERE cell_code = #{cellname} and yyyyMMdd = (SELECT yyyyMMdd
 		FROM t_cell_result_info where cell_code = #{cellname} ORDER BY yyyyMMdd DESC LIMIT 1) ORDER BY app_hour DESC LIMIT 1
 	</select>
-	<!-- 最近一天健康预警（只筛选亚健康和事件） -->
-	<!-- <select id="alarmLastDay" resultType="com.iscas.sdas.dto.AlarmDto" 
-			parameterType="com.iscas.sdas.dto.AlarmDto">
-		SELECT * FROM t_cell_result_info WHERE yyyyMMdd = (SELECT yyyyMMdd FROM
-		t_cell_result_info where cell_code = #{cell_code} ORDER BY yyyyMMdd DESC LIMIT 1) and cell_code = #{cell_code} and (app_result=0||app_result=1)
-	</select> -->
+
+	
 	<select id="cellListLastDay" resultType="com.iscas.sdas.dto.cell.CellResultHistoryDto"
 	 	parameterType="java.lang.String">
 		select * from t_cell_result_history where yyyyMMdd = (SELECT yyyyMMdd
@@ -73,15 +69,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<bind name="cellname" value="'%'+ cellname +'%'" />
 			and cell_code like #{cellname}
 		</if>
-		<!-- <if test="result!=null">
-			and range_00 = #{result} or range_01 = #{result} or range_02 = #{result} or range_03 = #{result}
-			or range_04 = #{result} or range_05 = #{result} or range_06 = #{result} or range_07 = #{result} 
-			or range_08 = #{result} or range_09 = #{result} or range_10 = #{result} or range_11 = #{result} 
-			or range_12 = #{result} or range_13 = #{result} or range_14 = #{result} or range_15 = #{result}
-			or range_16 = #{result} or range_17 = #{result} or range_18 = #{result} or range_19 = #{result}
-			or range_20 = #{result} or range_21 = #{result} or range_22 = #{result} or range_23 = #{result}
-			or range_24 = #{result}
-		</if> -->
 	</select>
 	<select id="cellListLastWeek" parameterType="java.lang.String"
 		resultType="com.iscas.sdas.dto.cell.CellResultHistoryDto">
@@ -129,5 +116,57 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<select id="getOneAlarm" resultType="com.iscas.sdas.dto.cell.CellResultHistoryDto">
 		SELECT * FROM t_cell_result_history WHERE cell_code = #{cellname} and yyyyMMdd = #{time} limit 1
+	</select>
+	
+	<!-- 从视图取组合值 -->
+	<select id="cellResultListLastDay" parameterType="java.lang.String" resultType="com.iscas.sdas.dto.result.CellResultHistory">
+		select * from v_cell_result where yyyymmdd = (SELECT yyyyMMdd FROM t_cell_result_history ORDER BY yyyyMMdd DESC LIMIT 1)
+		<if test="type != null">
+			and result in (0,1)
+		</if>
+		<if test="cellname!=null">
+			<bind name="cellname" value="'%'+ cellname +'%'" />
+			and cellname like #{cellname}
+		</if>
+	</select>
+	<select id="cellResultListLastWeek" parameterType="java.lang.String" resultType="com.iscas.sdas.dto.result.CellResultHistory">
+		SELECT * FROM v_cell_result WHERE
+		STR_TO_DATE(yyyymmdd,'%Y%m%d') > DATE_SUB((SELECT yyyymmdd FROM
+		v_cell_result ORDER BY yyyyMMdd
+		DESC LIMIT 1),INTERVAL 7 DAY) 
+		<if test="cellname!=null">
+			<bind name="cellname" value="'%'+ cellname +'%'" />
+			and cellname like #{cellname}
+		</if>
+		<if test="type != null">
+			and result in (0,1)
+		</if>
+		ORDER BY yyyymmdd
+	</select>
+	<select id="cellResultListLastMonth" parameterType="java.lang.String" resultType="com.iscas.sdas.dto.result.CellResultHistory">
+		SELECT * FROM v_cell_result WHERE
+		STR_TO_DATE(yyyymmdd,'%Y%m%d') > DATE_SUB((SELECT yyyymmdd FROM
+		v_cell_result ORDER BY yyyyMMdd
+		DESC LIMIT 1),INTERVAL 30 DAY) 
+		<if test="cellname!=null">
+			<bind name="cellname" value="'%'+ cellname +'%'" />
+			and cellname like #{cellname}
+		</if>
+		<if test="type != null">
+			and result in (0,1)
+		</if>
+		ORDER BY yyyymmdd
+	</select>
+	<select id="cellResultListBySelect" parameterType="java.lang.String" resultType="com.iscas.sdas.dto.result.CellResultHistory">
+		SELECT * FROM v_cell_result WHERE
+		STR_TO_DATE(yyyymmdd,'%Y%m%d') BETWEEN #{start} AND #{end}
+		<if test="cellname!=null">
+			<bind name="cellname" value="'%'+ cellname +'%'" />
+			and cellname like #{cellname}
+		</if>
+		<if test="type != null">
+			and result in (0,1)
+		</if>
+		ORDER BY yyyymmdd
 	</select>
 </mapper>

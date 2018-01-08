@@ -13,6 +13,7 @@ import com.iscas.sdas.dao.AlarmDao;
 import com.iscas.sdas.dto.AlarmDto;
 import com.iscas.sdas.dto.cell.CellInfoDto;
 import com.iscas.sdas.dto.cell.CellResultHistoryDto;
+import com.iscas.sdas.dto.result.CellResultHistory;
 import com.iscas.sdas.service.cell.CellInfoService;
 import com.iscas.sdas.util.CommonUntils;
 import com.iscas.sdas.util.Constraints;
@@ -168,31 +169,31 @@ public class AlarmService {
 	 * @param cellResultHistory
 	 * @return
 	 */
-	public PageDto<CellResultHistoryDto> getCellList(String cellname,String type,String starttime,String endtime){
+	public PageDto<CellResultHistory> getCellList(String cellname,String type,String starttime,String endtime,String ttype){
 		
-		List<CellResultHistoryDto> sources;
+		List<CellResultHistory> sources;
 		
 		
 		if (Constraints.DAY.equals(type)) {
 			//PageHelper.startPage(pageNum, pageSize);
-			sources = alarmDao.cellListLastDay(cellname);
+			sources = alarmDao.cellResultListLastDay(cellname,ttype);
 		}else if (Constraints.WEEK.equals(type)) {
 			//PageHelper.startPage(pageNum, pageSize);
-			sources = alarmDao.cellListLastWeek(cellname);
+			sources = alarmDao.cellResultListLastWeek(cellname,ttype);
 		}else if (Constraints.MONTH.equals(type)) {
 			//PageHelper.startPage(pageNum, pageSize);
-			sources = alarmDao.cellListLastMonth(cellname);
+			sources = alarmDao.cellResultListLastMonth(cellname,ttype);
 		}else {
 			//PageHelper.startPage(pageNum, pageSize);
-			sources = alarmDao.cellListBySelect(cellname,starttime,endtime);
+			sources = alarmDao.cellResultListBySelect(cellname,starttime,endtime,ttype);
 		}
-		PageInfo<CellResultHistoryDto> pageInfo = new PageInfo<>(sources);
-		List<CellResultHistoryDto> rows = new ArrayList<>();
+		PageInfo<CellResultHistory> pageInfo = new PageInfo<>(sources);
+		List<CellResultHistory> rows = new ArrayList<>();
 		for (int i = 0; i < sources.size(); i++) {
-			CellResultHistoryDto dto = sources.get(i);
+			CellResultHistory dto = sources.get(i);
 			rows.add(dto);
 		}
-		PageDto<CellResultHistoryDto> pageDto = new PageDto<>();
+		PageDto<CellResultHistory> pageDto = new PageDto<>();
 		pageDto.setTotal(pageInfo.getTotal());
 		pageDto.setRows(rows);
 		return pageDto;

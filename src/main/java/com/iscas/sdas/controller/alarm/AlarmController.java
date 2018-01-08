@@ -189,7 +189,12 @@ public class AlarmController {
 		int pageNum = Integer.parseInt(num);
 		int pageSize = Integer.parseInt(size);
 		PageHelper.startPage(pageNum, pageSize);
-		PageDto<CellResultHistoryDto> pageDto = alarmService.getCellList(cellname,type,starttime,endtime);
+		String ttype = null;
+		ttype = request.getParameter("cell");
+		if (!"cell".equals(ttype)) {
+			ttype = null;
+		}
+		PageDto<CellResultHistory> pageDto = alarmService.getCellList(cellname,type,starttime,endtime,ttype);
 		map.addAttribute(Constraints.RESULT_ROW, pageDto);	
 		return map;
 	}

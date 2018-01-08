@@ -65,15 +65,28 @@ margin-left: 10px;
 input:-ms-input-placeholder { /* Internet Explorer 10+ */ 
 margin-left: 10px;
 } 
-.layer-date,#span{
-	width: 200px;
-    margin: -10px;
-    height: 35px;
-    border-radius: 3px;
-    border: 1px solid #e7eaec;
-    margin-left: 0px;
-    margin-right: 0px;
-}
+.loading_bk{
+	/* display:none; */
+    height: 80%;
+    width: 100%;
+    min-height:310px;
+    background-color: #777;
+    position: absolute;
+    z-index: 999;
+    opacity: 0.6;
+    text-align: center;
+    }
+.loading{
+	/* display:none; */
+	color:#fff;
+    margin-left: 40%;
+    margin-top: 10%;
+    position: absolute;
+    z-index: 9999;
+    text-align: center;
+    }
+.loading span{font-size: 16px; margin-left: 10px;}
+.loading img{height:30px}
 </style>
 </head>
 
@@ -144,6 +157,12 @@ margin-left: 10px;
 							</div>
 						</div>
 						<div>
+							<!-- loading -->
+							<div class="loading_bk" id="table_loadbk"></div>
+							<div class="loading" id="table_load">
+								<img src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>内容加载中...</span>
+							</div>
+							<!-- loading -->
 							<table id="table_list_1"></table>
 							<div id="toolbar"></div>
 						</div>

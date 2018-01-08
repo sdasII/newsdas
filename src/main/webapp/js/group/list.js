@@ -35,28 +35,40 @@ $(function(){
         pageNumber : 1,  
         pageList : [ 10, 20, 30 ],
         clickToSelect : true,
-        detailView: true,//父子表
         sidePagination : 'server',// 设置为服务器端分页
         columns : [
-            { field : "cell_code", title : "小区名称", align : "center", valign : "middle",
+            { field : "cellname", title : "小区名称", align : "center", valign : "middle",
             	formatter:function(value,row,index){
                     var url = ctx + "/alarm/todetail";
                     var params = "[{\"key\":\"cell_code\",\"value\":\""+value+"\"}]";
                     var url = '<a href=javascript:iframeconvert("' + url + '","小区日常监控",' + params + ')>'+value+'</a>';
                     return url;
               }},
-            { field : "yyyyMMdd", title : "日期", align : "center", valign : "middle"},
-            { field : "create_time", title : "发布时间", align : "center", valign : "middle",
-            	  formatter:function(value,row,index){
-	                  var jsDate = new Date(value);
-	                  var UnixTimeToDate = jsDate.getFullYear() + '/' + (jsDate.getMonth() + 1) + '/'+jsDate.getDate()+ ' ' + jsDate.getHours() + ':' + jsDate.getMinutes() + ':' + jsDate.getSeconds();
-	                   return UnixTimeToDate;
-	                 }
-              }            
+            { field : "yyyymmdd", title : "日期", align : "center", valign : "middle"},
+            { field : "hour", title : "时间", align : "center", valign : "middle"},
+                   { field : "result", title : "状态", align : "center", valign : "middle",
+                    formatter:function(value,row,index){
+                          var str="";
+                          if(value==0){
+                           str="事件"
+                          }else if(value==1){
+                           str="亚健康"
+                          }else if(value==2){
+                           str="健康"
+                          }else if(value==3){
+                           str="计算无结果"
+                          }
+                           return str;
+                     }},
+             { field : "calcultime", title : "发布时间", align : "center", valign : "middle",
+                  formatter:function(value,row,index){
+                      var jsDate = new Date(value);
+                      var UnixTimeToDate = jsDate.getFullYear() + '/' + (jsDate.getMonth() + 1) + '/'+jsDate.getDate()+ ' ' + jsDate.getHours() + ':' + jsDate.getMinutes() + ':' + jsDate.getSeconds();
+                       return UnixTimeToDate;
+                     }
+            }
+            
         ],
-        onExpandRow: function (index, row, $detail) {
-        	detail_table(index, row, $detail);
-        },
         onPageChange : function(size, number) {
             globalSelect();
         },
@@ -80,11 +92,12 @@ $(function(){
     var mydate = (year.toString()+month.toString());
     $(".form_datetime").val(mydate);
     
+   
     globalSelect();
 });
 
 //初始化子表格
-function  detail_table(index, row, $detail){
+/*function  detail_table(index, row, $detail){
     var cur_table = $detail.html('<table></table>').find('table');
     $(cur_table).bootstrapTable({
         url: cellDetailUrl,
@@ -95,8 +108,8 @@ function  detail_table(index, row, $detail){
         	"type":$("#status").val()
         },
         pagination : false,
-       /* pageSize: 10,
-        pageList: [10, 25],*/
+        pageSize: 10,
+        pageList: [10, 25],
         columns : [{  
 					    title: '序号',align : "center", valign : "middle",
 					    formatter: function (value, row, index) {  
@@ -138,7 +151,7 @@ function  detail_table(index, row, $detail){
             	    $(cur_table).bootstrapTable('load', data.rows);
             	   }
     });
-}
+}*/
 /*// 查询表格信息
 function searchInfo() { 
     var bsdata = {}; 
@@ -153,6 +166,8 @@ function searchInfo() {
  * 请注意全局查询条件的赋值！！！
  */
 function globalSelect(){
+    $("#table_loadbk").show();
+    $("#table_load").show();
     var bsdata = {}; 
 	cell_Name = $("#name").val();
     bsdata.cellname = cell_Name;
@@ -164,8 +179,7 @@ function globalSelect(){
         bsdata.end = end_Time;
     }
     result_Status = $("#status").val();
-    commonRowDatas("table_list_1", bsdata, cellListUrl, "commonCallback", true);
-   
+    commonRowDatas("table_list_1", bsdata, cellListUrl, "commonCallback", "hide");
 }
 var result_export_url = ctx + "/cell/result/export"
 var history_export_url = ctx + "/cell/healthtrend/export";
