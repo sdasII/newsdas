@@ -7,6 +7,7 @@ var cellDetailUrl=ctx+"/alarm/celllist/incell";
 /*
  * 全局查询字段
  */
+//全局查询参数
 var date_Type = "day";//数据时间类型
 var start_Time;
 var end_Time;
@@ -45,21 +46,6 @@ $(function(){
                     return url;
               }},
             { field : "yyyyMMdd", title : "日期", align : "center", valign : "middle"},
-            /*{ field : "hour", title : "时间", align : "center", valign : "middle"},*/
-            /*{ field : "result", title : "状态", align : "center", valign : "middle",
-            	formatter:function(value,row,index){
-                   var str="";
-                   if(value==0){
-                	   str="事件"
-                   }else if(value==1){
-                	   str="亚健康"
-                   }else if(value==2){
-                	   str="健康"
-                   }else if(value==3){
-                	   str="计算无结果"
-                   }
-                    return str;
-              }},*/
             { field : "create_time", title : "发布时间", align : "center", valign : "middle",
             	  formatter:function(value,row,index){
 	                  var jsDate = new Date(value);
@@ -72,7 +58,7 @@ $(function(){
         	detail_table(index, row, $detail);
         },
         onPageChange : function(size, number) {
-            searchInfo();
+            globalSelect();
         },
         formatNoMatches : function() {
             return "查询无结果";
@@ -94,10 +80,9 @@ $(function(){
     var mydate = (year.toString()+month.toString());
     $(".form_datetime").val(mydate);
     
-    searchInfo();
+    globalSelect();
 });
-//全局查询参数
-var bsdata = {};
+
 //初始化子表格
 function  detail_table(index, row, $detail){
     var cur_table = $detail.html('<table></table>').find('table');
@@ -125,7 +110,6 @@ function  detail_table(index, row, $detail){
                            var url = '<a href=javascript:iframeconvert("' + url + '","小区日常监控",' + params + ')>'+value+'</a>';
                            return url;
                      }},
-                   /*{ field : "yyyyMMdd", title : "日期", align : "center", valign : "middle"},*/
                    { field : "hour", title : "时间", align : "center", valign : "middle"},
                    { field : "result", title : "状态", align : "center", valign : "middle",
                    	formatter:function(value,row,index){
@@ -155,24 +139,31 @@ function  detail_table(index, row, $detail){
             	   }
     });
 }
-// 查询表格信息
+/*// 查询表格信息
 function searchInfo() { 
+    var bsdata = {}; 
 	bsdata.cellname=$("#name").val();
-	bsdata.result=$("#status").val();
+	bsdata.type = date_Type;
+    
     commonRowDatas("table_list_1", bsdata, cellListUrl,"commonCallback", true);
-}
+}*/
 
-
-function select(){
-	var name = $("#name").val();
-	var status = $("#status").val();
-    bsdata.name = name;
-    bsdata.status = status; 
-    bsdata.type=date_Type;
-    if(date_Type=="select"){
-    	bsdata.start = $("#start").val();
-    	bsdata.end = $("#end").val();
+/**
+ * 查询按钮响应
+ * 请注意全局查询条件的赋值！！！
+ */
+function globalSelect(){
+    var bsdata = {}; 
+	cell_Name = $("#name").val();
+    bsdata.cellname = cell_Name;
+    bsdata.type = date_Type;
+    if(date_Type=="select"){    	 
+        start_Time = $("#start").val();
+        bsdata.start = start_Time
+    	end_Time = $("#end").val();
+        bsdata.end = end_Time;
     }
+    result_Status = $("#status").val();
     commonRowDatas("table_list_1", bsdata, cellListUrl, "commonCallback", true);
    
 }
@@ -181,12 +172,6 @@ var history_export_url = ctx + "/cell/healthtrend/export";
 //导出
 function resultexportExcel(){
 	$("#load2").show();
-	//var time=$("#resultexporttime").val();
-    /*var time = date_Type;
-	if(time==""){//默认为当前月份
-		var myDate = new Date();
-		time=myDate.getFullYear().toString()+(myDate.getMonth()+1).toString();        		
-	}*/
     var export_type = $("#type").val();
     var form = $("<form></form>").attr("action", result_export_url).attr("method", "post");
     form.append($("<input></input>").attr("type", "hidden").attr("name","type").attr("value", date_Type));
@@ -195,23 +180,16 @@ function resultexportExcel(){
     form.append($("<input></input>").attr("type", "hidden").attr("name","cellname").attr("value", cell_Name));
     form.append($("<input></input>").attr("type", "hidden").attr("name","export_type").attr("value", export_type));
     form.appendTo('body').submit().remove();
-    /*$("#load2").css("display","inline");*/
     setTimeout(function(){ $("#load2").hide();}, 3000);
 }
 function exportExcel(){
 	$("#load1").show();
-    /*var time=$("#exporttime").val();
-    if(time==""){//默认为当前月份
-        var myDate = new Date();
-        time=myDate.getFullYear().toString()+(myDate.getMonth()+1).toString();              
-    }*/
     var form = $("<form></form>").attr("action", history_export_url).attr("method", "post");
     form.append($("<input></input>").attr("type", "hidden").attr("name","type").attr("value", date_Type));
     form.append($("<input></input>").attr("type", "hidden").attr("name","starttime").attr("value", start_Time));
     form.append($("<input></input>").attr("type", "hidden").attr("name","endtime").attr("value", end_Time));
     form.append($("<input></input>").attr("type", "hidden").attr("name","cellname").attr("value", cell_Name));   
     form.appendTo('body').submit().remove();
-    /*$("#load1").css("display","inline");*/
     setTimeout(function(){ $("#load1").hide();}, 3000);
 }
 
@@ -242,7 +220,8 @@ function searchoneday(obj) {
 	$("#searchinday").removeClass("btn-white");
 	$("#searchinday").addClass("btn-info");
 	$("#searchimeselect").css("display", "none");
-	workQuery("day");
+    date_Type = "day";
+    globalSelect();
 }
 function searchoneweek(obj) {
 	$(obj).parent().find(".btn").removeClass("btn-info");
@@ -251,7 +230,8 @@ function searchoneweek(obj) {
 	$("#searchinweek").removeClass("btn-white");
 	$("#searchinweek").addClass("btn-info");
 	$("#searchimeselect").css("display", "none");
-	workQuery("week");
+	date_Type = "week";
+    globalSelect();
 }
 function searchonemonth(obj) {
 	$(obj).parent().find(".btn").removeClass("btn-info");
@@ -260,9 +240,10 @@ function searchonemonth(obj) {
 	$("#searchinmonth").removeClass("btn-white");
 	$("#searchinmonth").addClass("btn-info");
 	$("#searchimeselect").css("display", "none");
-	workQuery("month");
+	date_Type = "month";
+    globalSelect();
 }
-function workQuery(type, start, end) {
+/*function workQuery(type, start, end) {
 	if ("day" == type) {
 		var data = {};
 		data.type = "day";
@@ -284,10 +265,11 @@ function workQuery(type, start, end) {
 		data.endtime = end;
         end_Time = end;
 	}
+    
 	commonRowDatas("table_list_1", data, cellListUrl, "commonCallback", true)
-}
-function query() {
+}*/
+/*function query() {
 	var start = $("#start").val();
 	var end = $("#end").val();
 	workQuery("select", start, end);
-}
+}*/

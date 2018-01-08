@@ -180,11 +180,11 @@ public class AlarmController {
 			@RequestParam(value = "pageSize", required = true, defaultValue = "10") String size,
 			@RequestParam(value = "type", required = true, defaultValue = "day") String type,HttpServletRequest request){
 		ModelMap map = new ModelMap();
-		String cellname = request.getParameter("name");
+		String cellname = request.getParameter("cellname");
 		String starttime= null,endtime = null;
 		if (Constraints.SELECT.equals(type)) {
-			starttime = request.getParameter("starttime");
-			endtime = request.getParameter("endtime");
+			starttime = request.getParameter("start");
+			endtime = request.getParameter("end");
 		}
 		int pageNum = Integer.parseInt(num);
 		int pageSize = Integer.parseInt(size);
