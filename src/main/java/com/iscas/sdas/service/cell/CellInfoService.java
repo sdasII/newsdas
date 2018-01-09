@@ -1,4 +1,6 @@
 package com.iscas.sdas.service.cell;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,10 @@ public class CellInfoService extends BaseService<CellInfoDao, CellInfoDto> {
 	 */
 	public int allMonitorCounts(){
 		return cellInfoDao.getAllMonitorCounts();
+	}
+	
+	public List<CellInfoDto> allMonitorCells(){
+		return cellInfoDao.getAllMonitorCells();
 	}
 	/**
 	 * 清空表

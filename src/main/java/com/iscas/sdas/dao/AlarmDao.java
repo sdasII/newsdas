@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.iscas.sdas.dto.AlarmDto;
 import com.iscas.sdas.dto.cell.CellResultHistoryDto;
+import com.iscas.sdas.dto.result.CellResultHistory;
 
 public interface AlarmDao {
 
@@ -33,4 +34,13 @@ public interface AlarmDao {
 	List<CellResultHistoryDto> cellListBySelect(@Param("cellname")String cellname,@Param("start")String starttime,@Param("end")String endtime);
 
 	CellResultHistoryDto getOneAlarm(@Param("cellname")String cellname,@Param("time")String yyyyMMdd);
+	
+	//v_cell_result中的小区信息
+	List<CellResultHistory> cellResultListLastDay(@Param("cellname")String cellname,@Param("type")String type);
+	//v_cell_result中的小区信息
+	List<CellResultHistory> cellResultListLastWeek(@Param("cellname")String cellname,@Param("type")String type);
+	//v_cell_result中的小区信息
+	List<CellResultHistory> cellResultListLastMonth(@Param("cellname")String cellname,@Param("type")String type);
+	//v_cell_result中的小区信息
+	List<CellResultHistory> cellResultListBySelect(@Param("cellname")String cellname,@Param("start")String starttime,@Param("end")String endtime,@Param("type")String type);
 }
