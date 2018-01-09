@@ -44,7 +44,6 @@ var echart_option = {
 					+ '  最大 : ' + params[i].value[4];
 				}
 			}
-			console.info(params[1]);
 			return res;
 		}
 	},
@@ -237,7 +236,11 @@ function cellindex(cellcode, indexcode) {
             updateEchart(data);
         }
     });
-    $.ajax({
+    update_dataPicker(cellcode,indexcode);
+}
+//修改时间插件默认值
+function update_dataPicker(cellcode,indexcode){
+	$.ajax({
 		url : indexTimeUrl,
 		type : "post",
 		data : {
@@ -249,6 +252,10 @@ function cellindex(cellcode, indexcode) {
                 var times = data.rows;
                 var lastmonth = times[0];                 
                 $(".form_datetime").val(lastmonth);
+                var start_time=times[times.length-1].substring(0,4)+"-"+times[times.length-1].substring(4,6)+"-01";
+                var end_time=lastmonth.substring(0,4)+"-"+lastmonth.substring(4,6)+"-01";
+                $(".form_datetime").datetimepicker('setStartDate',start_time);
+                $(".form_datetime").datetimepicker('setEndDate',end_time);
 			} else {
 				// 年月默认值(默认上个月)
 				var date = new Date;
