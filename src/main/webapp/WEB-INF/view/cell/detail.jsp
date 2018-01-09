@@ -11,10 +11,12 @@
 <title>详细信息</title>
 <%@ include file="/include/common.jsp"%>
 <%-- <script src="${context}/lib/hplus/js/plugins/layer/laydate/laydate.js"></script> --%>
-<script type="text/javascript"
+<script type="text/javascript" src="${context}/lib/map/baidumap_offline_load.js"></script>
+<link href="${context}/lib/map/css/baidu_map_v2.css" rel="stylesheet" type="text/css">
+<!-- <script type="text/javascript"
 	src="http://api.map.baidu.com/api?v=2.0&ak=EmXf0NLcNCvBO5hdDliGtvC9D5v6GA5K"></script>
 <script type="text/javascript"
-	src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+	src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script> -->
 <script src="${context}/lib/datapicker/bootstrap-datetimepicker.js"></script>
 <script
 	src="${context}/lib/datapicker/bootstrap-datetimepicker.zh-CN.js"></script>
@@ -336,10 +338,11 @@ input {
 		var context = "${context}";
 		// 百度地图API功能
 		var map = new BMap.Map("allmap"); // 创建Map实例
-		map.centerAndZoom(new BMap.Point(113.270856, 23.137463), 15); // 初始化地图,设置中心点坐标和地图级别
-		map.addControl(new BMap.MapTypeControl()); //添加地图类型控件
+		map.centerAndZoom(new BMap.Point(113.270856, 23.137463), 12); // 初始化地图,设置中心点坐标和地图级别
+		//map.centerAndZoom(new BMap.Point(113.270856, 23.137463), 15); // 初始化地图,设置中心点坐标和地图级别
+		//map.addControl(new BMap.MapTypeControl()); //添加地图类型控件
 		map.setCurrentCity("广州"); // 设置地图显示的城市 此项是必须设置的
-		map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
+		//map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
 		var marker = new BMap.Marker(new BMap.Point(113.270856, 23.137463));
 		map.addOverlay(marker);
 	</script>
