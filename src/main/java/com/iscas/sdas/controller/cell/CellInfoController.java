@@ -140,7 +140,9 @@ public class CellInfoController extends BaseController<CellInfoDto> {
     		headMap.put("cell_info", "cell_info");	
     		headMap.put("state_type_1", "state_type_1");	
     		headMap.put("state_type_2", "state_type_2");	
-    		headMap.put("normal_model", "normal_model");	
+    		headMap.put("normal_model", "normal_model");
+    		headMap.put("station_longitude", "station_longitude");
+    		headMap.put("station_latitude", "station_latitude");
         	if (list!=null) {
         		sourcesJson = JSONArray.parseArray(JSON.toJSONString(list));
 			} 

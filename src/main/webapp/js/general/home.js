@@ -42,8 +42,18 @@ function search(type){
 					var html='<li class="list-group-item"><a href="javascript:iframeconvert('+"'"+ctx+"/alarm/todetail"+"','小区信息',"+"[{'key':'cell_code','value':'"+e.cell_code+"'}]"+')">'+e.cell_code+'</a></li>';
 					$("#content").append(html);
 					var temp = {};
-					temp.lng = 113.27 + Math.random() * 0.1;
-					temp.lat = 23.14 + Math.random() * 0.1;
+					//temp.lng = 113.27 + Math.random() * 0.1;
+					//temp.lat = 23.14 + Math.random() * 0.1;
+                    if(e.station_longitude!=null){
+                        temp.lng = parseFloat(e.station_longitude);
+                    }else{
+                        temp.lng = 113.27 + Math.random() * 0.1;
+                    }
+                    if(e.station_latitude!=null){
+                        temp.lat = parseFloat(e.station_latitude);
+                    }else{
+                        temp.lat = 23.14 + Math.random() * 0.1;
+                    }                             
 					var color="";
 					if(e.app_result==0){
 						color="red";
@@ -54,8 +64,11 @@ function search(type){
 					}else{
                         color="grey";
                     }
-					var circle = new BMap.Circle(new BMap.Point(temp.lng, temp.lat),10,{strokeColor:color, strokeWeight:10, strokeOpacity:1}); //创建圆
-					map.addOverlay(circle);
+
+                    var circle = new BMap.Circle(new BMap.Point(temp.lng, temp.lat),10,{strokeColor:color, strokeWeight:10, strokeOpacity:1}); //创建圆
+                    map.addOverlay(circle);
+
+					
 					//var marker = new BMap.Marker(new BMap.Point(temp.lng, temp.lat));
 					//map.addOverlay(marker);
 				});
