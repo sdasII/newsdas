@@ -153,7 +153,7 @@
 		var map = new BMap.Map("container");
 		var point = new BMap.Point(113.304979, 23.186708);
 		map.centerAndZoom(point, 12); // 初始化地图,设置中心点坐标和地图级别
-		map.addControl(new BMap.MapTypeControl());
+		//map.addControl(new BMap.MapTypeControl());//地图卫星三维模式切换
 		map.setCurrentCity("广州");
 		//map.addControl(new BMap.NavigationControl({offset: new BMap.Size(10, 90)}));
 		//map.enableScrollWheelZoom();                  // 启用滚轮放大缩小。
