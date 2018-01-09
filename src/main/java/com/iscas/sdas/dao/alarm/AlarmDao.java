@@ -1,10 +1,10 @@
-package com.iscas.sdas.dao;
+package com.iscas.sdas.dao.alarm;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.iscas.sdas.dto.AlarmDto;
+import com.iscas.sdas.dto.alarm.AlarmDto;
 import com.iscas.sdas.dto.cell.CellResultHistoryDto;
 import com.iscas.sdas.dto.result.CellResultHistory;
 

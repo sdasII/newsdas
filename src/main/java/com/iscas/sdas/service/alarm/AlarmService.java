@@ -1,4 +1,4 @@
-package com.iscas.sdas.service;
+package com.iscas.sdas.service.alarm;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.iscas.sdas.common.PageDto;
-import com.iscas.sdas.dao.AlarmDao;
-import com.iscas.sdas.dto.AlarmDto;
+import com.iscas.sdas.dao.alarm.AlarmDao;
+import com.iscas.sdas.dto.alarm.AlarmDto;
 import com.iscas.sdas.dto.cell.CellInfoDto;
 import com.iscas.sdas.dto.cell.CellResultHistoryDto;
 import com.iscas.sdas.dto.result.CellResultHistory;

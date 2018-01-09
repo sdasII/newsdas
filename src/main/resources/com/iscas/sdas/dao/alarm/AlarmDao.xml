@@ -2,8 +2,8 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.iscas.sdas.dao.AlarmDao">
-	<select id="currentDayAlarm" resultType="com.iscas.sdas.dto.AlarmDto">
+<mapper namespace="com.iscas.sdas.dao.alarm.AlarmDao">
+	<select id="currentDayAlarm" resultType="com.iscas.sdas.dto.alarm.AlarmDto">
 		SELECT
 		a.cell_code,a.yyyyMMdd,COUNT(*) AS count,a.app_hour,a.app_result FROM
 		(SELECT * FROM
@@ -12,8 +12,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		t_cell_result_info ORDER BY yyyyMMdd DESC LIMIT 1)) AS a WHERE
 		a.app_result=0 GROUP BY a.cell_code
 	</select>
-	<select id="allDayAlarm" resultType="com.iscas.sdas.dto.AlarmDto"
-		parameterType="com.iscas.sdas.dto.AlarmDto">
+	<select id="allDayAlarm" resultType="com.iscas.sdas.dto.alarm.AlarmDto"
+		parameterType="com.iscas.sdas.dto.alarm.AlarmDto">
 		SELECT yyyyMMdd,cell_code,COUNT(*) AS count FROM t_cell_result_info
 		WHERE app_result = 0
 		<if test="cell_code !=null">
@@ -34,8 +34,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</if>
 		GROUP BY cell_code,yyyyMMdd ORDER BY yyyyMMdd
 	</select>
-	<select id="alarmLastHour" resultType="com.iscas.sdas.dto.AlarmDto" 
-			parameterType="com.iscas.sdas.dto.AlarmDto">
+	<select id="alarmLastHour" resultType="com.iscas.sdas.dto.alarm.AlarmDto" 
+			parameterType="com.iscas.sdas.dto.alarm.AlarmDto">
 		SELECT * FROM t_cell_result_info WHERE app_hour= (SELECT
 		app_hour FROM t_cell_result_info WHERE yyyyMMdd = (SELECT yyyyMMdd
 		FROM t_cell_result_info ORDER BY yyyyMMdd DESC LIMIT 1) ORDER BY

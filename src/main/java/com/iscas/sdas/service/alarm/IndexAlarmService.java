@@ -1,4 +1,4 @@
-package com.iscas.sdas.service;
+package com.iscas.sdas.service.alarm;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.iscas.sdas.common.BaseService;
 import com.iscas.sdas.common.PageDto;
-import com.iscas.sdas.dao.IndexAlarmDao;
-import com.iscas.sdas.dto.IndexAlarmDto;
+import com.iscas.sdas.dao.alarm.IndexAlarmDao;
+import com.iscas.sdas.dto.alarm.IndexAlarmDto;
 
 @Service
 public class IndexAlarmService extends BaseService<IndexAlarmDao, IndexAlarmDto> {
