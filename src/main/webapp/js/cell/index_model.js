@@ -7,7 +7,8 @@ var name1 = '历史分析';
 var name2 = '实时数据';
 var belongGroupUrl = ctx + "/cell/belonggroup";
 var groupIndexUrl = ctx + "/cell/groupindexs";
-var indexUrl = ctx + "/cell/index";
+var indexUrl = ctx + "/model/index";
+var indexTimeUrl = ctx + "/model/index/times"
 var global_month='';
 var nullchart = [];
 for (var i = 0; i < 24; i++) {
@@ -236,10 +237,42 @@ function cellindex(cellcode, indexcode) {
             updateEchart(data);
         }
     });
+    $.ajax({
+		url : indexTimeUrl,
+		type : "post",
+		data : {
+			'cellname' : cellcode,
+			'index' : indexcode
+		},
+		success : function(data, status) {
+			if (data.success) {               
+                var times = data.rows;
+                var lastmonth = times[0];                 
+                $(".form_datetime").val(lastmonth);
+			} else {
+				// 年月默认值(默认上个月)
+				var date = new Date;
+				var year = date.getFullYear();
+				var month = date.getMonth();
+				if (month == 0) {
+					year = year - 1;
+					month = month + 12;
+				}
+				month = (month < 10 ? "0" + month : month);
+				var mydate = (year.toString() + month.toString());
+				$(".form_datetime").val(mydate);
+			}
+		},
+        error:function(data,status,exception,a,b,c){
+            alert("000");
+        }
+	});
 }
 /**
  * 重新组合后台返回数据-使之适应k线图显示格式
- * @param {} rawData
+ * 
+ * @param {}
+ *            rawData
  * @return {}
  */
 function splitData(rawData) {

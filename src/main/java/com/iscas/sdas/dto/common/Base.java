@@ -1,49 +1,12 @@
-package com.iscas.sdas.dto.cell;
+package com.iscas.sdas.dto.common;
 /**
- * 小区指标权重
- * @author Administrator
- *
+ * 24小时类表格对应orm基类
  */
-public class BaseWeight {
+public class Base {
 
-	private String weight_code;
-	private String cell_code;
-	private String yyyyMM;
-	private String snapshot_model;
-	
-	private String range_00,range_01,range_02,range_03,range_04,range_05,range_06,range_07,range_08,range_09,range_10,range_11,range_12,range_13,range_14,range_15,range_16,range_17,range_18,range_19,range_20,range_21,range_22,range_23;
-
-	public String getWeight_code() {
-		return weight_code;
-	}
-
-	public void setWeight_code(String weight_code) {
-		this.weight_code = weight_code;
-	}
-
-	public String getCell_code() {
-		return cell_code;
-	}
-
-	public void setCell_code(String cell_code) {
-		this.cell_code = cell_code;
-	}
-
-	public String getYyyyMM() {
-		return yyyyMM;
-	}
-
-	public void setYyyyMM(String yyyyMM) {
-		this.yyyyMM = yyyyMM;
-	}
-
-	public String getSnapshot_model() {
-		return snapshot_model;
-	}
-
-	public void setSnapshot_model(String snapshot_model) {
-		this.snapshot_model = snapshot_model;
-	}
+	protected String range_00, range_01, range_02, range_03, range_04, range_05, range_06, range_07, range_08, range_09,
+			range_10, range_11, range_12, range_13, range_14, range_15, range_16, range_17, range_18, range_19,
+			range_20, range_21, range_22, range_23;
 
 	public String getRange_00() {
 		return range_00;
@@ -236,6 +199,5 @@ public class BaseWeight {
 	public void setRange_23(String range_23) {
 		this.range_23 = range_23;
 	}
-	
 	
 }

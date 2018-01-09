@@ -18,11 +18,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.iscas.sdas.common.PageDto;
-import com.iscas.sdas.dto.AlarmDto;
+import com.iscas.sdas.dto.alarm.AlarmDto;
 import com.iscas.sdas.dto.cell.CellInfoDto;
 import com.iscas.sdas.dto.cell.CellResultHistoryDto;
 import com.iscas.sdas.dto.result.CellResultHistory;
-import com.iscas.sdas.service.AlarmService;
+import com.iscas.sdas.service.alarm.AlarmService;
 import com.iscas.sdas.util.CommonUntils;
 import com.iscas.sdas.util.Constraints;
 /**
