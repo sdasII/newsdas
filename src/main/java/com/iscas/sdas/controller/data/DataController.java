@@ -33,6 +33,7 @@ import com.iscas.sdas.util.Constraints;
 import com.iscas.sdas.util.ContinueFTP;
 import com.iscas.sdas.util.FTPStatus;
 import com.iscas.sdas.util.FileImport;
+import com.iscas.sdas.util.Message;
 
 import objects.JSON;
 import tasks.BGTask;
@@ -220,9 +221,14 @@ public class DataController{
 		fileLogDto.setFilename(filename);
 		ContinueFTP myFtp = new ContinueFTP();
 		try {
-			//myFtp.connect("49.4.6.146", 21, "hadoop", "nfs_qd123");			
+			String ip = Message.$KEY("ftp.ip");
+			int port = Integer.valueOf(Message.$KEY("ftp.port"));
+			String user = Message.$KEY("ftp.user");
+			String psw = Message.$KEY("ftp.psw");
+			//myFtp.connect("49.4.6.146", 21, "hadoop", "nfs_qd123");	
 			//myFtp.connect("192.168.0.31", 21, "hadoop", "nfs_qd123");
-			myFtp.connect("172.16.0.151", 21, "hadoop", "nfs_qd123");
+			//myFtp.connect("172.16.0.151", 21, "hadoop", "nfs_qd123");		
+			myFtp.connect(ip, port, user, psw);
 			
 			System.out.println("3...连接到ftp");
 			request.getSession().setAttribute(Constraints.SESSION_FTP_STATUS, myFtp);						
