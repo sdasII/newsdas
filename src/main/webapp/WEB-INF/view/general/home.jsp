@@ -94,6 +94,7 @@
 								<option value="2">健康</option>
 								<option value="1">亚健康</option>
 								<option value="0">事件</option>
+								<option value="10">无计算数据</option>
 							</select>
 							<!-- <button id="search_btn" type="button" class="btn btn-primary" onclick="search()">确定</button> -->
 						</div>

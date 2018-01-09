@@ -51,7 +51,9 @@ function search(type){
 						color="orange";
 					}else if(e.app_result==2){
 						color="#25CB73";//"green";
-					}
+					}else{
+                        color="grey";
+                    }
 					var circle = new BMap.Circle(new BMap.Point(temp.lng, temp.lat),10,{strokeColor:color, strokeWeight:10, strokeOpacity:1}); //创建圆
 					map.addOverlay(circle);
 					//var marker = new BMap.Marker(new BMap.Point(temp.lng, temp.lat));

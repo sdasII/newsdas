@@ -30,6 +30,9 @@
 	<select id="getAllMonitorCounts" resultType="java.lang.Integer">
 		SELECT COUNT(*) FROM t_cell_info WHERE in_used =1
 	</select>
+	<select id="getAllMonitorCells" resultType="com.iscas.sdas.dto.cell.CellInfoDto">
+		SELECT * FROM t_cell_info WHERE in_used = 1
+	</select>
 	<delete id="clearHealthInfo">
 		delete from t_cell_health_info 
 	</delete>

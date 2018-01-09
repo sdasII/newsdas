@@ -119,7 +119,7 @@ $(function(){
                 pageNumber : 1,
                 pageList : [ 5, 10, 20 ],
                 clickToSelect : true,
-                detailView: true,//父子表
+                //detailView: true,//父子表
                 sidePagination : 'server',// 设置为服务器端分页
                 columns : [
                     {  
@@ -128,8 +128,9 @@ $(function(){
                             return index+1;  
                         }  
                     },
-                    { field : "yyyyMMdd", title : "日期", align : "center", valign : "middle"},
-                    /*{ field : 'result', title : '风险提示', align : 'center', valign : 'middle',
+                    { field : "yyyymmdd", title : "日期", align : "center", valign : "middle"},
+                    { field : "hour", title : "时刻", align : "center", valign : "middle"},
+                    { field : 'result', title : '风险提示', align : 'center', valign : 'middle',
                         formatter:function(value,row,index){
                               var str="";
                               if(value==0){
@@ -142,8 +143,8 @@ $(function(){
                               var time=row.yyyymmdd+" "+row.hour+":00";
                               return '<a href="#rtratio" onclick="changeZoom('+"'"+time+"'"+')">'+str+"</a>";
                              }
-                    },*/
-                    { field : 'create_time', title : '发布时间', align : 'center', valign : 'middle',
+                    },
+                    { field : 'calcultime', title : '发布时间', align : 'center', valign : 'middle',
                         formatter:function(value,row,index){
                               var jsDate = new Date(value);
                               var UnixTimeToDate = jsDate.getFullYear() + '/' + (jsDate.getMonth() + 1) + '/'+jsDate.getDate()+ ' ' + jsDate.getHours() + ':' + jsDate.getMinutes() + ':' + jsDate.getSeconds();
@@ -152,7 +153,7 @@ $(function(){
                     }
                 ],
                 onExpandRow: function (index, row, $detail) {
-                	detail_table(index, row, $detail);
+                	//detail_table(index, row, $detail);
                 },
                 onPageChange : function(size, number) {
                         searchReultInfo();
@@ -164,7 +165,7 @@ $(function(){
   
       searchReultInfo();
 })
-//初始化子表格
+/*//初始化子表格
 function  detail_table(index, row, $detail){
     var cur_table = $detail.html('<table></table>').find('table');
     $(cur_table).bootstrapTable({
@@ -177,8 +178,8 @@ function  detail_table(index, row, $detail){
         },
         //ajaxOptions: {"yyyymmdd": parentid},
         //uniqueId: "yyyymmdd",
-       /* pageSize: 10,
-        pageList: [10, 25],*/
+        pageSize: 10,
+        pageList: [10, 25],
         pagination : false,
         columns : [
             {  
@@ -215,15 +216,18 @@ function  detail_table(index, row, $detail){
     	    $(cur_table).bootstrapTable('load', data.rows);
     	   }
     });
-}
+}*/
 
 function searchReultInfo(){
     var data = {};
-    data.name = cell_code;
+    data.cellname = cell_code;
     data.type = global_type;
     data.starttime = starttime;
-    data.endtime = endtime;    
-    commonRowDatas("alarm_table", data, tableUrl, "commonCallback", true);
+    data.endtime = endtime;   
+    data.cell = "cell"; 
+    $(".loading_bk").show();
+    $(".loading").show();
+    commonRowDatas("alarm_table", data, tableUrl, "commonCallback", "hide");
 }
 //————————————————————————————————————小区健康判别结果end————————————————————————————————-\\
 //————————————————————————————————————导出————————————————————————————————-\\

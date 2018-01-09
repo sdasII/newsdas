@@ -11,7 +11,9 @@ import com.github.pagehelper.PageInfo;
 import com.iscas.sdas.common.PageDto;
 import com.iscas.sdas.dao.AlarmDao;
 import com.iscas.sdas.dto.AlarmDto;
+import com.iscas.sdas.dto.cell.CellInfoDto;
 import com.iscas.sdas.dto.cell.CellResultHistoryDto;
+import com.iscas.sdas.dto.result.CellResultHistory;
 import com.iscas.sdas.service.cell.CellInfoService;
 import com.iscas.sdas.util.CommonUntils;
 import com.iscas.sdas.util.Constraints;
@@ -46,6 +48,58 @@ public class AlarmService {
 		return alarmDao.alarmLastHour(dto);
 	};
 	/**
+	 * 最新一小时无计算数据的预警数据
+	 * @author dongqun
+	 * 2018年1月8日上午10:53:10
+	 * @param dto
+	 * @return
+	 */
+	public List<CellInfoDto> lastHourOthersAlarm(){
+		List<CellInfoDto> all = cellInfoService.allMonitorCells();
+		List<AlarmDto> events,criticals,healths;
+		AlarmDto alarmDto = new AlarmDto();						
+		alarmDto.setApp_result(0);
+		events = alarmDao.alarmLastHour(alarmDto);
+		alarmDto.setApp_result(1);
+		criticals = alarmDao.alarmLastHour(alarmDto);
+		alarmDto.setApp_result(2);
+		healths = alarmDao.alarmLastHour(alarmDto);
+		if (healths!=null) {
+			for (AlarmDto dto : healths) {
+				String cellcode = dto.getCell_code();
+				for (int i = 0; i < all.size(); i++) {
+					String cellInfoCode = all.get(i).getCell_code();
+					if (cellcode.equals(cellInfoCode)) {
+						all.remove(i);
+					}
+				}										
+			}
+		}
+		if (criticals!=null) {
+			for (AlarmDto dto : criticals) {
+				String cellcode = dto.getCell_code();
+				for (int i = 0; i < all.size(); i++) {
+					String cellInfoCode = all.get(i).getCell_code();
+					if (cellcode.equals(cellInfoCode)) {
+						all.remove(i);
+					}
+				}							
+			}
+		}
+		if (events!=null) {
+			for (AlarmDto dto : events) {
+				String cellcode = dto.getCell_code();
+				for (int i = 0; i < all.size(); i++) {
+					String cellInfoCode = all.get(i).getCell_code();
+					if (cellcode.equals(cellInfoCode)) {
+						all.remove(i);
+					}
+				}							
+			}
+		}
+		return all;
+	};
+	/**
 	 * 最新一小时各类预警的总数和数量
 	 * 0事件1亚健康2健康3计算无数据
 	 * @return
@@ -57,11 +111,11 @@ public class AlarmService {
 			all = cellInfoService.allMonitorCounts();
 			object.put("all", all);						
 			AlarmDto dto = new AlarmDto();
-			dto.setApp_result(null);
-			List<AlarmDto> list = alarmDao.alarmLastHour(null);						
+			//dto.setApp_result(null);
+			//List<AlarmDto> list = alarmDao.alarmLastHour(null);						
 			dto.setApp_result(0);
-			list.clear();
-			list = alarmDao.alarmLastHour(dto);
+			//list.clear();
+			List<AlarmDto> list = alarmDao.alarmLastHour(dto);
 			events = list.size();
 			object.put("event", events);
 			dto.setApp_result(1);
@@ -115,31 +169,31 @@ public class AlarmService {
 	 * @param cellResultHistory
 	 * @return
 	 */
-	public PageDto<CellResultHistoryDto> getCellList(String cellname,String type,String starttime,String endtime){
+	public PageDto<CellResultHistory> getCellList(String cellname,String type,String starttime,String endtime,String ttype){
 		
-		List<CellResultHistoryDto> sources;
+		List<CellResultHistory> sources;
 		
 		
 		if (Constraints.DAY.equals(type)) {
 			//PageHelper.startPage(pageNum, pageSize);
-			sources = alarmDao.cellListLastDay(cellname);
+			sources = alarmDao.cellResultListLastDay(cellname,ttype);
 		}else if (Constraints.WEEK.equals(type)) {
 			//PageHelper.startPage(pageNum, pageSize);
-			sources = alarmDao.cellListLastWeek(cellname);
+			sources = alarmDao.cellResultListLastWeek(cellname,ttype);
 		}else if (Constraints.MONTH.equals(type)) {
 			//PageHelper.startPage(pageNum, pageSize);
-			sources = alarmDao.cellListLastMonth(cellname);
+			sources = alarmDao.cellResultListLastMonth(cellname,ttype);
 		}else {
 			//PageHelper.startPage(pageNum, pageSize);
-			sources = alarmDao.cellListBySelect(cellname,starttime,endtime);
+			sources = alarmDao.cellResultListBySelect(cellname,starttime,endtime,ttype);
 		}
-		PageInfo<CellResultHistoryDto> pageInfo = new PageInfo<>(sources);
-		List<CellResultHistoryDto> rows = new ArrayList<>();
+		PageInfo<CellResultHistory> pageInfo = new PageInfo<>(sources);
+		List<CellResultHistory> rows = new ArrayList<>();
 		for (int i = 0; i < sources.size(); i++) {
-			CellResultHistoryDto dto = sources.get(i);
+			CellResultHistory dto = sources.get(i);
 			rows.add(dto);
 		}
-		PageDto<CellResultHistoryDto> pageDto = new PageDto<>();
+		PageDto<CellResultHistory> pageDto = new PageDto<>();
 		pageDto.setTotal(pageInfo.getTotal());
 		pageDto.setRows(rows);
 		return pageDto;

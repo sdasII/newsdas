@@ -748,14 +748,4 @@ public class CellService{
 			return null;
 		}
 	}
-	/**
-	 * 按月获取判别结果
-	 * @param yyyyMM
-	 * @return
-	 *//*
-	public List<CellResultHistoryDto> cellResultHistroy(String yyyyMM){
-
-			return cellResultHistoryDao.resultByMonth(yyyyMM);
-
-	}*/
 }
