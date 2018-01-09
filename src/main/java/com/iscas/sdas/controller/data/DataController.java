@@ -204,9 +204,7 @@ public class DataController{
 		String yyyyMMdd = request.getParameter("time");				
 		FTPStatus status = originDateUpload(request,yyyyMMdd);
 		model.addAttribute("status",status.toString());
-		// XXXX 数据过滤部分
-		// 数据再上传到hdfs上
-		JSON json = upload2HDFS(yyyyMMdd);
+		//JSON json = upload2HDFS(yyyyMMdd);
 		return model;
 	}
 	
@@ -401,7 +399,6 @@ public class DataController{
 	 * @param request
 	 * @return
 	 */
-	//
 	@RequestMapping("/csvUpload")
 	@ResponseBody
 	public ModelMap uploadCsvTestFile(HttpServletRequest request) {
@@ -491,8 +488,32 @@ public class DataController{
 		ModelMap map = new ModelMap();
 		String filetime = request.getParameter("filetime");
 		String modeltime = request.getParameter("modeltime");
+		JSON ret1 = upload2HDFS(filetime);//上传+分片
+		if (ret1.getType() == JSON.TYPE.FAILED) {
+			//原始数据处理异常
+			map.addAttribute("rows",ret1);
+			if (ret1!=null) {
+				long start = ret1.getStart();
+				long end = ret1.getEnd();
+				long alltime = end-start;
+				SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+			    String s = format.format(start);  
+			    Date startdate = format.parse(s);
+				String e = format.format(end);
+				Date enddate = format.parse(e);
+				FileLogDto logDto = new FileLogDto();
+				logDto.setAlltime(alltime);
+				logDto.setFilename(ret1.getAppid());
+				logDto.setType("原始网管数据预处理");
+				logDto.setStarttime(startdate);
+				logDto.setEndtime(enddate);
+				logDto.setResult(0);
+				fileLogService.insertOne(logDto);
+			}
+			return map;
+		}
 		BGTask task = new CaculateTask();
-		String[] args = new String[]{modeltime,filetime};
+		String[] args = new String[] { modeltime, filetime };
 		JSON ret = task.runTask(args);
 		String filename = task.getAppName();
 		map.addAttribute("rows",ret);
@@ -501,14 +522,14 @@ public class DataController{
 			long end = ret.getEnd();
 			long alltime = end-start;
 			SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
-		    String s = format.format(start);  
+		    String s = format.format(start);
 		    Date startdate = format.parse(s);
 			String e = format.format(end);
 			Date enddate = format.parse(e);
 			FileLogDto logDto = new FileLogDto();
 			logDto.setAlltime(alltime);
 			logDto.setFilename(filename);
-			logDto.setType("zip网管文件分析");
+			logDto.setType("ZIP网管文件分析");
 			logDto.setStarttime(startdate);
 			logDto.setEndtime(enddate);
 			if (ret.getType() == (objects.JSON.TYPE.SUCCESS)) {

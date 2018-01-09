@@ -1,9 +1,9 @@
-package com.iscas.sdas.dao;
+package com.iscas.sdas.dao.alarm;
 
 import java.util.List;
 
 import com.iscas.sdas.common.BaseDao;
-import com.iscas.sdas.dto.IndexAlarmDto;
+import com.iscas.sdas.dto.alarm.IndexAlarmDto;
 
 public interface IndexAlarmDao extends BaseDao<IndexAlarmDto>{
 	

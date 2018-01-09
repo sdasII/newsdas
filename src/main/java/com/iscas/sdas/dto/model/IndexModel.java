@@ -1,10 +1,13 @@
-package com.iscas.sdas.dto.cell;
+package com.iscas.sdas.dto.model;
+
+import com.iscas.sdas.dto.common.Base;
+
 /**
  * 小区指标-月份模型
  * @author Administrator
  *
  */
-public class BaseIndex2 extends Base{
+public class IndexModel extends Base{
 
 	private String indeicator_code;
 	
