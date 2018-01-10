@@ -10,7 +10,7 @@ var imgUrl='image://../style/export.png';
 var rtratioCharts = echarts.init($("#rtratio").get(0));
 var rtratioOption;
 var historyCharts = echarts.init($("#historyCharts").get(0));
-
+var cellListUrl = ctx + '/cellinfo/getlist';
 $(function(){
 	//时间选择窗口
 	$(".datePicker").click(function() {
@@ -43,7 +43,24 @@ $(function(){
 						if(global_type != "select"){
                             global_page_query();
 						}
-					});			
+					});	
+	//小区位置
+	$.ajax({
+		url:cellListUrl,
+		data:{"cellname":cell_code},
+		type:"post",
+		success:function(data){
+			if(data.rows.rows.length>0){
+				data=data.rows.rows[0];
+				if(data.station_latitude!=""&&data.station_longitude!=""){
+					var point=new BMap.Point(data.station_longitude, data.station_latitude);
+					map.centerAndZoom(point, 12); // 初始化地图,设置中心点坐标和地图级别
+					var marker = new BMap.Marker(point);
+					map.addOverlay(marker);
+				}
+			}
+		}
+	});
 	//更新时间
 	$.ajax({
 		url : updateTimeUrl,
