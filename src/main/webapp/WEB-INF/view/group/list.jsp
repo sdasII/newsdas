@@ -113,11 +113,11 @@ margin-left: 10px;
 								<div id="searchimeselect" style="display: none;">
 									<input id="start"
 										style="margin-left: 5px;" class="layer-date" placeholder="请输入开始时间"
-										onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+										onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
 									<input id="span" type="text" style="width:35px; display: inline !important;padding: 8px" value="到"
 										class="btn-white"/> <input id="end" class="layer-date"
 										placeholder="请输入结束时间"
-										onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+										onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
 								</div>
 							</div>
 						</div>
