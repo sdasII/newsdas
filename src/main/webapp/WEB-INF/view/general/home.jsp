@@ -59,6 +59,7 @@
     font-size: 16px;
     padding: 0px 5px;
 }
+.anchorBL{display: none}
 </style>
 </head>
 <body>
@@ -157,6 +158,7 @@
 		map.setCurrentCity("广州");
 		//map.addControl(new BMap.NavigationControl({offset: new BMap.Size(10, 90)}));
 		//map.enableScrollWheelZoom();                  // 启用滚轮放大缩小。
+		map.disableDoubleClickZoom();
 		var marker = new BMap.Marker(point);// 创建标注
 		map.addOverlay(marker);// 加载标注
 		
