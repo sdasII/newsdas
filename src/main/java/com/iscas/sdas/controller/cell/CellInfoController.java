@@ -71,8 +71,12 @@ public class CellInfoController extends BaseController<CellInfoDto> {
 		ModelMap map = new ModelMap();
 		CellInfoDto cellDto = new CellInfoDto();
 		String in_used=request.getParameter("type");
+		String cellname = request.getParameter("cellname");
 		if (!CommonUntils.isempty(in_used)) {
 			cellDto.setIn_used(Integer.parseInt(in_used));
+		}
+		if (!CommonUntils.isempty(cellname)) {
+			cellDto.setCell_code(cellname);
 		}
 		PageDto<CellInfoDto> pageDto=cellInfoService.getPageList(cellDto,num,size);
 		map.addAttribute(Constraints.RESULT_ROW, pageDto);
