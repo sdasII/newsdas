@@ -127,12 +127,12 @@ public class AlarmController {
 		ModelMap map = new ModelMap();
 		AlarmDto dto = new AlarmDto();
 		if (CommonUntils.isempty(type)) {
-			List<AlarmDto> dtos = alarmService.lastHourAlarm(dto);
+			List<CellInfoDto> dtos = alarmService.lastHourAlarm(dto);
 			map.addAttribute(Constraints.RESULT_ROW, dtos);
 		}else if (!CommonUntils.isempty(type) && !"10".equals(type)) {
 			int app_result = Integer.valueOf(request.getParameter("type"));
 			dto.setApp_result(app_result);
-			List<AlarmDto> dtos = alarmService.lastHourAlarm(dto);
+			List<CellInfoDto> dtos = alarmService.lastHourAlarm(dto);
 			map.addAttribute(Constraints.RESULT_ROW, dtos);
 		}else if (!CommonUntils.isempty(type) && "10".equals(type)) {
 			List<CellInfoDto> dtos = alarmService.lastHourOthersAlarm();

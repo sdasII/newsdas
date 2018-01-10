@@ -59,6 +59,7 @@
     font-size: 16px;
     padding: 0px 5px;
 }
+.anchorBL{display: none}
 </style>
 </head>
 <body>
@@ -159,13 +160,8 @@
 		//map.enableScrollWheelZoom();                  // 启用滚轮放大缩小。
 		map.disableDoubleClickZoom();
 		var marker = new BMap.Marker(point);// 创建标注
+		map.addOverlay(marker);// 加载标注
 		
-		var opts = {title : '<span style="font-size:14px;color:#0A8021">要显示的内容</span>'};
-		var infoWindow =new BMap.InfoWindow("<div style='line-height:1.8em;font-size:12px;'>显示内容</div>", opts);  // 创建信息窗口对象，引号里可以书写任意的html语句。
-		  marker.addEventListener("mouseover", function(){
-		 this.openInfoWindow(infoWindow);
-		});
-		  map.addOverlay(marker);// 加载标注
 	</script>
 	<%-- <script type="text/javascript" src="${context}/js/general/heatMap.js"></script> --%>
 	<script type="text/javascript" src="${context}/js/general/home.js"></script>

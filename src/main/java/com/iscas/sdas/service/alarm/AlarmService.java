@@ -44,8 +44,24 @@ public class AlarmService {
 	 * @param dto
 	 * @return
 	 */
-	public List<AlarmDto> lastHourAlarm(AlarmDto dto){
-		return alarmDao.alarmLastHour(dto);
+	public List<CellInfoDto> lastHourAlarm(AlarmDto dto){
+		List<AlarmDto> alarms =  alarmDao.alarmLastHour(dto);
+		CellInfoDto Dto = new CellInfoDto();
+		List<CellInfoDto> all = cellInfoService.getalllist(Dto);
+		List<CellInfoDto> result = new ArrayList<>();
+		for (AlarmDto alarmDto : alarms) {
+			for (CellInfoDto cellInfoDto : all) {
+				if (alarmDto.getCell_code().equals(cellInfoDto.getCell_code())) {
+					cellInfoDto.setApp_result(alarmDto.getApp_result());
+					/*if (cellInfoDto.getStation_longitude()!=null||cellInfoDto.getStation_latitude()!=null) {
+						System.out.println("有坐标！");
+					}*/
+					result.add(cellInfoDto);
+					break;
+				}
+			}
+		}
+		return result;
 	};
 	/**
 	 * 最新一小时无计算数据的预警数据
@@ -55,7 +71,8 @@ public class AlarmService {
 	 * @return
 	 */
 	public List<CellInfoDto> lastHourOthersAlarm(){
-		List<CellInfoDto> all = cellInfoService.allMonitorCells();
+		CellInfoDto cellInfoDto = new CellInfoDto();
+		List<CellInfoDto> all = cellInfoService.getalllist(cellInfoDto);
 		List<AlarmDto> events,criticals,healths;
 		AlarmDto alarmDto = new AlarmDto();						
 		alarmDto.setApp_result(0);
