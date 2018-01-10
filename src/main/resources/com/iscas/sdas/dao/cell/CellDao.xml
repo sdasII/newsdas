@@ -68,10 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		resultType="com.iscas.sdas.dto.cell.BaseCellHealth">
 		SELECT * FROM t_cell_health_info WHERE
 		STR_TO_DATE(yyyyMMdd,'%Y%m%d') > DATE_SUB((SELECT yyyyMMdd FROM
-		t_cell_health_info WHERE 1=1 
-		<if test="cellname!=null">
-			and cell_code = #{cellname} 
-		</if>
+		t_cell_health_info 
 		ORDER BY yyyyMMdd
 		DESC LIMIT 1),INTERVAL 1 DAY) and health_flag = 0 
 		<if test="cellname!=null">
@@ -83,10 +80,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		resultType="com.iscas.sdas.dto.cell.BaseCellHealth">
 		SELECT * FROM t_cell_health_info WHERE
 		STR_TO_DATE(yyyyMMdd,'%Y%m%d') > DATE_SUB((SELECT yyyyMMdd FROM
-		t_cell_health_info WHERE 1=1 
-		<if test="cellname!=null">
-			and cell_code = #{cellname} 
-		</if>
+		t_cell_health_info 
 		ORDER BY yyyyMMdd
 		DESC LIMIT 1),INTERVAL 7 DAY) and health_flag = 0
 		<if test="cellname!=null">
@@ -98,10 +92,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		resultType="com.iscas.sdas.dto.cell.BaseCellHealth">
 		SELECT * FROM t_cell_health_info WHERE
 		STR_TO_DATE(yyyyMMdd,'%Y%m%d') > DATE_SUB((SELECT yyyyMMdd FROM
-		t_cell_health_info WHERE 1=1 
-		<if test="cellname!=null">
-			and cell_code = #{cellname} 
-		</if>
+		t_cell_health_info
 		ORDER BY yyyyMMdd
 		DESC LIMIT 1),INTERVAL 30 DAY) and
 		health_flag = 0 
