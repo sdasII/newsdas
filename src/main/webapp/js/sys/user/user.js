@@ -281,7 +281,6 @@ function deleteRow() {
             userId:rowIds       
         }
         showConfirm(sureDelete, IF_DELETE_INFO, POST, api_deleteSelected, data, searchUserInfo);
-        showOnlyMessage(INFO, "删除成功");
     } else {
         showOnlyMessage(ERROR, $message("ErrorSelectNoDelete", null));
     }
@@ -289,6 +288,7 @@ function deleteRow() {
 }
 function sureDelete(type, url, data, success) {
     doAjax(POST, url, data, success);
+    showOnlyMessage(INFO, "删除成功");
 }
 //将密码用md5加密
 function EncryptPassword(){
