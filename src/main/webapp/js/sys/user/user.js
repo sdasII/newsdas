@@ -70,7 +70,11 @@ function formValidator(){
 				validators : {
 					notEmpty : {
 						message : '请输入用户ID'
-					}
+					},
+					regexp: {
+                        regexp: /^[a-zA-Z0-9_]+$/,
+                        message: '用户ID只能包含大写、小写、数字和下划线'
+                    }
 				}
 			},
 			username : {
@@ -102,7 +106,7 @@ function formValidator(){
 						message : '请输入手机号码'
 					},
 					regexp: {
-                        regexp: /^1[3|4|5|8][0-9]\d{4,8}$/,
+                        regexp: /^0?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/,
                         message: '请输入正确的手机号码'
                     }
 				}
@@ -112,7 +116,8 @@ function formValidator(){
                     notEmpty : {
                         message : '请输入邮箱'
                     },
-                    emailAddress: {
+                    regexp: {
+                        regexp: /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/,
                         message: '请输入正确格式的邮箱'
                     }
                 }
@@ -276,7 +281,6 @@ function deleteRow() {
             userId:rowIds       
         }
         showConfirm(sureDelete, IF_DELETE_INFO, POST, api_deleteSelected, data, searchUserInfo);
-        showOnlyMessage(INFO, "删除成功");
     } else {
         showOnlyMessage(ERROR, $message("ErrorSelectNoDelete", null));
     }
@@ -284,6 +288,7 @@ function deleteRow() {
 }
 function sureDelete(type, url, data, success) {
     doAjax(POST, url, data, success);
+    showOnlyMessage(INFO, "删除成功");
 }
 //将密码用md5加密
 function EncryptPassword(){

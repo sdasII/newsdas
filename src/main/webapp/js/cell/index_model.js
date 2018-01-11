@@ -35,9 +35,9 @@ var echart_option = {
 					+ '  后值 : ' + params[i].value[2];
 				}
 				if(params[i].value[3]!=undefined){
-					res += '<br/>' + params[i].seriesName + '  最大值 : '
+					res += '<br/>' + params[i].seriesName + '  最小值 : '
 					+ params[i].value[1] + '<br/>' + params[i].seriesName
-					+ '  最小值 : ' + params[i].value[3];
+					+ '  最大值 : ' + params[i].value[3];
 				}
 				if(params[i].value[4]!=undefined){
 					res += '<br/>' + params[i].seriesName;
