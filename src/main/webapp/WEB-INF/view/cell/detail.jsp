@@ -147,6 +147,7 @@ input {
     }
 .loading span{font-size: 16px; margin-left: 10px;}
 .loading img{height:30px}
+.anchorBL{display: none}
 </style>
 </head>
 <body>
@@ -340,7 +341,7 @@ input {
 		var map = new BMap.Map("allmap"); // 创建Map实例
 		map.centerAndZoom(new BMap.Point(113.270856, 23.137463), 12); // 初始化地图,设置中心点坐标和地图级别
 		map.setCurrentCity("广州"); // 设置地图显示的城市 此项是必须设置的
-		
+		map.disableDoubleClickZoom();
 	</script>
 	<script type="text/javascript" src="${context}/js/general/heatMap.js"></script>
 	<!-- 指标模型 -->
