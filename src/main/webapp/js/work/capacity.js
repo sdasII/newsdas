@@ -108,9 +108,9 @@ $(function(){
             { field : "belong_area", title : "所属区域", align : "center", valign : "middle"},
             { field : 'monitor_content', title : '监控内容', align : 'left', valign : 'middle' },
             { field : 'monitor_value', title : '监控时值', align : 'left', valign : 'middle' },
-            { field : 'alerm_level', title : '告警级别', align : 'left', valign : 'middle' },
+            { field : 'alerm_level', title : '告警级别', align : 'center', valign : 'middle' },
             { field : 'reasions', title : '原因', align : 'left', valign : 'middle' },
-            { field : 'boutique_level', title : '精品级别', align : 'left', valign : 'middle' },
+            { field : 'boutique_level', title : '精品级别', align : 'center', valign : 'middle' },
             { field : "limit_times", title : "越限次数", align : "center", valign : "middle"},
             { field : 'complete_time', title : '完成时间', align : 'left', valign : 'middle',
             	formatter:function(value,row,index){

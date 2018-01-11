@@ -117,7 +117,7 @@ function formValidator(){
                         message : '请输入邮箱'
                     },
                     regexp: {
-                        regexp: / ^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/,
+                        regexp: /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/,
                         message: '请输入正确格式的邮箱'
                     }
                 }
