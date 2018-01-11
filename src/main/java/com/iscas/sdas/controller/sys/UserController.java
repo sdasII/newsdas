@@ -51,17 +51,19 @@ public class UserController extends BaseController<UserDto>{
 	@ResponseBody
 	public ModelMap userList(@RequestParam(value = "currpage", required = true, defaultValue = "1") String num,
 			@RequestParam(value = "pageSize", required = true, defaultValue = "10") String size,
-			@RequestParam(value="userId")String userid,@RequestParam(value="userName")String username,HttpServletRequest request){
+			HttpServletRequest request){
 		ModelMap map = new ModelMap();
 		UserDto userDto = new UserDto();
 		UserDto userInfo = (UserDto)request.getSession().getAttribute("userInfo");
+		String userid = request.getParameter("userId");
+		String username = request.getParameter("userName");
 		if (userInfo!=null) {
 			if (Constraints.ROLE_ADMIN.equals(userInfo.getRolename())) {
 				if (!CommonUntils.isempty(userid)) {
-					userDto.setUserId(userid);
+					userDto.setUserId(userid.trim());
 				}
 				if (!CommonUntils.isempty(username)) {
-					userDto.setUsername(username);
+					userDto.setUsername(username.trim());
 				}
 			}else if (Constraints.ROLE_USER.equals(userInfo.getRolename())) {
 				userDto.setUserId(userInfo.getUserId());
