@@ -52,7 +52,8 @@ $(function(){
 		success:function(data){
 			if(data.rows.rows.length>0){
 				data=data.rows.rows[0];
-				if(data.station_latitude!=""&&data.station_longitude!=""){
+				console.info(data);
+				if(data.station_latitude!=null&&data.station_latitude!=""&&data.station_longitude!=""&&data.station_longitude!=null){
 					var point=new BMap.Point(data.station_longitude, data.station_latitude);
 					map.centerAndZoom(point, 12); // 初始化地图,设置中心点坐标和地图级别
 					var marker = new BMap.Marker(point);

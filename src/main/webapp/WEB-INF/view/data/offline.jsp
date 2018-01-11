@@ -130,7 +130,22 @@ input[type="file"] {
 	margin-top: 10px;
 }
 #Order_btn{float: right; margin-top: 60px;}
-#modelzip{float: right;}
+#soucefile_content .ibox-title{    
+	border-style: none;
+    min-height: 28px;
+    padding: 0px;}
+#soucefile_content .col-md-4{
+border-right: 1px solid #e7eaec;
+}
+#modelzip{margin-top: 10px}
+#soucefile_content .panel-success{
+    width:990px;
+}
+@media (max-width: 992px){
+#soucefile_content .panel-success{
+    width:490px;
+}
+}
 </style>
 </head>
 <body>
@@ -378,7 +393,7 @@ input[type="file"] {
 				<div class="ibox-title">
 					<h5>性能工单数据</h5>
 				</div>
-				<div class="ibox-content" id="offline">
+				<div class="ibox-content">
 					<div class="col-sm-6">
 						<div class="panel panel-success" style="height: 230px;min-width:490px">
 							<div class="panel-heading">性能工单数据</div>
@@ -488,21 +503,25 @@ input[type="file"] {
 				<div class="ibox-title">
 					<h5>中兴指标全网数据(zip文件)</h5>
 				</div>
-				<div class="ibox-content">
-					<div class="col-sm-6">
-						<div class="panel panel-success" style="min-width:490px">
-							<div class="panel-heading">中兴指标全网数据(zip文件)</div>
+				<div class="ibox-content" id="soucefile_content">
+						<div class="panel panel-success">
+							<div class="panel-heading">中兴指标全网数据(zip文件)
+								<a href="javascript:;" onclick="openIframe('${context}/cell/celltable','健康评估')" 
+									style="float: right;color: white;border-bottom:1px solid white"
+								><i>查看详情</i></a>
+							</div>
+							
 							<div class="panel-body">
 								<!-- <div>
 									<span><i>备注：</i> </span> <span>请选择小区一天的网管数据</span>
 								</div> -->
 								<!-- onsubmit="return netzipSumit(this);" -->
-								<form id="soucefile" action="${context}/data/uploadfile" enctype='multipart/form-data'
+								<div class="row">
+                        			<div class="col-md-4">
+                        			<div class="ibox-title"><h5>上传</h5></div>
+                        			<div class="ibox-content">
+                            		<form id="soucefile" action="${context}/data/uploadfile" enctype='multipart/form-data'
 									method="post">
-									<div class="ibox-tools" style="margin-top: -10px;">
-										<a href="javascript:;"
-											onclick="openIframe('${context}/cell/celltable','健康评估')"><i>查看详情</i></a>
-									</div>
 									<div class="form-group">
 										<label>时间选择：</label> <input id="origintime" name="time"
 											class="btn btn-white layer-date starttime"
@@ -511,19 +530,31 @@ input[type="file"] {
 										<label>选择文件:</label> <input class="btn btn-white" type="file"
 											name="file" id="originfile" />
 										<button class="btn btn-white upload_btn">选择上传文件</button>
-										<div class="upload_title">未选择任何文件</div><br>
+										<br>
 										<!-- <button id="originsubmit" class="btn btn-success"
 											type="submit" style="margin-left: 10px;">上传</button> -->
 										<my:btn type="save" title="上传" onclick="upload_file('#soucefile')"></my:btn>
+										<div class="upload_title">未选择任何文件</div>
 										<span id="span_progress" style="display: none;"> <progress
 												id="progress2" max="100" value="0"></progress><em>上传进度：</em><span id="progressvalue2">0%</span>											
 										</span> 										
-										<span id="upload_progress"></span> <br>
-										<label>模式月份:</label> <input size="16" type="text"
+										<span id="upload_progress"></span>
+										</div>
+										</form>
+										</div>
+                        			</div>
+                        			<div class="col-md-4">
+                        			<div class="ibox-title"><h5>分析</h5></div>
+                        			<div class="ibox-content">
+                        				<div class="form-group">
+                        					<label>时间选择：</label> <input id="calzip_time" name="time"
+											class="btn btn-white layer-date starttime"
+											placeholder="请选择文件时间"
+											onclick="laydate({istime: false, format: 'YYYYMMDD'})"><br>
+                           					<label>模式月份:</label> <input size="16" type="text"
 											name="cal_time" id="net_caltime2"
 											placeholder="请选择计算模式月份（默认上一个月）" readonly
-											class="timepicker form_datetime"
-											style="width: 165px; margin-top: -10px">
+											class="btn btn-white form_datetime" style="width: 165px;margin-top: 5px">
 										<!-- <button class="btn btn-info search" type="button" style="margin-left: 35px;"
 											onclick="submit_calzip()">分析</button> -->
 											<my:btn type="edit" onclick="submit_calzip()" title="分析"></my:btn>
@@ -532,20 +563,32 @@ input[type="file"] {
 											<img
 												src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在分析...</span>
 										</div>
+									</div>
+									</div>
+                       				</div>
+                       				<div class="col-md-4">
+                        			<div class="ibox-title"><h5>模式库</h5></div>
+                        			<div class="ibox-content">
+                        				<div class="form-group">
+                        					<label>模式月份:</label> <input size="16" type="text"
+											name="cal_time" id="net_caltime_model"
+											placeholder="请选择计算模式月份（默认上一个月）" readonly
+											class="btn btn-white form_datetime"
+											style="width: 165px; margin-top: -10px">
+										<br>
+										<div class="tips" style="margin-top: 10px">(请选择要计算月份的模式库)</div>
 										<br>
 										<my:btn type="custom" onclick="submit_modelzip()" title="模式计算" id="modelzip"></my:btn>
-										<!-- <button class="btn btn-info search" type="button"
-											onclick="submit_modelzip()" style="float: right">模式计算</button> -->
 										<div class="btn loading" id="modelzip_load"
 											style="display: none; float: right;">
-											<img
-												src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在计算...</span>
+											<img src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在计算...</span>
 										</div>
 									</div>
-								</form>
+									</div>
+                       				</div>
+                   				</div>
 							</div>
 						</div>
-					</div>
 				</div>
 			</div>
 		</div>

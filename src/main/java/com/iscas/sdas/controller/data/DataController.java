@@ -295,6 +295,14 @@ public class DataController{
 				file2 = path.substring(path.lastIndexOf("/"));
 			}
 		}
+		if (file1==null) {
+			file1 = "客户投诉常驻小区文件命名不规范";
+			result1 = "文件请以《XXX客户投诉常驻小区XXX》命名";
+		}
+		if (file2==null) {
+			file2 = "客户投诉投诉文件命名不规范";
+			result2 = "文件请以《XXX客户投诉情况XXX》命名";
+		}	
 		String allStatus = file1 +": "+result1+";"+file2+": "+result2;
 		map.addAttribute(Constraints.RESULT_SUCCESS, allStatus);		
 		return map;
