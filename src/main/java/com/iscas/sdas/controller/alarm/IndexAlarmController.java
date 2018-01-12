@@ -14,8 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.iscas.sdas.common.BaseController;
 import com.iscas.sdas.common.PageDto;
-import com.iscas.sdas.dto.IndexAlarmDto;
-import com.iscas.sdas.service.IndexAlarmService;
+import com.iscas.sdas.dto.alarm.IndexAlarmDto;
+import com.iscas.sdas.service.alarm.IndexAlarmService;
 import com.iscas.sdas.util.CommonUntils;
 import com.iscas.sdas.util.Constraints;
 

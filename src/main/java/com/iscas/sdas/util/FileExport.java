@@ -198,7 +198,7 @@ public class FileExport {
         titleStyle.setFont(titleFont);
         // 列头样式
         CellStyle headerStyle = workbook.createCellStyle();
-        headerStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        //headerStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
         headerStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
         headerStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
         headerStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
@@ -210,7 +210,7 @@ public class FileExport {
         headerStyle.setFont(headerFont);
         // 单元格样式
         CellStyle cellStyle = workbook.createCellStyle();
-        cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        //cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
         cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
         cellStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
         cellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);

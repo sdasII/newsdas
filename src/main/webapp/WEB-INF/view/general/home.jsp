@@ -6,12 +6,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>首页</title>
 <%@ include file="/include/common.jsp"%>
-<link href="${context}/style/loader.css" rel="stylesheet"
-	type="text/css">
-<script type="text/javascript"
+<link href="${context}/style/loader.css" rel="stylesheet" type="text/css">
+<!-- <script type="text/javascript"
 	src="http://api.map.baidu.com/api?v=2.0&ak=EmXf0NLcNCvBO5hdDliGtvC9D5v6GA5K"></script>
 <script type="text/javascript"
-	src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+	src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script> -->
+<script type="text/javascript" src="${context}/lib/map/baidumap_offline_load.js"></script>
+<link href="${context}/lib/map/css/baidu_map_v2.css" rel="stylesheet" type="text/css">	
 <style type="text/css">
 .nav a, h5 {
 	font-size: 16px !important
@@ -58,6 +59,7 @@
     font-size: 16px;
     padding: 0px 5px;
 }
+.anchorBL{display: none}
 </style>
 </head>
 <body>
@@ -97,7 +99,7 @@
 							</select>
 							<!-- <button id="search_btn" type="button" class="btn btn-primary" onclick="search()">确定</button> -->
 						</div>
-						<div class="ibox-content" style="height:600px;overflow: auto">
+						<div class="ibox-content" style="height:500px;overflow: auto">
 							<ul class="list-group" id="content">
 							</ul>
 						</div>
@@ -137,9 +139,10 @@
 					</div>
 				</div>
 				<div id="rightmodel" class="col-sm-9">
-					<div class="feed-activity-list" id="allmap"
-						style="text-align: center; width: 100%; height: 100%; float: left"></div>
-
+				<div style="left:0;top:0;width:100%;height:100%;position:absolute;" id="container"></div>
+					<!-- <div class="feed-activity-list" id="allmap"
+						style="text-align: center; width: 100%; height: 100%; float: left"></div> -->
+						
 				</div>
 			</div>
 
@@ -148,13 +151,19 @@
 	<script type="text/javascript">
 		var ctx = ctx;
 		// 百度地图API功能
-		var map = new BMap.Map("allmap"); // 创建Map实例
-		map.centerAndZoom(new BMap.Point(113.304979, 23.186708), 12); // 初始化地图,设置中心点坐标和地图级别
-		map.addControl(new BMap.MapTypeControl()); //添加地图类型控件
-		map.setCurrentCity("广州"); // 设置地图显示的城市 此项是必须设置的
-		map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
+		var map = new BMap.Map("container");
+		var point = new BMap.Point(113.304979, 23.186708);
+		map.centerAndZoom(point, 12); // 初始化地图,设置中心点坐标和地图级别
+		//map.addControl(new BMap.MapTypeControl());//地图卫星三维模式切换
+		map.setCurrentCity("广州");
+		//map.addControl(new BMap.NavigationControl({offset: new BMap.Size(10, 90)}));
+		//map.enableScrollWheelZoom();                  // 启用滚轮放大缩小。
+		map.disableDoubleClickZoom();
+		var marker = new BMap.Marker(point);// 创建标注
+		map.addOverlay(marker);// 加载标注
+		
 	</script>
-	<script type="text/javascript" src="${context}/js/general/heatMap.js"></script>
+	<%-- <script type="text/javascript" src="${context}/js/general/heatMap.js"></script> --%>
 	<script type="text/javascript" src="${context}/js/general/home.js"></script>
 </body>
 </html>

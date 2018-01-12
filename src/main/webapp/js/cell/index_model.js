@@ -7,7 +7,8 @@ var name1 = '历史分析';
 var name2 = '实时数据';
 var belongGroupUrl = ctx + "/cell/belonggroup";
 var groupIndexUrl = ctx + "/cell/groupindexs";
-var indexUrl = ctx + "/cell/index";
+var indexUrl = ctx + "/model/index";
+var indexTimeUrl = ctx + "/model/index/times"
 var global_month='';
 var nullchart = [];
 for (var i = 0; i < 24; i++) {
@@ -34,21 +35,20 @@ var echart_option = {
 					+ '  后值 : ' + params[i].value[2];
 				}
 				if(params[i].value[3]!=undefined){
-					res += '<br/>' + params[i].seriesName + '  前值 : '
+					res += '<br/>' + params[i].seriesName + '  最小值 : '
 					+ params[i].value[1] + '<br/>' + params[i].seriesName
-					+ '  后值 : ' + params[i].value[3];
+					+ '  最大值 : ' + params[i].value[3];
 				}
 				if(params[i].value[4]!=undefined){
 					res += '<br/>' + params[i].seriesName;
 					+ '  最大 : ' + params[i].value[4];
 				}
 			}
-			console.info(params[1]);
 			return res;
 		}
 	},
 	legend : {
-		data : [name1, name2]
+		data : [/*name1, name2*/]
 	},
 	grid : {
 		left : '10%',
@@ -236,10 +236,50 @@ function cellindex(cellcode, indexcode) {
             updateEchart(data);
         }
     });
+    update_dataPicker(cellcode,indexcode);
+}
+//修改时间插件默认值
+function update_dataPicker(cellcode,indexcode){
+	$.ajax({
+		url : indexTimeUrl,
+		type : "post",
+		data : {
+			'cellname' : cellcode,
+			'index' : indexcode
+		},
+		success : function(data, status) {
+			if (data.success) {               
+                var times = data.rows;
+                var lastmonth = times[0];                 
+                $(".form_datetime").val(lastmonth);
+                var start_time=times[times.length-1].substring(0,4)+"-"+times[times.length-1].substring(4,6)+"-01";
+                var end_time=lastmonth.substring(0,4)+"-"+lastmonth.substring(4,6)+"-01";
+                $(".form_datetime").datetimepicker('setStartDate',start_time);
+                $(".form_datetime").datetimepicker('setEndDate',end_time);
+			} else {
+				// 年月默认值(默认上个月)
+				var date = new Date;
+				var year = date.getFullYear();
+				var month = date.getMonth();
+				if (month == 0) {
+					year = year - 1;
+					month = month + 12;
+				}
+				month = (month < 10 ? "0" + month : month);
+				var mydate = (year.toString() + month.toString());
+				$(".form_datetime").val(mydate);
+			}
+		},
+        error:function(data,status,exception,a,b,c){
+            alert("000");
+        }
+	});
 }
 /**
  * 重新组合后台返回数据-使之适应k线图显示格式
- * @param {} rawData
+ * 
+ * @param {}
+ *            rawData
  * @return {}
  */
 function splitData(rawData) {

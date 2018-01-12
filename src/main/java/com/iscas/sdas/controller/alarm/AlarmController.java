@@ -18,11 +18,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.iscas.sdas.common.PageDto;
-import com.iscas.sdas.dto.AlarmDto;
+import com.iscas.sdas.dto.alarm.AlarmDto;
 import com.iscas.sdas.dto.cell.CellInfoDto;
 import com.iscas.sdas.dto.cell.CellResultHistoryDto;
 import com.iscas.sdas.dto.result.CellResultHistory;
-import com.iscas.sdas.service.AlarmService;
+import com.iscas.sdas.service.alarm.AlarmService;
 import com.iscas.sdas.util.CommonUntils;
 import com.iscas.sdas.util.Constraints;
 /**
@@ -127,12 +127,12 @@ public class AlarmController {
 		ModelMap map = new ModelMap();
 		AlarmDto dto = new AlarmDto();
 		if (CommonUntils.isempty(type)) {
-			List<AlarmDto> dtos = alarmService.lastHourAlarm(dto);
+			List<CellInfoDto> dtos = alarmService.lastHourAlarm(dto);
 			map.addAttribute(Constraints.RESULT_ROW, dtos);
 		}else if (!CommonUntils.isempty(type) && !"10".equals(type)) {
 			int app_result = Integer.valueOf(request.getParameter("type"));
 			dto.setApp_result(app_result);
-			List<AlarmDto> dtos = alarmService.lastHourAlarm(dto);
+			List<CellInfoDto> dtos = alarmService.lastHourAlarm(dto);
 			map.addAttribute(Constraints.RESULT_ROW, dtos);
 		}else if (!CommonUntils.isempty(type) && "10".equals(type)) {
 			List<CellInfoDto> dtos = alarmService.lastHourOthersAlarm();

@@ -105,7 +105,7 @@ var bsdata = {};
 // 查询表格信息
 function searchInfo() {
 	bsdata.type = $("#type").val();
-	bsdata.cell_name = $("#name").val();
+	bsdata.cellname = $("#name").val();
 	commonRowDatas("table_list", bsdata, cellListUrl, "commonCallback", true);
 }
 //导入

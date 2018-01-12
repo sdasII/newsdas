@@ -187,6 +187,10 @@ var history_export_url = ctx + "/cell/healthtrend/export";
 function resultexportExcel(){
 	$("#load2").show();
     var export_type = $("#type").val();
+    if(date_Type=="select"){         
+        start_Time = $("#start").val();
+        end_Time = $("#end").val();
+    }
     var form = $("<form></form>").attr("action", result_export_url).attr("method", "post");
     form.append($("<input></input>").attr("type", "hidden").attr("name","type").attr("value", date_Type));
     form.append($("<input></input>").attr("type", "hidden").attr("name","starttime").attr("value", start_Time));
@@ -198,6 +202,10 @@ function resultexportExcel(){
 }
 function exportExcel(){
 	$("#load1").show();
+    if(date_Type=="select"){         
+        start_Time = $("#start").val();
+        end_Time = $("#end").val();
+    }
     var form = $("<form></form>").attr("action", history_export_url).attr("method", "post");
     form.append($("<input></input>").attr("type", "hidden").attr("name","type").attr("value", date_Type));
     form.append($("<input></input>").attr("type", "hidden").attr("name","starttime").attr("value", start_Time));

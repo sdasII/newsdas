@@ -148,7 +148,7 @@ public class CapacityWorkController {
 			} else if ("month".equals(type)) {
 				title = "工单验证_最近一月数据";
 			} else if ("select".equals(type)) {
-				title = "判别结果导出_全部数据__" + starttime + "_" + endtime;
+				title = "工单验证_全部数据_" + starttime + "_" + endtime;
 			}
 			List<CapacityWorkDto> list = capacityWorkService.getAllList(capacityWorkDto, type, starttime,endtime);		
 			Map<String, String> headMap = new LinkedHashMap<>();

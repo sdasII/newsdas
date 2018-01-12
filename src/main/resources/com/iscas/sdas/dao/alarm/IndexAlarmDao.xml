@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iscas.sdas.dao.alarm.IndexAlarmDao">
+	<select id="getPageListCurrentDay" resultType="com.iscas.sdas.dto.alarm.IndexAlarmDto">
+		SELECT
+		a.cell_code,a.yyyyMMdd,COUNT(*) AS count,a.app_hour,a.app_result,a.app_type FROM (SELECT * FROM
+		t_cell_result_index_info WHERE yyyyMMdd = (SELECT yyyyMMdd FROM
+		t_cell_result_index_info ORDER BY yyyyMMdd DESC LIMIT 1)) AS a WHERE
+		a.app_result=0 GROUP BY a.cell_code
+	</select>
+	<select id="getPageList" resultType="com.iscas.sdas.dto.alarm.IndexAlarmDto" parameterType="com.iscas.sdas.dto.alarm.IndexAlarmDto">
+		SELECT yyyyMMdd,cell_code,COUNT(*) AS count,app_type FROM t_cell_result_index_info WHERE app_result = 0		
+		<if test="cell_code !=null">
+			<bind name="cellcode" value="'%'+ _parameter.getCell_code() +'%'" />
+			and cell_code like #{cellcode}
+		</if>
+		<if test="type !=null">
+			and app_type = #{type}
+		</if>
+		<if test="starttime!=null and starttime!=null">
+		 and create_time &gt;=#{starttime} and create_time &lt;=#{endtime}
+		</if>
+		<if test="starttime==null and endtime==null and daynum==7">
+		and TO_DAYS(NOW())-TO_DAYS(create_time) &lt;=#{daynum}
+		</if>
+		<if test="starttime==null and endtime==null and daynum==30">
+		and TO_DAYS(NOW())-TO_DAYS(create_time) &lt;=#{daynum}
+		</if>
+		<if test="starttime==null and endtime==null and daynum==0">
+		and TO_DAYS(NOW())-TO_DAYS(create_time) =#{daynum}
+		</if>
+		GROUP BY cell_code,yyyyMMdd ORDER BY yyyyMMdd
+	</select>
+	<select id="getLastDay" resultType="com.iscas.sdas.dto.alarm.IndexAlarmDto">
+	SELECT * FROM t_cell_result_index_info where cell_code=#{cell_code} and yyyyMMdd=(SELECT yyyyMMdd as lasttime FROM t_cell_result_index_info  where cell_code=#{cell_code} order by lasttime DESC LIMIT 1)
+	<if test="type !=null">
+			and app_type = #{type}
+	</if>;
+	</select>
+</mapper>
