@@ -235,6 +235,8 @@ function longPoling(){
 function submit_upload(id,formid){
 	if($(id).val()==""){
 		 showOnlyMessage(ERROR, "请选择文件！");
+	}else if($(id).val().indexOf(".xls")<0&&$(id).val().indexOf(".xlsx")<0){
+		showOnlyMessage(ERROR, "请选择表格类型的文件！");
 	}else{
 		$(formid).submit();
         if(formid == "#form1"){
@@ -401,6 +403,8 @@ function upload_file(formId){
 		showOnlyMessage(ERROR, "请选择时间");
 	}else if($(formId).find("input[type='file']").val()==""){
 		showOnlyMessage(ERROR, "请选择文件");
+	}else if($(formId).find("input[type='file']").val().indexOf(".zip")<0){
+		showOnlyMessage(ERROR, "请选择zip类型的文件！");
 	}else{
 		$(formId).submit();
 	}

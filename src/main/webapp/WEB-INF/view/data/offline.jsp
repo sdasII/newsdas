@@ -54,7 +54,7 @@
 	display: none;
 	color: red
 }
-
+.loading{margin-top: -40px}
 .loading img {
 	height: 20px;
 	margin-right: 5px
@@ -223,20 +223,20 @@ input[type="file"] {
 		$("#soucefile").ajaxForm({
 			beforeSend : function(formData, jqForm, options) {
 				var percentVal = '0%';
-				if (select != "" && time != "") {
-					$("#originsubmit").attr("disabled", true);
-					$("#progress2").attr("value", 0);
-					$("#progressvalue2").text("0%");
-					ws.send("start");
-					var progress = "正在上传" + percentVal + "...";
-					$("#upload_progress").text(progress);
-					$("#upload_progress").css("display", "inline");
-				} else if (select == "") {
+				if (select == "") {
 					showOnlyMessage(ERROR, "请选择文件！");
 					return false;
-				} else if (time == "") {
+				}else if (time == "") {
 					showOnlyMessage(ERROR, "请选择时间！");
 					return false;
+				}else if (select != "" && time != "") {
+						$("#originsubmit").attr("disabled", true);
+						$("#progress2").attr("value", 0);
+						$("#progressvalue2").text("0%");
+						ws.send("start");
+						var progress = "正在上传" + percentVal + "...";
+						$("#upload_progress").text(progress);
+						$("#upload_progress").css("display", "inline");
 				}
 			},
 			uploadProgress : function(event, position, total, percentComplete) {
@@ -279,17 +279,20 @@ input[type="file"] {
 				var percentVal = '0%';
 				var select = $("#signalfile").val();
 				var time = $("#nettest_time").val();
-				if (select != "" && time != "") {
-					$("#signalSubmit").attr("disabled", true);
-					var progress = "正在上传" + percentVal + "...";
-					$("#signal_upload_progress").text(progress);
-				} else if (select == "") {
+				if (select == "") {
 					showOnlyMessage(ERROR, "请选择文件！");
 					return false;
-				} else if (time == "") {
+				}else if (time == "") {
 					showOnlyMessage(ERROR, "请选择时间！");
 					return false;
-				}
+				}else if($("#originfile").val().indexOf(".csv")<0){
+					showOnlyMessage(ERROR, "请选择csv类型的文件！");
+					return false;
+				}else if (select != "" && time != ""&&$("#originfile").val().indexOf(".csv")>0) {
+						$("#signalSubmit").attr("disabled", true);
+						var progress = "正在上传" + percentVal + "...";
+						$("#signal_upload_progress").text(progress);
+				} 
 			},
 			uploadProgress : function(event, position, total, percentComplete) {
 				var percentVal = percentComplete + '%';
@@ -569,7 +572,7 @@ input[type="file"] {
 													placeholder="请选择文件时间"
 													onclick="laydate({istime: false, format: 'YYYYMMDD'})"><br>
 												<label>选择文件:</label> <input class="btn btn-white"
-													type="file" name="file" id="originfile" />
+													type="file" name="file" id="originfile"/>
 												<button class="btn btn-white upload_btn">选择上传文件</button>
 												<br>
 												<!-- <button id="originsubmit" class="btn btn-success"
@@ -627,7 +630,7 @@ input[type="file"] {
 											<my:btn type="custom" onclick="submit_modelzip()"
 												title="模式计算" id="modelzip"></my:btn>
 											<div class="btn loading" id="modelzip_load"
-												style="display: none; float: right;">
+												style="display: none; margin-left: 50px">
 												<img
 													src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在计算...</span>
 											</div>
