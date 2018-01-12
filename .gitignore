@@ -72,3 +72,5 @@ src/main/resources/jdbc.properties
 src/main/resources/generatorConfig.xml
 src/main/resources/mysql.jdbc.xml
 src/main/resources/config.properties
+
+*.png
