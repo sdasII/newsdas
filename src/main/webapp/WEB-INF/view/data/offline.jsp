@@ -151,7 +151,9 @@ input[type="file"] {
 	<script type="text/javascript">
 		var ws;
 		if ('WebSocket' in window) {
-			ws = new WebSocket("ws://49.4.6.146:9999/newsdas/websocket");
+		    //TODO 
+            //ws = new WebSocket("ws://49.4.6.146:9999/newsdas/websocket");
+            ws = new WebSocket("ws://172.16.0.151:9999/newsdas/websocket");
 			//ws = new WebSocket("ws://localhost:8080/newsdas/websocket");
 		} else {
 			alert("当前浏览器不支持WebSocket");
