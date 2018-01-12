@@ -179,6 +179,7 @@ function globalSelect(){
         bsdata.end = end_Time;
     }
     result_Status = $("#status").val();
+    bsdata.result = result_Status;
     commonRowDatas("table_list_1", bsdata, cellListUrl, "commonCallback", "hide");
 }
 var result_export_url = ctx + "/cell/result/export"

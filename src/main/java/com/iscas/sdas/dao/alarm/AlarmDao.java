@@ -36,11 +36,11 @@ public interface AlarmDao {
 	CellResultHistoryDto getOneAlarm(@Param("cellname")String cellname,@Param("time")String yyyyMMdd);
 	
 	//v_cell_result中的小区信息
-	List<CellResultHistory> cellResultListLastDay(@Param("cellname")String cellname,@Param("type")String type);
+	List<CellResultHistory> cellResultListLastDay(@Param("cellname")String cellname,@Param("type")String type,@Param("result")String result);
 	//v_cell_result中的小区信息
-	List<CellResultHistory> cellResultListLastWeek(@Param("cellname")String cellname,@Param("type")String type);
+	List<CellResultHistory> cellResultListLastWeek(@Param("cellname")String cellname,@Param("type")String type,@Param("result")String result);
 	//v_cell_result中的小区信息
-	List<CellResultHistory> cellResultListLastMonth(@Param("cellname")String cellname,@Param("type")String type);
+	List<CellResultHistory> cellResultListLastMonth(@Param("cellname")String cellname,@Param("type")String type,@Param("result")String result);
 	//v_cell_result中的小区信息
-	List<CellResultHistory> cellResultListBySelect(@Param("cellname")String cellname,@Param("start")String starttime,@Param("end")String endtime,@Param("type")String type);
+	List<CellResultHistory> cellResultListBySelect(@Param("cellname")String cellname,@Param("start")String starttime,@Param("end")String endtime,@Param("type")String type,@Param("result")String result);
 }

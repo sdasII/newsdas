@@ -275,67 +275,75 @@ function complainSumit(element) {
  * 单个网管csv文件分析
  */
 function submit_cal(){
-	$("#cal_load").show();
-	var time = $("#net_caltime").val();
-	if(time==""){//默认为上一个月
-		var date=new Date;
-		var year=date.getFullYear(); 
-		var month=date.getMonth();
-		month =(month<10 ? "0"+month:month);
-		time=(year.toString()+month.toString());
+	var filetime = $("#nettest_cal_time").val();
+	if(filetime==""){
+		showOnlyMessage(ERROR, "请选择时间！");
+	}else{
+		$("#cal_load").show();
+		var time = $("#net_caltime").val();
+		if(time==""){//默认为上一个月
+			var date=new Date;
+			var year=date.getFullYear(); 
+			var month=date.getMonth();
+			month =(month<10 ? "0"+month:month);
+			time=(year.toString()+month.toString());
+		}
+	    var data = {};
+	    data.modeltime = time;
+	    data.filetime = filetime;
+	    var strurl  = ctx + "/data/csvStatistic";
+	    //$("#csv_load").css("display", "line");
+	    $.ajax({
+	      url : strurl,
+	      type : "post",
+	      data : data,
+	      success : function(data,success){
+	           //$("#csv_load").css("display", "none");
+	           $("#cal_load").hide();
+	           if(data.rows.type=="SUCCESS"){
+	           	showOnlyMessage(INFO, "分析完成");
+	           }else{
+	           	showOnlyMessage(ERROR, data.rows.message);
+	           }
+	      }
+	    });
 	}
-    var filetime = $("#nettest_time").val();
-    var data = {};
-    data.modeltime = time;
-    data.filetime = filetime;
-    var strurl  = ctx + "/data/csvStatistic";
-    //$("#csv_load").css("display", "line");
-    $.ajax({
-      url : strurl,
-      type : "post",
-      data : data,
-      success : function(data,success){
-           //$("#csv_load").css("display", "none");
-           $("#cal_load").hide();
-           if(data.rows.type=="SUCCESS"){
-           	showOnlyMessage(INFO, "分析完成");
-           }else{
-           	showOnlyMessage(ERROR, data.rows.message);
-           }
-      }
-    });
 }
 /*
  * 网关数据分析 
  */
 function submit_calzip(){
-	$("#calzip_load").show();
-	var time = $("#net_caltime2").val();
-	if(time==""){//默认为上一个月
-		var date=new Date;
-		var year=date.getFullYear(); 
-		var month=date.getMonth();
-		month =(month<10 ? "0"+month:month);
-		time=(year.toString()+month.toString());
-	}
-    var filetime = $("#origintime").val();
-    var data = {};
-    data.modeltime = time;
-    data.filetime = filetime;
-    var strurl  = ctx + "/data/zipStatistic";
-    $.ajax({
-      url : strurl,
-      type : "post",
-      data : data,
-      success : function(data,success){
-           $("#calzip_load").hide();
-           if(data.rows.type=="SUCCESS"){
-              	showOnlyMessage(INFO, "分析完成");
-              }else{
-              	showOnlyMessage(ERROR, data.rows.message);
-              }
-      }
-    });
+    var filetime = $("#calzip_time").val();
+    if(filetime==""){
+    	showOnlyMessage(ERROR, "请选择时间！");
+    }else{
+    	$("#calzip_load").show();
+    	var time = $("#net_caltime2").val();
+    	if(time==""){//默认为上一个月
+    		var date=new Date;
+    		var year=date.getFullYear(); 
+    		var month=date.getMonth();
+    		month =(month<10 ? "0"+month:month);
+    		time=(year.toString()+month.toString());
+    	}
+    	var data = {};
+        data.modeltime = time;
+        data.filetime = filetime;
+        var strurl  = ctx + "/data/zipStatistic";
+        $.ajax({
+          url : strurl,
+          type : "post",
+          data : data,
+          success : function(data,success){
+               $("#calzip_load").hide();
+               if(data.rows.type=="SUCCESS"){
+                  	showOnlyMessage(INFO, "分析完成");
+                  }else{
+                  	showOnlyMessage(ERROR, data.rows.message);
+                  }
+          }
+        });
+    }
 }
 
 /*
@@ -343,7 +351,7 @@ function submit_calzip(){
  */
 function submit_modelzip(){
 	$("#modelzip_load").show();
-    var time = $("#net_caltime2").val();
+    var time = $("#net_caltime_model").val();
     if(time==""){//默认为上一个月
         var date=new Date;
         var year=date.getFullYear(); 

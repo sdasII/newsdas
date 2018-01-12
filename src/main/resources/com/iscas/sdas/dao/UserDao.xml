@@ -30,11 +30,12 @@
   <select id="getPageList" resultMap="BaseResultMap" parameterType="com.iscas.sdas.dto.sys.UserDto">
   	select * from sys_user,sys_role WHERE sys_user.user_id = sys_role.userid
     	<if test="userId != null">
-    		and user_id = #{userId,jdbcType=VARCHAR}
+    		<bind name="userid" value="'%'+ _parameter.getUserId() +'%'"/>
+    		and sys_user.user_id like #{userid}
     	</if>
     	<if test="username != null">
-    		<bind name="user" value="'%'+ _parameter.getUsername() +'%'"/>
-    		and username = #{user}
+    		<bind name="username" value="'%'+ _parameter.getUsername() +'%'"/>
+    		and sys_user.username like #{username}
     	</if>
   </select>  
   <select id="getUser" resultMap="BaseResultMap" parameterType="com.iscas.sdas.dto.sys.UserDto">

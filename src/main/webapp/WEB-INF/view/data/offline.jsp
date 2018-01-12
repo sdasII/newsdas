@@ -129,8 +129,33 @@ input[type="file"] {
 	display: inline;
 	margin-top: 10px;
 }
-#Order_btn{float: right; margin-top: 60px;}
-#modelzip{float: right;}
+
+#Order_btn {
+	float: right;
+	margin-top: 60px;
+}
+
+#soucefile_content .ibox-title ,#csv_file .ibox-title{
+	border-style: none;
+	min-height: 28px;
+	padding: 0px;
+}
+
+#soucefile_content .col-md-4,#csv_file .col-md-6{
+	border-right: 1px solid #e7eaec;
+}
+
+#modelzip {
+	margin-top: 10px
+}
+
+#soucefile_content .panel-success{width: 990px;}
+#csv_file .panel-success{width: 690px;}
+@media ( max-width : 992px) {
+	#soucefile_content .panel-success,#csv_file .panel-success{
+		width: 490px;
+	}
+}
 </style>
 </head>
 <body>
@@ -189,12 +214,12 @@ input[type="file"] {
 	</script>
 	<script type="text/javascript">
 		var select = $("#originfile").val();
-		var time = $("#origintime").val();			
-		
+		var time = $("#origintime").val();
+
 		function closews() {
 			ws.close();
 		}
-		
+
 		$("#soucefile").ajaxForm({
 			beforeSend : function(formData, jqForm, options) {
 				var percentVal = '0%';
@@ -248,8 +273,7 @@ input[type="file"] {
 				showOnlyMessage(ERROR, data.message);
 			}
 		});
-		
-		
+
 		$("#signalCSVFile").ajaxForm({
 			beforeSend : function(formData, jqForm, options) {
 				var percentVal = '0%';
@@ -301,7 +325,7 @@ input[type="file"] {
 				showOnlyMessage(ERROR, data.message);
 			}
 		});
-		
+
 		/*
 		 * 单个csv网管文件导入
 		 */
@@ -335,13 +359,14 @@ input[type="file"] {
 				</div>
 				<div class="ibox-content" id="offline">
 					<div class="col-sm-6">
-						<div class="panel panel-success" style="min-width:490px">
+						<div class="panel panel-success" style="min-width: 490px">
 							<div class="panel-heading">投诉工单数据</div>
 							<div class="panel-body">
 								<!-- <div>
 									<span><i>备注：</i> </span> <span>请选择客户投诉情况导出表和客户投诉小区导出表！</span><br><br>
 								</div> -->
-								<form action="${context}/data/uploadcomplain" method="post" id="complain_form" enctype="multipart/form-data"
+								<form action="${context}/data/uploadcomplain" method="post"
+									id="complain_form" enctype="multipart/form-data"
 									onsubmit="return complainSumit(this);">
 									<label>时间选择：</label> <input id="complaintime" name="time"
 										style="margin-left: 25px;"
@@ -359,7 +384,8 @@ input[type="file"] {
 									<button class="btn btn-white upload_btn">选择上传文件</button>
 									<div class="upload_title">未选择任何文件</div>
 									<br>
-									<my:btn type="save" title="上传" onclick="upload_file('#complain_form')"></my:btn>
+									<my:btn type="save" title="上传"
+										onclick="upload_file('#complain_form')"></my:btn>
 									<!--  <input class="btn btn-success" type="submit"value="上传"> -->
 									<div class="btn loading" id="complaint_load"
 										style="display: none;">
@@ -378,9 +404,10 @@ input[type="file"] {
 				<div class="ibox-title">
 					<h5>性能工单数据</h5>
 				</div>
-				<div class="ibox-content" id="offline">
+				<div class="ibox-content">
 					<div class="col-sm-6">
-						<div class="panel panel-success" style="height: 230px;min-width:490px">
+						<div class="panel panel-success"
+							style="height: 230px; min-width: 490px">
 							<div class="panel-heading">性能工单数据</div>
 							<div class="panel-body">
 								<!-- <div>
@@ -399,19 +426,22 @@ input[type="file"] {
 									<br>
 									<!-- <input
 										class="btn btn-white" type="reset" value="重选"> -->
-										<my:btn type="save" title="上传" onclick="submit_upload('#file2','#form2')"></my:btn>
+									<my:btn type="save" title="上传"
+										onclick="submit_upload('#file2','#form2')"></my:btn>
 									<!-- <input id="submit1" class="btn btn-success" type="button"
 										value="上传" 
 										style="margin-top: 30px;"> -->
 									<div class="btn loading" id="capacity_load"
 										style="display: none;">
-										<img src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在上传...</span>
+										<img
+											src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在上传...</span>
 									</div>
 
 									<!-- <button class="btn btn-info search" type="button"
 										onclick="workOrderValidate()"
 										style="float: right; margin-top: 60px;">工单验证</button> -->
-									<my:btn type="custom" onclick="workOrderValidate()" title="工单验证" id="Order_btn"></my:btn>
+									<my:btn type="custom" onclick="workOrderValidate()"
+										title="工单验证" id="Order_btn"></my:btn>
 									<div class="btn loading" id="Validate_load"
 										style="display: none; float: right; margin-top: 60px;">
 										<img
@@ -430,56 +460,84 @@ input[type="file"] {
 				<div class="ibox-title">
 					<h5>中兴指标数据csv测试文件</h5>
 				</div>
-				<div class="ibox-content">
-					<div class="col-sm-6">
-						<div class="panel panel-success" style="height: 230px;min-width:490px">
+				<div class="ibox-content" id="csv_file">
+						<div class="panel panel-success" >
 							<div class="panel-heading">中兴指标数据csv测试文件</div>
 							<div class="panel-body">
-								<form id="signalCSVFile" action="${context}/data/csvUpload" method="post" enctype='multipart/form-data'>
-									<div class="ibox-tools" style="margin-top: -10px;">
-										<a href="javascript:;"
-											onclick="openIframe('${context}/cell/celltable','健康评估')"><i>查看详情</i></a>
-									</div>
-									<div class="form-group">
-										<!-- 待提交表单 -->
-										<label>时间选择：</label> 
-										<input id="nettest_time" name="time" class="btn btn-white layer-date starttime"
-											placeholder="请选择文件时间" onclick="laydate({istime: false, format: 'YYYYMMDD'})">
-										<span id="nettime_error" class="error_msg">月份不能为空！</span><br>
-										<label>选择文件:</label> 
-										<input class="btn btn-white" type="file" name="file" id="signalfile" accept=".csv">
-										<button class="btn btn-white upload_btn">选择上传文件</button>
-										<div class="upload_title">未选择任何文件</div><br>
-										<!-- <input id="signalSubmit" class="btn btn-success" type="submit" value="上传" style="margin-left: 10px;"> -->
-										<my:btn type="save" title="上传" onclick="upload_file('#signalCSVFile')"></my:btn>
-										<!-- 待提交表单 -->
-										
-										<!-- 复合loadding -->
-										<div class="btn loading" id="csv_load" style="display: none;">
-											<img
-												src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在上传...</span>
-										</div>									
-										<span id="signal_upload_progress"></span> <br>
-										<!-- 复合loading -->
-										
-										<!-- 分析部分 -->
-										<label>模式月份:</label> <input size="16" type="text"
-											name="cal_time" id="net_caltime"
-											placeholder="请选择计算模式月份（默认上一个月）" readonly
-											class="form_datetime" style="width: 165px; margin-top: -10px">
-										<!-- <button class="btn btn-info search" type="button" style="margin-left: 35px;"
-											onclick="submit_cal()">分析</button> -->
-										<my:btn type="edit" onclick="submit_cal()" title="分析" id="cal_btn"></my:btn>
-										<div class="btn loading" id="cal_load" style="display: none;">
-											<img
-												src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在分析...</span>
+							<div class="ibox-tools" style="margin-top: -10px;">
+								<a href="javascript:;" onclick="openIframe('${context}/cell/celltable','健康评估')"><i>查看详情</i></a>
+							</div>
+								<div class="row">
+									<div class="col-md-6" style="margin-top: 10px;">
+										<div class="ibox-title">
+											<h5>上传</h5>
 										</div>
-										<!-- 分析部分结束 -->
+										<div class="ibox-content">
+											<form id="signalCSVFile" action="${context}/data/csvUpload"
+												method="post" enctype='multipart/form-data'>
+												<div class="form-group">
+													<!-- 待提交表单 -->
+													<label>时间选择：</label> <input id="nettest_time" name="time"
+														class="btn btn-white layer-date starttime"
+														placeholder="请选择文件时间"
+														onclick="laydate({istime: false, format: 'YYYYMMDD'})">
+													<span id="nettime_error" class="error_msg">月份不能为空！</span><br>
+													<label>选择文件:</label> <input class="btn btn-white"
+														type="file" name="file" id="signalfile" accept=".csv">
+													<button class="btn btn-white upload_btn">选择上传文件</button>
+													<br>
+													<!-- <input id="signalSubmit" class="btn btn-success" type="submit" value="上传" style="margin-left: 10px;"> -->
+													<my:btn type="save" title="上传"
+														onclick="upload_file('#signalCSVFile')"></my:btn>
+														<div class="upload_title">未选择任何文件</div>
+													<!-- 待提交表单 -->
+
+													<!-- 复合loadding -->
+													<div class="btn loading" id="csv_load"
+														style="display: none;">
+														<img
+															src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在上传...</span>
+													</div>
+													<span id="signal_upload_progress"></span> <br>
+													<!-- 复合loading -->
+												</div>
+											</form>
+										</div>
 									</div>
-								</form>
+									<div class="col-md-6">
+										<div class="ibox-title">
+											<h5>分析</h5>
+										</div>
+										<div class="ibox-content">
+											<div class="form-group">
+												<!-- 分析部分 -->
+												<label>时间选择：</label> <input id="nettest_cal_time" name="time"
+														class="btn btn-white layer-date starttime"
+														placeholder="请选择文件时间"
+														onclick="laydate({istime: false, format: 'YYYYMMDD'})">
+												<label>模式月份:</label> <input size="16" type="text"
+													name="cal_time" id="net_caltime"
+													placeholder="请选择计算模式月份（默认上一个月）" readonly
+													class="btn btn-white form_datetime"
+													style="width: 165px; margin-top: 0px">
+												<!-- <div class="tips" style="margin-top: 10px">(请选择要计算月份的模式库)</div> -->
+												<br>
+												<my:btn type="edit" onclick="submit_cal()" title="分析"
+													id="cal_btn"></my:btn>
+												<div class="btn loading" id="cal_load"
+													style="display: none;">
+													<img
+														src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在分析...</span>
+												</div>
+												<!-- 分析部分结束 -->
+											</div>
+										</div>
+									</div>
+
+								</div>
+
 							</div>
 						</div>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -488,61 +546,94 @@ input[type="file"] {
 				<div class="ibox-title">
 					<h5>中兴指标全网数据(zip文件)</h5>
 				</div>
-				<div class="ibox-content">
-					<div class="col-sm-6">
-						<div class="panel panel-success" style="min-width:490px">
-							<div class="panel-heading">中兴指标全网数据(zip文件)</div>
-							<div class="panel-body">
-								<!-- <div>
-									<span><i>备注：</i> </span> <span>请选择小区一天的网管数据</span>
-								</div> -->
-								<!-- onsubmit="return netzipSumit(this);" -->
-								<form id="soucefile" action="${context}/data/uploadfile" enctype='multipart/form-data'
-									method="post">
-									<div class="ibox-tools" style="margin-top: -10px;">
-										<a href="javascript:;"
-											onclick="openIframe('${context}/cell/celltable','健康评估')"><i>查看详情</i></a>
+				<div class="ibox-content" id="soucefile_content">
+					<div class="panel panel-success">
+						<div class="panel-heading">
+							中兴指标全网数据(zip文件) 
+						</div>
+						<div class="panel-body">
+						<div class="ibox-tools" style="margin-top: -10px;">
+								<a href="javascript:;" onclick="openIframe('${context}/cell/celltable','健康评估')"><i>查看详情</i></a>
+							</div>
+							<div class="row">
+								<div class="col-md-4" style="margin-top: 10px;">
+									<div class="ibox-title">
+										<h5>上传</h5>
 									</div>
-									<div class="form-group">
-										<label>时间选择：</label> <input id="origintime" name="time"
-											class="btn btn-white layer-date starttime"
-											placeholder="请选择文件时间"
-											onclick="laydate({istime: false, format: 'YYYYMMDD'})"><br>
-										<label>选择文件:</label> <input class="btn btn-white" type="file"
-											name="file" id="originfile" />
-										<button class="btn btn-white upload_btn">选择上传文件</button>
-										<div class="upload_title">未选择任何文件</div><br>
-										<!-- <button id="originsubmit" class="btn btn-success"
+									<div class="ibox-content">
+										<form id="soucefile" action="${context}/data/uploadfile"
+											enctype='multipart/form-data' method="post">
+											<div class="form-group">
+												<label>时间选择：</label> <input id="origintime" name="time"
+													class="btn btn-white layer-date starttime"
+													placeholder="请选择文件时间"
+													onclick="laydate({istime: false, format: 'YYYYMMDD'})"><br>
+												<label>选择文件:</label> <input class="btn btn-white"
+													type="file" name="file" id="originfile" />
+												<button class="btn btn-white upload_btn">选择上传文件</button>
+												<br>
+												<!-- <button id="originsubmit" class="btn btn-success"
 											type="submit" style="margin-left: 10px;">上传</button> -->
-										<my:btn type="save" title="上传" onclick="upload_file('#soucefile')"></my:btn>
-										<span id="span_progress" style="display: none;"> <progress
-												id="progress2" max="100" value="0"></progress><em>上传进度：</em><span id="progressvalue2">0%</span>											
-										</span> 										
-										<span id="upload_progress"></span> <br>
-										<label>模式月份:</label> <input size="16" type="text"
-											name="cal_time" id="net_caltime2"
-											placeholder="请选择计算模式月份（默认上一个月）" readonly
-											class="timepicker form_datetime"
-											style="width: 165px; margin-top: -10px">
-										<!-- <button class="btn btn-info search" type="button" style="margin-left: 35px;"
+												<my:btn type="save" title="上传"
+													onclick="upload_file('#soucefile')"></my:btn>
+												<div class="upload_title">未选择任何文件</div>
+												<span id="span_progress" style="display: none;"> <progress
+														id="progress2" max="100" value="0"></progress><em>上传进度：</em><span
+													id="progressvalue2">0%</span>
+												</span> <span id="upload_progress"></span>
+											</div>
+										</form>
+									</div>
+								</div>
+								<div class="col-md-4" style="margin-top: 10px;">
+									<div class="ibox-title">
+										<h5>分析</h5>
+									</div>
+									<div class="ibox-content">
+										<div class="form-group">
+											<label>时间选择：</label> <input id="calzip_time" name="time"
+												class="btn btn-white layer-date starttime"
+												placeholder="请选择文件时间"
+												onclick="laydate({istime: false, format: 'YYYYMMDD'})"><br>
+											<label>模式月份:</label> <input size="16" type="text"
+												name="cal_time" id="net_caltime2"
+												placeholder="请选择计算模式月份（默认上一个月）" readonly
+												class="btn btn-white form_datetime"
+												style="width: 165px; margin-top: 5px">
+											<!-- <button class="btn btn-info search" type="button" style="margin-left: 35px;"
 											onclick="submit_calzip()">分析</button> -->
 											<my:btn type="edit" onclick="submit_calzip()" title="分析"></my:btn>
-										<div class="btn loading" id="calzip_load"
-											style="display: none;">
-											<img
-												src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在分析...</span>
-										</div>
-										<br>
-										<my:btn type="custom" onclick="submit_modelzip()" title="模式计算" id="modelzip"></my:btn>
-										<!-- <button class="btn btn-info search" type="button"
-											onclick="submit_modelzip()" style="float: right">模式计算</button> -->
-										<div class="btn loading" id="modelzip_load"
-											style="display: none; float: right;">
-											<img
-												src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在计算...</span>
+											<div class="btn loading" id="calzip_load"
+												style="display: none;">
+												<img
+													src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在分析...</span>
+											</div>
 										</div>
 									</div>
-								</form>
+								</div>
+								<div class="col-md-4">
+									<div class="ibox-title">
+										<h5>模式库</h5>
+									</div>
+									<div class="ibox-content">
+										<div class="form-group">
+											<label>模式月份:</label> <input size="16" type="text"
+												name="cal_time" id="net_caltime_model"
+												placeholder="请选择计算模式月份（默认上一个月）" readonly
+												class="btn btn-white form_datetime"
+												style="width: 165px; margin-top: -10px"> <br>
+											<div class="tips" style="margin-top: 10px">(请选择要计算月份的模式库)</div>
+											<br>
+											<my:btn type="custom" onclick="submit_modelzip()"
+												title="模式计算" id="modelzip"></my:btn>
+											<div class="btn loading" id="modelzip_load"
+												style="display: none; float: right;">
+												<img
+													src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>正在计算...</span>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>

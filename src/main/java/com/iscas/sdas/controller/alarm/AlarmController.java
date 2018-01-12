@@ -181,6 +181,7 @@ public class AlarmController {
 			@RequestParam(value = "type", required = true, defaultValue = "day") String type,HttpServletRequest request){
 		ModelMap map = new ModelMap();
 		String cellname = request.getParameter("cellname");
+		String result = request.getParameter("result");
 		String starttime= null,endtime = null;
 		if (Constraints.SELECT.equals(type)) {
 			starttime = request.getParameter("start");
@@ -194,7 +195,10 @@ public class AlarmController {
 		if (!"cell".equals(ttype)) {
 			ttype = null;
 		}
-		PageDto<CellResultHistory> pageDto = alarmService.getCellList(cellname,type,starttime,endtime,ttype);
+		if ("-1".equals(result)) {
+			result = null;
+		}
+		PageDto<CellResultHistory> pageDto = alarmService.getCellList(cellname,type,starttime,endtime,ttype,result);
 		map.addAttribute(Constraints.RESULT_ROW, pageDto);	
 		return map;
 	}
