@@ -186,23 +186,23 @@ public class AlarmService {
 	 * @param cellResultHistory
 	 * @return
 	 */
-	public PageDto<CellResultHistory> getCellList(String cellname,String type,String starttime,String endtime,String ttype){
+	public PageDto<CellResultHistory> getCellList(String cellname,String type,String starttime,String endtime,String ttype,String result){
 		
 		List<CellResultHistory> sources;
 		
 		
 		if (Constraints.DAY.equals(type)) {
 			//PageHelper.startPage(pageNum, pageSize);
-			sources = alarmDao.cellResultListLastDay(cellname,ttype);
+			sources = alarmDao.cellResultListLastDay(cellname,ttype,result);
 		}else if (Constraints.WEEK.equals(type)) {
 			//PageHelper.startPage(pageNum, pageSize);
-			sources = alarmDao.cellResultListLastWeek(cellname,ttype);
+			sources = alarmDao.cellResultListLastWeek(cellname,ttype,result);
 		}else if (Constraints.MONTH.equals(type)) {
 			//PageHelper.startPage(pageNum, pageSize);
-			sources = alarmDao.cellResultListLastMonth(cellname,ttype);
+			sources = alarmDao.cellResultListLastMonth(cellname,ttype,result);
 		}else {
 			//PageHelper.startPage(pageNum, pageSize);
-			sources = alarmDao.cellResultListBySelect(cellname,starttime,endtime,ttype);
+			sources = alarmDao.cellResultListBySelect(cellname,starttime,endtime,ttype,result);
 		}
 		PageInfo<CellResultHistory> pageInfo = new PageInfo<>(sources);
 		List<CellResultHistory> rows = new ArrayList<>();

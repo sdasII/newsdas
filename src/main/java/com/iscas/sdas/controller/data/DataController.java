@@ -219,14 +219,16 @@ public class DataController{
 		fileLogDto.setFilename(filename);
 		ContinueFTP myFtp = new ContinueFTP();
 		try {
-			String ip = Message.$KEY("ftp.ip");
-			int port = Integer.valueOf(Message.$KEY("ftp.port"));
-			String user = Message.$KEY("ftp.user");
-			String psw = Message.$KEY("ftp.psw");
-			//myFtp.connect("49.4.6.146", 21, "hadoop", "nfs_qd123");	
+			//System.err.println("============");
+			//String ip = Message.$KEY("ftp.ip");
+			//int port = Integer.valueOf(Message.$KEY("ftp.port"));
+			//String user = Message.$KEY("ftp.user");
+			//String psw = Message.$KEY("ftp.psw");
+			myFtp.connect("49.4.6.146", 21, "hadoop", "nfs_qd123");	
 			//myFtp.connect("192.168.0.31", 21, "hadoop", "nfs_qd123");
-			//myFtp.connect("172.16.0.151", 21, "hadoop", "nfs_qd123");		
-			myFtp.connect(ip, port, user, psw);
+			//myFtp.connect("172.16.0.151", 21, "hadoop", "nfs_qd123");	
+			//System.err.println("============"+ip+":"+port+" "+user+" "+psw);
+			//myFtp.connect(ip, port, user, psw);
 			
 			System.out.println("3...连接到ftp");
 			request.getSession().setAttribute(Constraints.SESSION_FTP_STATUS, myFtp);						
@@ -293,6 +295,14 @@ public class DataController{
 				file2 = path.substring(path.lastIndexOf("/"));
 			}
 		}
+		if (file1==null) {
+			file1 = "客户投诉常驻小区文件命名不规范";
+			result1 = "文件请以《XXX客户投诉常驻小区XXX》命名";
+		}
+		if (file2==null) {
+			file2 = "客户投诉投诉文件命名不规范";
+			result2 = "文件请以《XXX客户投诉情况XXX》命名";
+		}	
 		String allStatus = file1 +": "+result1+";"+file2+": "+result2;
 		map.addAttribute(Constraints.RESULT_SUCCESS, allStatus);		
 		return map;

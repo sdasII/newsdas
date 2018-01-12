@@ -119,6 +119,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<bind name="cellname" value="'%'+ cellname +'%'" />
 			and cellname like #{cellname}
 		</if>
+		<if test="result != null">
+			and result = #{result}
+		</if>
 	</select>
 	<select id="cellResultListLastWeek" parameterType="java.lang.String" resultType="com.iscas.sdas.dto.result.CellResultHistory">
 		SELECT * FROM v_cell_result WHERE
@@ -131,6 +134,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</if>
 		<if test="type != null">
 			and result in (0,1)
+		</if>
+		<if test="result != null">
+			and result = #{result}
 		</if>
 		ORDER BY yyyymmdd
 	</select>
@@ -146,6 +152,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="type != null">
 			and result in (0,1)
 		</if>
+		<if test="result != null">
+			and result = #{result}
+		</if>
 		ORDER BY yyyymmdd
 	</select>
 	<select id="cellResultListBySelect" parameterType="java.lang.String" resultType="com.iscas.sdas.dto.result.CellResultHistory">
@@ -157,6 +166,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</if>
 		<if test="type != null">
 			and result in (0,1)
+		</if>
+		<if test="result != null">
+			and result = #{result}
 		</if>
 		ORDER BY yyyymmdd
 	</select>
