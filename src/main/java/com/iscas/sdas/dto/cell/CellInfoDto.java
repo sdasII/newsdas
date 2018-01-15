@@ -13,12 +13,15 @@ public class CellInfoDto extends BaseDto {
 	private String station_code;
 	private String cell_name;
 	private Integer in_used;
-
 	private String cell_coordinate;
 	private String cell_info;
 	private String state_type_1, state_type_2;
 	private String normal_model;
+	private String station_latitude;
+	private String station_longitude;
 
+	private Integer app_result;
+	
 	public String getCell_code() {
 		return cell_code;
 	}
@@ -91,4 +94,28 @@ public class CellInfoDto extends BaseDto {
 		this.normal_model = normal_model;
 	}
 
+	public String getStation_latitude() {
+		return station_latitude;
+	}
+
+	public void setStation_latitude(String station_latitude) {
+		this.station_latitude = station_latitude;
+	}
+
+	public String getStation_longitude() {
+		return station_longitude;
+	}
+
+	public void setStation_longitude(String station_longitude) {
+		this.station_longitude = station_longitude;
+	}
+
+	public Integer getApp_result() {
+		return app_result;
+	}
+
+	public void setApp_result(Integer app_result) {
+		this.app_result = app_result;
+	}
+	
 }

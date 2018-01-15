@@ -105,7 +105,7 @@ var bsdata = {};
 // 查询表格信息
 function searchInfo() {
 	bsdata.type = $("#type").val();
-	bsdata.cell_name = $("#name").val();
+	bsdata.cellname = $("#name").val();
 	commonRowDatas("table_list", bsdata, cellListUrl, "commonCallback", true);
 }
 //导入
@@ -113,8 +113,21 @@ function import_Excel(){
 	if($("#comlainfile").val()==""){
 		showOnlyMessage(ERROR, "请选择文件");
 	}else{
-		$("#import_load").show();
-		$("#cell_form").submit();
+		swal({
+			title : "上传提示",
+			text : "上传后相关数据将全部清空，是否确定上传？",
+			type : "warning",
+			showCancelButton : true,
+			confirmButtonColor : "#1c84c6",
+			confirmButtonText : "确定",
+			cancelButtonText : "取消",
+			closeOnConfirm : false
+		}, function(isConfirm) {
+			if (isConfirm) {
+				$("#import_load").show();
+				$("#cell_form").submit();
+			}
+		});
 	}
 }
 //导出

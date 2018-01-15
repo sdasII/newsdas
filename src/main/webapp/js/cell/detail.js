@@ -10,7 +10,7 @@ var imgUrl='image://../style/export.png';
 var rtratioCharts = echarts.init($("#rtratio").get(0));
 var rtratioOption;
 var historyCharts = echarts.init($("#historyCharts").get(0));
-
+var cellListUrl = ctx + '/cellinfo/getlist';
 $(function(){
 	//时间选择窗口
 	$(".datePicker").click(function() {
@@ -43,7 +43,25 @@ $(function(){
 						if(global_type != "select"){
                             global_page_query();
 						}
-					});			
+					});	
+	//小区位置
+	$.ajax({
+		url:cellListUrl,
+		data:{"cellname":cell_code},
+		type:"post",
+		success:function(data){
+			if(data.rows.rows.length>0){
+				data=data.rows.rows[0];
+				console.info(data);
+				if(data.station_latitude!=null&&data.station_latitude!=""&&data.station_longitude!=""&&data.station_longitude!=null){
+					var point=new BMap.Point(data.station_longitude, data.station_latitude);
+					map.centerAndZoom(point, 12); // 初始化地图,设置中心点坐标和地图级别
+					var marker = new BMap.Marker(point);
+					map.addOverlay(marker);
+				}
+			}
+		}
+	});
 	//更新时间
 	$.ajax({
 		url : updateTimeUrl,
@@ -64,17 +82,6 @@ $(function(){
          maxView:'decade',
          language:  'zh-CN' 
     });
-  //年月默认值(默认上个月)
-    var date=new Date;
-    var year=date.getFullYear(); 
-    var month=date.getMonth();
-    if(month==0){
-    	year=year-1;
-    	month=month+12;
-    }
-    month =(month<10 ? "0"+month:month); 
-    var mydate = (year.toString()+month.toString());
-    $(".form_datetime").val(mydate);
     rtRatio();
 });
 
@@ -119,7 +126,7 @@ $(function(){
                 pageNumber : 1,
                 pageList : [ 5, 10, 20 ],
                 clickToSelect : true,
-                detailView: true,//父子表
+                //detailView: true,//父子表
                 sidePagination : 'server',// 设置为服务器端分页
                 columns : [
                     {  
@@ -128,8 +135,9 @@ $(function(){
                             return index+1;  
                         }  
                     },
-                    { field : "yyyyMMdd", title : "时间", align : "center", valign : "middle"},
-                    /*{ field : 'result', title : '风险提示', align : 'center', valign : 'middle',
+                    { field : "yyyymmdd", title : "日期", align : "center", valign : "middle"},
+                    { field : "hour", title : "时刻", align : "center", valign : "middle"},
+                    { field : 'result', title : '风险提示', align : 'center', valign : 'middle',
                         formatter:function(value,row,index){
                               var str="";
                               if(value==0){
@@ -142,8 +150,8 @@ $(function(){
                               var time=row.yyyymmdd+" "+row.hour+":00";
                               return '<a href="#rtratio" onclick="changeZoom('+"'"+time+"'"+')">'+str+"</a>";
                              }
-                    },*/
-                    { field : 'create_time', title : '发布时间', align : 'center', valign : 'middle',
+                    },
+                    { field : 'calcultime', title : '发布时间', align : 'center', valign : 'middle',
                         formatter:function(value,row,index){
                               var jsDate = new Date(value);
                               var UnixTimeToDate = jsDate.getFullYear() + '/' + (jsDate.getMonth() + 1) + '/'+jsDate.getDate()+ ' ' + jsDate.getHours() + ':' + jsDate.getMinutes() + ':' + jsDate.getSeconds();
@@ -152,19 +160,19 @@ $(function(){
                     }
                 ],
                 onExpandRow: function (index, row, $detail) {
-                	detail_table(index, row, $detail);
+                	//detail_table(index, row, $detail);
                 },
                 onPageChange : function(size, number) {
                         searchReultInfo();
                 },
                 formatNoMatches : function() {
-                    return NOT_FOUND_DATAS;
+                    return "无查询结果";
                 }
             });
   
       searchReultInfo();
 })
-//初始化子表格
+/*//初始化子表格
 function  detail_table(index, row, $detail){
     var cur_table = $detail.html('<table></table>').find('table');
     $(cur_table).bootstrapTable({
@@ -177,8 +185,8 @@ function  detail_table(index, row, $detail){
         },
         //ajaxOptions: {"yyyymmdd": parentid},
         //uniqueId: "yyyymmdd",
-       /* pageSize: 10,
-        pageList: [10, 25],*/
+        pageSize: 10,
+        pageList: [10, 25],
         pagination : false,
         columns : [
             {  
@@ -215,15 +223,18 @@ function  detail_table(index, row, $detail){
     	    $(cur_table).bootstrapTable('load', data.rows);
     	   }
     });
-}
+}*/
 
 function searchReultInfo(){
     var data = {};
-    data.name = cell_code;
+    data.cellname = cell_code;
     data.type = global_type;
     data.starttime = starttime;
-    data.endtime = endtime;    
-    commonRowDatas("alarm_table", data, tableUrl, "commonCallback", true);
+    data.endtime = endtime;   
+    data.cell = "cell"; 
+    $(".loading_bk").show();
+    $(".loading").show();
+    commonRowDatas("alarm_table", data, tableUrl, "commonCallback", "hide");
 }
 //————————————————————————————————————小区健康判别结果end————————————————————————————————-\\
 //————————————————————————————————————导出————————————————————————————————-\\
@@ -327,7 +338,7 @@ $(function(){
             searchCapacityInfo();
         },
         formatNoMatches : function() {
-            return NOT_FOUND_DATAS;
+            return "无查询结果";
         }
     });
     $('#table_list_work2').bootstrapTable({
@@ -385,7 +396,7 @@ $(function(){
             searchComplaintInfo();
         },
         formatNoMatches : function() {
-            return NOT_FOUND_DATAS;
+            return "无查询结果";
         }
     });
     searchCapacityInfo();

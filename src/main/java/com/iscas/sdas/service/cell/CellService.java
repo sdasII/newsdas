@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.iscas.sdas.dao.AlarmDao;
 import com.iscas.sdas.dao.StationInfoDtoMapper;
+import com.iscas.sdas.dao.alarm.AlarmDao;
 import com.iscas.sdas.dao.cell.CellDao;
 import com.iscas.sdas.dao.cell.CellResultHistoryDao;
 import com.iscas.sdas.dao.complain.ComplainDao;
@@ -748,14 +748,4 @@ public class CellService{
 			return null;
 		}
 	}
-	/**
-	 * 按月获取判别结果
-	 * @param yyyyMM
-	 * @return
-	 *//*
-	public List<CellResultHistoryDto> cellResultHistroy(String yyyyMM){
-
-			return cellResultHistoryDao.resultByMonth(yyyyMM);
-
-	}*/
 }

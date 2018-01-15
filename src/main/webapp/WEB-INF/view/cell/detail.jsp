@@ -11,10 +11,12 @@
 <title>详细信息</title>
 <%@ include file="/include/common.jsp"%>
 <%-- <script src="${context}/lib/hplus/js/plugins/layer/laydate/laydate.js"></script> --%>
-<script type="text/javascript"
+<script type="text/javascript" src="${context}/lib/map/baidumap_offline_load.js"></script>
+<link href="${context}/lib/map/css/baidu_map_v2.css" rel="stylesheet" type="text/css">
+<!-- <script type="text/javascript"
 	src="http://api.map.baidu.com/api?v=2.0&ak=EmXf0NLcNCvBO5hdDliGtvC9D5v6GA5K"></script>
 <script type="text/javascript"
-	src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+	src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script> -->
 <script src="${context}/lib/datapicker/bootstrap-datetimepicker.js"></script>
 <script
 	src="${context}/lib/datapicker/bootstrap-datetimepicker.zh-CN.js"></script>
@@ -122,6 +124,30 @@ input {
 /* #alarm .pull-left {
 	display: none
 } */
+
+.loading_bk{
+	/* display:none; */
+    height: 80%;
+    width: 100%;
+    min-height:310px;
+    background-color: #777;
+    position: absolute;
+    z-index: 999;
+    opacity: 0.6;
+    text-align: center;
+    }
+.loading{
+	/* display:none; */
+	color:#fff;
+    margin-left: 40%;
+    margin-top: 10%;
+    position: absolute;
+    z-index: 9999;
+    text-align: center;
+    }
+.loading span{font-size: 16px; margin-left: 10px;}
+.loading img{height:30px}
+.anchorBL{display: none}
 </style>
 </head>
 <body>
@@ -175,6 +201,12 @@ input {
 				<div class="ibox-content">
 					<div class="jqGrid_wrapper" id="alarm"
 						style="margin: 0; padding: 0; width: 100%; overflow: auto;">
+						<!-- loading -->
+							<div class="loading_bk" id="table_loadbk"></div>
+							<div class="loading" id="table_load">
+								<img src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>内容加载中...</span>
+							</div>
+						<!-- loading -->
 						<table class="table" id="alarm_table"></table>
 						<div id="pager_alarm_table"></div>
 					</div>
@@ -249,7 +281,7 @@ input {
 						</ul>
 						<div class="tab-content">
 							<div id="tab-3" class="tab-pane active">
-								<div class="panel-body" style="min-height: 450px;">
+								<div class="panel-body" style="min-height: 150px;">
 									<div class="jqGrid_wrapper">
 										<table class="table" id="table_list_work"></table>
 										<div id="pager_list_work"></div>
@@ -257,7 +289,7 @@ input {
 								</div>
 							</div>
 							<div id="tab-4" class="tab-pane">
-								<div class="panel-body" style="min-height: 450px;">
+								<div class="panel-body" style="min-height: 150px;">
 									<table class="table" id="table_list_work2"></table>
 									<div id="pager_list_work2"></div>
 								</div>
@@ -272,12 +304,9 @@ input {
 				<h5>指标分析</h5>
 				<div class="ibox-tools">
 					<label for="time" style="margin-left: 20px">指标查询 <input
-						size="16" type="text" id="time" placeholder="请选择月份" readonly
-						class="form_datetime">
+						size="16" type="text" id="time" placeholder="请选择月份" readonly class="form_datetime">
 					</label>
 					<my:btn type="search" onclick="cellindex_search()"></my:btn>
-					<!-- <button style="margin-left: 5px;" class="btn btn-success"
-							onclick="cellindex_search()">查询</button> -->
 				</div>
 			</div>
 			<div class="ibox-content">
@@ -310,12 +339,10 @@ input {
 		var context = "${context}";
 		// 百度地图API功能
 		var map = new BMap.Map("allmap"); // 创建Map实例
-		map.centerAndZoom(new BMap.Point(113.270856, 23.137463), 15); // 初始化地图,设置中心点坐标和地图级别
-		map.addControl(new BMap.MapTypeControl()); //添加地图类型控件
+		map.centerAndZoom(new BMap.Point(113.270856, 23.137463), 14); // 初始化地图,设置中心点坐标和地图级别
 		map.setCurrentCity("广州"); // 设置地图显示的城市 此项是必须设置的
-		map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
-		var marker = new BMap.Marker(new BMap.Point(113.270856, 23.137463));
-		map.addOverlay(marker);
+		//map.disableDoubleClickZoom();
+		map.enableScrollWheelZoom();                  // 启用滚轮放大缩小。
 	</script>
 	<script type="text/javascript" src="${context}/js/general/heatMap.js"></script>
 	<!-- 指标模型 -->

@@ -66,9 +66,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		t1.phonenumber=t2.phone_number AND left(t1.recordtime,10)=left(t2.record_time,10)
 		AND (t2.live_cellname1=#{cellname} OR t2.live_cellname2=#{cellname} OR t2.live_cellname3=#{cellname}) 
 		AND t1.recordtime = (SELECT t1.recordtime FROM t_complaint_detail t1,t_complaint_residentarea t2
-		WHERE t1.phonenumber=t2.phone_number AND
-		left(t1.recordtime,10)=left(t2.record_time,10)
-		AND (t2.live_cellname1=#{cellname} OR t2.live_cellname2=#{cellname} OR t2.live_cellname3=#{cellname}) ORDER BY t1.recordtime DESC LIMIT 1) 
+		WHERE t1.phonenumber=t2.phone_number AND left(t1.recordtime,10)=left(t2.record_time,10) ORDER BY t1.recordtime DESC LIMIT 1) 
 		ORDER BY t1.recordtime	
 	</select>
 	<select id="complaintWithinOneWeek" resultType="com.iscas.sdas.dto.CellComplainDto"
@@ -85,12 +83,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		t2.live_cellname3=#{cellname} ) AND t1.recordtime 
 		BETWEEN DATE_SUB((SELECT t1.recordtime FROM t_complaint_detail t1,t_complaint_residentarea t2
 		WHERE t1.phonenumber=t2.phone_number AND
-		left(t1.recordtime,10)=left(t2.record_time,10)
-		AND (t2.live_cellname1=#{cellname} OR t2.live_cellname2=#{cellname} OR t2.live_cellname3=#{cellname}) ORDER BY t1.recordtime DESC LIMIT 1),INTERVAL 7 DAY) AND
+		left(t1.recordtime,10)=left(t2.record_time,10)  ORDER BY t1.recordtime DESC LIMIT 1),INTERVAL 7 DAY) AND
 		(SELECT t1.recordtime FROM t_complaint_detail t1,t_complaint_residentarea t2
 		WHERE t1.phonenumber=t2.phone_number AND
 		left(t1.recordtime,10)=left(t2.record_time,10)
-		AND (t2.live_cellname1=#{cellname} OR t2.live_cellname2=#{cellname} OR t2.live_cellname3=#{cellname}) ORDER BY t1.recordtime DESC LIMIT 1)
+		ORDER BY t1.recordtime DESC LIMIT 1)
 		ORDER BY t1.recordtime
 	</select>
 	<select id="complaintWithinOneMonth" resultType="com.iscas.sdas.dto.CellComplainDto"
@@ -108,11 +105,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		BETWEEN DATE_SUB((SELECT t1.recordtime FROM t_complaint_detail t1,t_complaint_residentarea t2
 		WHERE t1.phonenumber=t2.phone_number AND
 		left(t1.recordtime,10)=left(t2.record_time,10)
-		AND (t2.live_cellname1=#{cellname} OR t2.live_cellname2=#{cellname} OR t2.live_cellname3=#{cellname}) ORDER BY t1.recordtime DESC LIMIT 1),INTERVAL 30 DAY) AND
+		ORDER BY t1.recordtime DESC LIMIT 1),INTERVAL 30 DAY) AND
 		(SELECT t1.recordtime FROM t_complaint_detail t1,t_complaint_residentarea t2
 		WHERE t1.phonenumber=t2.phone_number AND
 		left(t1.recordtime,10)=left(t2.record_time,10)
-		AND (t2.live_cellname1=#{cellname} OR t2.live_cellname2=#{cellname} OR t2.live_cellname3=#{cellname}) ORDER BY t1.recordtime DESC LIMIT 1)
+		ORDER BY t1.recordtime DESC LIMIT 1)
 		ORDER BY t1.recordtime
 	</select>
 	<select id="complaintWithinSelect" resultType="com.iscas.sdas.dto.CellComplainDto">

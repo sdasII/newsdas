@@ -18,10 +18,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.iscas.sdas.common.PageDto;
-import com.iscas.sdas.dto.AlarmDto;
+import com.iscas.sdas.dto.alarm.AlarmDto;
+import com.iscas.sdas.dto.cell.CellInfoDto;
 import com.iscas.sdas.dto.cell.CellResultHistoryDto;
 import com.iscas.sdas.dto.result.CellResultHistory;
-import com.iscas.sdas.service.AlarmService;
+import com.iscas.sdas.service.alarm.AlarmService;
 import com.iscas.sdas.util.CommonUntils;
 import com.iscas.sdas.util.Constraints;
 /**
@@ -125,12 +126,18 @@ public class AlarmController {
 		String type=request.getParameter("type");
 		ModelMap map = new ModelMap();
 		AlarmDto dto = new AlarmDto();
-		if (!CommonUntils.isempty(type)) {
+		if (CommonUntils.isempty(type)) {
+			List<CellInfoDto> dtos = alarmService.lastHourAlarm(dto);
+			map.addAttribute(Constraints.RESULT_ROW, dtos);
+		}else if (!CommonUntils.isempty(type) && !"10".equals(type)) {
 			int app_result = Integer.valueOf(request.getParameter("type"));
 			dto.setApp_result(app_result);
+			List<CellInfoDto> dtos = alarmService.lastHourAlarm(dto);
+			map.addAttribute(Constraints.RESULT_ROW, dtos);
+		}else if (!CommonUntils.isempty(type) && "10".equals(type)) {
+			List<CellInfoDto> dtos = alarmService.lastHourOthersAlarm();
+			map.addAttribute(Constraints.RESULT_ROW, dtos);
 		}
-		List<AlarmDto> dtos = alarmService.lastHourAlarm(dto);
-		map.addAttribute(Constraints.RESULT_ROW, dtos);
 		return map;
 	}
 	/**
@@ -173,16 +180,25 @@ public class AlarmController {
 			@RequestParam(value = "pageSize", required = true, defaultValue = "10") String size,
 			@RequestParam(value = "type", required = true, defaultValue = "day") String type,HttpServletRequest request){
 		ModelMap map = new ModelMap();
-		String cellname = request.getParameter("name");
+		String cellname = request.getParameter("cellname");
+		String result = request.getParameter("result");
 		String starttime= null,endtime = null;
 		if (Constraints.SELECT.equals(type)) {
-			starttime = request.getParameter("starttime");
-			endtime = request.getParameter("endtime");
+			starttime = request.getParameter("start");
+			endtime = request.getParameter("end");
 		}
 		int pageNum = Integer.parseInt(num);
 		int pageSize = Integer.parseInt(size);
 		PageHelper.startPage(pageNum, pageSize);
-		PageDto<CellResultHistoryDto> pageDto = alarmService.getCellList(cellname,type,starttime,endtime);
+		String ttype = null;
+		ttype = request.getParameter("cell");
+		if (!"cell".equals(ttype)) {
+			ttype = null;
+		}
+		if ("-1".equals(result)) {
+			result = null;
+		}
+		PageDto<CellResultHistory> pageDto = alarmService.getCellList(cellname,type,starttime,endtime,ttype,result);
 		map.addAttribute(Constraints.RESULT_ROW, pageDto);	
 		return map;
 	}

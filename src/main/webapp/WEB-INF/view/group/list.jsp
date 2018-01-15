@@ -65,6 +65,28 @@ margin-left: 10px;
 input:-ms-input-placeholder { /* Internet Explorer 10+ */ 
 margin-left: 10px;
 } 
+.loading_bk{
+	/* display:none; */
+    height: 80%;
+    width: 100%;
+    min-height:310px;
+    background-color: #777;
+    position: absolute;
+    z-index: 999;
+    opacity: 0.6;
+    text-align: center;
+    }
+.loading{
+	/* display:none; */
+	color:#fff;
+    margin-left: 40%;
+    margin-top: 10%;
+    position: absolute;
+    z-index: 9999;
+    text-align: center;
+    }
+.loading span{font-size: 16px; margin-left: 10px;}
+.loading img{height:30px}
 </style>
 </head>
 
@@ -90,17 +112,12 @@ margin-left: 10px;
 									onclick="javascript:searchtimeselect(this)">按时间选择</button>
 								<div id="searchimeselect" style="display: none;">
 									<input id="start"
-										style="margin-left: 5px; margin-top: -7px !important;"
-										class="layer-date" placeholder="请输入开始时间"
-										onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
-									<span id="span"
-										style="margin-top: -10px; display: inline !important;"
-										class="input-group-addon">到</span> <input id="end"
-										style="margin-top: -7px !important;" class="layer-date"
+										style="margin-left: 5px;" class="layer-date" placeholder="请输入开始时间"
+										onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
+									<input id="span" type="text" style="width:35px; display: inline !important;padding: 8px" value="到"
+										class="btn-white"/> <input id="end" class="layer-date"
 										placeholder="请输入结束时间"
-										onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
-									<button class="btn btn-info" type="button"
-										onclick="javascript:query()">确定</button>
+										onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
 								</div>
 							</div>
 						</div>
@@ -118,7 +135,7 @@ margin-left: 10px;
 								<option value="0">事件</option>
 								<option value="3">计算无结果</option>
 							</select>
-							<my:btn type="search" onclick="select()"></my:btn>
+							<my:btn type="search" onclick="globalSelect()"></my:btn>
 							<button style="margin-left: 5px;float: right;background: transparent;" onclick="javascript:exportExcel()">
 								<img src="${context}/style/export.png" title="历史健康度导出" style="height:20px;"/>
 							</button>
@@ -127,19 +144,11 @@ margin-left: 10px;
 									src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"
 									style="height: 20px;"><span>正在导出...</span>
 							</div>
-							<!-- <label for="time" style="margin-left: 20px">数据导出 <input
-								size="16" type="text" id="exporttime" placeholder="请选择导出月份"
-								readonly class="form_datetime"> 
-							</label> -->
 							<label style="margin-left: 20px">导出类型</label> 
 							<select id="type" name="type" class="btn btn-white">
 								<option value="hour">按小时</option>
 								<option value="days">按天</option>
 							</select>
-							<!-- <label for="time" style="margin-left: 20px"> <input
-								size="16" type="text" id="resultexporttime"
-								placeholder="请选择导出月份" readonly class="form_datetime">
-							</label> -->
 							<my:btn type="export" onclick="javascript:resultexportExcel()"></my:btn>
 							<div class="btn loading" id="load2" style="display: none">
 								<img
@@ -148,6 +157,12 @@ margin-left: 10px;
 							</div>
 						</div>
 						<div>
+							<!-- loading -->
+							<div class="loading_bk" id="table_loadbk"></div>
+							<div class="loading" id="table_load">
+								<img src="${context}/lib/hplus/css/plugins/blueimp/img/loading.gif"><span>内容加载中...</span>
+							</div>
+							<!-- loading -->
 							<table id="table_list_1"></table>
 							<div id="toolbar"></div>
 						</div>

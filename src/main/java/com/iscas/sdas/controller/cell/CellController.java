@@ -424,13 +424,13 @@ public class CellController {
         		title += titlename;
 			}else {
             	if ("day".equals(type)) {
-    				title =  "判别结果导出_全部数据_最近一天";
+    				title =  "判别结果_全部数据_最近一天";
     			}else if ("week".equals(type)) {
-    				title = "判别结果导出_全部数据_最近一周";
+    				title = "判别结果_全部数据_最近一周";
     			}else if ("month".equals(type)) {
-    				title = "判别结果导出_全部数据_最近一月";
+    				title = "判别结果_全部数据_最近一月";
     			}else if ("select".equals(type)) {
-    				title = "判别结果导出_全部数据__"+starttime+"_"+endtime;
+    				title = "判别结果_全部数据__"+starttime+"_"+endtime;
     			}
 
 			}

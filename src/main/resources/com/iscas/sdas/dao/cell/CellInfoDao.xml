@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.iscas.sdas.dao.cell.CellInfoDao">
-	<select id="getPageList" parameterType="java.lang.String"
+	<!-- <select id="getPageList" parameterType="java.lang.String"
 		resultType="com.iscas.sdas.dto.cell.CellInfoDto">
 		SELECT * FROM t_cell_info where 1=1
 		<if test="in_used != null">
@@ -10,6 +10,15 @@
 		<if test="in_used ==null">
 			 and in_used=1
 		</if>
+	</select> -->
+	<select id="getPageList" parameterType="com.iscas.sdas.dto.cell.CellInfoDto" resultType="com.iscas.sdas.dto.cell.CellInfoDto">
+		select * from v_cell_station_info 
+		<where>
+			<if test="cell_code!=null">
+				<bind name="cellname" value="'%'+ _parameter.getCell_code()+'%'"/>
+					cell_code like #{cellname}
+			</if>
+		</where>
 	</select>
 	<select id="getCellinfo" parameterType="com.iscas.sdas.dto.cell.CellInfoDto" resultType="com.iscas.sdas.dto.cell.CellInfoDto">
 		SELECT * FROM t_cell_info  where 1=1
@@ -30,6 +39,12 @@
 	<select id="getAllMonitorCounts" resultType="java.lang.Integer">
 		SELECT COUNT(*) FROM t_cell_info WHERE in_used =1
 	</select>
+	<!-- <select id="getAllMonitorCells" resultType="com.iscas.sdas.dto.cell.CellInfoDto">
+		SELECT * FROM t_cell_info WHERE in_used = 1
+	</select> -->
+	<!-- <select id="getAllMonitorCells" resultType="com.iscas.sdas.dto.cell.CellInfoDto">
+		SELECT t1.*,t2.station_latitude,t2.station_longitude FROM (SELECT * FROM t_cell_info WHERE in_used=1)t1 LEFT JOIN t_station_info t2 ON t1.station_code = t2.station_name 
+	</select> -->
 	<delete id="clearHealthInfo">
 		delete from t_cell_health_info 
 	</delete>

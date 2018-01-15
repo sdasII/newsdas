@@ -11,6 +11,8 @@ public interface CellInfoDao extends BaseDao<CellInfoDto> {
 	 
 	 Integer getAllMonitorCounts();
 	 
+	 //List<CellInfoDto> getAllMonitorCells();
+	 
 	 Integer clearHealthInfo();
 	 
 	 Integer clearHealthModel();

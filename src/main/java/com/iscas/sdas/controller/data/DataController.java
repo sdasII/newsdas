@@ -33,6 +33,7 @@ import com.iscas.sdas.util.Constraints;
 import com.iscas.sdas.util.ContinueFTP;
 import com.iscas.sdas.util.FTPStatus;
 import com.iscas.sdas.util.FileImport;
+import com.iscas.sdas.util.Message;
 
 import objects.JSON;
 import tasks.BGTask;
@@ -203,9 +204,7 @@ public class DataController{
 		String yyyyMMdd = request.getParameter("time");				
 		FTPStatus status = originDateUpload(request,yyyyMMdd);
 		model.addAttribute("status",status.toString());
-		// XXXX 数据过滤部分
-		// 数据再上传到hdfs上
-		JSON json = upload2HDFS(yyyyMMdd);
+		//JSON json = upload2HDFS(yyyyMMdd);
 		return model;
 	}
 	
@@ -220,9 +219,8 @@ public class DataController{
 		fileLogDto.setFilename(filename);
 		ContinueFTP myFtp = new ContinueFTP();
 		try {
-			//myFtp.connect("49.4.6.146", 21, "hadoop", "nfs_qd123");
-            //myFtp.connect("192.168.0.31", 21, "hadoop", "nfs_qd123");  
-            myFtp.connect("172.16.0.151", 21, "hadoop", "nfs_qd123");
+            myFtp.connect("172.16.0.151", 21, "hadoop", "nfs_qd123");//cmcc
+			//myFtp.connect("49.4.6.146", 21, "hadoop", "nfs_qd123");//huawei
 			
 			System.out.println("3...连接到ftp");
 			request.getSession().setAttribute(Constraints.SESSION_FTP_STATUS, myFtp);						
@@ -289,6 +287,14 @@ public class DataController{
 				file2 = path.substring(path.lastIndexOf("/"));
 			}
 		}
+		if (file1==null) {
+			file1 = "客户投诉常驻小区文件命名不规范";
+			result1 = "文件请以《XXX客户投诉常驻小区XXX》命名";
+		}
+		if (file2==null) {
+			file2 = "客户投诉投诉文件命名不规范";
+			result2 = "文件请以《XXX客户投诉情况XXX》命名";
+		}	
 		String allStatus = file1 +": "+result1+";"+file2+": "+result2;
 		map.addAttribute(Constraints.RESULT_SUCCESS, allStatus);		
 		return map;
@@ -395,7 +401,6 @@ public class DataController{
 	 * @param request
 	 * @return
 	 */
-	//
 	@RequestMapping("/csvUpload")
 	@ResponseBody
 	public ModelMap uploadCsvTestFile(HttpServletRequest request) {
@@ -485,8 +490,32 @@ public class DataController{
 		ModelMap map = new ModelMap();
 		String filetime = request.getParameter("filetime");
 		String modeltime = request.getParameter("modeltime");
+		JSON ret1 = upload2HDFS(filetime);//上传+分片
+		if (ret1.getType() == JSON.TYPE.FAILED) {
+			//原始数据处理异常
+			map.addAttribute("rows",ret1);
+			if (ret1!=null) {
+				long start = ret1.getStart();
+				long end = ret1.getEnd();
+				long alltime = end-start;
+				SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+			    String s = format.format(start);  
+			    Date startdate = format.parse(s);
+				String e = format.format(end);
+				Date enddate = format.parse(e);
+				FileLogDto logDto = new FileLogDto();
+				logDto.setAlltime(alltime);
+				logDto.setFilename(ret1.getAppid());
+				logDto.setType("原始网管数据预处理");
+				logDto.setStarttime(startdate);
+				logDto.setEndtime(enddate);
+				logDto.setResult(0);
+				fileLogService.insertOne(logDto);
+			}
+			return map;
+		}
 		BGTask task = new CaculateTask();
-		String[] args = new String[]{modeltime,filetime};
+		String[] args = new String[] { modeltime, filetime };
 		JSON ret = task.runTask(args);
 		String filename = task.getAppName();
 		map.addAttribute("rows",ret);
@@ -495,14 +524,14 @@ public class DataController{
 			long end = ret.getEnd();
 			long alltime = end-start;
 			SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
-		    String s = format.format(start);  
+		    String s = format.format(start);
 		    Date startdate = format.parse(s);
 			String e = format.format(end);
 			Date enddate = format.parse(e);
 			FileLogDto logDto = new FileLogDto();
 			logDto.setAlltime(alltime);
 			logDto.setFilename(filename);
-			logDto.setType("zip网管文件分析");
+			logDto.setType("ZIP网管文件分析");
 			logDto.setStarttime(startdate);
 			logDto.setEndtime(enddate);
 			if (ret.getType() == (objects.JSON.TYPE.SUCCESS)) {

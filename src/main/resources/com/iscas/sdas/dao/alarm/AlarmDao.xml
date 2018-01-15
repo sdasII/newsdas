@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iscas.sdas.dao.alarm.AlarmDao">
+	<select id="currentDayAlarm" resultType="com.iscas.sdas.dto.alarm.AlarmDto">
+		SELECT
+		a.cell_code,a.yyyyMMdd,COUNT(*) AS count,a.app_hour,a.app_result FROM
+		(SELECT * FROM
+		t_cell_result_info WHERE yyyyMMdd = (SELECT yyyyMMdd
+		FROM
+		t_cell_result_info ORDER BY yyyyMMdd DESC LIMIT 1)) AS a WHERE
+		a.app_result=0 GROUP BY a.cell_code
+	</select>
+	<select id="allDayAlarm" resultType="com.iscas.sdas.dto.alarm.AlarmDto"
+		parameterType="com.iscas.sdas.dto.alarm.AlarmDto">
+		SELECT yyyyMMdd,cell_code,COUNT(*) AS count FROM t_cell_result_info
+		WHERE app_result = 0
+		<if test="cell_code !=null">
+			<bind name="cellcode" value="'%'+ _parameter.getCell_code() +'%'" />
+			and cell_code like #{cellcode}
+		</if>
+		<if test="starttime!=null and starttime!=null">
+			and yyyyMMdd &gt;=#{starttime} and yyyyMMdd &lt;=#{endtime}
+		</if>
+		<if test="starttime==null and endtime==null and daynum==7">
+			and TO_DAYS(NOW())-TO_DAYS(yyyyMMdd) &lt;=#{daynum}<!-- #{daynum} -->
+		</if>
+		<if test="starttime==null and endtime==null and daynum==30">
+			and TO_DAYS(NOW())-TO_DAYS(yyyyMMdd) &lt;=#{daynum}
+		</if>
+		<if test="starttime==null and endtime==null and daynum==0">
+			and TO_DAYS(NOW())-TO_DAYS(yyyyMMdd) =#{daynum}
+		</if>
+		GROUP BY cell_code,yyyyMMdd ORDER BY yyyyMMdd
+	</select>
+	<select id="alarmLastHour" resultType="com.iscas.sdas.dto.alarm.AlarmDto" 
+			parameterType="com.iscas.sdas.dto.alarm.AlarmDto">
+		SELECT * FROM t_cell_result_info WHERE app_hour= (SELECT
+		app_hour FROM t_cell_result_info WHERE yyyyMMdd = (SELECT yyyyMMdd
+		FROM t_cell_result_info ORDER BY yyyyMMdd DESC LIMIT 1) ORDER BY
+		app_hour DESC LIMIT 1) AND yyyyMMdd = (SELECT yyyyMMdd FROM
+		t_cell_result_info ORDER BY yyyyMMdd DESC LIMIT 1)
+		<if test="app_result != null">
+			and app_result = #{app_result}
+		</if>
+	</select>
+	<select id="getLastDay" resultType="java.lang.String">
+		SELECT yyyyMMdd FROM t_cell_result_info ORDER BY yyyyMMdd DESC LIMIT 1
+	</select>
+	<select id="getLastHour" resultType="java.lang.String">
+		SELECT app_hour FROM t_cell_result_info WHERE yyyyMMdd = (SELECT yyyyMMdd
+		FROM t_cell_result_info ORDER BY yyyyMMdd DESC LIMIT 1) ORDER BY app_hour DESC LIMIT 1
+	</select>
+	<select id="getLastDayInCell" resultType="java.lang.String" parameterType="java.lang.String">
+		SELECT yyyyMMdd FROM t_cell_result_info where cell_code = #{cellname} ORDER BY yyyyMMdd DESC LIMIT 1
+	</select>
+	<select id="getLastHourInCell" resultType="java.lang.String" parameterType="java.lang.String">
+		SELECT app_hour FROM t_cell_result_info WHERE cell_code = #{cellname} and yyyyMMdd = (SELECT yyyyMMdd
+		FROM t_cell_result_info where cell_code = #{cellname} ORDER BY yyyyMMdd DESC LIMIT 1) ORDER BY app_hour DESC LIMIT 1
+	</select>
+
+	
+	<select id="cellListLastDay" resultType="com.iscas.sdas.dto.cell.CellResultHistoryDto"
+	 	parameterType="java.lang.String">
+		select * from t_cell_result_history where yyyyMMdd = (SELECT yyyyMMdd
+		FROM t_cell_result_info ORDER BY yyyyMMdd DESC LIMIT 1)
+		<if test="cellname!=null">
+			<bind name="cellname" value="'%'+ cellname +'%'" />
+			and cell_code like #{cellname}
+		</if>
+	</select>
+	<select id="cellListLastWeek" parameterType="java.lang.String"
+		resultType="com.iscas.sdas.dto.cell.CellResultHistoryDto">
+		SELECT * FROM t_cell_result_history WHERE
+		STR_TO_DATE(yyyyMMdd,'%Y%m%d') > DATE_SUB((SELECT yyyyMMdd FROM
+		t_cell_result_history ORDER BY yyyyMMdd
+		DESC LIMIT 1),INTERVAL 7 DAY) 
+		<if test="cellname!=null">
+			<bind name="cellname" value="'%'+ cellname +'%'" />
+			and cell_code like #{cellname}
+		</if>
+		ORDER BY yyyyMMdd
+	</select>
+	<select id="cellListLastMonth" parameterType="java.lang.String"
+		resultType="com.iscas.sdas.dto.cell.CellResultHistoryDto">
+		SELECT * FROM t_cell_result_history WHERE
+		STR_TO_DATE(yyyyMMdd,'%Y%m%d') > DATE_SUB((SELECT yyyyMMdd FROM
+		t_cell_result_history 
+		ORDER BY yyyyMMdd
+		DESC LIMIT 1),INTERVAL 30 DAY) 
+		<if test="cellname!=null">
+			<bind name="cellname" value="'%'+ cellname +'%'" />
+			and cell_code like #{cellname}
+		</if>
+		ORDER BY yyyyMMdd
+	</select>
+	<select id="cellListBySelect" parameterType="java.lang.String"
+		resultType="com.iscas.sdas.dto.cell.CellResultHistoryDto">
+		SELECT * FROM t_cell_result_history WHERE
+		STR_TO_DATE(yyyyMMdd,'%Y%m%d') BETWEEN #{start} AND #{end}
+		<if test="cellname!=null">
+			<bind name="cellname" value="'%'+ cellname +'%'" />
+			and cell_code like #{cellname}
+		</if>
+		ORDER BY yyyyMMdd
+	</select>
+	<select id="getOneAlarm" resultType="com.iscas.sdas.dto.cell.CellResultHistoryDto">
+		SELECT * FROM t_cell_result_history WHERE cell_code = #{cellname} and yyyyMMdd = #{time} limit 1
+	</select>
+	
+	<!-- 从视图取组合值 -->
+	<select id="cellResultListLastDay" parameterType="java.lang.String" resultType="com.iscas.sdas.dto.result.CellResultHistory">
+		select * from v_cell_result where yyyymmdd = (SELECT yyyyMMdd FROM t_cell_result_history ORDER BY yyyyMMdd DESC LIMIT 1)
+		<if test="type != null">
+			and result in (0,1)
+		</if>
+		<if test="cellname!=null">
+			<bind name="cellname" value="'%'+ cellname +'%'" />
+			and cellname like #{cellname}
+		</if>
+		<if test="result != null">
+			and result = #{result}
+		</if>
+	</select>
+	<select id="cellResultListLastWeek" parameterType="java.lang.String" resultType="com.iscas.sdas.dto.result.CellResultHistory">
+		SELECT * FROM v_cell_result WHERE
+		STR_TO_DATE(yyyymmdd,'%Y%m%d') > DATE_SUB((SELECT yyyymmdd FROM
+		v_cell_result ORDER BY yyyyMMdd
+		DESC LIMIT 1),INTERVAL 7 DAY) 
+		<if test="cellname!=null">
+			<bind name="cellname" value="'%'+ cellname +'%'" />
+			and cellname like #{cellname}
+		</if>
+		<if test="type != null">
+			and result in (0,1)
+		</if>
+		<if test="result != null">
+			and result = #{result}
+		</if>
+		ORDER BY yyyymmdd
+	</select>
+	<select id="cellResultListLastMonth" parameterType="java.lang.String" resultType="com.iscas.sdas.dto.result.CellResultHistory">
+		SELECT * FROM v_cell_result WHERE
+		STR_TO_DATE(yyyymmdd,'%Y%m%d') > DATE_SUB((SELECT yyyymmdd FROM
+		v_cell_result ORDER BY yyyyMMdd
+		DESC LIMIT 1),INTERVAL 30 DAY) 
+		<if test="cellname!=null">
+			<bind name="cellname" value="'%'+ cellname +'%'" />
+			and cellname like #{cellname}
+		</if>
+		<if test="type != null">
+			and result in (0,1)
+		</if>
+		<if test="result != null">
+			and result = #{result}
+		</if>
+		ORDER BY yyyymmdd
+	</select>
+	<select id="cellResultListBySelect" parameterType="java.lang.String" resultType="com.iscas.sdas.dto.result.CellResultHistory">
+		SELECT * FROM v_cell_result WHERE
+		STR_TO_DATE(yyyymmdd,'%Y%m%d') BETWEEN #{start} AND #{end}
+		<if test="cellname!=null">
+			<bind name="cellname" value="'%'+ cellname +'%'" />
+			and cellname like #{cellname}
+		</if>
+		<if test="type != null">
+			and result in (0,1)
+		</if>
+		<if test="result != null">
+			and result = #{result}
+		</if>
+		ORDER BY yyyymmdd
+	</select>
+</mapper>
