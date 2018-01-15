@@ -388,7 +388,7 @@ input[type="file"] {
 									<div class="upload_title">未选择任何文件</div>
 									<br>
 									<my:btn type="save" title="上传"
-										onclick="upload_file('#complain_form')"></my:btn>
+										onclick="submit_upload(['#comlainfile','#customerfile'],'#complain_form')"></my:btn>
 									<!--  <input class="btn btn-success" type="submit"value="上传"> -->
 									<div class="btn loading" id="complaint_load"
 										style="display: none;">
@@ -430,7 +430,7 @@ input[type="file"] {
 									<!-- <input
 										class="btn btn-white" type="reset" value="重选"> -->
 									<my:btn type="save" title="上传"
-										onclick="submit_upload('#file2','#form2')"></my:btn>
+										onclick="submit_upload(['#file2'],'#form2')"></my:btn>
 									<!-- <input id="submit1" class="btn btn-success" type="button"
 										value="上传" 
 										style="margin-top: 30px;"> -->
