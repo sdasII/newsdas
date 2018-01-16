@@ -228,20 +228,38 @@ function longPoling(){
     });
 }
 /**
- * 文件上传
+ * 表格文件上传
  * @param {} id
  * @param {} formid
  */
-function submit_upload(id,formid){
-	if($(id).val()==""){
-		 showOnlyMessage(ERROR, "请选择文件！");
+function submit_upload(ids,formid){
+	if(ids.length>1){
+		if($(formid).find("input[name='time']").val()==""){
+			showOnlyMessage(ERROR, "请选择时间");
+		}else{
+			$.each(ids,function(i,e){
+				if($(e).val()==""){
+					showOnlyMessage(ERROR, "请选择文件");
+					return;
+				}else if($(e).val().indexOf(".xls")<0&&$(e).val().indexOf(".xlsx")<0){
+					showOnlyMessage(ERROR, "请选择表格类型的文件！");
+					return;
+				}
+			});
+		}
 	}else{
-		$(formid).submit();
-        if(formid == "#form1"){
-            $("#network_load").css("display","inline");
-        }else if(formid == "#form2"){
-            $("#capacity_load").css("display","inline");
-        }  
+		if($(ids[0]).val()==""){
+			 showOnlyMessage(ERROR, "请选择文件！");
+		}else if($(ids[0]).val().indexOf(".xls")<0&&$(ids[0]).val().indexOf(".xlsx")<0){
+			showOnlyMessage(ERROR, "请选择表格类型的文件！");
+		}else{
+			$(formid).submit();
+	        if(formid == "#form1"){
+	            $("#network_load").css("display","inline");
+	        }else if(formid == "#form2"){
+	            $("#capacity_load").css("display","inline");
+	        }  
+		}
 	}
 }
 function complainSumit(element) {
@@ -395,15 +413,25 @@ function workOrderValidate(){
         }
     })
 }
-//上传按钮触发，提交表单
+//上传按钮触发，提交表单(非表格文件)
 function upload_file(formId){
 	if($(formId).find("input[name='time']").val()==""){
 		showOnlyMessage(ERROR, "请选择时间");
 	}else if($(formId).find("input[type='file']").val()==""){
 		showOnlyMessage(ERROR, "请选择文件");
+	}
+	var file_type="";
+	if(formId.indexOf("CSV")>0){
+		file_type=".csv";
+	}else{
+		file_type=".zip";
+	}
+	if($(formId).find("input[type='file']").val().indexOf(file_type)<0){
+		showOnlyMessage(ERROR, "请选择"+file_type+"类型的文件！");
 	}else{
 		$(formId).submit();
 	}
+	
 }
 /**
  * 历史数据列表
