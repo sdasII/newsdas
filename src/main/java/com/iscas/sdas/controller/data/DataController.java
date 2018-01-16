@@ -33,7 +33,6 @@ import com.iscas.sdas.util.Constraints;
 import com.iscas.sdas.util.ContinueFTP;
 import com.iscas.sdas.util.FTPStatus;
 import com.iscas.sdas.util.FileImport;
-import com.iscas.sdas.util.Message;
 
 import objects.JSON;
 import tasks.BGTask;
