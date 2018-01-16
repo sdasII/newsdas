@@ -580,6 +580,7 @@ input[type="file"] {
 												<my:btn type="save" title="上传"
 													onclick="upload_file('#soucefile')"></my:btn>
 												<div class="upload_title">未选择任何文件</div>
+												<br>
 												<span id="span_progress" style="display: none;"> <progress
 														id="progress2" max="100" value="0"></progress><em>上传进度：</em><span
 													id="progressvalue2">0%</span>
