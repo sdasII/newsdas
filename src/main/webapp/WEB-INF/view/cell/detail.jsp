@@ -11,7 +11,6 @@
 <title>详细信息</title>
 <%@ include file="/include/common.jsp"%>
 <%-- <script src="${context}/lib/hplus/js/plugins/layer/laydate/laydate.js"></script> --%>
-<script type="text/javascript" src="${context}/lib/map/baidumap_offline_load.js"></script>
 <link href="${context}/lib/map/css/baidu_map_v2.css" rel="stylesheet" type="text/css">
 <!-- <script type="text/javascript"
 	src="http://api.map.baidu.com/api?v=2.0&ak=EmXf0NLcNCvBO5hdDliGtvC9D5v6GA5K"></script>
@@ -333,6 +332,7 @@ input {
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript" src="${context}/lib/map/baidumap_offline_load.js"></script>
 	<script type="text/javascript">
 		var ctx = ctx;
 		var cell_code = "${cellname}";
@@ -344,7 +344,6 @@ input {
 		//map.disableDoubleClickZoom();
 		map.enableScrollWheelZoom();                  // 启用滚轮放大缩小。
 	</script>
-	<script type="text/javascript" src="${context}/js/general/heatMap.js"></script>
 	<!-- 指标模型 -->
 	<script type="text/javascript" src="${context}/js/cell/index_model.js"></script>
 	<script type="text/javascript" src="${context}/js/cell/detail.js"></script>

@@ -1,6 +1,8 @@
+var img_url='http://'+window.location.host+'/newsdas/lib/map/tiles/';
+console.info(img_url);
 var bdmapcfg = {
   'imgext':'.png', //瓦片图的后缀 ------ 根据需要修改，一般是 .png .jpg
-  'tiles_dir':'http://49.4.6.146:9999/newsdas/lib/map/tiles/'   //瓦片图的目录，为空默认在 baidumap_v2/tiles/ 目录
+  'tiles_dir':img_url   //瓦片图的目录，为空默认在 baidumap_v2/tiles/ 目录
 };
 
 //////////////////下面的保持不动///////////////////////////////////

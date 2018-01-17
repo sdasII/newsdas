@@ -11,7 +11,6 @@
 	src="http://api.map.baidu.com/api?v=2.0&ak=EmXf0NLcNCvBO5hdDliGtvC9D5v6GA5K"></script>
 <script type="text/javascript"
 	src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script> -->
-<script type="text/javascript" src="${context}/lib/map/baidumap_offline_load.js"></script>
 <link href="${context}/lib/map/css/baidu_map_v2.css" rel="stylesheet" type="text/css">	
 <style type="text/css">
 .nav a, h5 {
@@ -148,6 +147,7 @@
 
 		</div>
 	</div>
+	<script type="text/javascript" src="${context}/lib/map/baidumap_offline_load.js"></script>
 	<script type="text/javascript">
 		var ctx = ctx;
 		// 百度地图API功能
