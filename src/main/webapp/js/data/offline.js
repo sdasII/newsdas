@@ -237,15 +237,19 @@ function submit_upload(ids,formid){
 		if($(formid).find("input[name='time']").val()==""){
 			showOnlyMessage(ERROR, "请选择时间");
 		}else{
+			var ifExcel=[false,false];
 			$.each(ids,function(i,e){
 				if($(e).val()==""){
 					showOnlyMessage(ERROR, "请选择文件");
-					return;
 				}else if($(e).val().indexOf(".xls")<0&&$(e).val().indexOf(".xlsx")<0){
 					showOnlyMessage(ERROR, "请选择表格类型的文件！");
-					return;
+				}else{
+					ifExcel[i]=true;
 				}
 			});
+			if(ifExcel[0]&&ifExcel[1]){
+				$(formid).submit();
+			}
 		}
 	}else{
 		if($(ids[0]).val()==""){

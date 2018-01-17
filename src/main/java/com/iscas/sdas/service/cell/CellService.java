@@ -626,11 +626,11 @@ public class CellService{
 				}
 			}
 			BaseStationHealthRatio baseStationHealthRatio = new BaseStationHealthRatio();
-			if (max==0) {
+			/*if (max==0) {
 				max = 100;
 			}else {
 				max = 1/max;
-			}		
+			}	*/	
 			baseStationHealthRatio.setRatio(max);
 			if (stationInfoDto!=null) {
 				String longitude = stationInfoDto.getStationLongitude().trim();

@@ -1,6 +1,10 @@
 var updatetimeUrl = ctx + "/alarm/updatetime"
 var counts = ctx + "/alarm/lastHourClassCount";
 var currAlarm = ctx + "/alarm/lastHourAlarm";
+var heatUrl=ctx + "/general/healthgroup";
+var heatPoints=[];
+var markArr=[];
+var heatmapOverlay;
 $(function(){
 	//最新时间
 	$.ajax({
@@ -37,9 +41,9 @@ function search(type){
 		success:function(data){
 			$("#content").html("");
 			if(data.rows.length>0){
+				markArr=[];
 				$.each(data.rows,function(i,e){
 					var icons_url = ctx+"/lib/map/images/point-collection/"; //这个是你要显示坐标的图片的相对路径
-					
 					var obj={"cell_code":e.cell_code};
 					var html='<li class="list-group-item"><a href="javascript:iframeconvert('+"'"+ctx+"/alarm/todetail"+"','小区信息',"+"[{'key':'cell_code','value':'"+e.cell_code+"'}]"+')">'+e.cell_code+'</a></li>';
 					$("#content").append(html);
@@ -55,7 +59,9 @@ function search(type){
                         temp.lat = parseFloat(e.station_latitude);
                     }else{
                         temp.lat = 23.14 + Math.random() * 0.1;
-                    }                             
+                    }  
+                    //temp.count=0;
+                    
 					var color="";
 					var status="";
 					if(e.app_result==0){
@@ -92,6 +98,7 @@ function search(type){
 					marker.addEventListener("mouseover", function(){            
 					    map.openInfoWindow(infoWindow,cell_point); //开启信息窗口  
 					});
+					markArr.push(marker);
 					/*marker.addEventListener("mouseout", function(){            
 					    map.closeInfoWindow(infoWindow,cell_point); //关闭信息窗口  
 					});*/
@@ -103,6 +110,71 @@ function search(type){
 		}
 			
 	});
+	//热力图
+	$.ajax({
+		url:heatUrl,
+		type:"post",
+		success:function(data){
+			if(data.rows.length>0){
+				heatPoints=[];
+				$.each(data.rows,function(i,e){
+					var temp = {};
+                    if(e.logitude!=0&&e.latitude!=0){
+                        temp.lng = parseFloat(e.logitude);
+                        temp.lat = parseFloat(e.latitude);
+                        if(e.ratio>0&&e.ratio<=0.25){
+    						temp.count=10;
+    						heatPoints.push(temp);
+    					}else if(e.ratio>0.25&&e.ratio<=0.8){
+    						temp.count=5;
+    						heatPoints.push(temp);
+    					}else if(e.ratio>0.8){
+    						temp.count=0;
+    						heatPoints.push(temp);
+    					}
+                    }  
+				});
+					//热力图
+					heatmapOverlay = new BMapLib.HeatmapOverlay({"opacity":0.6,"radius":15});
+					map.addOverlay(heatmapOverlay);
+					heatmapOverlay.setDataSet({data:heatPoints,max:10});
+					setGradient();
+			        heatmapOverlay.hide();
+			}
+		}
+	});
+}
+function setGradient(){
+ 	//格式如下所示:
+ 	var gradient = {
+      	0:'green',
+ 	 	0.5:'yellow',
+	  	1:'red'
+    };
+    heatmapOverlay.setOptions({"gradient":gradient});
+}
+function changeHeatView(obj){
+	if(heatmapOverlay==undefined){
+		showOnlyMessage(ERROR, "数据加载中，请稍候再试");
+	}else{
+		$.each(markArr,function(i,e){
+			map.removeOverlay(e);
+		});
+		 heatmapOverlay.show();
+		 $(obj).attr("onclick","changeMarkerView(this)");
+		 var html="<span class='glyphicon glyphicon-search' aria-hidden='true'></span>查看标注图";
+		 $(obj).html(html);
+	}
+	
+}
+function changeMarkerView(obj){
+	heatmapOverlay.hide();
+	$.each(markArr,function(i,e){
+		map.addOverlay(e);
+	});
+	 $(obj).attr("onclick","changeHeatView(this)");
+	 var html="<span class='glyphicon glyphicon-search' aria-hidden='true'></span>查看热力图";
+	 $(obj).html(html);
 }
 /*function toDetail(code){
 	top.$("#iframe_home").attr('src',ctx +"/alarm/todetail?cell_code="+code);
