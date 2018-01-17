@@ -46,6 +46,8 @@ public class CommonUntils {
 			return true;
 		}else if (str=="") {
 			return true;
+		}else if (str==" ") {
+			return true;
 		}else {
 			return false;
 		}

@@ -633,11 +633,21 @@ public class CellService{
 			}		
 			baseStationHealthRatio.setRatio(max);
 			if (stationInfoDto!=null) {
-				if (!CommonUntils.isempty(stationInfoDto.getStationLatitude())) {
-					//baseStationHealthRatio.setLatitude(Double.parseDouble(stationInfoDto.getStationLatitude()));
-				}
-				if (!CommonUntils.isempty(stationInfoDto.getStationLongitude())) {
-					//baseStationHealthRatio.setLogitude(Double.parseDouble(stationInfoDto.getStationLongitude()));
+				String longitude = stationInfoDto.getStationLongitude().trim();
+				String latitude = stationInfoDto.getStationLatitude().trim();
+				try {
+					if (!CommonUntils.isempty(latitude)) {
+						if (!"".equals(latitude)) {
+							baseStationHealthRatio.setLatitude(Double.parseDouble(latitude));
+						}						
+					}
+					if (!CommonUntils.isempty(longitude)) {
+						if (!"".equals(longitude)) {
+							baseStationHealthRatio.setLogitude(Double.parseDouble(longitude));
+						}						
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}				
 			}
 			result.add(baseStationHealthRatio);
