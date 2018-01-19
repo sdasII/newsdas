@@ -98,6 +98,6 @@
 				updatetime = #{updatetime,jdbcType=TIMESTAMP},
 			</if>
 		</set>
-		where roleid = #{roleid,jdbcType=INTEGER}
+		where userid = #{userid,jdbcType=VARCHAR}
 	</update>
 </mapper>

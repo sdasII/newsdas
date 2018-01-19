@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 <%@ include file="/include/common.jsp"%>
 <script src="${context}/lib/hplus/js/plugins/layer/laydate/laydate.js"></script>
-<script type="text/javascript" src="${context}/js/sys/user/user.js"></script>
+<script type="text/javascript" src="${context}/js/sys/user.js"></script>
 <style type="text/css">
 .btn-primary {
 	margin-right: 5px
@@ -17,10 +17,7 @@
 </head>
 <body style="margin: 0px 25px;">
 	<script type="text/javascript">
-		var role = $
-		{
-			role
-		}
+		var role = "${role}";
 	</script>
 	<%
 		UserDto userinfo = (UserDto) session.getAttribute("userInfo");
@@ -70,7 +67,7 @@
 								<div class="col-md-12">
 									<div class="form-group">
 										<label for="userId">用户ID</label> <input type="text"
-											name="userId" class="form-control" id="userId">
+											name="userId" class="form-control">
 									</div>
 									<div class="form-group">
 										<label for="username">用户名</label> <input type="text"
@@ -92,10 +89,6 @@
 									</div>
 									<div class="form-group">
 										<label for="rolename">用户角色</label>
-										<!-- <label for="roleName">用户角色</label> <input type="text"
-										name="roleName" class="form-control" id="roleName" onfocus="initRole()">  -->
-										<!-- <label for="rolename">用户角色</label> <input type="text"
-										name="rolename" class="form-control" id="rolename"> -->
 										<select class="selectpicker form-control"
 											data-style="btn-success" id="rolename" name="rolename">
 											<option>管理员</option>
@@ -110,21 +103,6 @@
 											<option value="1">锁定</option>
 										</select>
 									</div>
-									<!-- <div class="form-group">
-										<label for="address">地址</label> <input type="text"
-											name="address" class="form-control" id="address">
-									</div>
-									<div class="form-group">
-										<label for="tel">座机</label> <input type="text" name="tel"
-											class="form-control" id="tel">
-									</div>
-									<div class="form-group">
-										<label for="birthday">用户生日</label> <input class="form-control"
-											id="birthday" name="birthday" type="text"
-											placeholder="YYYY-MM-DD hh:mm:ss" class="form-control"
-											onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
-										<input type="text" name="birthday" class="form-control" id="birthday" data-date-format="yyyy-mm-dd" readonly placeholder="YYYY-MM-DD">
-									</div> -->
 									</div>
 							</div>
 						</div>
