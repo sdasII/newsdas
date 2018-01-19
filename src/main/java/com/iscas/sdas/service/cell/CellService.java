@@ -31,6 +31,7 @@ import com.iscas.sdas.dto.cell.CellHealthTableDto;
 import com.iscas.sdas.dto.cell.CellInfoDto;
 import com.iscas.sdas.dto.cell.CellResultHistoryDto;
 import com.iscas.sdas.dto.cell.MomentDto;
+import com.iscas.sdas.dto.result.TotalResultInfoDto;
 import com.iscas.sdas.util.CommonUntils;
 
 @Service
@@ -192,41 +193,6 @@ public class CellService{
 		}
 		return result;
 	}
-	/*public List<TotalHealthInfoDto2> generateCellHealthTrend2(String month){
-		List<TotalHealthInfoDto2> result = new ArrayList<>();
-		try {
-			List<BaseCellHealth> cellHealths;
-			cellHealths = cellDao.allHealthRatioByMonth(month);
-			if (cellHealths != null && cellHealths.size() > 0) {
-				
-				for (int j = 0; j < cellHealths.size(); j++) {
-					
-					BaseCellHealth cellHealth = cellHealths.get(j);
-					String date = cellHealth.getYyyyMMdd();
-					TotalHealthInfoDto2 infoDto = new TotalHealthInfoDto2();
-					infoDto.setDate(date);
-					infoDto.setCell_code(cellHealth.getCell_code());
-					Method[] methods = cellHealth.getClass().getMethods();
-					for (Method method : methods) {
-						String methodName = method.getName();
-						if (methodName.startsWith("getRange")) {
-
-							String range = (String) method.invoke(cellHealth, null);
-							Double ratio = parseRatio(range);
-							Method setMethod =  infoDto.getClass().getMethod(methodName.replaceFirst("g", "s"), String.class);
-							setMethod.invoke(infoDto, String.valueOf(ratio));
-							}
-						}
-					result.add(infoDto);
-					}
-
-				}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
-	}*/
 	/**
 	 * 历史表格
 	 * @param cellname
@@ -334,17 +300,6 @@ public class CellService{
 		return result;
 	}
 	/**
-	 * 初始化List<TotalHealthInfoDto> --选择任意时间段
-	 * @param start
-	 * @param end
-	 * @return
-	 */
-	private List<TotalHealthInfoDto> originData(String start,String end){
-		List<TotalHealthInfoDto> list = new ArrayList<>();
-		
-		return list;
-	}
-	/**
 	 * 初始化List<TotalHealthInfoDto> --一周或一月
 	 * @param day
 	 * @param begintime
@@ -379,9 +334,12 @@ public class CellService{
 		}
 		return list;
 	}
-	
-	
-	
+	/**
+	 * 初始化List<TotalHealthInfoDto> 
+	 * @param day
+	 * @param begintime
+	 * @return
+	 */
 	private List<TotalHealthInfoDto> originDataSelect(String starttime,String endtime){
 		List<TotalHealthInfoDto> list = new ArrayList<>();
 		int startmonth = Integer.parseInt(starttime.substring(4, 6))-1;
@@ -409,7 +367,7 @@ public class CellService{
 				TotalHealthInfoDto infoDto  = new TotalHealthInfoDto();
 				String str_tempmonth  = tempmonth >=10?tempmonth+"":"0"+tempmonth;
 				String str_tempday = tempday >=10?tempday+"":"0"+tempday;
-				String time = tempyear+"-"+str_tempmonth+"-"+str_tempday+" "+j+":00";
+				String time = tempyear+str_tempmonth+str_tempday+" "+j+":00";
 				infoDto.setTime(time);
 				list.add(infoDto);
 			}
@@ -740,7 +698,7 @@ public class CellService{
 	}
 	
 	/**
-	 * 小区健康度判别结果
+	 * 小区健康度判别结果(原接口，不要删除！)
 	 * @param cellname
 	 * @param type
 	 * @return
@@ -757,5 +715,143 @@ public class CellService{
 		}else {
 			return null;
 		}
+	}
+	/**
+	 * 小区健康度判别结果
+	 * @author dongqun
+	 * 2018年1月19日上午9:59:47
+	 * @param cellname
+	 * @param type
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public List<TotalResultInfoDto> generageCellResultHistroy(String cellname,String type,String start,String end){
+		List<TotalResultInfoDto> result = null;
+		try {
+			List<CellResultHistoryDto> cellResults = null;
+			if ("day".equals(type)) {
+				cellResults =  alarmDao.cellListLastDay(cellname);
+			}else if ("month".equals(type)) {
+				cellResults =  alarmDao.cellListLastMonth(cellname);
+			}else if ("week".equals(type)) {
+				cellResults =  alarmDao.cellListLastWeek(cellname);
+			}else if ("select".equals(type)) {
+				cellResults =  alarmDao.cellListBySelect(cellname, start, end);
+			}
+			if (cellResults!=null && cellResults.size()>0) {
+				String begintime = cellResults.get(0).getYyyyMMdd();
+				if ("day".equals(type)) {
+					result = originResultData(1, begintime);
+				}else if ("week".equals(type)) {
+					result = originResultData(7, begintime);
+				}else if ("month".equals(type)) {
+					result = originResultData(30, begintime);
+				}else {
+					result = originResultDataSelect(start, end);
+				}
+				if (result!=null) {
+					for (int i = 0; i < result.size(); i++) {
+						for (int j=0;j<cellResults.size(); j++) {
+							CellResultHistoryDto cellResult = cellResults.get(j);
+							Method[] methods = cellResult.getClass().getMethods();
+							for (Method method : methods) {
+								if (method.getName().startsWith("getRange")) {	
+									TotalResultInfoDto infoDto  = result.get(i);
+									Integer range = (Integer)method.invoke(cellResult, null);						
+									int  moment = Integer.parseInt(method.getName().substring(method.getName().lastIndexOf("_")+1));
+									String time = formattime(cellResult.getYyyyMMdd(), moment);
+									if (result.get(i).getTime().equals(time)) {
+										infoDto.setResult(range);
+										logger.info("-----------------坐标轴："+result.get(i).getTime()+"ratio："+time);
+											
+									}
+								}		
+							}
+							
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return result;
+	}
+	
+	/**
+	 * 初始化List<TotalHealthInfoDto> --一周或一月
+	 * @param day
+	 * @param begintime
+	 * @return
+	 */
+	private List<TotalResultInfoDto> originResultData(int day,String begintime){
+		List<TotalResultInfoDto> list = new ArrayList<>();
+		for (int i = 0; i < day; i++) {
+			int tempyear  = Integer.parseInt(begintime.substring(0, 4));
+			int tempmonth  = Integer.parseInt(begintime.substring(4, 6));
+			int tempday;
+			int days = CommonUntils.daysInMonth(tempyear, tempmonth);//一月多少天
+			tempday  =  Integer.parseInt(begintime.substring(6))+i<=days?Integer.parseInt(begintime.substring(6))+i:Integer.parseInt(begintime.substring(6))+i-days;
+
+			if (Integer.parseInt(begintime.substring(6))+i>days) {
+				if (tempmonth<12) {
+					tempmonth = tempmonth + 1;
+				}else {
+					tempmonth = 1;
+					tempyear += 1;
+				}
+				
+			}
+			for (int j = 0; j < 24; j++) {
+				TotalResultInfoDto infoDto  = new TotalResultInfoDto();
+				String str_tempmonth  = tempmonth >=10?tempmonth+"":"0"+tempmonth;
+				String str_tempday = tempday >=10?tempday+"":"0"+tempday;
+				String time = tempyear+str_tempmonth+str_tempday+" "+j+":00";
+				infoDto.setTime(time);
+				list.add(infoDto);
+			}
+		}
+		return list;
+	}
+	/**
+	 * 初始化List<TotalHealthInfoDto> 
+	 * @param day
+	 * @param begintime
+	 * @return
+	 */
+	private List<TotalResultInfoDto> originResultDataSelect(String starttime,String endtime){
+		List<TotalResultInfoDto> list = new ArrayList<>();
+		int startmonth = Integer.parseInt(starttime.substring(4, 6))-1;
+		int endmonth = Integer.parseInt(endtime.substring(4, 6))-1;
+		Date start = new Date(Integer.parseInt(starttime.substring(0, 4)), startmonth, Integer.parseInt(starttime.substring(6)));
+		Date end = new Date(Integer.parseInt(endtime.substring(0, 4)), endmonth, Integer.parseInt(endtime.substring(6)));
+		int day = CommonUntils.differentDaysByMillisecond(start, end);
+		for (int i = 0; i < day+1; i++) {
+			int tempyear  = Integer.parseInt(starttime.substring(0, 4));
+			int tempmonth  = Integer.parseInt(starttime.substring(4, 6));
+			int tempday;
+			int days = CommonUntils.daysInMonth(tempyear, tempmonth);//一月多少天
+			tempday  =  Integer.parseInt(starttime.substring(6))+i<=days?Integer.parseInt(starttime.substring(6))+i:Integer.parseInt(starttime.substring(6))+i-days;
+
+			if (Integer.parseInt(starttime.substring(6))+i>days) {
+				if (tempmonth<12) {
+					tempmonth = tempmonth + 1;
+				}else {
+					tempmonth = 1;
+					tempyear += 1;
+				}
+				
+			}
+			for (int j = 0; j < 24; j++) {
+				TotalResultInfoDto infoDto  = new TotalResultInfoDto();
+				String str_tempmonth  = tempmonth >=10?tempmonth+"":"0"+tempmonth;
+				String str_tempday = tempday >=10?tempday+"":"0"+tempday;
+				String time = tempyear+str_tempmonth+str_tempday+" "+j+":00";
+				infoDto.setTime(time);
+				list.add(infoDto);
+			}
+		}
+		return list;
 	}
 }

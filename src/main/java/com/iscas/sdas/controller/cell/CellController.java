@@ -41,6 +41,7 @@ import com.iscas.sdas.dto.cell.CellInfoDto;
 import com.iscas.sdas.dto.cell.CellResultHistoryDto;
 import com.iscas.sdas.dto.cell.SignalCellResult;
 import com.iscas.sdas.dto.cell.SignalCellResult2;
+import com.iscas.sdas.dto.result.TotalResultInfoDto;
 import com.iscas.sdas.service.cell.CellService;
 import com.iscas.sdas.util.CommonUntils;
 import com.iscas.sdas.util.Constraints;
@@ -282,7 +283,7 @@ public class CellController {
 		String end = request.getParameter("endtime");
 		
 		ModelMap map = new ModelMap();
-		List<CellResultHistoryDto> list = cellService.cellResultHistroy(cellname, type, start, end);
+		List<TotalResultInfoDto> list = cellService.generageCellResultHistroy(cellname, type, start, end);
 		map.addAttribute(Constraints.RESULT_ROW, list);
 		return map;
 	}
