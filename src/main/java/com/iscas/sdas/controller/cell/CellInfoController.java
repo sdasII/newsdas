@@ -150,9 +150,9 @@ public class CellInfoController extends BaseController<CellInfoDto> {
         	if (list!=null) {
         		sourcesJson = JSONArray.parseArray(JSON.toJSONString(list));
 			} 
-        	String title= "小区配置表导出";
+        	String title= "小区配置表";
             ByteArrayOutputStream os = new ByteArrayOutputStream();
-            FileExport.exportExcelX(title, headMap, sourcesJson, null, 0, os);
+            FileExport.exportExcelX(null, headMap, sourcesJson, null, 0, os);
             byte[] content = os.toByteArray();
             InputStream is = new ByteArrayInputStream(content);
             // 设置response参数，可以打开下载页面

@@ -498,7 +498,7 @@ public class CellController {
 									if (value==0) {
 										SignalCellResult result = new SignalCellResult();
 										result.setDate(cellResultHistoryDto.getYyyyMMdd());
-										result.setStatus("不健康");
+										result.setStatus("事件");
 										result.setCellname(cellResultHistoryDto.getCell_code());
 										result.setTime(method.getName().substring(9));
 										results.add(result);
