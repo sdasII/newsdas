@@ -309,8 +309,8 @@ public class CellController {
 	@RequestMapping("/healthtrend/export")
     public  void healthtrendExport(HttpServletRequest request,
 			@RequestParam(required=true,defaultValue="day",value="type")String type,
-			String title,HttpServletResponse response){
-  	
+			HttpServletResponse response){
+		String title = null;
         try {
         	String cellname = request.getParameter("cellname");
         	if (CommonUntils.isempty(cellname)) {
@@ -324,18 +324,15 @@ public class CellController {
     		Map<String,String> headMap = new LinkedHashMap<>();
     		
     		if (!CommonUntils.isempty(cellname)) {
-    			String titlename = title;
-            	title = cellname + "----" + title;
             	if ("day".equals(type)) {
-    				title = cellname +"最近一天";
+    				title = cellname +"_最近一天_历史健康度数据";
     			}else if ("week".equals(type)) {
-    				title = cellname +"最近一周";
+    				title = cellname +"_最近一周_历史健康度数据";
     			}else if ("month".equals(type)) {
-    				title = cellname +"最近一月";
+    				title = cellname +"_最近一月_历史健康度数据";
     			}else if ("select".equals(type)) {
-    				title = cellname +"_"+starttime+"_"+endtime;
-    			}
-        		title += titlename;
+    				title = cellname +"_历史健康度数据_"+starttime+"_"+endtime;
+    			}        		
 			}else{
 				if ("day".equals(type)) {
     				title =  "历史健康度全部数据_最近一天";
