@@ -94,11 +94,11 @@ input[type="file"] {
 						<div class="form-group">
 							<label>小区名称：</label>
 							<input type="text"  placeholder="请输入小区名称" id="name" name="name">
-							<label for="type">是否使用：</label>
+							<!-- <label for="type">是否使用：</label>
 							<select name="type" id="type" class="btn btn-white">
                                     <option value="1">是</option>
                                     <option value="0">否</option>
-                             </select>
+                             </select> -->
 							<my:btn type="search" onclick="searchInfo()"></my:btn>
 							<!-- <button style="margin-left: 5px;" class="btn btn-success"
 								onclick="searchInfo();">查询</button> -->

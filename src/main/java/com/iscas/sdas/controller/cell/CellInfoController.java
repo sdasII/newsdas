@@ -70,11 +70,11 @@ public class CellInfoController extends BaseController<CellInfoDto> {
 			@RequestParam(value = "pageSize", required = true, defaultValue = "10") String size,HttpServletRequest request){
 		ModelMap map = new ModelMap();
 		CellInfoDto cellDto = new CellInfoDto();
-		String in_used=request.getParameter("type");
+		//String in_used=request.getParameter("type");
 		String cellname = request.getParameter("cellname");
-		if (!CommonUntils.isempty(in_used)) {
+		/*if (!CommonUntils.isempty(in_used)) {
 			cellDto.setIn_used(Integer.parseInt(in_used));
-		}
+		}*/
 		if (!CommonUntils.isempty(cellname)) {
 			cellDto.setCell_code(cellname);
 		}
