@@ -673,9 +673,9 @@ function historyTrendQuery(type,starttime,endtime) {
 //————————————————————————————————————历史健康度end————————————————————————————————-\\
 //————————————————————————————————————历史判别结果————————————————————————————————-\\
 var dataUrl=ctx+"/cell/cellResultHistroy";
-$(function(){
+/*$(function(){
     getcharts("#rtratio", "健康诊断结果","rgb(46,199,201)",global_type);  
-})
+})*/
 function getcharts(id, title,color,date_value,starttime,endtime){
     //loading显示
     $("#ratiotrend_loadbk").show();
@@ -703,162 +703,52 @@ function getcharts(id, title,color,date_value,starttime,endtime){
             var markPointData_1=[];//亚健康
             var markPointData_3=[];//无结果
             if(data.rows.length>0){
-                if(data.rows.length>1){
+                if(data.rows.length>0){
                     $.each(data.rows,function(i,e){
-                        var lasttime=e.yyyyMMdd;
-                        for (var j = 0; j < 24; j++) {
-                            var point=[];
-                            var arr = [];
-                            arr.push(lasttime+" "+j+":00");
-                            arr.push(1);
-                            bottom_spli.push(arr);
-                            middle_split.push(arr);
-                            top_split.push(arr);
-                            var b_arr = [];
-                            b_arr.push(lasttime+" "+j+":00");
-                            b_arr.push(1.5);
-                            bottom_bott.push(b_arr);
-                            var no_arr = [];
-                            no_arr.push(lasttime+" "+j+":00");
-                            no_arr.push(2);
-                            nodata_split.push(no_arr);
-                            times.push(lasttime+" "+j+":00");
-                            if(j<10){
-                                if(e["range_0"+j]==0){
-                                    dataArr.push(0.5);
-                                    var point={};
-                                    point.name="事件";
-                                    point.value="事件";
-                                    point.xAxis=lasttime+" "+j+":00";
-                                    point.yAxis=0.5;
-                                    markPointData_0.push(point);
-                                }else if(e["range_0"+j]==1){
-                                    dataArr.push(1.5);
-                                    var point={};
-                                    point.name="亚健康";
-                                    point.value="亚健康";
-                                    point.xAxis=lasttime+" "+j+":00";
-                                    point.yAxis=1.5;
-                                    markPointData_1.push(point);
-                                }else if(e["range_0"+j]==2){
-                                    dataArr.push(2.5);
-                                }else{
-                                    dataArr.push(2);
-                                    var point={};
-                                    point.name="无结果";
-                                    point.value="无结果";
-                                    point.xAxis=lasttime+" "+j+":00";
-                                    point.yAxis=2;
-                                    markPointData_3.push(point);
-                                }
-                            }else{
-                                if(e["range_"+j]==0){
-                                    dataArr.push(0.5);
-                                    var point={};
-                                    point.name="事件";
-                                    point.value=0;
-                                    point.xAxis=lasttime+" "+j+":00";
-                                    point.yAxis=0.5;
-                                    markPointData_0.push(point);
-                                }else if(e["range_"+j]==1){
-                                    dataArr.push(1.5);
-                                    var point={};
-                                    point.name="亚健康";
-                                    point.value="亚健康";
-                                    point.xAxis=lasttime+" "+j+":00";
-                                    point.yAxis=1.5;
-                                    markPointData_1.push(point);
-                                }else if(e["range_"+j]==2){
-                                    dataArr.push(2.5);
-                                }else{
-                                    dataArr.push(2);
-                                    var point={};
-                                    point.name="无结果";
-                                    point.value="无结果";
-                                    point.xAxis=lasttime+" "+j+":00";
-                                    point.yAxis=2;
-                                    markPointData_3.push(point);
-                                }
-                            }
+                    	 var point=[];
+                         var arr = [];
+                         arr.push(e.time);
+                         arr.push(1);
+                         bottom_spli.push(arr);
+                         middle_split.push(arr);
+                         top_split.push(arr);
+                         var b_arr = [];
+                         b_arr.push(e.time);
+                         b_arr.push(1.5);
+                         bottom_bott.push(b_arr);
+                         var no_arr = [];
+                         no_arr.push(e.time);
+                         no_arr.push(2);
+                         nodata_split.push(no_arr);
+                         times.push(e.time);
+                        if(e.result==0){
+                            dataArr.push(0.5);
+                            var point={};
+                            point.name="事件";
+                            point.value="事件";
+                            point.xAxis=e.time;
+                            point.yAxis=0.5;
+                            markPointData_0.push(point);
+                        }else if(e.result==1){
+                            dataArr.push(1.5);
+                            var point={};
+                            point.name="亚健康";
+                            point.value="亚健康";
+                            point.xAxis=e.time;
+                            point.yAxis=1.5;
+                            markPointData_1.push(point);
+                        }else if(e.result==2){
+                            dataArr.push(2.5);
+                        }else{
+                            dataArr.push(2);
+                            var point={};
+                            point.name="无结果";
+                            point.value="无结果";
+                            point.xAxis=e.time;
+                            point.yAxis=2;
+                            markPointData_3.push(point);
                         }
                     });
-                }else{
-                    var lasttime=data.rows[0].yyyyMMdd;
-                    for (var i = 0; i < 24; i++) {
-                        var arr = [];
-                        arr.push(lasttime+" "+i+":00");
-                        arr.push(1);
-                        bottom_spli.push(arr);
-                        middle_split.push(arr);
-                        top_split.push(arr);
-                        //
-                        var b_arr = [];
-                        b_arr.push(lasttime+" "+i+":00");
-                        b_arr.push(1.5);
-                        bottom_bott.push(b_arr);
-                        var no_arr = [];
-                        no_arr.push(lasttime+" "+i+":00");
-                        no_arr.push(2);
-                        nodata_split.push(no_arr);
-                        times.push(lasttime+" "+i+":00");
-                        if(i<10){
-                            if(data.rows[0]["range_0"+i]==0){
-                                dataArr.push(0.5);
-                                var point={};
-                                point.name="事件";
-                                point.value=0;
-                                point.xAxis=lasttime+" "+i+":00";
-                                point.yAxis=0.5;
-                                markPointData_0.push(point);
-                            }else if(data.rows[0]["range_0"+i]==1){
-                                dataArr.push(1.5);
-                                var point={};
-                                point.name="亚健康";
-                                point.value="亚健康";
-                                point.xAxis=lasttime+" "+i+":00";
-                                point.yAxis=1.5;
-                                markPointData_1.push(point);
-                            }else if(data.rows[0]["range_0"+i]==2){
-                                dataArr.push(2.5);
-                            }else{
-                                dataArr.push(2);
-                                var point={};
-                                point.name="无结果";
-                                point.value="无结果";
-                                point.xAxis=lasttime+" "+i+":00";
-                                point.yAxis=2;
-                                markPointData_3.push(point);
-                            }
-                        }else{
-                            if(data.rows[0]["range_"+i]==0){
-                                dataArr.push(0.5);
-                                var point={};
-                                point.name="事件";
-                                point.value=0;
-                                point.xAxis=lasttime+" "+i+":00";
-                                point.yAxis=0.5;
-                                markPointData_0.push(point);
-                            }else if(data.rows[0]["range_"+i]==1){
-                                dataArr.push(1.5);
-                                var point={};
-                                point.name="亚健康";
-                                point.value="亚健康";
-                                point.xAxis=lasttime+" "+i+":00";
-                                point.yAxis=1.5;
-                                markPointData_1.push(point);
-                            }else if(data.rows[0]["range_"+i]==2){
-                                dataArr.push(2.5);
-                            }else{
-                                dataArr.push(2);
-                                var point={};
-                                point.name="无结果";
-                                point.value="无结果";
-                                point.xAxis=lasttime+" "+i+":00";
-                                point.yAxis=2;
-                                markPointData_3.push(point);
-                            }
-                        }
-                    }
                 }
             }else{
                 var lasttime=starttime;

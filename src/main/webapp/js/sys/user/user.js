@@ -186,10 +186,18 @@ function insert(){
         data : data,
         success : function(data,status){
             searchUserInfo();
-            if($("#isNew").val()=="1"){
-            	showOnlyMessage(INFO, "添加成功");
+            if(data.success){
+            	if($("#isNew").val()=="1"){
+                	showOnlyMessage(INFO, "添加成功");
+                }else{
+                	showOnlyMessage(INFO, "修改成功");
+                }
             }else{
-            	showOnlyMessage(INFO, "修改成功");
+            	if($("#isNew").val()=="1"){
+                	showOnlyMessage(ERROR, "用户已存在，添加失败");
+                }else{
+                	showOnlyMessage(ERROR, "修改失败");
+                }
             }
             closemodal();
         }

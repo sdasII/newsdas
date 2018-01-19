@@ -197,30 +197,36 @@ public class CellInfoController extends BaseController<CellInfoDto> {
 		}
 		if (path != null) {
 				int rows = FileImport.tablerows(path);
-				for (int i = 0; i < rows; i++) {
-					CellInfoDto dto = new CellInfoDto();
-					result.add(dto);
-				}
-				try {
-					FileImport.settingFileImportWork(path, result);// 将excel映射为对象
-					try {
-						cellInfoService.clearTable();
-						boolean result2 = cellInfoService.insert(result);
-						if (result2) {
-							cellInfoService.restartData();
-						}
-						modelMap.addObject("success", Constraints.RESULT_SUCCESS+"导入成功！");
-						fileLogDto.setResult(1);
-					} catch (Exception e) {
-						e.printStackTrace();
-						fileLogDto.setResult(0);
-						modelMap.addObject("success", Constraints.RESULT_FAIL + ":配置文件导入失败！");
+				if(rows<1000){
+					for (int i = 0; i < rows; i++) {
+						CellInfoDto dto = new CellInfoDto();
+						result.add(dto);
 					}
-				} catch (Exception e1) {
-					e1.printStackTrace();
-					fileLogDto.setResult(0);
-					modelMap.addObject("success", Constraints.RESULT_FAIL + ":导入失败或配置文件损坏！");
+					try {
+						FileImport.settingFileImportWork(path, result);// 将excel映射为对象
+						try {
+							cellInfoService.clearTable();
+							boolean result2 = cellInfoService.insert(result);
+							if (result2) {
+								cellInfoService.restartData();
+							}
+							modelMap.addObject("success", Constraints.RESULT_SUCCESS+"导入成功！");
+							fileLogDto.setResult(1);
+						} catch (Exception e) {
+							e.printStackTrace();
+							fileLogDto.setResult(0);
+							modelMap.addObject("success", Constraints.RESULT_FAIL + ":配置文件导入失败！");
+						}
+					} catch (Exception e1) {
+						e1.printStackTrace();
+						fileLogDto.setResult(0);
+						modelMap.addObject("success", Constraints.RESULT_FAIL + ":导入失败或配置文件损坏！");
+					}
+				}else{
+					modelMap.addObject("success", "导入小区个数不能超过1000!");
+					return modelMap;
 				}
+				
 			
 		} else {
 			fileLogDto.setResult(0);

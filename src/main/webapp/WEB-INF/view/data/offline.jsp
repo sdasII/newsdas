@@ -146,11 +146,11 @@ input[type="file"] {
 }
 
 #modelzip {
-	margin-top: 10px
+	margin-top: 20px
 }
-
+#cal_btn{margin-top: 5px}
 #soucefile_content .panel-success{width: 990px;}
-#csv_file .panel-success{width: 690px;}
+#csv_file .panel-success,#offline .panel-success,#capacity .panel-success{width: 690px;}
 @media ( max-width : 992px) {
 	#soucefile_content .panel-success,#csv_file .panel-success{
 		width: 490px;
@@ -374,7 +374,7 @@ input[type="file"] {
 									<label>时间选择：</label> <input id="complaintime" name="time"
 										style="margin-left: 25px;"
 										class="btn btn-white layer-date starttime"
-										placeholder="请选择文件时间"
+										placeholder="选择文件时间"
 										onclick="laydate({istime: false, format: 'YYYYMMDD'})"><br>
 									<label style="width: 80px; padding-right: 20px;">客户投诉常驻小区:</label>
 									<input class="btn btn-white" type="file" id="comlainfile"
@@ -407,7 +407,7 @@ input[type="file"] {
 				<div class="ibox-title">
 					<h5>性能工单数据</h5>
 				</div>
-				<div class="ibox-content">
+				<div class="ibox-content" id="capacity">
 					<div class="col-sm-6">
 						<div class="panel panel-success"
 							style="height: 230px; min-width: 490px">
@@ -464,6 +464,7 @@ input[type="file"] {
 					<h5>中兴指标数据csv测试文件</h5>
 				</div>
 				<div class="ibox-content" id="csv_file">
+				<div class="col-sm-6">
 						<div class="panel panel-success" >
 							<div class="panel-heading">中兴指标数据csv测试文件</div>
 							<div class="panel-body">
@@ -541,6 +542,7 @@ input[type="file"] {
 
 							</div>
 						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -550,6 +552,7 @@ input[type="file"] {
 					<h5>中兴指标全网数据(zip文件)</h5>
 				</div>
 				<div class="ibox-content" id="soucefile_content">
+				<div class="col-sm-6">
 					<div class="panel panel-success">
 						<div class="panel-heading">
 							中兴指标全网数据(zip文件) 
@@ -620,14 +623,13 @@ input[type="file"] {
 										<h5>模式库</h5>
 									</div>
 									<div class="ibox-content">
-										<div class="form-group">
+										<div class="form-group"style="margin-top: -10px">
 											<label>模式月份:</label> <input size="16" type="text"
 												name="cal_time" id="net_caltime_model"
 												placeholder="请选择计算模式月份（默认上一个月）" readonly
 												class="btn btn-white form_datetime"
-												style="width: 165px; margin-top: -10px"> <br>
+												style="width: 165px; margin-top: 0px"> <br>
 											<div class="tips" style="margin-top: 10px">(请选择要计算月份的模式库)</div>
-											<br>
 											<my:btn type="custom" onclick="submit_modelzip()"
 												title="模式计算" id="modelzip"></my:btn>
 											<div class="btn loading" id="modelzip_load"
@@ -640,6 +642,7 @@ input[type="file"] {
 								</div>
 							</div>
 						</div>
+					</div>
 					</div>
 				</div>
 			</div>
