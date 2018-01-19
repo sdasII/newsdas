@@ -18,23 +18,6 @@
 		其中 key 表示插值的位置, 0~1. 
 		    value 为颜色值. 
      */
-	
-	
-    function setGradient(){
-     	/*格式如下所示:
-		{
-	  		0:'rgb(102, 255, 0)',
-	 	 	.5:'rgb(255, 170, 0)',
-		  	1:'rgb(255, 0, 0)'
-		}*/
-     	var gradient = {};
-     	var colors = document.querySelectorAll("input[type='color']");
-     	colors = [].slice.call(colors,0);
-     	colors.forEach(function(ele){
-			gradient[ele.getAttribute("data-key")] = ele.value; 
-     	});
-        heatmapOverlay.setOptions({"gradient":gradient});
-    }
 	//判断浏览区是否支持canvas
     function isSupportCanvas(){
         var elem = document.createElement('canvas');

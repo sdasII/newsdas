@@ -11,7 +11,6 @@
 	src="http://api.map.baidu.com/api?v=2.0&ak=EmXf0NLcNCvBO5hdDliGtvC9D5v6GA5K"></script>
 <script type="text/javascript"
 	src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script> -->
-<script type="text/javascript" src="${context}/lib/map/baidumap_offline_load.js"></script>
 <link href="${context}/lib/map/css/baidu_map_v2.css" rel="stylesheet" type="text/css">	
 <style type="text/css">
 .nav a, h5 {
@@ -60,6 +59,12 @@
     padding: 0px 5px;
 }
 .anchorBL{display: none}
+#searchBtn{
+	color: white;
+	font-size: 16px;
+	text-decoration: underline;
+	margin-right: 20px;
+}
 </style>
 </head>
 <body>
@@ -68,6 +73,10 @@
 			<div class="col-sm-12">
 				<div class="title">
 					<h5 class="updatetime">最新发布更新时间：</h5>
+				</div>
+				<div class="ibox-tools" style="margin-top: -25px;">
+				<a href="javascript:;" onclick="changeHeatView(this)" id="searchBtn">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>查看热力图</a>
 				</div>
 			</div>
 			<div class="col-sm-12">
@@ -148,6 +157,9 @@
 
 		</div>
 	</div>
+	<script type="text/javascript" src="${context}/lib/map/baidumap_offline_load.js"></script>
+	<script type="text/javascript" src="${context}/lib/map/tools/Heatmap_min.js"></script>
+	<script type="text/javascript" src="${context}/js/general/heatMap.js"></script>
 	<script type="text/javascript">
 		var ctx = ctx;
 		// 百度地图API功能
@@ -161,9 +173,7 @@
 		//map.disableDoubleClickZoom();
 		var marker = new BMap.Marker(point);// 创建标注
 		map.addOverlay(marker);// 加载标注
-		
 	</script>
-	<%-- <script type="text/javascript" src="${context}/js/general/heatMap.js"></script> --%>
 	<script type="text/javascript" src="${context}/js/general/home.js"></script>
 </body>
 </html>

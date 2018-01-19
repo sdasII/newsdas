@@ -172,6 +172,7 @@ function setUsed() {
 										closeOnConfirm : false
 									}, function(isConfirm) {
 										if (isConfirm) {// 进行页面跳转
+											swal.close();
 											iframeconvert(
 													"/newsdas/data/offline",
 													"数据存储");

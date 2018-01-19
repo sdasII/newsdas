@@ -57,6 +57,7 @@ input[type="file"] {
 				closeOnConfirm : false
 			}, function(isConfirm) {
 				if (isConfirm) {
+					swal.close();
 					iframeconvert("/newsdas/data/offline", "存储分析");
 				}
 			});
