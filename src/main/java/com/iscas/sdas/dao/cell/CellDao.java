@@ -66,7 +66,7 @@ public interface CellDao {
 	 * @param cellname
 	 * @return
 	 */
-	BaseCellHealth cellcurrenthealth(String cellname);
+	BaseCellHealth cellcurrenthealth(@Param("cellname")String cellname);
 	/**
 	 * 健康度异常预警
 	 * @param cellname
