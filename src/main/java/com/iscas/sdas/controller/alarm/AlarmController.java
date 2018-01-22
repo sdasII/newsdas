@@ -184,8 +184,8 @@ public class AlarmController {
 		String result = request.getParameter("result");
 		String starttime= null,endtime = null;
 		if (Constraints.SELECT.equals(type)) {
-			starttime = request.getParameter("start");
-			endtime = request.getParameter("end");
+			starttime = request.getParameter("starttime");
+			endtime = request.getParameter("endtime");
 		}
 		int pageNum = Integer.parseInt(num);
 		int pageSize = Integer.parseInt(size);

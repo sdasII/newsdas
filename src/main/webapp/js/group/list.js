@@ -50,13 +50,17 @@ $(function(){
                     formatter:function(value,row,index){
                           var str="";
                           if(value==0){
-                           str="事件"
+                           str="事件";
                           }else if(value==1){
-                           str="亚健康"
+                           str="亚健康";
                           }else if(value==2){
-                           str="健康"
+                           str="健康";
                           }else if(value==3){
-                           str="计算无结果"
+                           str="未知";
+                          }else if(value==3){
+                        	  str="计算无结果";
+                          }else{
+                        	  console.info(value);
                           }
                            return str;
                      }},

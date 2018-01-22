@@ -1,12 +1,14 @@
 package com.iscas.sdas.dto;
+
+import com.iscas.sdas.dto.common.TotalDto;
+
 /**
  * 时间、历史健康度、工单、投诉、预警名称和个数
  * @author dongqun
  * 2017年10月10日下午5:01:12
  */
-public class TotalHealthInfoDto {
+public class TotalHealthInfoDto extends TotalDto{
 
-	private String time;
 	private double ratio;
 	private int perworks;
 	private int deviceworks;
@@ -17,12 +19,6 @@ public class TotalHealthInfoDto {
 	private Integer result_fault;//app_result
 	private Integer result_warnning;//app_result
 	
-	public String getTime() {
-		return time;
-	}
-	public void setTime(String time) {
-		this.time = time;
-	}
 	public double getRatio() {
 		return ratio;
 	}

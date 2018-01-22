@@ -61,18 +61,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		resultType="com.iscas.sdas.dto.cell.BaseCellHealth">
 		SELECT * FROM t_cell_health_info WHERE yyyyMMdd = (SELECT yyyyMMdd FROM
 		t_cell_health_info WHERE cell_code = #{cellname} ORDER BY yyyyMMdd
-		DESC LIMIT 1) AND cell_code= #{cellname} and health_flag = 0 ORDER BY
+		DESC LIMIT 1) and health_flag = 0 
+		<if test="cellname!=null">
+			and cell_code = #{cellname} 
+		</if>
+		ORDER BY
 		yyyyMMdd LIMIT 1
 	</select>
 	<select id="cellhealthtrendDay" parameterType="java.lang.String"
 		resultType="com.iscas.sdas.dto.cell.BaseCellHealth">
-		SELECT * FROM t_cell_health_info WHERE
-		STR_TO_DATE(yyyyMMdd,'%Y%m%d') > DATE_SUB((SELECT yyyyMMdd FROM
-		t_cell_health_info 
-		ORDER BY yyyyMMdd
-		DESC LIMIT 1),INTERVAL 1 DAY) and health_flag = 0 
+		SELECT * FROM t_cell_health_info WHERE yyyyMMdd = (SELECT yyyyMMdd FROM
+		t_cell_health_info ORDER BY yyyyMMdd DESC LIMIT 1) and health_flag = 0 
 		<if test="cellname!=null">
-			and cell_code = #{cellname} 
+			<bind name="cell_code" value="'%'+ cellname +'%'" />
+			and cell_code like #{cell_code} 
 		</if>
 		ORDER BY yyyyMMdd
 	</select>
@@ -84,7 +86,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY yyyyMMdd
 		DESC LIMIT 1),INTERVAL 7 DAY) and health_flag = 0
 		<if test="cellname!=null">
-			and cell_code = #{cellname} 
+			<bind name="cell_code" value="'%'+ cellname +'%'" />
+			and cell_code like #{cell_code} 
 		</if>
 		ORDER BY yyyyMMdd
 	</select>	
@@ -97,7 +100,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		DESC LIMIT 1),INTERVAL 30 DAY) and
 		health_flag = 0 
 		<if test="cellname!=null">
-			and cell_code = #{cellname} 
+			<bind name="cell_code" value="'%'+ cellname +'%'" />
+			and cell_code like #{cell_code} 
 		</if>
 		ORDER BY yyyyMMdd
 	</select>
@@ -105,7 +109,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM t_cell_health_info WHERE health_flag = 0
 		and STR_TO_DATE(yyyyMMdd,'%Y%m%d') BETWEEN #{starttime} AND #{endtime} 
 		<if test="cellname!=null">
-			and cell_code = #{cellname} 
+			<bind name="cell_code" value="'%'+ cellname +'%'" />
+			and cell_code like #{cell_code} 
 		</if>
 		ORDER BY yyyyMMdd
 	</select>

@@ -63,6 +63,16 @@ input[type="file"] {
 			});
 		} else if (status.indexOf("fail") >= 0) {
 			showOnlyMessage(ERROR, status);
+		}else if(status=="导入小区个数不能超过1000!"){
+			swal({
+				title : "上传提示",
+				text : "导入小区个数不能超过1000！",
+				type : "warning",
+				showCancelButton : false,
+				confirmButtonColor : "#1c84c6",
+				confirmButtonText : "确定",
+				closeOnConfirm : false
+			});
 		}
 	})
 </script>
@@ -84,11 +94,11 @@ input[type="file"] {
 						<div class="form-group">
 							<label>小区名称：</label>
 							<input type="text"  placeholder="请输入小区名称" id="name" name="name">
-							<label for="type">是否使用：</label>
+							<!-- <label for="type">是否使用：</label>
 							<select name="type" id="type" class="btn btn-white">
                                     <option value="1">是</option>
                                     <option value="0">否</option>
-                             </select>
+                             </select> -->
 							<my:btn type="search" onclick="searchInfo()"></my:btn>
 							<!-- <button style="margin-left: 5px;" class="btn btn-success"
 								onclick="searchInfo();">查询</button> -->

@@ -1,9 +1,5 @@
 package com.iscas.sdas.controller.sys;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +29,7 @@ public class UserController extends BaseController<UserDto>{
 	@RequestMapping("/")
 	public ModelAndView page(HttpServletRequest request){
 		UserDto userInfo = (UserDto)request.getSession().getAttribute("userInfo");
-		ModelAndView modelAndView = new ModelAndView("sys/user/user");
+		ModelAndView modelAndView = new ModelAndView("sys/user");
 		if (userInfo!=null) {
 			modelAndView.addObject("role", userInfo.getRolename());
 		}
@@ -84,31 +80,15 @@ public class UserController extends BaseController<UserDto>{
 	public ModelMap insert(HttpServletRequest request,@RequestParam(value="isNew",required=true)String isNew){
 		ModelMap map = new ModelMap();
 		UserDto dto = new UserDto();
-		String address = request.getParameter("address");
-		String brithday = request.getParameter("birthday");
+
 		String email = request.getParameter("email");
 		String mobile = request.getParameter("mobile");
 		String password = request.getParameter("password");
 		String rolename = request.getParameter("rolename");
-		String tel = request.getParameter("tel");
 		String userId = request.getParameter("userId");
 		String userLocked = request.getParameter("userLocked");
 		String username = request.getParameter("username");
-		if (!CommonUntils.isempty(address)) {
-			dto.setAddress(address);
-		}
-		if (!CommonUntils.isempty(brithday)) {
-			SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-DD hh:mm:ss");
-			Date date = null;
-			try {
-				date = format.parse(brithday);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			if (date!=null) {
-				dto.setBirthday(date);
-			}			
-		}
+		
 		if (!CommonUntils.isempty(email)) {
 			dto.setEmail(email);
 		}
@@ -117,9 +97,6 @@ public class UserController extends BaseController<UserDto>{
 		}
 		if (!CommonUntils.isempty(password)) {
 			dto.setPassword(password);
-		}
-		if (!CommonUntils.isempty(tel)) {
-			dto.setTel(tel);
 		}
 		if (!CommonUntils.isempty(userId)) {
 			dto.setUserId(userId);
@@ -135,9 +112,17 @@ public class UserController extends BaseController<UserDto>{
 				map.addAttribute(Constraints.RESULT_SUCCESS, true);
 			}
 		}else {
-			if (userService.insert(dto,rolename)) {
-				map.addAttribute(Constraints.RESULT_SUCCESS, true);
+			UserDto user = new UserDto();
+			user.setUserId(userId);
+			UserDto userDto = userService.getUser(user);
+			if (userDto!=null) {
+				map.addAttribute(Constraints.RESULT_SUCCESS, false);
+			}else {
+				if (userService.insert(dto,rolename)) {
+					map.addAttribute(Constraints.RESULT_SUCCESS, true);
+				}
 			}
+			
 		}
 				
 		return map;

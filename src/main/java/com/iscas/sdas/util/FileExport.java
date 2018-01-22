@@ -245,20 +245,31 @@ public class FileExport {
         for (Object obj : jsonArray) {
             if(rowIndex == 65535 || rowIndex == 0){
                 if ( rowIndex != 0 ) sheet = workbook.createSheet();//如果数据超过了，则在第二页显示
+                if(title!=null){
+                	 SXSSFRow titleRow = sheet.createRow(0);//表头 rowIndex=0
+                     titleRow.createCell(0).setCellValue(title);
+                     titleRow.getCell(0).setCellStyle(titleStyle);
+                     sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, headMap.size() - 1));
 
-                SXSSFRow titleRow = sheet.createRow(0);//表头 rowIndex=0
-                titleRow.createCell(0).setCellValue(title);
-                titleRow.getCell(0).setCellStyle(titleStyle);
-                sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, headMap.size() - 1));
+                     SXSSFRow headerRow = sheet.createRow(1); //列头 rowIndex =1
+                     for(int i=0;i<headers.length;i++)
+                     {
+                         headerRow.createCell(i).setCellValue(headers[i]);
+                         headerRow.getCell(i).setCellStyle(headerStyle);
 
-                SXSSFRow headerRow = sheet.createRow(1); //列头 rowIndex =1
-                for(int i=0;i<headers.length;i++)
-                {
-                    headerRow.createCell(i).setCellValue(headers[i]);
-                    headerRow.getCell(i).setCellStyle(headerStyle);
+                     }
+                     rowIndex = 2;//数据内容从 rowIndex=2开始
+                }else{
+                	SXSSFRow headerRow = sheet.createRow(0); //列头 rowIndex =0
+                    for(int i=0;i<headers.length;i++)
+                    {
+                        headerRow.createCell(i).setCellValue(headers[i]);
+                        headerRow.getCell(i).setCellStyle(headerStyle);
 
+                    }
+                	rowIndex = 1;
                 }
-                rowIndex = 2;//数据内容从 rowIndex=2开始
+               
             }
             JSONObject jo = (JSONObject) JSONObject.toJSON(obj);
             SXSSFRow dataRow = sheet.createRow(rowIndex);

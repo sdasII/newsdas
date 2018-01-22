@@ -179,7 +179,7 @@ public class ButtonTag extends SimpleTagSupport implements ButtonAuthority{
 				id = CommonUntils.isempty(id) ? "btn_save" : id;
 				name = CommonUntils.isempty(name) ? "btn_save_name" : name;
 				title = CommonUntils.isempty(title) ? Constraints.BTN_SAVE : title;
-				onclick = CommonUntils.isempty(onclick) ? "" : onclick;
+				onclick = CommonUntils.isempty(onclick) ? "save()" : onclick;
 				css = CommonUntils.isempty(css) ? "btn btn-primary" : css;
 				icon = (new StringBuilder(String.valueOf(iconClass))).append(CommonUntils.isempty(icon) ? "save" : icon)
 						.toString();
