@@ -22,6 +22,8 @@ public class LoginInterceptor implements HandlerInterceptor {
         //System.out.println(request.getContextPath());
         if(url.equals(request.getContextPath()+"/")){  
             return true;  
+        }else if(url.indexOf(request.getContextPath()+"/prop/getValue")>-1){
+        	return true; 
         } else if (url.equals(request.getContextPath()+"/main")) {
         	String load = (String) session.getAttribute("status");
         	if ("isload".equals(load)) {

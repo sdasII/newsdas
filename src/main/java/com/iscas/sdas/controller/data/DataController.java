@@ -34,6 +34,7 @@ import com.iscas.sdas.util.ContinueFTP;
 import com.iscas.sdas.util.FTPStatus;
 import com.iscas.sdas.util.FileImport;
 import com.iscas.sdas.util.Message;
+import com.iscas.sdas.util.PropertyUtil;
 
 import objects.JSON;
 import tasks.BGTask;
@@ -218,8 +219,15 @@ public class DataController{
 		fileLogDto.setType("中兴网管指标原始数据");
 		fileLogDto.setFilename(filename);
 		ContinueFTP myFtp = new ContinueFTP();
+		//
+		String hostname=PropertyUtil.getValueByKey("config.properties","ftp_connect_hostname");
+		int port=Integer.parseInt(PropertyUtil.getValueByKey("config.properties","ftp_connect_port"));
+		String username=PropertyUtil.getValueByKey("config.properties","ftp_connect_username");
+		String password=PropertyUtil.getValueByKey("config.properties","ftp_connect_password");
+		//
 		try {
-			myFtp.connect("49.4.6.146", 21, "hadoop", "nfs_qd123");	
+			myFtp.connect(hostname, port, username, password);
+			//myFtp.connect("49.4.6.146", 21, "hadoop", "nfs_qd123");	
 			//myFtp.connect("192.168.0.31", 21, "hadoop", "nfs_qd123");
 			//myFtp.connect("172.16.0.151", 21, "hadoop", "nfs_qd123");	
 			
