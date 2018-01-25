@@ -30,7 +30,8 @@ public class ContinueFTP{
 	// FTP协议里面，规定文件名编码为iso-8859-1
 	private static String SERVER_CHARSET = "ISO-8859-1";
 	
-	private static final String ROOT_PATH = "/home/hadoop/systempdata/";
+	private static final String ROOT_PATH = PropertyUtil.getValueByKey("config.properties","ftp_root_path");
+	//private static final String ROOT_PATH = "/home/hadoop/systempdata/";
 
 	public FTPClient ftpClient = new FTPClient();
 
