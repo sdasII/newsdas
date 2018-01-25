@@ -227,8 +227,6 @@ public class DataController{
 		try {
             myFtp.connect(hostname, port, username, password);//cmcc
             //myFtp.connect("188.1.31.41", 21, "hadoop", "nfs_qd123");//cmcc
-            //myFtp.connect("192.168.9.70", 21, "hadoop", "nfs_qd123");//nfs
-			//myFtp.connect("49.4.6.146", 21, "hadoop", "nfs_qd123");//huawei
 			
 			System.out.println("3...连接到ftp");
 			request.getSession().setAttribute(Constraints.SESSION_FTP_STATUS, myFtp);						
