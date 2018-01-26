@@ -285,7 +285,7 @@ input[type="file"] {
 				}else if (time == "") {
 					showOnlyMessage(ERROR, "请选择时间！");
 					return false;
-				}else if($("#originfile").val().indexOf(".csv")<0){
+				}else if($("#signalfile").val().indexOf(".csv")<0){
 					showOnlyMessage(ERROR, "请选择csv类型的文件！");
 					return false;
 				}else if (select != "" && time != ""&&$("#originfile").val().indexOf(".csv")>0) {
