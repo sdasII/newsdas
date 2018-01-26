@@ -26,12 +26,12 @@ import com.iscas.sdas.service.log.FileLogService;
  */
 public class CommonUntils {
 	
-	private static final String root_dir = PropertyUtil.getValueByKey("config.properties","root_dir");
+	private static final String root_dir = PropertyUtil.getValueByKey("configer.properties","root_dir");
 	//存放工单，小区配置等临时文件夹
-	private static final String root_temp_dir = PropertyUtil.getValueByKey("config.properties","root_temp_dir");
+	private static final String root_temp_dir = PropertyUtil.getValueByKey("configer.properties","root_temp_dir");
 	//private static final String root_temp_dir = "E:/newsdas/";
 	//测试csv文件存储路径
-	private static final String path_csv_dir = PropertyUtil.getValueByKey("config.properties","path_csv_dir");
+	private static final String path_csv_dir = PropertyUtil.getValueByKey("configer.properties","path_csv_dir");
 /*	private static final String root_dir = "/home/hadoop/systempdata/";
 	//存放工单，小区配置等临时文件夹
 	private static final String root_temp_dir = "/home/hadoop/systempdata/tempdata/";
@@ -71,7 +71,7 @@ public class CommonUntils {
 		int month = c.get(Calendar.MONTH)+1; 
 		int date = c.get(Calendar.DATE); 
 
-		String path = PropertyUtil.getValueByKey("config.properties","import_file_path") + "\\" + year + "\\" + month + "-" + date;
+		String path = PropertyUtil.getValueByKey("configer.properties","import_file_path") + "\\" + year + "\\" + month + "-" + date;
 		//String path = "E:\\load\\" + year + "\\" + month + "-" + date;
 		
 		File file = new File(path);

@@ -219,10 +219,10 @@ public class DataController{
 		fileLogDto.setFilename(filename);
 		ContinueFTP myFtp = new ContinueFTP();
 		//
-		String hostname=PropertyUtil.getValueByKey("config.properties","ftp_connect_hostname");
-		int port=Integer.parseInt(PropertyUtil.getValueByKey("config.properties","ftp_connect_port"));
-		String username=PropertyUtil.getValueByKey("config.properties","ftp_connect_username");
-		String password=PropertyUtil.getValueByKey("config.properties","ftp_connect_password");
+		String hostname=PropertyUtil.getValueByKey("configer.properties","ftp_connect_hostname");
+		int port=Integer.parseInt(PropertyUtil.getValueByKey("configer.properties","ftp_connect_port"));
+		String username=PropertyUtil.getValueByKey("configer.properties","ftp_connect_username");
+		String password=PropertyUtil.getValueByKey("configer.properties","ftp_connect_password");
 		//
 		try {
             myFtp.connect(hostname, port, username, password);//cmcc
