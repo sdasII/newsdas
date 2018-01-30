@@ -12,8 +12,6 @@ import com.iscas.sdas.util.Constraints;
 public class WsHandler implements WebSocketHandler {
 	
 	private static Logger logger = Logger.getLogger(WsHandler.class);
-	
-	private int progress;
 
 	@Override
 	public void afterConnectionClosed(WebSocketSession arg0, CloseStatus arg1) throws Exception {
@@ -29,23 +27,20 @@ public class WsHandler implements WebSocketHandler {
 	}
 
 	@Override
-	public void handleMessage(WebSocketSession arg0, WebSocketMessage<?> arg1) throws Exception {
+	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println(arg1.getPayload().toString());
-		System.out.println("开始发送数据");
+		//System.out.println(message.getPayload().toString());
+		//System.out.println("开始发送数据");
+		int progress = 0;	
 		while (true) {
-			if (progress!=Constraints.getFtp_upload_progress()) {
-				progress = Constraints.getFtp_upload_progress();
-				TextMessage msg = new TextMessage(String.valueOf(progress));
-				arg0.sendMessage(msg);
-			}
+			progress = Constraints.getFtp_upload_progress();
+			TextMessage msg = new TextMessage(String.valueOf(progress));
+			session.sendMessage(msg);
 			if (Constraints.getFtp_upload_progress()==100) {
-				progress=0;
 				Constraints.setFtp_upload_progress(0);
 				break;
-			}			
+			}				
 		}
-
 	}
 
 	@Override

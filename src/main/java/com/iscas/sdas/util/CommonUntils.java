@@ -1,7 +1,9 @@
 package com.iscas.sdas.util;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -424,7 +426,53 @@ public class CommonUntils {
 		directory += "/";
 		return directory;
 	}
-    
+    public static String ZipFileImprot(HttpServletRequest request,FileLogDto fileLogDto,String yyyyMMdd) throws IllegalStateException, IOException  {	
+    	// 将当前上下文初始化给 CommonsMutipartResolver （多部分解析器）	
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
+				request.getSession().getServletContext());
+		if (multipartResolver.isMultipart(request)) {
+			MultipartHttpServletRequest mutiRequest = (MultipartHttpServletRequest) request;
+			List<MultipartFile> files = mutiRequest.getFiles("file");
+			for (MultipartFile file : files) {
+				if (file != null) {
+					int index = file.getOriginalFilename().lastIndexOf(".");
+					if (index>0) {
+						double allbytes = file.getSize();
+						double process = 0;
+						double localreadbytes = 0L;
+						String filename = file.getOriginalFilename();
+						String filepath = createDirecroty(root_dir, yyyyMMdd) + filename;
+						fileLogDto.setFilename(file.getOriginalFilename());						
+						File targetfile = new File(filepath);
+						if (targetfile.exists()) {
+							targetfile.delete();
+						}
+						InputStream is = file.getInputStream();
+						FileOutputStream fileos = new FileOutputStream(targetfile);
+						byte[] bytes = new byte[1024 * 1024];
+						int c;
+						//System.out.println("7.....开始写数据！");
+						while ((c = is.read(bytes)) != -1) {
+							fileos.write(bytes, 0, c);
+							localreadbytes += c;
+							double temp = localreadbytes / allbytes;
+							if (temp * 100 != process) {
+								process = (localreadbytes / allbytes) * 100;	
+								// TODO 汇报上传状态	
+								Constraints.setFtp_upload_progress(process);
+							}
+						}
+						fileos.flush();
+						fileos.close();
+						is.close();
+						//file.transferTo(targetfile);
+						return filepath;				
+					}			
+				}
+			}
+		}
+		return null;
+	}
     public static String CsvFileImprot(HttpServletRequest request,FileLogDto fileLogDto,String yyyyMMdd) throws IllegalStateException, IOException  {
 		// 将当前上下文初始化给 CommonsMutipartResolver （多部分解析器）
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(

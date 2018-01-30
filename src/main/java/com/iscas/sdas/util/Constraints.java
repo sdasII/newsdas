@@ -25,15 +25,26 @@ public class Constraints {
 	public static final String MONTH = "month";
 	public static final String SELECT = "select";
 	
+	public static ThreadLocal<Integer> global_upload_progress = new ThreadLocal<Integer>();
 	
+	
+	public static Integer getGlobal_upload_progress() {
+		return global_upload_progress.get();
+	}
+	public static void setGlobal_upload_progress(Integer progress) {
+		global_upload_progress.set(progress);
+	}
+	public static void removeGlobal_upload_progress(){
+		global_upload_progress.remove();
+	}
 	
 	public static int ftp_upload_progress;
 	
 	public synchronized static int getFtp_upload_progress() {
 		return ftp_upload_progress;
 	}
-	public synchronized static void setFtp_upload_progress(int ftp_upload_progress) {
-		Constraints.ftp_upload_progress = ftp_upload_progress;
+	public synchronized static void setFtp_upload_progress(double ftp_upload_progress) {
+		Constraints.ftp_upload_progress = (int)ftp_upload_progress;
 	}
 	
 	

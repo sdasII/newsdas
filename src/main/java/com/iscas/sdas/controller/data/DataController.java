@@ -191,14 +191,15 @@ public class DataController{
 	}
 	
 	
+	
 	/**
 	 * 上传原始文件--采用ftp协议，支持断点续传
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("/uploadfile")
+	/*@RequestMapping("/uploadfile")
 	@ResponseBody
-	public ModelMap uploadFile(HttpServletRequest request) {
+	public ModelMap uploadZipFile(HttpServletRequest request) {
 		System.out.println("1...controller 获取请求！");
 		ModelMap model = new ModelMap();
 		String yyyyMMdd = request.getParameter("time");				
@@ -206,7 +207,7 @@ public class DataController{
 		model.addAttribute("status",status.toString());
 		//JSON json = upload2HDFS(yyyyMMdd);
 		return model;
-	}
+	}*/
 	
 	private FTPStatus originDateUpload(HttpServletRequest request, String yyyyMMdd) {
 		MultipartHttpServletRequest mutiRequest = (MultipartHttpServletRequest) request;
@@ -400,7 +401,40 @@ public class DataController{
 
 		return result;
 	}
-
+	
+	@RequestMapping("/uploadfile")
+	@ResponseBody
+	public ModelMap uploadZipFile(HttpServletRequest request) {
+		ModelMap model = new ModelMap();
+		String time = request.getParameter("time");				
+		FileLogDto fileLogDto = new FileLogDto();
+		long starttime = System.currentTimeMillis();
+		fileLogDto.setStarttime(new Date());
+		fileLogDto.setType("中兴网管指标原始数据");
+		fileLogDto.setStarttime(new Date());
+		String path = null;	
+		try {
+			path = CommonUntils.ZipFileImprot(request, fileLogDto, time);
+			if (!CommonUntils.isempty(path)) {
+				fileLogDto.setResult(1);
+			}else {
+				fileLogDto.setResult(0);
+			}
+			model.addAttribute("success", Constraints.RESULT_SUCCESS + ":上传成功！");
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			fileLogDto.setResult(0);
+			model.addAttribute("success", Constraints.RESULT_FAIL + ":上传失败！");
+		}		
+		long endtime = System.currentTimeMillis();
+		fileLogDto.setEndtime(new Date());
+		long alltime = endtime - starttime;
+		fileLogDto.setAlltime(alltime);
+		List<FileLogDto> fileLogDtos = new ArrayList<>();
+		fileLogDtos.add(fileLogDto);
+		fileLogService.insert(fileLogDtos);
+		return model;
+	}
 	/**
 	 * 单个csv网管文件上传
 	 * @param request

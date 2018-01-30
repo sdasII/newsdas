@@ -201,6 +201,8 @@ public class ContinueFTP{
 		System.out.println("4.....创建指定目录！后");
 		if (!FTPStatus.Create_Directory_Fail.toString().equals(remotePath)) {
 			// 检查远程是否存在文件  new String(fileName.getBytes(LOCAL_CHARSET),SERVER_CHARSET)
+			String name = new String(remoteFileName.getBytes(LOCAL_CHARSET),SERVER_CHARSET);
+			System.out.println(name);
 			FTPFile[] files = ftpClient.listFiles(new String(remoteFileName.getBytes(LOCAL_CHARSET),SERVER_CHARSET));
 			if (files.length == 1) {
 				long remoteSize = files[0].getSize();
@@ -315,6 +317,8 @@ public class ContinueFTP{
 		double localreadbytes = 0L;
 		InputStream in = multipartFile.getInputStream();
 		OutputStream out = ftpClient.appendFileStream(new String(remoteFile.getBytes(LOCAL_CHARSET),SERVER_CHARSET));
+		String name = new String(remoteFile.getBytes(LOCAL_CHARSET),SERVER_CHARSET);
+		System.out.println(name);
 		System.out.println("6.....进入上传函数！");
 		// 断点续传
 		if (remoteSize > 0) {
@@ -336,7 +340,7 @@ public class ContinueFTP{
 				// TODO 汇报上传状态
 				
 				setProgress(process);
-				Constraints.setFtp_upload_progress(progress);
+				Constraints.setGlobal_upload_progress(progress);
 			}
 		}
 		out.flush();

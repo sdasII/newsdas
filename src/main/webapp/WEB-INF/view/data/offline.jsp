@@ -234,7 +234,7 @@ input[type="file"] {
 						$("#progress2").attr("value", 0);
 						$("#progressvalue2").text("0%");
 						ws.send("start");
-						var progress = "正在上传" + percentVal + "...";
+						var progress = "正在提交" + percentVal + "...";
 						$("#upload_progress").text(progress);
 						$("#upload_progress").css("display", "inline");
 				}
